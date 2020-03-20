@@ -260,9 +260,9 @@ GameObject:
   - component: {fileID: 2074876578091598424}
   - component: {fileID: -7508516738351139185}
   - component: {fileID: 8923560598994110935}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MagicalGirl
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
