@@ -7,8 +7,9 @@ public class EmilEnemyCharacter : Character {
     private Rigidbody2D rigidBody;
     LayerMask layerMask;
     public GameObject player;
-
-    float detectionDistance = 10f;
+    Vector3 target;
+    float targetDistance = 1.25f;
+    float detectionDistance = 5f;
     void Start() {
         layerMask = LayerMask.GetMask("Player", "Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
@@ -18,22 +19,20 @@ public class EmilEnemyCharacter : Character {
 
         if(player == null) {
             player = GameObject.Find("MagicalGirl(Clone)");
-        }
-
-        if(player != null) {
+        } else {
             var dirVector = player.transform.position - transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, detectionDistance, layerMask); ;
-            Debug.DrawLine(transform.position, hit.point, Color.red);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, detectionDistance, layerMask); 
             //Debug.Log(hit.collider);
             rigidBody.velocity = Vector3.zero;
 
-            if(hit.collider != null && hit.collider.CompareTag("Player")) {
-                Vector3 moveDir = (player.transform.position - transform.position).normalized;
-                rigidBody.velocity = moveDir * speed;
-            } else {
-                //Debug.Log("ei näie");
+            if(hit.collider != null && Vector3.Distance(transform.position, player.transform.position) < detectionDistance) {
+                Debug.DrawLine(transform.position, hit.point, Color.red);
+                target = hit.point;
             }
-
+        }
+        if(Vector3.Distance(transform.position, target) > targetDistance) {
+            Vector3 moveDir = (target - transform.position).normalized;
+            rigidBody.velocity = moveDir * speed;
         }
     }
 }
