@@ -8,7 +8,7 @@ public class Key : MonoBehaviour {
     private void Start() {
         gm = FindObjectOfType<GameManager>();
     }
-    private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         print("Hit key!");
         if(other.gameObject.CompareTag("Player")) {
             print("Hitting object was Player!");

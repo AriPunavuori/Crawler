@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
     GameManager gm;
-    BoxCollider bc;
+    BoxCollider2D bc;
     Vector3 startPosition;
     Vector3 endPosition;
     float speed = .5f;
@@ -13,24 +13,26 @@ public class Door : MonoBehaviour {
     float openingSpeed;
     void Start() {
         gm = FindObjectOfType<GameManager>();
-        bc = GetComponent<BoxCollider>();
+        bc = GetComponent<BoxCollider2D>();
         startPosition = transform.position;
         endPosition = transform.position + Vector3.down;
         print(endPosition);
     }
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Player") && !opened) {
             if(gm.UseKey()) {
                 bc.enabled = false;
                 opened = true;
+                StartCoroutine(RotateMe(Vector3.forward * 90, 5));
             }
         }
     }
-    void Update() {
-        if(opened) {
-            transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
-            if(transform.position.y < endPosition.y)
-                Destroy(gameObject);
+    IEnumerator RotateMe(Vector3 byAngles, float inTime) {
+        var fromAngle = transform.rotation;
+        var toAngle = Quaternion.Euler(transform.eulerAngles + byAngles);
+        for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+            transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
+            yield return null;
         }
     }
 }

@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour {
     PlayerCharacter pc;
-    Vector3 movement;
+    Rigidbody2D rb2D;
+    Vector2 movement;
 
     void Start() {
         pc = GetComponent<PlayerCharacter>();
+        rb2D = GetComponent<Rigidbody2D>();
         Cursor.visible = false;
     }
 
     void Update() {
         movement.x = Input.GetAxis("Horizontal");
-        movement.z = Input.GetAxis("Vertical");
-        transform.Translate(movement* Time.deltaTime * pc.speed);
+        movement.y = Input.GetAxis("Vertical");
+    }
+    private void FixedUpdate() {
+        rb2D.MovePosition(rb2D.position + movement * pc.speed *  Time.fixedDeltaTime);
     }
 }
