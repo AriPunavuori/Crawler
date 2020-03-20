@@ -5,18 +5,12 @@ using UnityEngine;
 public class Door : MonoBehaviour {
     GameManager gm;
     BoxCollider2D bc;
-    Vector3 startPosition;
-    Vector3 endPosition;
-    float speed = .5f;
     public bool opened;
 
     float openingSpeed;
     void Start() {
         gm = FindObjectOfType<GameManager>();
         bc = GetComponent<BoxCollider2D>();
-        startPosition = transform.position;
-        endPosition = transform.position + Vector3.down;
-        print(endPosition);
     }
     void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.CompareTag("Player") && !opened) {
