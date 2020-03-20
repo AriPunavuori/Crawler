@@ -7,6 +7,8 @@ public class PlayerCharacter : Character {
 
     public PlayerType pt;
 
+    bool potion;
+
     void Start() {
         if(pt == PlayerType.Hero0) {
             ranged = true;
@@ -17,8 +19,23 @@ public class PlayerCharacter : Character {
             health = 100;
         }
     }
-
-    void Update() {
-
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.H)) {
+            UsePotion();
+        }
     }
+    public void UsePotion() {
+        if(potion) {
+            health += 100;
+            potion = false;
+        }
+    }
+    public void GetPotion() {
+        potion = true;
+    }
+
+    public void GetSpeed() {
+        speed += 10;
+    }
+
 }
