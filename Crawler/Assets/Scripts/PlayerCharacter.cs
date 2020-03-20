@@ -18,7 +18,6 @@ public class PlayerCharacter : Character {
         }
     }
 
-
     void Update() {
 
     }
