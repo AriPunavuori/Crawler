@@ -8,7 +8,7 @@ public class EmilEnemyCharacter : Character {
 
 	void Update() {
 
-		if (GameObject.Find("MagicalGirl(Clone)") != null && player == null) {
+		if (player == null) {
 			player = GameObject.Find("MagicalGirl(Clone)");
 		}
 
