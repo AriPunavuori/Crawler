@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class EmilEnemyCharacter : Character {
 
-	public GameObject player;
+    private Rigidbody2D rigidBody;
 
-	void Update() {
+    public GameObject player;
+    void Start()
+    {
+
+        rigidBody = GetComponent<Rigidbody2D>();
+    }
+    void Update() {
 
 		if (player == null) {
 			player = GameObject.Find("MagicalGirl(Clone)");
 		}
 
 		if (player != null) {
-			float dist = Vector2.Distance(transform.position, player.transform.position);
+			float dist = Vector3.Distance(transform.position, player.transform.position);
 			Debug.DrawLine(transform.position, player.transform.position, Color.red);
+
 
 			if (!Physics.Linecast(transform.position, player.transform.position) && dist < 7) { //Välissä ei esteitä ja etäisyys on < x
 				Vector3 moveDir = (player.transform.position - transform.position).normalized;
-				transform.position += moveDir * speed * Time.deltaTime;
+                rigidBody.velocity = moveDir * speed;
+
+                //transform.position += moveDir * speed * Time.deltaTime;
 				//Seurataan pelaajaa (liikutaan pelaajan suuntaan)
 			} else {
 				//On este, ei voi seurata.
@@ -26,3 +35,4 @@ public class EmilEnemyCharacter : Character {
 		}
 	}
 }
+
