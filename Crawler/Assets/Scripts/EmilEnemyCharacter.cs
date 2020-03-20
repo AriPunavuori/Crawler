@@ -19,18 +19,28 @@ public class EmilEnemyCharacter : Character {
 		}
 
 		if (player != null) {
-			float dist = Vector3.Distance(transform.position, player.transform.position);
+			float dist = Vector2.Distance(transform.position, player.transform.position);
 			Debug.DrawLine(transform.position, player.transform.position, Color.red);
 
+            Vector2 pPositionVec2 = player.transform.position;
+            Vector2 ePositionVec2 = transform.position;
 
-			if (!Physics.Linecast(transform.position, player.transform.position) && dist < 7) { //Välissä ei esteitä ja etäisyys on < x
-				Vector3 moveDir = (player.transform.position - transform.position).normalized;
+            Debug.Log(pPositionVec2);
+            Debug.Log(ePositionVec2);
+            RaycastHit2D hit = Physics2D.Linecast(ePositionVec2, pPositionVec2);
+            Debug.Log(hit.collider);
+            rigidBody.velocity = Vector3.zero;
+
+            //if (!Physics.Linecast(transform.position, player.transform.position) && dist < 7) { //Välissä ei esteitä ja etäisyys on < x
+            if (hit.collider != null && hit.collider.tag != "Wall" && dist < 7) {
+                Vector3 moveDir = (player.transform.position - transform.position).normalized;
                 rigidBody.velocity = moveDir * speed;
 
                 //transform.position += moveDir * speed * Time.deltaTime;
 				//Seurataan pelaajaa (liikutaan pelaajan suuntaan)
 			} else {
-				//On este, ei voi seurata.
+                //On este, ei voi seurata.
+                Debug.Log("ei näie");
 			}
 		}
 	}
