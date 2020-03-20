@@ -8,15 +8,15 @@ public class EmilEnemyCharacter : Character {
 
 	void Update() {
 
-		if (GameObject.Find("MagicalGirl(Clone)") != null && player == null) {
+		if (player == null) {
 			player = GameObject.Find("MagicalGirl(Clone)");
 		}
 
 		if (player != null) {
 			float dist = Vector2.Distance(transform.position, player.transform.position);
-			Debug.DrawLine(transform.position, player.transform.position, Color.red);
+			Debug.DrawRay(transform.position, player.transform.position, Color.red);
 
-			if (!Physics.Linecast(transform.position, player.transform.position) && dist < 7) { //Välissä ei esteitä ja etäisyys on < x
+			if (!Physics2D.Raycast(transform.position, player.transform.position) && dist < 7) { //Välissä ei esteitä ja etäisyys on < x
 				Vector3 moveDir = (player.transform.position - transform.position).normalized;
 				transform.position += moveDir * speed * Time.deltaTime;
 				//Seurataan pelaajaa (liikutaan pelaajan suuntaan)
