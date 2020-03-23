@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7502347143747442837}
   m_Layer: 2
   m_Name: EmilEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,14 +96,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18164d47ccce4447b98fb251df97e39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 0
   ranged: 0
-  damage: 0
-  attackRange: 0
+  damage: 10
+  attackRange: 3
   attackAngle: 0
-  attackInterval: 0
+  attackInterval: 1
   speed: 2
-  health: 0
+  health: 10
   player: {fileID: 0}
+  players: []
 --- !u!58 &7502347143747442836
 CircleCollider2D:
   m_ObjectHideFlags: 0
