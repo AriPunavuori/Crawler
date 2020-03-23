@@ -10,6 +10,7 @@ public class EmilEnemyCharacter : Character {
 	Vector3 target;
 	float targetDistance = 1.25f;
 	float detectionDistance = 5f;
+	float reloadCounter;
 	public Collider2D[] players;
 	bool following;
 
@@ -23,7 +24,7 @@ public class EmilEnemyCharacter : Character {
 		if (player == null) { // Jos ei jahdattavaa
 			players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, LayerMask.GetMask("Player")); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
 			if (players.Length > 0) { // Jos löytyi pelaaja/pelaajia
-				player = players[0].gameObject; // Aseta löytynyt pelaaja jahdattavaksi
+				player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
 				following = true;
 			}
 		} else { // Jos on jahdattava
@@ -43,9 +44,21 @@ public class EmilEnemyCharacter : Character {
 			if (Vector3.Distance(transform.position, target) > targetDistance && following) { // Jos etäisyys jahdattavan olinpaikkaan > targetDistance
 				Vector3 moveDir = (target - transform.position).normalized; // Suunta jahdattavaa päin
 				rigidBody.velocity = moveDir * speed; // liiku jahdattavan suuntaan
+			} else if (player != null && Vector3.Distance(transform.position, player.transform.position) < attackRange) { // Jos on jahdattava, joka tarpeeksi lähellä hyökkäystä varten
+																														  // MELEEHYÖKKÄYS
+				if (reloadCounter >= attackInterval) { // Odota attackInterval -pituinen aika
+					Debug.Log("En Garde!");
+					player.GetComponent<PlayerCharacter>().health -= damage; // Tee Damagea
+					reloadCounter = 0;
+				} else {
+					reloadCounter += Time.deltaTime;
+				}
 			}
-			player = FindClosest(); // Etsi lähin pelaaja ja aseta se jahdattavaksi
 			following = true;
+
+			if (health <= 0) {
+				Destroy(gameObject); // Kuole
+			}
 		}
 	}
 
@@ -62,8 +75,7 @@ public class EmilEnemyCharacter : Character {
 				}
 			}
 			return closest;
-		} else {
-			return player;
 		}
+		return player;
 	}
 }
