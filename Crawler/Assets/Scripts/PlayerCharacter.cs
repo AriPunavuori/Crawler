@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerCharacter : Character {
 
     Rigidbody2D rb2D;
-    public Camera cam;
     bool potion;
 
     void Start() {
@@ -33,9 +32,6 @@ public class PlayerCharacter : Character {
             speed = 10;
             health = 70;
         }
-        if(photonView.isMine)
-            cam.enabled = true;
-
     }
 
     void Update() {
