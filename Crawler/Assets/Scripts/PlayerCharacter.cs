@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : Character {
-    public enum PlayerType { Hero0, Hero1, Hero2, Hero3 };
 
-    public PlayerType pt;
+public class PlayerCharacter : Character {
+
+
 
     void Start() {
-        if(pt == PlayerType.Hero0) {
+        if(characterType == EntityType.Hero0) {
             ranged = true;
             damage = 50;
             attackRange = 20;
@@ -16,10 +16,35 @@ public class PlayerCharacter : Character {
             speed = 10;
             health = 100;
         }
+        if (characterType == EntityType.Hero1)
+        {
+            ranged = false;
+            damage = 50;
+            attackRange = 20;
+            attackInterval = 0.5f;
+            speed = 10;
+            health = 70;
+        }
     }
 
 
-    void Update() {
+    void Update() 
+    {
+        
 
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // If colliding gameobject contains projectile component?
+        if (collision.gameObject.GetComponent<Projectile>())
+        {
+            if(collision.gameObject.GetComponent<Projectile>().shooter != characterType)
+            {
+                takeDamage(collision.gameObject.GetComponent<Projectile>().damage);
+            }
+        }
+    }
+
+
 }

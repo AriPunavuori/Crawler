@@ -278,6 +278,8 @@ MonoBehaviour:
   MagicalGirlJoint: {fileID: 8067869577055388837}
   boltSpawn: {fileID: 8067869577234052321}
   bolt: {fileID: 2590249540627798541, guid: ad6b1eac2d2821b4f8b8d25d213ba65e, type: 3}
+  projectile: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
+    type: 3}
   boltForce: 8
 --- !u!66 &8067869577220256964
 CompositeCollider2D:

@@ -9,6 +9,7 @@ public class Player : Photon.MonoBehaviour
     public GameObject MagicalGirlJoint;
     public GameObject boltSpawn;
     public GameObject bolt;
+    public GameObject projectile;
     public float boltForce;
 
 
@@ -33,17 +34,24 @@ public class Player : Photon.MonoBehaviour
         {
 
             float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        rigidBody.velocity = new Vector2(x * speed, y * speed);
+            float y = Input.GetAxis("Vertical");
+            rigidBody.velocity = new Vector2(x * speed, y * speed);
 
         }
     }
     [PunRPC]
     public void Shoot()
     {
-        GameObject BoltSpawnInstance = Instantiate(bolt, boltSpawn.transform.position, Quaternion.identity);
+        GameObject BoltSpawnInstance = Instantiate(projectile, boltSpawn.transform.position, Quaternion.identity);
+        Projectile proj = BoltSpawnInstance.GetComponent<Projectile>();
+        // Set damage of the projectile
+        proj.damage = 25;
+        // Set speed of the projectile
+        proj.speed = 8;
+        // Assing shooter that shot the projectile
+        proj.shooter = EntityType.Hero1;
         BoltSpawnInstance.transform.SetParent(MagicalGirlJoint.transform);
-        BoltSpawnInstance.GetComponent<Rigidbody2D>().AddForce(MagicalGirlJoint.transform.right * boltForce, ForceMode2D.Impulse);
+        //BoltSpawnInstance.GetComponent<Rigidbody2D>().AddForce(MagicalGirlJoint.transform.right * boltForce, ForceMode2D.Impulse);
     }
 
 }

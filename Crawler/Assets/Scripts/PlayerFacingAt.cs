@@ -22,7 +22,7 @@ public class PlayerFacingAt : Photon.MonoBehaviour
         {
             if (Camera.main != null)
             {
-                Debug.Log("fucg");
+                //Debug.Log("fucg");
             }
 
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
