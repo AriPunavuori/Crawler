@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerCharacter : Character {
 
-
     Rigidbody2D rb2D;
     bool potion;
 
@@ -34,6 +33,7 @@ public class PlayerCharacter : Character {
             health = 70;
         }
     }
+
     void Update() {
         if(photonView.isMine) {
             attackTimer -= Time.deltaTime;

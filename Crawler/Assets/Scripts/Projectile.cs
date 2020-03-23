@@ -9,14 +9,12 @@ public class Projectile : MonoBehaviour {
     public bool explosive;
     public bool reflective;
 
-    public void LaunchProjectile(int d, float s, bool npc, Vector2 dir, Quaternion rot) {
+    public void LaunchProjectile(int d, float s, bool npc, Vector2 dir) {
         Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
         // Set damage of the projectile
         damage = d;
         // Set shooter type
         shotByNPC = npc;
-        // Set rotation
-        transform.rotation = rot;
         rb2D.AddForce(dir * s, ForceMode2D.Impulse);
     }
 

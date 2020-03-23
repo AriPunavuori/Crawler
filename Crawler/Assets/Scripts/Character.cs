@@ -24,7 +24,7 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
-    public void takeDamage(int dmg) {
+    public void TakeDamage(int dmg) {
         if(health - dmg <= 0) {
             // Grim reaper calling
             Destroy(gameObject); // Does it show to all players?
@@ -39,20 +39,18 @@ public class Character : Photon.MonoBehaviour {
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             if(npc != projectile.shotByNPC)
-                takeDamage(projectile.damage);
+                TakeDamage(projectile.damage);
         }
     }
 
     [PunRPC]
     public void Shoot() {
         // Instantiate projectilePrefab clone
-        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, Quaternion.identity);
+        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
         // Get projectile component of clone
         Projectile projectile = projectileClone.GetComponent<Projectile>();
         // Set projectile on its way
-        projectile.LaunchProjectile(damage, projectileSpeed, npc,
-                                    (projectileSpawn.transform.position - transform.position).normalized,
-                                    projectileSpawn.transform.rotation);
+        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
     }
 
     [PunRPC]
