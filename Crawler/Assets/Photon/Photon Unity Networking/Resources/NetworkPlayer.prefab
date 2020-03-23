@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4767259325386832458
 Transform:
   m_ObjectHideFlags: 0
@@ -39,7 +39,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4767259325386832463}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -82,7 +82,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4767259325386832463}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &4767259325690050932
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCam: {fileID: 4767259325386832461}
+  myMic: {fileID: 4767259325386832460}
 --- !u!114 &40766171626659743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,8 +154,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 9017689446171157619}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &9017689446171157619
@@ -465,8 +466,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4184409705952332638}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &4184409705952332638
