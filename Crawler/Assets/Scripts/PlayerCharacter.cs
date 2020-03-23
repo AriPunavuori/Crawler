@@ -43,13 +43,6 @@ public class PlayerCharacter : Character {
         potion = true;
     }
 
-
-    void Update() 
-    {
-        
-
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // If colliding gameobject contains projectile component?
