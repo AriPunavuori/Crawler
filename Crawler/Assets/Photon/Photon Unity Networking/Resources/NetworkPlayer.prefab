@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4767259325386832458
 Transform:
   m_ObjectHideFlags: 0
@@ -574,6 +574,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
     type: 3}
   movement: {x: 0, y: 0}
+  cam: {fileID: 4767259325386832461}
 --- !u!1 &8322636514646183167
 GameObject:
   m_ObjectHideFlags: 0
