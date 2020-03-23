@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour {
     public float speed;
     private float timer = 1.0f;
     public bool explosive;
+    public bool reflective;
     //public enum PlayerType { Hero0, Hero1, Hero2, Hero3, enemy0, enemy1, enemy2, enemy3 }
     public EntityType shooter;
 
@@ -27,19 +28,15 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        print("osui" + collision.gameObject);
-        if(collision.gameObject.CompareTag("Player")) {
+
+        if(collision.gameObject.CompareTag("Enemy")) {
             Destroy(gameObject);
-        }
-        // Also an option -->
-        if(collision.gameObject.GetComponent<Character>()) {
-            //collision.gameObject.GetComponent<Character>().takeDamage(damage);
+        } else {
+            // Reflect from colliding object with proper angle
         }
 
-        if(collision.gameObject.name == "Collide") {
-            Debug.Log("Collided");
-            Destroy(gameObject);
-        }
+        if(!reflective)            
+        Destroy(gameObject);
     }
 
 
