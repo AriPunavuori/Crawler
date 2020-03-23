@@ -38,4 +38,5 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - Shoot
+  - Melee
   DisableAutoOpenWizard: 1

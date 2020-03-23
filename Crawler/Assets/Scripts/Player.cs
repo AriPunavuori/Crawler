@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Photon.MonoBehaviour
-{
+public class Player : Photon.MonoBehaviour {
     public float speed = 5f;
     private Rigidbody2D rigidBody;
     public GameObject MagicalGirlJoint;
@@ -13,25 +12,21 @@ public class Player : Photon.MonoBehaviour
     public float boltForce;
 
 
-    void Start()
-    {
+    void Start() {
 
         rigidBody = GetComponent<Rigidbody2D>();
     }
-    void Update()
-    {
-        if (photonView.isMine){
-        if (Input.GetKeyDown(KeyCode.Mouse0)){
+    void Update() {
+        if(photonView.isMine) {
+            if(Input.GetKeyDown(KeyCode.Mouse0)) {
                 Shoot();
-                photonView.RPC("Shoot", PhotonTargets.All);
+                photonView.RPC("Shoot", PhotonTargets.Others);
+            }
         }
     }
- }
 
-    void FixedUpdate()
-    {
-        if (photonView.isMine)
-        {
+    void FixedUpdate() {
+        if(photonView.isMine) {
 
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
@@ -40,8 +35,7 @@ public class Player : Photon.MonoBehaviour
         }
     }
     [PunRPC]
-    public void Shoot()
-    {
+    public void Shoot() {
         GameObject BoltSpawnInstance = Instantiate(projectile, boltSpawn.transform.position, Quaternion.identity);
         Projectile proj = BoltSpawnInstance.GetComponent<Projectile>();
         // Set damage of the projectile
@@ -53,5 +47,4 @@ public class Player : Photon.MonoBehaviour
         BoltSpawnInstance.transform.SetParent(MagicalGirlJoint.transform);
         //BoltSpawnInstance.GetComponent<Rigidbody2D>().AddForce(MagicalGirlJoint.transform.right * boltForce, ForceMode2D.Impulse);
     }
-
 }
