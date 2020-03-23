@@ -1,34 +1,55 @@
 fileFormatVersion: 2
-guid: 5c985c145bdfed445b0e79de99d9dc21
+guid: 2d00e00295e595c47bb5b5b164a098e5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1807125615787039003
-    second: tiles_0
+      213: -383361428545097254
+    second: dircetionPlaceHolder_0
   - first:
-      213: 349823833441268365
-    second: tiles_1
+      213: -2411041141298081735
+    second: dircetionPlaceHolder_1
   - first:
-      213: -6614373457484812694
-    second: tiles_2
+      213: 2378545616664897428
+    second: dircetionPlaceHolder_2
   - first:
-      213: 1639214462598301798
-    second: tiles_3
+      213: -6525053628192517407
+    second: dircetionPlaceHolder_3
   - first:
-      213: 2157240733274199957
-    second: tiles_4
+      213: -6839410251245898779
+    second: dircetionPlaceHolder_4
   - first:
-      213: 4798128000316562087
-    second: tiles_5
+      213: -5686507470615726743
+    second: dircetionPlaceHolder_5
   - first:
-      213: -7995846982363831464
-    second: tiles_6
+      213: -5305898444647017871
+    second: dircetionPlaceHolder_6
   - first:
-      213: -4202638810691693305
-    second: tiles_7
+      213: -6851696728460353819
+    second: dircetionPlaceHolder_7
   - first:
-      213: -7708644975649761358
-    second: tiles_8
+      213: -1644061839702471786
+    second: dircetionPlaceHolder_0
+  - first:
+      213: 6757307537784729152
+    second: dircetionPlaceHolder_1
+  - first:
+      213: -1845632672604704959
+    second: dircetionPlaceHolder_2
+  - first:
+      213: 2434362556016061405
+    second: dircetionPlaceHolder_3
+  - first:
+      213: 7452177661808644694
+    second: dircetionPlaceHolder_4
+  - first:
+      213: -5954943132193049385
+    second: dircetionPlaceHolder_5
+  - first:
+      213: -7473100297064293552
+    second: dircetionPlaceHolder_6
+  - first:
+      213: -8095025282322265639
+    second: dircetionPlaceHolder_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -113,70 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tiles_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b19de794c23341910800000000000000
-      internalID: 1807125615787039003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d827b3e4ce2dad400800000000000000
-      internalID: 349823833441268365
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a6e68d682660534a0800000000000000
-      internalID: -6614373457484812694
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: tiles_3
+      name: dircetionPlaceHolder_0
       rect:
         serializedVersion: 2
         x: 0
@@ -190,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 668cad96ed8afb610800000000000000
-      internalID: 1639214462598301798
+      spriteID: 69b42c7a77e1f29e0800000000000000
+      internalID: -1644061839702471786
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_4
+      name: dircetionPlaceHolder_1
       rect:
         serializedVersion: 2
         x: 32
@@ -211,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 597dfc1740f00fd10800000000000000
-      internalID: 2157240733274199957
+      spriteID: 04e6ab36767c6cd50800000000000000
+      internalID: 6757307537784729152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_5
+      name: dircetionPlaceHolder_2
       rect:
         serializedVersion: 2
         x: 64
@@ -232,14 +190,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7aa59b5aeff569240800000000000000
-      internalID: 4798128000316562087
+      spriteID: 14faa83ecdef266e0800000000000000
+      internalID: -1845632672604704959
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_6
+      name: dircetionPlaceHolder_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddb69ddc8d798c120800000000000000
+      internalID: 2434362556016061405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dircetionPlaceHolder_4
       rect:
         serializedVersion: 2
         x: 0
@@ -253,14 +232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85323d9888b090190800000000000000
-      internalID: -7995846982363831464
+      spriteID: 652943f99147b6760800000000000000
+      internalID: 7452177661808644694
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_7
+      name: dircetionPlaceHolder_5
       rect:
         serializedVersion: 2
         x: 32
@@ -274,14 +253,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7059379a44a3da5c0800000000000000
-      internalID: -4202638810691693305
+      spriteID: 7d43bfb95cacb5da0800000000000000
+      internalID: -5954943132193049385
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_8
+      name: dircetionPlaceHolder_6
       rect:
         serializedVersion: 2
         x: 64
@@ -295,8 +274,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b7dbce9c34650590800000000000000
-      internalID: -7708644975649761358
+      spriteID: 05bdd9ebfd63a4890800000000000000
+      internalID: -7473100297064293552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dircetionPlaceHolder_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d9006f1561b8af80800000000000000
+      internalID: -8095025282322265639
       vertices: []
       indices: 
       edges: []
@@ -304,7 +304,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 83dd355fad3332a43886a194f85e13ac
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
