@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
     public int damage;
-    public float speed;
     private float timer = 1.0f;
+    public bool shotByNPC;
     public bool explosive;
     public bool reflective;
-    //public enum PlayerType { Hero0, Hero1, Hero2, Hero3, enemy0, enemy1, enemy2, enemy3 }
-    public EntityType shooter;
 
-    // Start is called before the first frame update
-    void Start() {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        transform.localRotation = Quaternion.identity;
-        rb.AddForce(transform.parent.right * speed, ForceMode2D.Impulse);
-        transform.SetParent(null);
+    public void LaunchProjectile(int d, float s, bool npc, Vector2 dir, Quaternion rot) {
+        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+        // Set damage of the projectile
+        damage = d;
+        // Set shooter type
+        shotByNPC = npc;
+        // Set rotation
+        transform.rotation = rot;
+        rb2D.AddForce(dir * s, ForceMode2D.Impulse);
     }
 
-    // Update is called once per frame
     void Update() {
         timer -= Time.deltaTime;
         if(timer < 0) {
@@ -28,20 +28,10 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-
-        if(collision.gameObject.CompareTag("Enemy")) {
+        if(!reflective)
             Destroy(gameObject);
-        } else {
+        else {
             // Reflect from colliding object with proper angle
         }
-
-        if(!reflective)            
-        Destroy(gameObject);
     }
-
-
-
-
-
-
 }

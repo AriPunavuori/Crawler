@@ -7,50 +7,57 @@ public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
 
+    // Attributes of characters (No need for public variables after testing)
     public bool npc;
-
     public bool ranged;
-
     public float projectileSpeed;
     public float attackAngle;
     public int attackRange;
     public int damage;
-
     public float attackInterval;
     public float attackTimer;
     public float speed;
     public int health;
 
-    public GameObject projectileHeading;
-    public GameObject boltSpawn;
-    public GameObject projectile;
+    public GameObject projectileSpawn;
+    public GameObject projectilePrefab;
 
     public Vector2 movement;
 
     public void takeDamage(int dmg) {
-        if(health - dmg < 0) {
+        if(health - dmg <= 0) {
             // Grim reaper calling
-            health = 0;
+            Destroy(gameObject); // Does it show to all players?
         } else {
             // Still alive
             health -= dmg;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        // Check if collision is projectile and type of shooter
+        if(collision.gameObject.CompareTag("Projectile")) {
+            var projectile = collision.gameObject.GetComponent<Projectile>();
+            if(npc != projectile.shotByNPC)
+                takeDamage(projectile.damage);
+        }
+    }
+
     [PunRPC]
     public void Shoot() {
-        GameObject projectileClone = Instantiate(this.projectile, boltSpawn.transform.position, Quaternion.identity);
+        // Instantiate projectilePrefab clone
+        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, Quaternion.identity);
+        // Get projectile component of clone
         Projectile projectile = projectileClone.GetComponent<Projectile>();
-        // Set damage of the projectile
-        projectile.damage = damage;
-        // Set speed of the projectile
-        projectile.speed = projectileSpeed;
-
-        projectile.transform.SetParent(projectileHeading.transform);
+        // Set projectile on its way
+        projectile.LaunchProjectile(damage, projectileSpeed, npc,
+                                    (projectileSpawn.transform.position - transform.position).normalized,
+                                    projectileSpawn.transform.rotation);
     }
+
     [PunRPC]
     public void Melee() {
-        if(attackTimer < 0) {
-            attackTimer = attackInterval;
-        }
+        // Maybe OverlapBox in front of character
+        print("I am meleeing like there is no tomorrow!");
     }
 }

@@ -37,25 +37,32 @@ public class PlayerCharacter : Character {
     void Update() {
         if(photonView.isMine) {
             attackTimer -= Time.deltaTime;
+            // Health potion input
             if(Input.GetKeyDown(KeyCode.H)) {
                 UsePotion();
             }
-            if(attackTimer <0 && Input.GetKeyDown(KeyCode.Mouse0)) {
-                Shoot();
-                photonView.RPC("Shoot", PhotonTargets.Others);
+            // Attack input
+            if(attackTimer < 0 && Input.GetKeyDown(KeyCode.Mouse0)) {
+                if(ranged) {
+                    Shoot();
+                    photonView.RPC("Shoot", PhotonTargets.Others);
+                } else {
+                    Melee();
+                    photonView.RPC("Melee", PhotonTargets.Others);
+                }
                 attackTimer = attackInterval;
             }
+            // Movement input
             movement.x = Input.GetAxis("Horizontal");
             movement.y = Input.GetAxis("Vertical");
         }
     }
 
     private void FixedUpdate() {
+        // Move the PlayerCharacter of the correct player
         if(photonView.isMine) {
             if(rb2D != null)
                 rb2D.MovePosition(rb2D.position + movement.normalized * speed * Time.fixedDeltaTime);
-            else
-                print("No rigidbody");
         }
     }
 
@@ -65,22 +72,12 @@ public class PlayerCharacter : Character {
             potion = false;
         }
     }
+
     public void GetPotion() {
         potion = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        // If colliding gameobject contains projectile component?
-        if(collision.gameObject.GetComponent<Projectile>()) {
-            if(collision.gameObject.GetComponent<Projectile>().shooter != characterType) {
-                takeDamage(collision.gameObject.GetComponent<Projectile>().damage);
-            }
-        }
-    }
-
-
     public void GetSpeed() {
         speed += 10;
     }
-
 }

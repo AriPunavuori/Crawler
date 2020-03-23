@@ -19,8 +19,8 @@ public class Player : Photon.MonoBehaviour {
     void Update() {
         if(photonView.isMine) {
             if(Input.GetKeyDown(KeyCode.Mouse0)) {
-                Shoot();
-                photonView.RPC("Shoot", PhotonTargets.Others);
+                //Shoot();
+                //photonView.RPC("Shoot", PhotonTargets.Others);
             }
         }
     }
@@ -34,17 +34,17 @@ public class Player : Photon.MonoBehaviour {
 
         }
     }
-    [PunRPC]
-    public void Shoot() {
-        GameObject BoltSpawnInstance = Instantiate(projectile, boltSpawn.transform.position, Quaternion.identity);
-        Projectile proj = BoltSpawnInstance.GetComponent<Projectile>();
-        // Set damage of the projectile
-        proj.damage = 25;
-        // Set speed of the projectile
-        proj.speed = 8;
-        // Assing shooter that shot the projectile
-        proj.shooter = EntityType.Hero1;
-        BoltSpawnInstance.transform.SetParent(MagicalGirlJoint.transform);
-        //BoltSpawnInstance.GetComponent<Rigidbody2D>().AddForce(MagicalGirlJoint.transform.right * boltForce, ForceMode2D.Impulse);
-    }
+    //[PunRPC]
+    //public void Shoot() {
+    //    GameObject BoltSpawnInstance = Instantiate(projectile, boltSpawn.transform.position, Quaternion.identity);
+    //    Projectile proj = BoltSpawnInstance.GetComponent<Projectile>();
+    //    // Set damage of the projectile
+    //    proj.damage = 25;
+    //    // Set speed of the projectile
+    //    proj.speed = 8;
+    //    // Assing shooter that shot the projectile
+    //    proj.shooter = EntityType.Hero1;
+    //    BoltSpawnInstance.transform.SetParent(MagicalGirlJoint.transform);
+    //    //BoltSpawnInstance.GetComponent<Rigidbody2D>().AddForce(MagicalGirlJoint.transform.right * boltForce, ForceMode2D.Impulse);
+    //}
 }

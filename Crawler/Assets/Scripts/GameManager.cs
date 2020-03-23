@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    public int keys = 0;
+    int keys = 0;
 
     public bool UseKey() {
         if(keys > 0) {

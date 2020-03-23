@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 4767259326098852145}
   - component: {fileID: 4767259326098852142}
   m_Layer: 0
-  m_Name: BoltSpawn
+  m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,9 +570,8 @@ MonoBehaviour:
   attackTimer: 0
   speed: 10
   health: 100
-  projectileHeading: {fileID: 4767259325690050932}
-  boltSpawn: {fileID: 4767259326098852144}
-  projectile: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
+  projectileSpawn: {fileID: 4767259326098852144}
+  projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
     type: 3}
   movement: {x: 0, y: 0}
 --- !u!1 &8322636514646183167
