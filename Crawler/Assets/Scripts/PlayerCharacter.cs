@@ -56,6 +56,10 @@ public class PlayerCharacter : Character {
             movement.x = Input.GetAxis("Horizontal");
             movement.y = Input.GetAxis("Vertical");
         }
+        if (health <= 0)
+        {
+            Destroy(gameObject); // Kuole
+        }
     }
 
     private void FixedUpdate() {

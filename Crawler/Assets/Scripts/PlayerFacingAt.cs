@@ -22,15 +22,36 @@ public class PlayerFacingAt : Photon.MonoBehaviour
     {
         if (photonView.isMine)
         {
-            if (Camera.main != null)
-            {
-                //Debug.Log("fucg");
-            }
 
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+
+            Debug.Log(transform.rotation.eulerAngles);
+            float mouseAngle = transform.rotation.eulerAngles.z;
+            float angle22dot5 = 22.5f;
+
+            if (((mouseAngle) <= (angle22dot5)) && ((mouseAngle) <= (angle22dot5))){
+
+            }
+            if (transform.rotation.eulerAngles == new Vector3(0, 0, mouseAngle))
+            {
+
+            }
+            if (transform.rotation.eulerAngles == new Vector3(0, 0, mouseAngle))
+            {
+
+            }
+            if (transform.rotation.eulerAngles == new Vector3(0, 0, mouseAngle))
+            {
+
+            }
+            if (transform.rotation.eulerAngles == new Vector3(0, 0, mouseAngle))
+            {
+
+            }
         }
     }
 }

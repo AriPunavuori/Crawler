@@ -24,6 +24,8 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
+
+    [PunRPC]
     public void TakeDamage(int dmg) {
         if(health - dmg <= 0) {
             // Grim reaper calling
