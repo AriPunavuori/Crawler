@@ -53,8 +53,8 @@ public class PlayerCharacter : Character {
                 attackTimer = attackInterval;
             }
             // Movement input
-            movement.x = Input.GetAxis("Horizontal");
-            movement.y = Input.GetAxis("Vertical");
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
         }
         if (health <= 0)
         {
@@ -66,7 +66,7 @@ public class PlayerCharacter : Character {
         // Move the PlayerCharacter of the correct player
         if(photonView.isMine) {
             if(rb2D != null)
-                rb2D.MovePosition(rb2D.position + movement.normalized * speed * Time.fixedDeltaTime);
+                rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
         }
     }
 
