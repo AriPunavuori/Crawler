@@ -7,6 +7,7 @@ public class PlayerCharacter : Character {
 
     Rigidbody2D rb2D;
     bool potion;
+    public int movementType;
 
     void Start() {
         rb2D = GetComponent<Rigidbody2D>();
@@ -18,7 +19,7 @@ public class PlayerCharacter : Character {
             projectileSpeed = 20f;
             attackAngle = 90;
             attackInterval = .2f;
-            speed = 10;
+            speed = 7;
             health = 100;
 
         }
@@ -53,16 +54,18 @@ public class PlayerCharacter : Character {
                 attackTimer = attackInterval;
             }
             // Movement input
-            movement.x = Input.GetAxis("Horizontal");
-            movement.y = Input.GetAxis("Vertical");
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            
         }
     }
 
     private void FixedUpdate() {
         // Move the PlayerCharacter of the correct player
         if(photonView.isMine) {
-            if(rb2D != null)
-                rb2D.MovePosition(rb2D.position + movement.normalized * speed * Time.fixedDeltaTime);
+            if (rb2D != null)
+                rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
+                Debug.Log(rb2D.velocity.magnitude);
         }
     }
 
