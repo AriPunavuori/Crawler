@@ -59,14 +59,16 @@ public class EnemyCharacter : Character {
 			following = true;
 
 			// Ampuminen myös paikaltaan
-			if (Vector3.Distance(transform.position, player.transform.position) < attackRange) {
-				if (attackTimer >= attackInterval) {
-					Shoot();
-					photonView.RPC("Shoot", PhotonTargets.Others);
-					Debug.Log("En Garde!");
-					attackTimer = 0;
-				} else {
-					attackTimer += Time.deltaTime;
+			if (player != null) {
+				if (Vector3.Distance(transform.position, player.transform.position) < attackRange) {
+					if (attackTimer >= attackInterval) {
+						Shoot();
+						photonView.RPC("Shoot", PhotonTargets.Others);
+						Debug.Log("En Garde!");
+						attackTimer = 0;
+					} else {
+						attackTimer += Time.deltaTime;
+					}
 				}
 			}
 
