@@ -38,4 +38,11 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - Shoot
+  - Melee
+  - ColorRpc
+  - DoJump
+  - Flash
+  - Marco
+  - Polo
+  - TaggedPlayer
   DisableAutoOpenWizard: 1

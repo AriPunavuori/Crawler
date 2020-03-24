@@ -2,46 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkManager : Photon.PunBehaviour
-{
+public class NetworkManager : Photon.PunBehaviour {
     private const string roomName = "RoomName";
     private RoomInfo[] roomList;
+    public Transform[] spawnPoints;
     public List<PhotonPlayer> currentPlayersInRoom = new List<PhotonPlayer>();
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
         PhotonNetwork.ConnectUsingSettings("0,1");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void OnGUI()
-    {
+    private void OnGUI() {
         // Ruudun vasemmassa ylä nurkassa tietoa
         GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 
         //Jos ei olla missään huoneessa, eli ollaan lobyssa, näytä nappuloita huoneista
-        if (PhotonNetwork.room == null)
-        {
-            if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server (Create Room)"))
-            {
+        if(PhotonNetwork.room == null) {
+            if(GUI.Button(new Rect(100, 100, 250, 100), "Start Server (Create Room)")) {
                 //PhotonNetwork.CreateRoom()
                 // Luodaan jokaiselle huoneelle satunnainen nimi
                 PhotonNetwork.CreateRoom(roomName + System.Guid.NewGuid().ToString("N"));
             }
-            if(roomList != null)
-            {
-                for (int i = 0; i < roomList.Length; i++)
-                {
-                    if (GUI.Button(new Rect(100, 250+(110*i), 250, 100), "Join " + roomList[i].Name + "\n\nMax: " + roomList[i].PlayerCount))
-                    {
+            if(roomList != null) {
+                for(int i = 0; i < roomList.Length; i++) {
+                    if(GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join " + roomList[i].Name + "\n\nMax: " + roomList[i].PlayerCount)) {
                         PhotonNetwork.JoinRoom(roomList[i].Name);
                     }
                 }
@@ -52,32 +37,30 @@ public class NetworkManager : Photon.PunBehaviour
         Debug.Log("Yhteys Photoniin");
     }
 
-    public override void OnJoinedLobby()
-    {
+    public override void OnJoinedLobby() {
         Debug.Log("Tultiin lobbyyn");
     }
 
-    public override void OnConnectedToMaster()
-    {
+    public override void OnConnectedToMaster() {
         Debug.Log("Masteryhteys");
     }
-    public override void OnReceivedRoomListUpdate()
-    {
+    public override void OnReceivedRoomListUpdate() {
         roomList = PhotonNetwork.GetRoomList();
     }
 
-    public override void OnCreatedRoom()
-    {
+    public override void OnCreatedRoom() {
         Debug.Log("Huone tehty");
     }
 
-    public override void OnJoinedRoom()
-    {
-        PhotonNetwork.Instantiate("MagicalGirl", new Vector3(0, 0, 0), Quaternion.identity, 0);
+    public override void OnJoinedRoom() {
+        PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
+ 
+        for(int i = 0; i < spawnPoints.Length; i++) {
+            PhotonNetwork.Instantiate("NetworkEnemy", spawnPoints[i].position, Quaternion.identity, 0);
+        }
     }
 
-    private void OnConnectedToServer()
-    {
+    private void OnConnectedToServer() {
     }
 }
 

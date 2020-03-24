@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyCharacter : Character {
     NavMeshAgent agent;
     Transform player;
+
+    EntityType enemyType;
     void Start() {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player").transform;

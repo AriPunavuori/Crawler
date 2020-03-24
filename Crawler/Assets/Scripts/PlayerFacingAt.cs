@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerFacingAt : Photon.MonoBehaviour
 {
     public Camera myCam;
+    public AudioListener myMic;
 
     // Start is called before the first frame update
     void Start()
@@ -12,6 +13,7 @@ public class PlayerFacingAt : Photon.MonoBehaviour
         if (photonView.isMine)
         {
             myCam.enabled = true;
+            myMic.enabled = true;
         }
     }
 
@@ -22,7 +24,7 @@ public class PlayerFacingAt : Photon.MonoBehaviour
         {
             if (Camera.main != null)
             {
-                Debug.Log("fucg");
+                //Debug.Log("fucg");
             }
 
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
