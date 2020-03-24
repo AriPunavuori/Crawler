@@ -5,6 +5,7 @@ using UnityEngine;
 public class NetworkManager : Photon.PunBehaviour {
     private const string roomName = "RoomName";
     private RoomInfo[] roomList;
+    public Transform[] spawnPoints;
     public List<PhotonPlayer> currentPlayersInRoom = new List<PhotonPlayer>();
 
     void Start() {
@@ -53,8 +54,10 @@ public class NetworkManager : Photon.PunBehaviour {
 
     public override void OnJoinedRoom() {
         PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
-        //PhotonNetwork.Instantiate("MagicalGirl", new Vector3(0, 0, 0), Quaternion.identity, 0);
-
+ 
+        for(int i = 0; i < spawnPoints.Length; i++) {
+            PhotonNetwork.Instantiate("NetworkEnemy", spawnPoints[i].position, Quaternion.identity, 0);
+        }
     }
 
     private void OnConnectedToServer() {
