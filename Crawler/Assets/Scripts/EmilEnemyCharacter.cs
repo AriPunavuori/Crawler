@@ -47,18 +47,15 @@ public class EmilEnemyCharacter : Character {
 			} else if (player != null && Vector3.Distance(transform.position, player.transform.position) < attackRange) { // Jos on jahdattava, joka tarpeeksi lähellä hyökkäystä varten
 																														  // MELEEHYÖKKÄYS
 				if (reloadCounter >= attackInterval) { // Odota attackInterval -pituinen aika
-					Debug.Log("En Garde!");
-					player.GetComponent<PlayerCharacter>().health -= damage; // Tee Damagea
+													   //Debug.Log("En Garde!");
+													   //player.GetComponent<PlayerCharacter>().health -= damage; // Tee Damagea
+					Melee();
 					reloadCounter = 0;
 				} else {
 					reloadCounter += Time.deltaTime;
 				}
 			}
 			following = true;
-
-			if (health <= 0) {
-				Destroy(gameObject); // Kuole
-			}
 		}
 	}
 

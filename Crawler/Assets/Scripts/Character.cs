@@ -24,16 +24,26 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
-
     [PunRPC]
     public void TakeDamage(int dmg) {
+        print(gameObject);
+        print("Health before damage " + health);
+        if(npc)
+            print("NPS is taking " + dmg + " damage!");
+        else
+            print("Player is taking " + dmg + " damage!");
         if(health - dmg <= 0) {
-            // Grim reaper calling
-            Destroy(gameObject); // Does it show to all players?
+            if(npc) {
+                Destroy(gameObject); // Does it show to all players?
+            } else {
+                print("Player should die!");
+                // Do something to player
+            }
         } else {
             // Still alive
             health -= dmg;
         }
+        print("Health after damage " + health);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -57,7 +67,25 @@ public class Character : Photon.MonoBehaviour {
 
     [PunRPC]
     public void Melee() {
-        // Maybe OverlapBox in front of character
-        print("I am meleeing like there is no tomorrow!");
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        foreach(var hit in hits) {
+            print(hit.gameObject);
+        }
+        foreach(var hit in hits) {
+            var c = hit.gameObject.GetComponent<Character>();
+            if(c != null && c.npc != npc) {
+                if(npc) {
+                    print("Player should take damage!");
+                } else {
+                    print("NPC should take damage!");
+                }
+                c.TakeDamage(damage);
+            }
+        }
+        if(npc)
+            print("NPC meleeing!");
+        else
+            print("Player meleeing!");
     }
 }
