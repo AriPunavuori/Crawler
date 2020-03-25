@@ -19,6 +19,7 @@ public class PlayerCharacter : Character {
     void Start() {
         
         rb2D = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
         dashCooldown = 0.0f;
 
         if(characterType == EntityType.Hero0) {
@@ -42,6 +43,9 @@ public class PlayerCharacter : Character {
             speed = 10;
             health = 70;
         }
+=======
+        SetCharacterAttributes();
+>>>>>>> 07cfa38cb2fd4e3bcd75b90d25f766b1435d7158
     }
 
     void Update() {
@@ -53,14 +57,7 @@ public class PlayerCharacter : Character {
             }
             // Attack input
             if(attackTimer < 0 && Input.GetKeyDown(KeyCode.Mouse0)) {
-                if(ranged) {
-                    Shoot();
-                    photonView.RPC("Shoot", PhotonTargets.Others);
-                } else {
-                    Melee();
-                    photonView.RPC("Melee", PhotonTargets.Others);
-                }
-                attackTimer = attackInterval;
+                Attack();
             }
             // Movement input
             movement.x = Input.GetAxisRaw("Horizontal");
@@ -126,12 +123,15 @@ public class PlayerCharacter : Character {
                 dashCooldown = 0f;
             }
         }
+<<<<<<< HEAD
         
         if (health <= 0)
         {
             Destroy(gameObject); // Kuole
         }
 
+=======
+>>>>>>> 07cfa38cb2fd4e3bcd75b90d25f766b1435d7158
     }
 
     private void FixedUpdate() {
