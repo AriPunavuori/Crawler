@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5889990430033559069}
   - component: {fileID: 4816349093850211959}
   - component: {fileID: 8494195734170517662}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BoltNetwork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
