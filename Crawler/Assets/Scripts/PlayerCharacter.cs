@@ -102,7 +102,7 @@ public class PlayerCharacter : Character {
                 dashTimer -= Time.deltaTime;
 
 
-                // Updating dashing direction mid dash with mouse position
+                // Updating dashing direction mid dash with mouse position.
                 //Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
                 //dashVector = new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y);
 
