@@ -6,7 +6,13 @@ public class Spawner : MonoBehaviour {
     public EntityType spawningType;
     public float spawnInterval = 5f;
     float timer;
+    public GameObject NetworkManager;
+
     void Update() {
+        if(NetworkManager.GetComponent<NetworkManager>().joined == true)
+        {
+
+
         if(timer < 0) {
             var enemyClone = PhotonNetwork.Instantiate("NetworkEnemy", transform.position, Quaternion.identity, 0);
             var c = enemyClone.GetComponent<Character>();
@@ -15,5 +21,7 @@ public class Spawner : MonoBehaviour {
             timer = spawnInterval;
         }
         timer -= Time.deltaTime;
+        }
     }
 }
+
