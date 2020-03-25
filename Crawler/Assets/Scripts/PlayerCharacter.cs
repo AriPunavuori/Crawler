@@ -8,13 +8,16 @@ public class PlayerCharacter : Character {
     Rigidbody2D rb2D;
     bool potion;
     bool dashing = false;
-    float dashCooldown = 5.0f;
+    float playerCamOffset = 0.002f;
+    float dashCooldown = 3.0f;
     float dashTime = 0.15f;
-    float dashTimer = 0.1f;
+    float dashTimer = 0.15f;
+    // Multiplier for base player speed when dashing
     float dashFactor = 4.0f;
     Vector2 dashVector;
     Vector2 lastDir;
     public Animator animator;
+    public GameObject playerCam;
 
     void Start() { 
         rb2D = GetComponent<Rigidbody2D>();
@@ -44,10 +47,14 @@ public class PlayerCharacter : Character {
                 lastDir = new Vector2(movement.x, movement.y);
             }
 
+            // Camera movement
+            Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position);
+            playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
+
 
             // Setting the correct animation/stance depending on the current mouse position and if moving or not
-            Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position);
             Vector2 mouseVector = new Vector2(Input.mousePosition.x - mousePos.x, Input.mousePosition.y - mousePos.y);
+            //Debug.Log(mouseVector);
             
             animator.SetFloat("Horizontal", mouseVector.x);
             animator.SetFloat("Vertical", mouseVector.y);

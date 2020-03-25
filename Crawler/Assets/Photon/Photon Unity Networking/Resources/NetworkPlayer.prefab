@@ -497,6 +497,7 @@ MonoBehaviour:
     type: 3}
   movement: {x: 0, y: 0}
   animator: {fileID: 409524340}
+  playerCam: {fileID: 7811178098196406157}
 --- !u!114 &7811178098269211210
 MonoBehaviour:
   m_ObjectHideFlags: 0
