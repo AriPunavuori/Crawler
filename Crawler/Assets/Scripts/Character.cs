@@ -61,9 +61,9 @@ public class Character : Photon.MonoBehaviour {
             photonView.RPC("Shoot", PhotonTargets.Others);
         } else {
             Melee();
-            photonView.RPC("Melee", PhotonTargets.Others);
+            //photonView.RPC("Melee", PhotonTargets.Others);
         }
-        attackTimer = attackInterval;
+        attackTimer = attackInterval; 
     }
 
     [PunRPC]
@@ -76,7 +76,7 @@ public class Character : Photon.MonoBehaviour {
         projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
     }
 
-    [PunRPC]
+    //[PunRPC]
     public void Melee() {
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
