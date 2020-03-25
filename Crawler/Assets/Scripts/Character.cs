@@ -55,6 +55,17 @@ public class Character : Photon.MonoBehaviour {
         }
     }
 
+    public void Attack() {
+        if(ranged) {
+            Shoot();
+            photonView.RPC("Shoot", PhotonTargets.Others);
+        } else {
+            Melee();
+            photonView.RPC("Melee", PhotonTargets.Others);
+        }
+        attackTimer = attackInterval;
+    }
+
     [PunRPC]
     public void Shoot() {
         // Instantiate projectilePrefab clone
@@ -88,6 +99,8 @@ public class Character : Photon.MonoBehaviour {
         else
             print("Player meleeing!");
     }
+
+    #region Set attributes
     public void SetCharacterAttributes() {
         if(characterType == EntityType.Hero0) {
             ranged = true;
@@ -170,4 +183,5 @@ public class Character : Photon.MonoBehaviour {
             health = 300;
         }
     }
+    #endregion
 }

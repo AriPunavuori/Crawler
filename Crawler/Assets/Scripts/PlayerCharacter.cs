@@ -22,14 +22,7 @@ public class PlayerCharacter : Character {
             }
             // Attack input
             if(attackTimer < 0 && Input.GetKeyDown(KeyCode.Mouse0)) {
-                if(ranged) {
-                    Shoot();
-                    photonView.RPC("Shoot", PhotonTargets.Others);
-                } else {
-                    Melee();
-                    photonView.RPC("Melee", PhotonTargets.Others);
-                }
-                attackTimer = attackInterval;
+                Attack();
             }
             // Movement input
             movement.x = Input.GetAxisRaw("Horizontal");
