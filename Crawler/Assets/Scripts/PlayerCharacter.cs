@@ -98,15 +98,6 @@ public class PlayerCharacter : Character {
                 dashCooldown = 0f;
             }
         }
-<<<<<<< HEAD
-        
-        if (health <= 0)
-        {
-            Destroy(gameObject); // Kuole
-        }
-
-=======
->>>>>>> 07cfa38cb2fd4e3bcd75b90d25f766b1435d7158
     }
 
     private void FixedUpdate() {
