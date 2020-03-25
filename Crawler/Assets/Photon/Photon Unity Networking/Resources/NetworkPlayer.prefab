@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 7811178098269211208}
   - component: {fileID: 7811178098269211209}
   - component: {fileID: 7811178098269211210}
+  - component: {fileID: 409524340}
   m_Layer: 8
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -495,7 +496,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
     type: 3}
   movement: {x: 0, y: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 409524340}
 --- !u!114 &7811178098269211210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +511,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 0
+--- !u!95 &409524340
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7811178098269211211}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cdbb8de91c720b3448c02db68b8b8e94, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7811178098650749444
 GameObject:
   m_ObjectHideFlags: 0
