@@ -6,6 +6,7 @@ public class NetworkManager : Photon.PunBehaviour {
     private const string roomName = "RoomName";
     private RoomInfo[] roomList;
     public List<PhotonPlayer> currentPlayersInRoom = new List<PhotonPlayer>();
+    public bool joined;
 
     void Start() {
         PhotonNetwork.logLevel = PhotonLogLevel.ErrorsOnly;
@@ -52,9 +53,10 @@ public class NetworkManager : Photon.PunBehaviour {
     }
 
     public override void OnJoinedRoom() {
-        PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
-        //PhotonNetwork.Instantiate("MagicalGirl", new Vector3(0, 0, 0), Quaternion.identity, 0);
 
+    PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
+        //PhotonNetwork.Instantiate("MagicalGirl", new Vector3(0, 0, 0), Quaternion.identity, 0);
+        joined = true;
     }
 
     private void OnConnectedToServer() {
