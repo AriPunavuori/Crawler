@@ -10,28 +10,7 @@ public class PlayerCharacter : Character {
 
     void Start() {
         rb2D = GetComponent<Rigidbody2D>();
-
-        if(characterType == EntityType.Hero0) {
-            ranged = true;
-            damage = 50;
-            attackRange = 20;
-            projectileSpeed = 20f;
-            attackAngle = 90;
-            attackInterval = .2f;
-            speed = 10;
-            health = 100;
-
-        }
-        if(characterType == EntityType.Hero1) {
-            ranged = false;
-            damage = 50;
-            attackRange = 3;
-            projectileSpeed = 0f;
-            attackAngle = 90;
-            attackInterval = 0.5f;
-            speed = 10;
-            health = 70;
-        }
+        SetCharacterAttributes();
     }
 
     void Update() {
@@ -55,10 +34,6 @@ public class PlayerCharacter : Character {
             // Movement input
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
-        }
-        if (health <= 0)
-        {
-            Destroy(gameObject); // Kuole
         }
     }
 

@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7502347143747442834}
   - component: {fileID: 7502347143747442833}
-  - component: {fileID: 7502347143747442835}
   - component: {fileID: 7502347143747442836}
   - component: {fileID: 7502347143747442837}
-  m_Layer: 2
+  - component: {fileID: 8434825375538886635}
+  m_Layer: 10
   m_Name: EmilEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -84,28 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7502347143747442835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7502347143747442832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18164d47ccce4447b98fb251df97e39d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterType: 0
-  ranged: 0
-  damage: 10
-  attackRange: 3
-  attackAngle: 0
-  attackInterval: 1
-  speed: 2
-  health: 10
-  player: {fileID: 0}
-  players: []
 --- !u!58 &7502347143747442836
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +108,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7502347143747442832}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -143,3 +121,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8434825375538886635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502347143747442832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae14b56425d90f4c889b33352dbb1d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterType: 1
+  npc: 1
+  ranged: 0
+  projectileSpeed: 0
+  attackAngle: 90
+  attackRange: 5
+  damage: 10
+  attackInterval: 1
+  attackTimer: 0
+  speed: 10
+  health: 100
+  projectileSpawn: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  movement: {x: 0, y: 0}
+  player: {fileID: 0}
+  players: []

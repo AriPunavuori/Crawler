@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8648903626345707402}
   - component: {fileID: 6622966880662753897}
   - component: {fileID: 1002217574328738626}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: NetworkEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -95,20 +95,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8648903626345707407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18164d47ccce4447b98fb251df97e39d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ae14b56425d90f4c889b33352dbb1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 0
-  npc: 1
+  npc: 0
   ranged: 0
   projectileSpeed: 0
   attackAngle: 0
-  attackRange: 5
-  damage: 10
-  attackInterval: 1
+  attackRange: 0
+  damage: 0
+  attackInterval: 0
   attackTimer: 0
-  speed: 5
-  health: 220
+  speed: 0
+  health: 0
   projectileSpawn: {fileID: 0}
   projectilePrefab: {fileID: 0}
   movement: {x: 0, y: 0}
