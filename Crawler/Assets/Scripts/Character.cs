@@ -73,7 +73,7 @@ public class Character : Photon.MonoBehaviour {
             print(hit.gameObject);
         }
         foreach(var hit in hits) {
-            var c = hit.gameObject.GetComponent<Character>();
+            var c = hit.gameObject.GetComponent<Character>(); 
             if(c != null && c.npc != npc) {
                 if(npc) {
                     print("Player should take damage!");
