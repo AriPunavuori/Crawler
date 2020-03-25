@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: 45127790eb13ae443b02ae71a204944f
+guid: c6ab719ff2c084741a92a91b6133a34f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4197525084153049289
-    second: magi_run_up_down_0
+      213: 5839796905475787957
+    second: 32magi_run_right_0
   - first:
-      213: -2443093021955239386
-    second: magi_run_up_down_1
+      213: -5187341934091028335
+    second: 32magi_run_right_1
   - first:
-      213: -2450754605091162989
-    second: magi_run_up_down_2
+      213: -5843011156933716159
+    second: 32magi_run_right_2
   - first:
-      213: 6028740327280284160
-    second: magi_run_up_down_3
+      213: 3602662750988751044
+    second: 32magi_run_right_3
   - first:
-      213: -6658350945018973662
-    second: magi_run_up_down_4
+      213: -4795263324795787860
+    second: 32magi_run_right_4
   - first:
-      213: -4468984847603715079
-    second: magi_run_up_down_5
+      213: -5132400326388299633
+    second: 32magi_run_right_5
   - first:
-      213: 3090057738419768553
-    second: magi_run_up_down_6
+      213: -7187617168202531077
+    second: 32magi_run_right_6
   - first:
-      213: 5416278451956004556
-    second: magi_run_up_down_7
+      213: -3537221685101378410
+    second: 32magi_run_right_7
   - first:
-      213: 2927759380277983093
-    second: magi_run_up_down_8
+      213: 2932538539443195997
+    second: 32magi_run_right_8
   - first:
-      213: 3497264710555354574
-    second: magi_run_up_down_9
+      213: -7498097817499084488
+    second: 32magi_run_right_9
   - first:
-      213: -2404953306898411204
-    second: magi_run_up_down_10
+      213: 6734664913552342052
+    second: 32magi_run_right_10
   - first:
-      213: 5756259453849455469
-    second: magi_run_up_down_11
+      213: -5597425284575447790
+    second: 32magi_run_right_11
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -81,7 +81,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 22
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -111,7 +111,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: magi_run_up_down_0
+      name: 32magi_run_right_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 66
-        width: 24
-        height: 22
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,20 +136,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73f0447ec256fb5c0800000000000000
-      internalID: -4197525084153049289
+      spriteID: 5bc4f4f48502b0150800000000000000
+      internalID: 5839796905475787957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_1
+      name: 32magi_run_right_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 66
-        width: 24
-        height: 22
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,20 +157,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6225f1137d3681ed0800000000000000
-      internalID: -2443093021955239386
+      spriteID: 1983402aefbd208b0800000000000000
+      internalID: -5187341934091028335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_2
+      name: 32magi_run_right_2
       rect:
         serializedVersion: 2
-        x: 48
-        y: 66
-        width: 24
-        height: 22
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39473ebdbab2dfdd0800000000000000
-      internalID: -2450754605091162989
+      spriteID: 14752547f4479eea0800000000000000
+      internalID: -5843011156933716159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_3
+      name: 32magi_run_right_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 44
-        width: 24
-        height: 22
+        x: 96
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,62 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0021d92d2636aa350800000000000000
-      internalID: 6028740327280284160
+      spriteID: 4c0573e2faa3ff130800000000000000
+      internalID: 3602662750988751044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_4
-      rect:
-        serializedVersion: 2
-        x: 24
-        y: 44
-        width: 24
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 222f14cc719c893a0800000000000000
-      internalID: -6658350945018973662
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magi_run_up_down_5
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 44
-        width: 24
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9f33af375f9faf1c0800000000000000
-      internalID: -4468984847603715079
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magi_run_up_down_6
+      name: 32magi_run_right_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 22
-        width: 24
-        height: 22
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,20 +220,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ec05f9242712ea20800000000000000
-      internalID: 3090057738419768553
+      spriteID: ca5a619996dc37db0800000000000000
+      internalID: -4795263324795787860
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_7
+      name: 32magi_run_right_5
       rect:
         serializedVersion: 2
-        x: 24
-        y: 22
-        width: 24
-        height: 22
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -283,20 +241,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc6b07d2e8c7a2b40800000000000000
-      internalID: 5416278451956004556
+      spriteID: f88c684881d06c8b0800000000000000
+      internalID: -5132400326388299633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_8
+      name: 32magi_run_right_6
       rect:
         serializedVersion: 2
-        x: 48
-        y: 22
-        width: 24
-        height: 22
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,20 +262,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5777949f4ad71a820800000000000000
-      internalID: 2927759380277983093
+      spriteID: bfef9c36444704c90800000000000000
+      internalID: -7187617168202531077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_9
+      name: 32magi_run_right_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69449bf4e9349eec0800000000000000
+      internalID: -3537221685101378410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 32magi_run_right_8
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 24
-        height: 22
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -325,20 +304,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec5492699b7c88030800000000000000
-      internalID: 3497264710555354574
+      spriteID: d5097ada34872b820800000000000000
+      internalID: 2932538539443195997
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_10
+      name: 32magi_run_right_9
       rect:
         serializedVersion: 2
-        x: 24
+        x: 32
         y: 0
-        width: 24
-        height: 22
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -346,20 +325,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c315be895b3ef9ed0800000000000000
-      internalID: -2404953306898411204
+      spriteID: 839d5d8f2c761f790800000000000000
+      internalID: -7498097817499084488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magi_run_up_down_11
+      name: 32magi_run_right_10
       rect:
         serializedVersion: 2
-        x: 48
+        x: 64
         y: 0
-        width: 24
-        height: 22
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -367,8 +346,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6b4eada97752ef40800000000000000
-      internalID: 5756259453849455469
+      spriteID: 42cf29d9e06567d50800000000000000
+      internalID: 6734664913552342052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 32magi_run_right_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21537103c53f152b0800000000000000
+      internalID: -5597425284575447790
       vertices: []
       indices: 
       edges: []
