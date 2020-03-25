@@ -28,8 +28,9 @@ public class PlayerFacingAt : Photon.MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+            
 
-            Debug.Log(transform.rotation.eulerAngles);
+            //Debug.Log(transform.rotation.eulerAngles);
             float mouseAngle = transform.rotation.eulerAngles.z;
             float angle22dot5 = 22.5f;
 

@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  speed: 0
+  shotByNPC: 0
   explosive: 0
-  shooter: 0
+  reflective: 0
 --- !u!50 &8419773223574376315
 Rigidbody2D:
   serializedVersion: 4
