@@ -16,36 +16,11 @@ public class PlayerCharacter : Character {
     Vector2 lastDir;
     public Animator animator;
 
-    void Start() {
-        
+    void Start() { 
         rb2D = GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
         dashCooldown = 0.0f;
-
-        if(characterType == EntityType.Hero0) {
-            ranged = true;
-            damage = 50;
-            attackRange = 20;
-            projectileSpeed = 20f;
-            attackAngle = 90;
-            attackInterval = .2f;
-            speed = 10;
-            health = 100;
-
-        }
-        if(characterType == EntityType.Hero1) {
-            ranged = false;
-            damage = 50;
-            attackRange = 3;
-            projectileSpeed = 0f;
-            attackAngle = 90;
-            attackInterval = 0.5f;
-            speed = 10;
-            health = 70;
-        }
-=======
         SetCharacterAttributes();
->>>>>>> 07cfa38cb2fd4e3bcd75b90d25f766b1435d7158
+
     }
 
     void Update() {
