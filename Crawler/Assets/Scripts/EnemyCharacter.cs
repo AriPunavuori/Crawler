@@ -17,6 +17,7 @@ public class EnemyCharacter : Character {
 	void Start() {
 		layerMask = LayerMask.GetMask("Player", "Obstacles");
 		rigidBody = GetComponent<Rigidbody2D>();
+		SetCharacterAttributes();
 	}
 
 	void FixedUpdate() {

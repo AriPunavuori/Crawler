@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EntityType { Hero0, Hero1, Hero2, Hero3, enemy0, enemy1, enemy2, enemy3, env }
+public enum EntityType { Hero0, Hero1, Hero2, Hero3, Enemy0, Enemy1, Enemy2, Enemy3 }
 public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
@@ -29,7 +29,7 @@ public class Character : Photon.MonoBehaviour {
         print(gameObject);
         print("Health before damage " + health);
         if(npc)
-            print("NPS is taking " + dmg + " damage!");
+            print("NPC is taking " + dmg + " damage!");
         else
             print("Player is taking " + dmg + " damage!");
         if(health - dmg <= 0) {
@@ -87,5 +87,87 @@ public class Character : Photon.MonoBehaviour {
             print("NPC meleeing!");
         else
             print("Player meleeing!");
+    }
+    public void SetCharacterAttributes() {
+        if(characterType == EntityType.Hero0) {
+            ranged = true;
+            damage = 20;
+            attackRange = 20;
+            projectileSpeed = 20f;
+            attackAngle = 0;
+            attackInterval = .2f;
+            speed = 10;
+            health = 150;
+        }
+        if(characterType == EntityType.Hero1) {
+            ranged = true;
+            damage = 50;
+            attackRange = 3;
+            projectileSpeed = 5f;
+            attackAngle = 0f;
+            attackInterval = 0.5f;
+            speed = 7.5f;
+            health = 200;
+        }
+        if(characterType == EntityType.Hero2) {
+            ranged = false;
+            damage = 50;
+            attackRange = 3;
+            projectileSpeed = 0f;
+            attackAngle = 90;
+            attackInterval = 0.5f;
+            speed = 25;
+            health = 250;
+        }
+        if(characterType == EntityType.Hero3) {
+            ranged = false;
+            damage = 100;
+            attackRange = 5;
+            projectileSpeed = 0f;
+            attackAngle = 90;
+            attackInterval = 1f;
+            speed = 10;
+            health = 300;
+        }
+        if(characterType == EntityType.Enemy0) {
+            ranged = true;
+            damage = 20;
+            attackRange = 20;
+            projectileSpeed = 20f;
+            attackAngle = 0;
+            attackInterval = .2f;
+            speed = 10;
+            health = 150;
+        }
+        if(characterType == EntityType.Enemy1) {
+            ranged = true;
+            damage = 50;
+            attackRange = 3;
+            projectileSpeed = 5f;
+            attackAngle = 0f;
+            attackInterval = 0.5f;
+            speed = 7.5f;
+            health = 200;
+        }
+        if(characterType == EntityType.Enemy2) {
+            ranged = false;
+            damage = 50;
+            attackRange = 3;
+            projectileSpeed = 0f;
+            attackAngle = 90;
+            attackInterval = 0.5f;
+            speed = 25;
+            health = 250;
+        }
+        if(characterType == EntityType.Enemy3) {
+            ranged = false;
+            damage = 100;
+            attackRange = 5;
+            projectileSpeed = 0f;
+            attackAngle = 90;
+            attackInterval = 1f;
+            speed = 10;
+            health = 300;
+        }
     }
 }
