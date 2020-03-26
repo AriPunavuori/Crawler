@@ -251,7 +251,6 @@ GameObject:
   - component: {fileID: 7811178098269211223}
   - component: {fileID: 7811178098269211208}
   - component: {fileID: 7811178098269211209}
-  - component: {fileID: 7811178098269211210}
   - component: {fileID: 409524340}
   - component: {fileID: 8240705615330840965}
   m_Layer: 8
@@ -386,7 +385,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 7811178098269211208}
-  - {fileID: 7811178098269211210}
   - {fileID: 8240705615330840965}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
@@ -500,20 +498,6 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   animator: {fileID: 409524340}
   playerCam: {fileID: 7811178098196406157}
---- !u!114 &7811178098269211210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7811178098269211211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 0
-  m_SynchronizeAngularVelocity: 0
 --- !u!95 &409524340
 Animator:
   serializedVersion: 3
