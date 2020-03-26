@@ -105,6 +105,10 @@ public class PlayerCharacter : Character {
                 dashCooldown = 0f;
             }
         }
+        else
+        {
+            rb2D.isKinematic = true;
+        }
     }
 
     private void FixedUpdate() {
