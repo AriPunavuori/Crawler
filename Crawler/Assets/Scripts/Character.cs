@@ -26,24 +26,29 @@ public class Character : Photon.MonoBehaviour {
 
     [PunRPC]
     public void TakeDamage(int dmg) {
-        print(gameObject);
-        print("Health before damage " + health);
+        //print(gameObject);
         if(npc)
-            print("NPC is taking " + dmg + " damage!");
-        else
-            print("Player is taking " + dmg + " damage!");
+        {
+            Debug.Log("TakeDamage called for npc");
+        }
+        
+        //print("Health before damage " + health);
+        //if(npc)
+            //print("NPC is taking " + dmg + " damage!");
+        //else
+            //print("Player is taking " + dmg + " damage!");
         if(health - dmg <= 0) {
             if(npc) {
                 Destroy(gameObject); // Does it show to all players?
             } else {
-                print("Player should die!");
+                //print("Player should die!");
                 // Do something to player
             }
         } else {
             // Still alive
             health -= dmg;
         }
-        print("Health after damage " + health);
+        //print("Health after damage " + health);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -52,6 +57,7 @@ public class Character : Photon.MonoBehaviour {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             if(npc != projectile.shotByNPC)
                 TakeDamage(projectile.damage);
+                //photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
         }
     }
 
@@ -81,23 +87,23 @@ public class Character : Photon.MonoBehaviour {
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach(var hit in hits) {
-            print(hit.gameObject);
+            //print(hit.gameObject);
         }
         foreach(var hit in hits) {
             var c = hit.gameObject.GetComponent<Character>(); 
             if(c != null && c.npc != npc) {
                 if(npc) {
-                    print("Player should take damage!");
+                    //print("Player should take damage!");
                 } else {
-                    print("NPC should take damage!");
+                    //print("NPC should take damage!");
                 }
                 c.TakeDamage(damage);
             }
         }
-        if(npc)
-            print("NPC meleeing!");
-        else
-            print("Player meleeing!");
+        //if(npc)
+            //print("NPC meleeing!");
+        //else
+            //print("Player meleeing!");
     }
 
     #region Set attributes
@@ -149,7 +155,7 @@ public class Character : Photon.MonoBehaviour {
             projectileSpeed = 20f;
             attackAngle = 0;
             attackInterval = .2f;
-            speed = 10;
+            speed = 1;
             health = 150;
         }
         if(characterType == EntityType.Enemy1) {
