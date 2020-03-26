@@ -48,4 +48,5 @@ MonoBehaviour:
   - TaggedPlayer
   - TakeDamage
   - UseKeyRPC
+  - PlayersInGame
   DisableAutoOpenWizard: 1

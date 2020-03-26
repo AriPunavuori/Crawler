@@ -51,7 +51,8 @@ public class Character : Photon.MonoBehaviour {
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             if(npc != projectile.shotByNPC)
-                TakeDamage(projectile.damage);
+                photonView.RPC("TakeDamage", PhotonTargets.All, projectile.damage);
+
         }
     }
 
@@ -149,7 +150,7 @@ public class Character : Photon.MonoBehaviour {
             projectileSpeed = 20f;
             attackAngle = 0;
             attackInterval = .2f;
-            speed = 10;
+            speed = 1f;
             health = 150;
         }
         if(characterType == EntityType.Enemy1) {
