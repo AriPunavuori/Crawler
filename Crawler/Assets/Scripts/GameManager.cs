@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : Photon.MonoBehaviour {
     int keys = 0;
 
-    public bool UseKey() {
+    [PunRPC]
+    public bool UseKeyRPC() {
         if(keys > 0) {
             keys -= 1;
             return true;
@@ -13,8 +14,15 @@ public class GameManager : MonoBehaviour {
         return false;
     }
 
-    public void FoundKey() {
+    [PunRPC]
+    public void FoundKeyRPC() {
         keys += 1;
     }
-
+    public void FoundKey() {
+        photonView.RPC("FoundKeyRPC", PhotonTargets.All);
+    }
+    public bool UseKey() {
+        photonView.RPC("UseKeyRPC", PhotonTargets.Others);
+        return UseKeyRPC();
+    }
 }
