@@ -66,7 +66,7 @@ public class Character : Photon.MonoBehaviour {
     public void Attack() {
         if(ranged) {
             Shoot(projectilesPerAttack);
-            photonView.RPC("Shoot", PhotonTargets.Others);
+            photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack);
         } else {
             Melee();
             photonView.RPC("Melee", PhotonTargets.Others);

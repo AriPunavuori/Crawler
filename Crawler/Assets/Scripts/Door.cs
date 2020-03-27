@@ -18,12 +18,17 @@ public class Door : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision) {
         string keyName = "Key" + gameObject.name.Trim('D', 'o', 'o', 'r');
         Debug.Log("This door requires " + keyName + " to open");
+        if(PhotonNetwork.room.CustomProperties[keyName] != null)
+        {
+
         if(collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
             //if (gm.UseKey())
             //{
             Debug.Log(gameObject.name + " opened");
             photonView.RPC("OpenDoorAll", PhotonTargets.All);
             //}
+        }
+
         }
     }
     IEnumerator RotateMe(Vector3 byAngles, float inTime) {

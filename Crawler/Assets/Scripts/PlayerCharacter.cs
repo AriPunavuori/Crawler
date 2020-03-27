@@ -34,7 +34,7 @@ public class PlayerCharacter : Character {
                 UsePotion();
             }
             // Attack input
-            if(attackTimer < 0 && Input.GetKeyDown(KeyCode.Mouse0)) {
+            if(attackTimer < 0 && Input.GetKey(KeyCode.Mouse0)) {
                 Attack();
             }
             // Movement input
