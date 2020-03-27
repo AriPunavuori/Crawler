@@ -33,10 +33,12 @@ MonoBehaviour:
   - DestroyRpc
   - DoJump
   - Flash
+  - FoundKeyRPC
   - InstantiateRpc
   - Marco
   - Melee
   - PickupItemInit
+  - PlayersInGame
   - Polo
   - PunPickup
   - PunPickupSimple
@@ -46,6 +48,5 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - TakeDamage
-  - FoundKeyRPC
   - UseKeyRPC
   DisableAutoOpenWizard: 1

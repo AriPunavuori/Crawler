@@ -10,7 +10,11 @@ public class Spawner : MonoBehaviour {
 
     void Update() {
         if(NetworkManager.GetComponent<NetworkManager>().joined == true) {
-            if(timer < 0) {
+            //Debug.Log(NetworkManager.GetComponent<NetworkManager>().playersInGame);
+            if (PhotonNetwork.isMasterClient)
+            {
+
+                if (timer < 0) {
                 var enemyClone = PhotonNetwork.Instantiate("NetworkEnemy", transform.position, Quaternion.identity, 0);
                 var c = enemyClone.GetComponent<Character>();
                 c.characterType = spawningType;
@@ -18,6 +22,7 @@ public class Spawner : MonoBehaviour {
                 timer = spawnInterval;
             }
             timer -= Time.deltaTime;
+            }
         }
     }
 }
