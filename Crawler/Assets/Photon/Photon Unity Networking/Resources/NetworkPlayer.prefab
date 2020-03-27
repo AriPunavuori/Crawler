@@ -490,7 +490,7 @@ MonoBehaviour:
   damage: 10
   attackInterval: 1
   attackTimer: 0
-  speed: 10
+  speed: 5
   health: 100
   projectileSpawn: {fileID: 7811178098650749444}
   projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,

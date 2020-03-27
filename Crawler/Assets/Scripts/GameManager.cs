@@ -12,10 +12,10 @@ public class GameManager : Photon.MonoBehaviour {
 	GameObject[] players;
 
 	void Start() {
-		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		//canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 	}
 
-	private void Update() {
+    private void Update() { } /*{
 		if (useUIBoxes) {
 			if (counter >= 1) {
 				foreach (Transform child in canvas.transform.GetChild(0).transform) {
@@ -28,26 +28,31 @@ public class GameManager : Photon.MonoBehaviour {
 			}
 		}
 	}
-
-	[PunRPC]
+    */
 	public bool UseKeyRPC() {
-		if (keys > 0) {
-			keys -= 1;
-			return true;
+        Debug.Log(keys);
+
+        if (keys > 0) {
+            photonView.RPC("DecraseKeyAll", PhotonTargets.Others);
+            keys -= 1;
+            Debug.Log(keys);
+            return true;
 		}
-		return false;
+        Debug.Log(keys);
+        return false;
 	}
 
-	[PunRPC]
-	public void FoundKeyRPC() {
-		keys += 1;
-	}
+    [PunRPC]
+    public void DecraseKeyAll()
+    {
+        keys -= 1;
+    }
 	public void FoundKey() {
-		photonView.RPC("FoundKeyRPC", PhotonTargets.All);
+        keys += 1;
+        Debug.Log(keys);
 	}
 	public bool UseKey() {
-		photonView.RPC("UseKeyRPC", PhotonTargets.Others);
-		return UseKeyRPC();
+        return UseKeyRPC();
 	}
 
 	public void UpdatePlayerUIBoxes() {
