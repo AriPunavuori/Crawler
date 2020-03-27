@@ -39,7 +39,7 @@ public class Character : Photon.MonoBehaviour {
             //print("Player is taking " + dmg + " damage!");
         if(health - dmg <= 0) {
             if(npc) {
-                Destroy(gameObject); // Does it show to all players?
+                PhotonNetwork.Destroy(gameObject); // Does it show to all players?
             } else {
                 //print("Player should die!");
                 // Do something to player
@@ -155,7 +155,7 @@ public class Character : Photon.MonoBehaviour {
             projectileSpeed = 20f;
             attackAngle = 0;
             attackInterval = .2f;
-            speed = 1;
+            speed = 4;
             health = 150;
         }
         if(characterType == EntityType.Enemy1) {
