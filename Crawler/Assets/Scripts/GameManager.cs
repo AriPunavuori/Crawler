@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 
 public class GameManager : Photon.MonoBehaviour {
 	int keys = 0;
@@ -47,9 +49,13 @@ public class GameManager : Photon.MonoBehaviour {
     {
         keys -= 1;
     }
-	public void FoundKey() {
-        keys += 1;
+	public void FoundKey(string name) {
+        //keys += 1;
         Debug.Log(keys);
+		Hashtable hash = new Hashtable();
+		hash.Add(name, true);
+		PhotonNetwork.room.SetCustomProperties(hash);
+		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
 	public bool UseKey() {
         return UseKeyRPC();

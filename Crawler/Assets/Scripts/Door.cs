@@ -1,24 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Door : MonoBehaviour {
     GameManager gm;
     BoxCollider2D bc;
+    PhotonView photonView;
     public bool opened;
 
     float openingSpeed;
     void Start() {
         gm = FindObjectOfType<GameManager>();
         bc = GetComponent<BoxCollider2D>();
+        photonView = GetComponent<PhotonView>();
     }
     void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject.CompareTag("Player") && !opened) {
-            if(gm.UseKey()) {
-                bc.enabled = false;
-                opened = true;
-                StartCoroutine(RotateMe(Vector3.forward * 90, 5));
-            }
+        if(collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties["Key"]) {
+            //if (gm.UseKey())
+            //{
+                photonView.RPC("OpenDoorAll", PhotonTargets.All);
+            //}
         }
     }
     IEnumerator RotateMe(Vector3 byAngles, float inTime) {
@@ -28,5 +30,13 @@ public class Door : MonoBehaviour {
             transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
             yield return null;
         }
+    }
+
+    [PunRPC]
+    public void OpenDoorAll()
+    {
+        bc.enabled = false;
+        opened = true;
+        StartCoroutine(RotateMe(Vector3.forward * 90, 5));
     }
 }

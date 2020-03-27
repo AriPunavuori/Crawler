@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Key : MonoBehaviour {
     GameManager gm;
 
@@ -10,7 +11,7 @@ public class Key : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("Player")) {
-            gm.FoundKey();
+            gm.FoundKey(gameObject.name);
             Destroy(gameObject);
         }
     }
