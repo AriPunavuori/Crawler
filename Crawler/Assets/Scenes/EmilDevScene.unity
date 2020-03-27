@@ -1190,6 +1190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joined: 0
+  playersInGame: 0
 --- !u!4 &1466539514
 Transform:
   m_ObjectHideFlags: 0

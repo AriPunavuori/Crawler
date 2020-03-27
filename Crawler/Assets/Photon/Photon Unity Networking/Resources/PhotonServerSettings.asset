@@ -38,6 +38,7 @@ MonoBehaviour:
   - Marco
   - Melee
   - PickupItemInit
+  - PlayersInGame
   - Polo
   - PunPickup
   - PunPickupSimple
@@ -48,6 +49,4 @@ MonoBehaviour:
   - TaggedPlayer
   - TakeDamage
   - UseKeyRPC
-  - PlayersInGame
-  - spawnEnemy
   DisableAutoOpenWizard: 1
