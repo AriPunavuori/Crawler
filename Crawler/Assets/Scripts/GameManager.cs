@@ -51,7 +51,7 @@ public class GameManager : Photon.MonoBehaviour {
     }
 	public void FoundKey(string name) {
         //keys += 1;
-        Debug.Log(keys);
+        //Debug.Log(keys);
 		Hashtable hash = new Hashtable();
 		hash.Add(name, true);
 		PhotonNetwork.room.SetCustomProperties(hash);

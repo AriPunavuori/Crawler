@@ -16,10 +16,13 @@ public class Door : MonoBehaviour {
         photonView = GetComponent<PhotonView>();
     }
     void OnCollisionEnter2D(Collision2D collision) {
-        if(collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties["Key"]) {
+        string keyName = "Key" + gameObject.name.Trim('D', 'o', 'o', 'r');
+        Debug.Log("This door requires " + keyName + " to open");
+        if(collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName]) {
             //if (gm.UseKey())
             //{
-                photonView.RPC("OpenDoorAll", PhotonTargets.All);
+            Debug.Log(gameObject.name + " opened");
+            photonView.RPC("OpenDoorAll", PhotonTargets.All);
             //}
         }
     }
