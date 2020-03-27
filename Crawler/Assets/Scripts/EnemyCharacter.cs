@@ -17,7 +17,8 @@ public class EnemyCharacter : Character {
 		layerMask = LayerMask.GetMask("Player", "Obstacles");
 		rigidBody = GetComponent<Rigidbody2D>();
 		SetCharacterAttributes();
-	}
+        photonView.TransferOwnership(1);
+    }
 
 	void FixedUpdate() {
 
