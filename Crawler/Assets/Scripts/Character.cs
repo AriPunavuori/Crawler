@@ -77,36 +77,59 @@ public class Character : Photon.MonoBehaviour {
     [PunRPC]
     public void Shoot(int amount) {
 
-        if(amount == 1)
-        {
-            // Instantiate projectilePrefab clone
-            GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-            // Get projectile component of clone
-            Projectile projectile = projectileClone.GetComponent<Projectile>();
-            // Set projectile on its way
-            projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-        }
-        else
-        {
-            for (int i = amount; i > 0; i--)
+            if(amount % 2 == 0)
             {
-                if(i == amount)
+                float startOffset = 0.25f * (amount - 1);
+                for (int i = 0; i < amount; i++)
                 {
-                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position + new Vector3(0f, 0.25f, 0f), projectileSpawn.transform.rotation);
+                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                    projectileClone.transform.parent = projectileSpawn.transform;
+                    projectileClone.transform.localPosition = new Vector3(0f, startOffset - (i * 0.50f), 0f);
+                    projectileClone.transform.parent = null;
                     Projectile projectile = projectileClone.GetComponent<Projectile>();
                     projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
                 }
-                else if(i == (amount - 1))
+            }
+            else
+            {
+                float leftOffset = 0.50f;
+                float rightOffset = 0.50f;
+                for(int i = 0; i < amount; i++)
                 {
-                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position + new Vector3(0f, -0.25f, 0f), projectileSpawn.transform.rotation);
-                    Projectile projectile = projectileClone.GetComponent<Projectile>();
-                    projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                    if(i == 0)
+                    {
+                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                        projectileClone.transform.parent = projectileSpawn.transform;
+                        projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
+                        projectileClone.transform.parent = null;
+                        Projectile projectile = projectileClone.GetComponent<Projectile>();
+                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                    }
+                    else if(i % 2 == 0)
+                    {
+                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                        projectileClone.transform.parent = projectileSpawn.transform;
+                        projectileClone.transform.localPosition = new Vector3(0f, leftOffset, 0f);
+                        projectileClone.transform.parent = null;
+                        Projectile projectile = projectileClone.GetComponent<Projectile>();
+                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                        leftOffset += 0.50f;
+                    }
+                    else
+                    {
+                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                        projectileClone.transform.parent = projectileSpawn.transform;
+                        projectileClone.transform.localPosition = new Vector3(0f, -rightOffset, 0f);
+                        projectileClone.transform.parent = null;
+                        Projectile projectile = projectileClone.GetComponent<Projectile>();
+                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                        rightOffset += 0.50f;
+                     } 
                 }
-                
             }
         }
 
-    }
+    
 
     [PunRPC]
     public void Melee() {
