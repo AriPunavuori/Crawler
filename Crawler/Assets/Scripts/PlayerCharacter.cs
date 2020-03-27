@@ -128,6 +128,44 @@ public class PlayerCharacter : Character {
         }
     }
 
+    void upgradeWeapon()
+    {
+        if(characterType == EntityType.Hero0)
+        {
+            if(weaponLevel == 0)
+            {
+                projectilesPerAttack++;
+            }
+            else if(weaponLevel == 1)
+            {
+                attackInterval = 0.2f;
+            }
+            
+        }
+        else if (characterType == EntityType.Hero1)
+        {
+            if (weaponLevel == 0)
+            {
+                attackInterval = 1f;
+            }
+            else if (weaponLevel == 1)
+            {
+                projectileSpeed = 20f;
+            }
+
+        }
+        weaponLevel++;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("WeaponUpgrade"))
+        {
+            upgradeWeapon();
+            Destroy(collision.gameObject);
+        }
+    }
+
     public void UsePotion() {
         if(potion) {
             health += 100;

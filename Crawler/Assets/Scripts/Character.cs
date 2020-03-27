@@ -11,6 +11,8 @@ public class Character : Photon.MonoBehaviour {
     public bool npc;
     public bool ranged;
     public float projectileSpeed;
+    public int projectilesPerAttack;
+    public int weaponLevel;
     public float attackAngle;
     public int attackRange;
     public int damage;
@@ -63,7 +65,7 @@ public class Character : Photon.MonoBehaviour {
 
     public void Attack() {
         if(ranged) {
-            Shoot();
+            Shoot(projectilesPerAttack);
             photonView.RPC("Shoot", PhotonTargets.Others);
         } else {
             Melee();
@@ -73,13 +75,37 @@ public class Character : Photon.MonoBehaviour {
     }
 
     [PunRPC]
-    public void Shoot() {
-        // Instantiate projectilePrefab clone
-        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-        // Get projectile component of clone
-        Projectile projectile = projectileClone.GetComponent<Projectile>();
-        // Set projectile on its way
-        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+    public void Shoot(int amount) {
+
+        if(amount == 1)
+        {
+            // Instantiate projectilePrefab clone
+            GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+            // Get projectile component of clone
+            Projectile projectile = projectileClone.GetComponent<Projectile>();
+            // Set projectile on its way
+            projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+        }
+        else
+        {
+            for (int i = amount; i > 0; i--)
+            {
+                if(i == amount)
+                {
+                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position + new Vector3(0f, 0.25f, 0f), projectileSpawn.transform.rotation);
+                    Projectile projectile = projectileClone.GetComponent<Projectile>();
+                    projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                }
+                else if(i == (amount - 1))
+                {
+                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position + new Vector3(0f, -0.25f, 0f), projectileSpawn.transform.rotation);
+                    Projectile projectile = projectileClone.GetComponent<Projectile>();
+                    projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                }
+                
+            }
+        }
+
     }
 
     [PunRPC]
@@ -112,9 +138,11 @@ public class Character : Photon.MonoBehaviour {
             ranged = true;
             damage = 20;
             attackRange = 20;
-            projectileSpeed = 20f;
+            weaponLevel = 0;
+            projectileSpeed = 5f;
+            projectilesPerAttack = 1;
             attackAngle = 0;
-            attackInterval = .2f;
+            attackInterval = .5f;
             speed = 10;
             health = 150;
         }
@@ -123,6 +151,7 @@ public class Character : Photon.MonoBehaviour {
             damage = 50;
             attackRange = 3;
             projectileSpeed = 5f;
+            projectilesPerAttack = 1;
             attackAngle = 0f;
             attackInterval = 0.5f;
             speed = 7.5f;

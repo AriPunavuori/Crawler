@@ -481,10 +481,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22d93cd73645c70489a69a1e998d9414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 1
+  characterType: 0
   npc: 0
   ranged: 0
   projectileSpeed: 0
+  projectilesPerAttack: 0
+  weaponLevel: 0
   attackAngle: 0
   attackRange: 25
   damage: 10
