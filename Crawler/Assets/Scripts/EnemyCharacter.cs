@@ -26,7 +26,14 @@ public class EnemyCharacter : Character {
 			players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, LayerMask.GetMask("Player")); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
 			if (players.Length > 0) { // Jos löytyi pelaaja/pelaajia
 				player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
-				following = true;
+                Debug.Log(player);
+
+
+                int playerID = player.GetComponent<PhotonView>().ownerId;
+                photonView.TransferOwnership(playerID);
+                following = true;
+
+
 			}
 		} else { // Jos on jahdattava
 			Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
