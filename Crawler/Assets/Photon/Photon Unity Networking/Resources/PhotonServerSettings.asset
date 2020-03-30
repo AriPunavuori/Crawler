@@ -30,13 +30,14 @@ MonoBehaviour:
   RpcList:
   - Chat
   - ColorRpc
+  - DecraseKeyAll
   - DestroyRpc
   - DoJump
   - Flash
-  - FoundKeyRPC
   - InstantiateRpc
   - Marco
   - Melee
+  - OpenDoorAll
   - PickupItemInit
   - PlayersInGame
   - Polo
@@ -48,7 +49,4 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - TakeDamage
-  - UseKeyRPC
-  - DecraseKeyAll
-  - OpenDoorAll
   DisableAutoOpenWizard: 1
