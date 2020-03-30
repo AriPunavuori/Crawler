@@ -57,13 +57,12 @@ public class NetworkManager : Photon.PunBehaviour {
     PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
         //PhotonNetwork.Instantiate("MagicalGirl", new Vector3(0, 0, 0), Quaternion.identity, 0);
         joined = true;
-        PlayersInGame();
+        //PlayersInGame();
 
     }
 
     private void OnConnectedToServer() {
     }
-    [PunRPC]
     private void PlayersInGame()
     {
         //if (stream.isWriting)

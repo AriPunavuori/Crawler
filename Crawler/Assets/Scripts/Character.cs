@@ -26,7 +26,6 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
-    [PunRPC]
     public void TakeDamage(int dmg) {
         //print(gameObject);
         if(npc)
@@ -41,7 +40,12 @@ public class Character : Photon.MonoBehaviour {
             //print("Player is taking " + dmg + " damage!");
         if(health - dmg <= 0) {
             if(npc) {
+                photonView.TransferOwnership(1);
+
+                if (PhotonNetwork.isMasterClient)
+                {
                 PhotonNetwork.Destroy(gameObject); // Does it show to all players?
+                }
             } else {
                 //print("Player should die!");
                 // Do something to player
@@ -239,6 +243,20 @@ public class Character : Photon.MonoBehaviour {
             attackInterval = 1f;
             speed = 10;
             health = 300;
+        }
+    }
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(health);
+            Debug.Log(info);
+
+        }
+        else
+        {
+            // Network player, receive data
+            this.health = (int)stream.ReceiveNext();
         }
     }
     #endregion
