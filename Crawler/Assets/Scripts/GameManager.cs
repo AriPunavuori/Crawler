@@ -14,15 +14,12 @@ public class GameManager : Photon.MonoBehaviour {
 	GameObject[] players;
 
 	void Start() {
-		//canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 	}
 
-    private void Update() { } /*{
+	private void Update() {
 		if (useUIBoxes) {
 			if (counter >= 1) {
-				foreach (Transform child in canvas.transform.GetChild(0).transform) {
-					Destroy(child.gameObject);
-				}
 				UpdatePlayerUIBoxes();
 				counter = 0;
 			} else {
@@ -30,46 +27,49 @@ public class GameManager : Photon.MonoBehaviour {
 			}
 		}
 	}
-    */
-	public bool UseKeyRPC() {
-        Debug.Log(keys);
 
-        if (keys > 0) {
-            photonView.RPC("DecraseKeyAll", PhotonTargets.Others);
-            keys -= 1;
-            Debug.Log(keys);
-            return true;
+	public bool UseKeyRPC() {
+		Debug.Log(keys);
+
+		if (keys > 0) {
+			photonView.RPC("DecraseKeyAll", PhotonTargets.Others);
+			keys -= 1;
+			Debug.Log(keys);
+			return true;
 		}
-        Debug.Log(keys);
-        return false;
+		Debug.Log(keys);
+		return false;
 	}
 
-    [PunRPC]
-    public void DecraseKeyAll()
-    {
-        keys -= 1;
-    }
+	[PunRPC]
+	public void DecraseKeyAll() {
+		keys -= 1;
+	}
 	public void FoundKey(string name) {
-        //keys += 1;
-        //Debug.Log(keys);
+		//keys += 1;
+		//Debug.Log(keys);
 		Hashtable hash = new Hashtable();
 		hash.Add(name, true);
 		PhotonNetwork.room.SetCustomProperties(hash);
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
 	public bool UseKey() {
-        return UseKeyRPC();
+		return UseKeyRPC();
 	}
 
 	public void UpdatePlayerUIBoxes() {
 		players = GameObject.FindGameObjectsWithTag("Player");
+		foreach (Transform child in canvas.transform.GetChild(0).transform) {
+			Destroy(child.gameObject);  // Tuhoa vanhat UIBoxit
+		}
 		for (int i = 0; i < players.Length; i++) {
 			playerUIBoxes = new GameObject[players.Length]; // Taulukon koko on playerien määrä
 
 			GameObject newUIBox = Instantiate(playerUIBox.gameObject); // Tee uusi UIBox
-			newUIBox.GetComponent<PlayerUIBox>().player = players[i]; // Anna boxin playeriksi listan i:es pelaaja
-			playerUIBoxes[i] = newUIBox;
-			playerUIBoxes[i].transform.SetParent(canvas.transform.GetChild(0)); // laita boxi canvasin lapseksi
+			newUIBox.GetComponent<PlayerUIBox>().myPlayer = players[i]; // Anna boxin playeriksi listan i:es pelaaja
+			players[i].GetComponent<PlayerCharacter>().myUIBox = newUIBox; // Anna anna i:en pelaajan boxiksi uusi boxi
+			playerUIBoxes[i] = newUIBox;    // Aseta uusi boxi taulukkoon
+			playerUIBoxes[i].transform.SetParent(canvas.transform.GetChild(0)); // laita boxi canvasin "players" -elementin lapseksi
 		}
 	}
 }

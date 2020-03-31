@@ -30,30 +30,26 @@ MonoBehaviour:
   RpcList:
   - Chat
   - ColorRpc
+  - DecraseKeyAll
+  - Destroy
   - DestroyRpc
   - DoJump
   - Flash
-  - FoundKeyRPC
   - InstantiateRpc
   - Marco
   - Melee
+  - OpenDoorAll
   - PickupItemInit
-  - PlayersInGame
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - Shoot
-  - TaggedPlayer
-  - TakeDamage
-  - UseKeyRPC
-  - DecraseKeyAll
-  - OpenDoorAll
-  - Destroy
   - RPC_CreatePlayer
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
   - RPC_NewHealth
+  - Shoot
+  - TaggedPlayer
   DisableAutoOpenWizard: 1
