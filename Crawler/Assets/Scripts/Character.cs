@@ -30,27 +30,25 @@ public class Character : Photon.MonoBehaviour {
     public Vector2 movement;
 
     public void TakeDamage(int dmg) {
-        //print(gameObject);
 
-        
-        //print("Health before damage " + health);
-        //if(npc)
-            //print("NPC is taking " + dmg + " damage!");
-        //else
-            //print("Player is taking " + dmg + " damage!");
-        if(health - dmg <= 0) {
-            if(npc) {
+        if (health - dmg <= 0)
+        {
+            if (npc)
+            {
                 if (PhotonNetwork.isMasterClient)
                 {
-                PhotonNetwork.Destroy(gameObject); // Does it show to all players?
+                    PhotonNetwork.Destroy(gameObject);
                 }
-            } else {
-                //print("Player should die!");
-                // Do something to player
+                if (!PhotonNetwork.isMasterClient)
+                {
+                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
+
+                }
             }
-        } else {
-            // Still alive
-            health -= dmg;
+            else
+            {
+                health -= dmg;
+            }
         }
         //print("Health after damage " + health);
     }
@@ -74,6 +72,12 @@ public class Character : Photon.MonoBehaviour {
             photonView.RPC("Melee", PhotonTargets.Others);
         }
         attackTimer = attackInterval; 
+    }
+    [PunRPC]
+    public void Destroy()
+    {
+
+        PhotonNetwork.Destroy(gameObject);
     }
 
     [PunRPC]

@@ -16,6 +16,8 @@ public class PlayerCharacter : Character {
     float dashFactor = 4.0f;
     Vector2 dashVector;
     Vector2 lastDir;
+    Vector3 TargetPosition;
+
     public Animator animator;
     public GameObject playerCam;
 
@@ -165,7 +167,17 @@ public class PlayerCharacter : Character {
             Destroy(collision.gameObject);
         }
     }
-
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        else
+        {
+            TargetPosition = (Vector3)stream.ReceiveNext();
+        }
+    }
 
 
     public void UsePotion() {

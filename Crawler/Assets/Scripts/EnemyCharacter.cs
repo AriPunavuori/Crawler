@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PhotonView))]
 public class EnemyCharacter : Character {
 
 	Rigidbody2D rigidBody;
@@ -86,19 +85,4 @@ public class EnemyCharacter : Character {
 		}
 		return player;
 	}
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(health);
-            Debug.Log(health);
-
-        }
-        else
-        {
-            // Network player, receive data
-            this.health = (int)stream.ReceiveNext();
-        }
-    }
 }
