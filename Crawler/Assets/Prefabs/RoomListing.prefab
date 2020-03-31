@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7707278892555353005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3da2cc83b32193c45a04877cc308377b, type: 3}
+  m_Script: {fileID: 11500000, guid: 09fed60751c25af42964628580a64bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roomNameText: {fileID: 6238369491540758349}

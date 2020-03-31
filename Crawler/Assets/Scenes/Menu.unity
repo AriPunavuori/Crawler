@@ -374,9 +374,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 125744443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3d73ab486499024b94b252587ddff83, type: 3}
+  m_Script: {fileID: 11500000, guid: a42fdedf12f656c4a95e24646bf68b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: 
+  input: {fileID: 0}
 --- !u!114 &125744446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,9 +1197,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 972277726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d1cfc473de2a440b7d73c6d13d643b, type: 3}
+  m_Script: {fileID: 11500000, guid: cffc42eb8c5fc704aa74c7f7814b01ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomListingPrefab: {fileID: 7707278892555353005, guid: 8b4c6456a1e50c249accb1adb74246cc,
+    type: 3}
+  roomListingButtons: []
 --- !u!1 &1062356895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,9 +1663,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1445509939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d1a2465e4baed4a993aa78da6f26b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d066ab6fa4197f46b9749c0b6bf389f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerListingPrefab: {fileID: 3187393163355560016, guid: ca4ee4dbc252ef64e8f7ca8f762a9e03,
+    type: 3}
 --- !u!1 &1457809271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,9 +2188,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1619274527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: facf96529c8fa0b4bb76c681b4451e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 025724090e111bc469c7728c99461589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomName: {fileID: 847743444}
 --- !u!1 &1625812523
 GameObject:
   m_ObjectHideFlags: 0
