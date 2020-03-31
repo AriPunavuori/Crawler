@@ -32,28 +32,19 @@ public class Character : Photon.MonoBehaviour {
     public void TakeDamage(int dmg) {
         //print(gameObject);
 
-
+        
         //print("Health before damage " + health);
         //if(npc)
-        //print("NPC is taking " + dmg + " damage!");
+            //print("NPC is taking " + dmg + " damage!");
         //else
-        //print("Player is taking " + dmg + " damage!");
-
-
-        if (health - dmg <= 0) {
+            //print("Player is taking " + dmg + " damage!");
+        if(health - dmg <= 0) {
             if(npc) {
-
                 if (PhotonNetwork.isMasterClient)
                 {
                 PhotonNetwork.Destroy(gameObject); // Does it show to all players?
                 }
-                else
-                {
-                    Debug.Log("Destroy");
-                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
-                }
-            }
-            else {
+            } else {
                 //print("Player should die!");
                 // Do something to player
             }
@@ -64,15 +55,7 @@ public class Character : Photon.MonoBehaviour {
         //print("Health after damage " + health);
     }
 
-    [PunRPC]
-    public void Destroy()
-    {
-        Debug.Log("Destroy pls");
-        PhotonNetwork.Destroy(gameObject);
-    }
-
-
-        private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision) {
         // Check if collision is projectile and type of shooter
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
