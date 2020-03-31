@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EntityType { Hero0, Hero1, Hero2, Hero3, Enemy0, Enemy1, Enemy2, Enemy3 }
+[RequireComponent(typeof(PhotonView))]
 public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
@@ -19,6 +20,8 @@ public class Character : Photon.MonoBehaviour {
     public float attackInterval;
     public float attackTimer;
     public float speed;
+
+    [SerializeField]
     public int health;
 
     public GameObject projectileSpawn;
@@ -26,29 +29,26 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
-    [PunRPC]
     public void TakeDamage(int dmg) {
-        //print(gameObject);
-        if(npc)
+
+        if (health - dmg <= 0)
         {
-            Debug.Log("TakeDamage called for npc");
-        }
-        
-        //print("Health before damage " + health);
-        //if(npc)
-            //print("NPC is taking " + dmg + " damage!");
-        //else
-            //print("Player is taking " + dmg + " damage!");
-        if(health - dmg <= 0) {
-            if(npc) {
-                PhotonNetwork.Destroy(gameObject); // Does it show to all players?
-            } else {
-                //print("Player should die!");
-                // Do something to player
+            if (npc)
+            {
+                if (PhotonNetwork.isMasterClient)
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
+                if (!PhotonNetwork.isMasterClient)
+                {
+                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
+
+                }
             }
-        } else {
-            // Still alive
-            health -= dmg;
+            else
+            {
+                health -= dmg;
+            }
         }
         //print("Health after damage " + health);
     }
@@ -72,6 +72,12 @@ public class Character : Photon.MonoBehaviour {
             photonView.RPC("Melee", PhotonTargets.Others);
         }
         attackTimer = attackInterval; 
+    }
+    [PunRPC]
+    public void Destroy()
+    {
+
+        PhotonNetwork.Destroy(gameObject);
     }
 
     [PunRPC]
@@ -241,5 +247,6 @@ public class Character : Photon.MonoBehaviour {
             health = 300;
         }
     }
+
     #endregion
 }

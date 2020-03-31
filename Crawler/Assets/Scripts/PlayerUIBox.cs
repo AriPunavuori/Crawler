@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public class PlayerUIBox : MonoBehaviour {
-	public GameObject player;
+	public GameObject myPlayer;
 	Text hpText;
 	Text nameText;
 
@@ -17,8 +17,8 @@ public class PlayerUIBox : MonoBehaviour {
 
 	void Update() {
 
-		if (player != null) {
-			pc = player.GetComponent<PlayerCharacter>();
+		if (myPlayer != null) {
+			pc = myPlayer.GetComponent<PlayerCharacter>();
 			hpText.text = "HP = " + pc.health.ToString();
 			nameText.text = pc.name;
 			if (pc.characterType == EntityType.Hero0) {

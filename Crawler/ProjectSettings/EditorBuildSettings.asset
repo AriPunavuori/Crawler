@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: fd9c59a9333b9e048982f194755a4ac1
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 4e7b2ff367431d446afd355859e1635e
+  - enabled: 1
     path: Assets/Scenes/JuhaDevScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
@@ -23,4 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EelisDevScene.unity
     guid: b3af4e2367fb5034cb6d082595101928
+  - enabled: 0
+    path: Assets/Scenes/EmilDevScene.unity
+    guid: 63186620bfc243342a34bbf23f8d6d7d
   m_configObjects: {}

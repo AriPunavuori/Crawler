@@ -31,6 +31,7 @@ MonoBehaviour:
   - Chat
   - ColorRpc
   - DecraseKeyAll
+  - Destroy
   - DestroyRpc
   - DoJump
   - Flash
@@ -39,14 +40,16 @@ MonoBehaviour:
   - Melee
   - OpenDoorAll
   - PickupItemInit
-  - PlayersInGame
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - RPC_CreatePlayer
+  - RPC_LoadedGameScene
+  - RPC_LoadGameOthers
+  - RPC_NewHealth
   - Shoot
   - TaggedPlayer
-  - TakeDamage
   DisableAutoOpenWizard: 1
