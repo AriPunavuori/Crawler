@@ -51,4 +51,5 @@ MonoBehaviour:
   - UseKeyRPC
   - DecraseKeyAll
   - OpenDoorAll
+  - Destroy
   DisableAutoOpenWizard: 1

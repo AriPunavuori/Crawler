@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EntityType { Hero0, Hero1, Hero2, Hero3, Enemy0, Enemy1, Enemy2, Enemy3 }
+[RequireComponent(typeof(PhotonView))]
 public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
@@ -19,6 +20,8 @@ public class Character : Photon.MonoBehaviour {
     public float attackInterval;
     public float attackTimer;
     public float speed;
+
+    [SerializeField]
     public int health;
 
     public GameObject projectileSpawn;
@@ -28,25 +31,29 @@ public class Character : Photon.MonoBehaviour {
 
     public void TakeDamage(int dmg) {
         //print(gameObject);
-        if(npc)
-        {
-            Debug.Log("TakeDamage called for npc");
-        }
-        
+
+
         //print("Health before damage " + health);
         //if(npc)
-            //print("NPC is taking " + dmg + " damage!");
+        //print("NPC is taking " + dmg + " damage!");
         //else
-            //print("Player is taking " + dmg + " damage!");
-        if(health - dmg <= 0) {
+        //print("Player is taking " + dmg + " damage!");
+
+
+        if (health - dmg <= 0) {
             if(npc) {
-                photonView.TransferOwnership(1);
 
                 if (PhotonNetwork.isMasterClient)
                 {
                 PhotonNetwork.Destroy(gameObject); // Does it show to all players?
                 }
-            } else {
+                else
+                {
+                    Debug.Log("Destroy");
+                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
+                }
+            }
+            else {
                 //print("Player should die!");
                 // Do something to player
             }
@@ -57,7 +64,15 @@ public class Character : Photon.MonoBehaviour {
         //print("Health after damage " + health);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    [PunRPC]
+    public void Destroy()
+    {
+        Debug.Log("Destroy pls");
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+
+        private void OnCollisionEnter2D(Collision2D collision) {
         // Check if collision is projectile and type of shooter
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
@@ -245,19 +260,6 @@ public class Character : Photon.MonoBehaviour {
             health = 300;
         }
     }
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            stream.SendNext(health);
-            Debug.Log(info);
 
-        }
-        else
-        {
-            // Network player, receive data
-            this.health = (int)stream.ReceiveNext();
-        }
-    }
     #endregion
 }
