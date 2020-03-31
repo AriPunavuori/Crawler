@@ -83,9 +83,10 @@ public class PlayerNetwork : MonoBehaviour {
         return false;
     }
     public void OnClickStartButton() {
-        if(input != null)
+        if(input.text != null) {
             playerName = input.text;
-        else
+            print("Syötetty pelaajan nimi" + playerName);
+        } else
             playerName = "Player#" + Random.Range(1000, 9999);
         PhotonNetwork.LoadLevel(1);
     }

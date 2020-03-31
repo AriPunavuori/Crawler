@@ -12,9 +12,10 @@ public class LobbyNetwork : MonoBehaviour {
     }
     void OnConnectedToMaster() {
         print("Connected to master");
-        PhotonNetwork.automaticallySyncScene = true;
+        PhotonNetwork.automaticallySyncScene = false;
+        print(PlayerNetwork.Instance.playerName + " is PlayerNetwork.playerName");
         PhotonNetwork.playerName = PlayerNetwork.Instance.playerName;
-        print(PhotonNetwork.playerName);
+        print(PhotonNetwork.playerName + " is PhotonNetwork.playerName");
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
     void OnJoinedLobby() {
