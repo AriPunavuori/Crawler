@@ -5,6 +5,7 @@ public class CurrentRoomCanvas : MonoBehaviour {
         if(!PhotonNetwork.isMasterClient)
             return;
         PhotonNetwork.LoadLevel(2);
+
     }
     public void OnClickStartDelayed() {
         if(!PhotonNetwork.isMasterClient)

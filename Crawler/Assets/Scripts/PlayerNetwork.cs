@@ -9,6 +9,7 @@ public class PlayerNetwork : MonoBehaviour {
     public InputField input;
     PhotonView PhotonView;
     int PlayersInGame = 0;
+    public bool joined;
 
     PlayerMovement CurrentPlayer;
 
@@ -20,9 +21,9 @@ public class PlayerNetwork : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
-        if(scene.name == "Game") {
-            if(PhotonNetwork.isMasterClient)
-                MasterLoadedGame();
+        if(scene.name == "JuhaDevScene") {
+            if (PhotonNetwork.isMasterClient)
+            MasterLoadedGame();
             else
                 NonMasterLoadedGame();
         }
@@ -41,6 +42,7 @@ public class PlayerNetwork : MonoBehaviour {
 
     [PunRPC]
     void RPC_LoadedGameScene(PhotonPlayer photonPlayer) {
+        Debug.Log(PlayerManagement.Instance);
         PlayerManagement.Instance.AddPlayerStats(photonPlayer);
         PlayersInGame++;
         if(PlayersInGame == PhotonNetwork.playerList.Length) {
@@ -66,8 +68,19 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     void RPC_CreatePlayer() {
         float randomValue = Random.Range(0f, 5f);
-        GameObject obj = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "NetworkPlayer"), Vector3.up * randomValue, Quaternion.identity, 0);
+        GameObject obj = PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0, 0, 0), Quaternion.identity, 0);
         CurrentPlayer = obj.GetComponent<PlayerMovement>();
+        joined = true;
+    }
+
+    public bool joinedGame()
+    {
+        if(joined == true)
+        {
+            return true;
+
+        }
+        return false;
     }
     public void OnClickStartButton() {
         if(input != null)

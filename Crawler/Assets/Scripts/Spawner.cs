@@ -6,10 +6,10 @@ public class Spawner : MonoBehaviour {
     public EntityType spawningType;
     public float spawnInterval = 5f;
     float timer;
-    public GameObject NetworkManager;
+    public static PlayerNetwork Instance;
 
     void Update() {
-        if(NetworkManager.GetComponent<NetworkManager>().joined == true) {
+        if (PlayerNetwork.Instance.joinedGame() == true) {
             //Debug.Log(NetworkManager.GetComponent<NetworkManager>().playersInGame);
             if (PhotonNetwork.isMasterClient)
             {
