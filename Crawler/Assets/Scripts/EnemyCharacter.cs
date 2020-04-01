@@ -27,14 +27,13 @@ public class EnemyCharacter : Character {
 			if (players.Length > 0) { // Jos löytyi pelaaja/pelaajia
 				player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
 
-
+                //Vaihtaa lähimmän pelaajan seurattavaksi parhaan transform.positionien saamiseks 
                 int playerID = player.GetComponent<PhotonView>().ownerId;
                 if(photonView.ownerId != playerID)
                 {
-
                 photonView.TransferOwnership(playerID);
-
                 }
+                
                 following = true;
 
 
@@ -89,4 +88,17 @@ public class EnemyCharacter : Character {
 		}
 		return player;
 	}
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(health);
+
+        }
+        else
+        {
+            this.health = (int)stream.ReceiveNext();
+
+        }
+    }
 }

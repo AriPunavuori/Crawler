@@ -35,20 +35,19 @@ public class Character : Photon.MonoBehaviour {
         {
             if (npc)
             {
-                if (PhotonNetwork.isMasterClient)
+                //if (PhotonNetwork.isMasterClient)
                 {
-                    if (gameObject != null)
+                    //if (gameObject != null)
                     {
                         //PhotonNetwork.Destroy(gameObject);
 
                     }
                 }
-                if (!PhotonNetwork.isMasterClient)
+                //if (!PhotonNetwork.isMasterClient)
                 {
-                    Debug.Log("N");
-                    if (gameObject != null)
+                    //if (gameObject != null)
                     {
-                        photonView.RPC("Destroy", PhotonTargets.MasterClient);
+                        //photonView.RPC("Destroy", PhotonTargets.MasterClient);
                     }
                 }
             }
@@ -64,6 +63,18 @@ public class Character : Photon.MonoBehaviour {
             PhotonNetwork.Destroy(gameObject);
         }
     }
+    private void Update()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (health < 0)
+            {
+                photonView.TransferOwnership(1);
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision) {
         // Check if collision is projectile and type of shooter
@@ -222,7 +233,7 @@ public class Character : Photon.MonoBehaviour {
             attackAngle = 0;
             attackInterval = .2f;
             speed = 4;
-            health = 150;
+            health = 20;
         }
         if(characterType == EntityType.Enemy1) {
             ranged = true;
