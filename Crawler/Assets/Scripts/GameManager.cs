@@ -9,7 +9,7 @@ public class GameManager : Photon.MonoBehaviour {
 	int keys = 0;
 	Canvas canvas;
 	float counter;
-	public bool useUIBoxes;
+	public bool useUIBoxes = true;
 	public GameObject[] playerUIBoxes;
 	public GameObject playerUIBox;
 	GameObject[] players;
