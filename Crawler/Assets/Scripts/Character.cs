@@ -30,27 +30,14 @@ public class Character : Photon.MonoBehaviour {
     public Vector2 movement;
 
     public void TakeDamage(int dmg) {
-        health -= dmg;
-        if (health - dmg <= 0)
+        if (npc)
         {
-            if (npc)
-            {
-                //if (PhotonNetwork.isMasterClient)
-                {
-                    //if (gameObject != null)
-                    {
-                        //PhotonNetwork.Destroy(gameObject);
+            health -= dmg;
+        }
+        else{
 
-                    }
-                }
-                //if (!PhotonNetwork.isMasterClient)
-                {
-                    //if (gameObject != null)
-                    {
-                        //photonView.RPC("Destroy", PhotonTargets.MasterClient);
-                    }
-                }
-            }
+                health -= dmg;
+
         }
 
         print("Health after damage " + health);
@@ -162,16 +149,23 @@ public class Character : Photon.MonoBehaviour {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach(var hit in hits) {
             //print(hit.gameObject);
+
         }
         foreach(var hit in hits) {
-            var c = hit.gameObject.GetComponent<Character>(); 
-            if(c != null && c.npc != npc) {
+            var c = hit.gameObject.GetComponent<Character>();
+            if (c != null && !c.npc)
+            {
+                Debug.Log(hit.gameObject);
+            }
+            if (c != null && c.npc != npc) {
                 if(npc) {
                     //print("Player should take damage!");
                 } else {
                     //print("NPC should take damage!");
                 }
-                c.TakeDamage(damage);
+
+                    c.TakeDamage(damage);
+
             }
         }
         //if(npc)
@@ -226,13 +220,13 @@ public class Character : Photon.MonoBehaviour {
             health = 300;
         }
         if(characterType == EntityType.Enemy0) {
-            ranged = true;
+            ranged = false;
             damage = 20;
-            attackRange = 20;
-            projectileSpeed = 20f;
+            attackRange = 2;
+            projectileSpeed = 0;
             attackAngle = 0;
-            attackInterval = .2f;
-            speed = 4;
+            attackInterval = .5f;
+            speed = 6.5f;
             health = 20;
         }
         if(characterType == EntityType.Enemy1) {
