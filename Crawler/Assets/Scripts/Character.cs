@@ -30,27 +30,39 @@ public class Character : Photon.MonoBehaviour {
     public Vector2 movement;
 
     public void TakeDamage(int dmg) {
-
+        health -= dmg;
         if (health - dmg <= 0)
         {
             if (npc)
             {
                 if (PhotonNetwork.isMasterClient)
                 {
-                    PhotonNetwork.Destroy(gameObject);
+                    if (gameObject != null)
+                    {
+                        //PhotonNetwork.Destroy(gameObject);
+
+                    }
                 }
                 if (!PhotonNetwork.isMasterClient)
                 {
-                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
-
+                    Debug.Log("N");
+                    if (gameObject != null)
+                    {
+                        photonView.RPC("Destroy", PhotonTargets.MasterClient);
+                    }
                 }
             }
-            else
-            {
-                health -= dmg;
-            }
         }
-        //print("Health after damage " + health);
+
+        print("Health after damage " + health);
+    }
+    [PunRPC]
+    public void Destroy()
+    {
+        if(gameObject != null)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -73,12 +85,8 @@ public class Character : Photon.MonoBehaviour {
         }
         attackTimer = attackInterval; 
     }
-    [PunRPC]
-    public void Destroy()
-    {
 
-        PhotonNetwork.Destroy(gameObject);
-    }
+
 
     [PunRPC]
     public void Shoot(int amount) {

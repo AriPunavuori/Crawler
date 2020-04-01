@@ -29,8 +29,8 @@ public class EnemyCharacter : Character {
                 Debug.Log(player);
 
 
-                int playerID = player.GetComponent<PhotonView>().ownerId;
-                photonView.TransferOwnership(playerID);
+                //int playerID = player.GetComponent<PhotonView>().ownerId;
+                //photonView.TransferOwnership(playerID);
                 following = true;
 
 
