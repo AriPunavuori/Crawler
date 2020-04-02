@@ -222,7 +222,7 @@ public class Character : Photon.MonoBehaviour {
         if(characterType == EntityType.Enemy0) {
             ranged = false;
             damage = 20;
-            attackRange = 2;
+            attackRange = 3;
             projectileSpeed = 0;
             attackAngle = 0;
             attackInterval = .5f;
@@ -232,12 +232,12 @@ public class Character : Photon.MonoBehaviour {
         if(characterType == EntityType.Enemy1) {
             ranged = true;
             damage = 50;
-            attackRange = 3;
+            attackRange = 10;
             projectileSpeed = 5f;
             attackAngle = 0f;
             attackInterval = 0.5f;
             speed = 7.5f;
-            health = 200;
+            health = 60;
         }
         if(characterType == EntityType.Enemy2) {
             ranged = false;

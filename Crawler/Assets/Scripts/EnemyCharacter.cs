@@ -24,7 +24,6 @@ public class EnemyCharacter : Character {
         photonView.TransferOwnership(1);
     }
 
-
     private void FixedUpdate() {
         rigidBody.velocity = Vector2.zero;
         if(player == null) {
@@ -42,8 +41,8 @@ public class EnemyCharacter : Character {
                     if(DistToPlayer() < attackRange)
                         StartAttack();
                 } else {
-                    Move(speed); // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
-                }
+                    Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                }                   // Goes to nearest obstacle on the way towards player
             } else {
                 player = null; // If player out of detectionRange
             }

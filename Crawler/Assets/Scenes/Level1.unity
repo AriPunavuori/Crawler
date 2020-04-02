@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 72128069}
   - component: {fileID: 72128068}
   - component: {fileID: 72128067}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7428,7 +7428,7 @@ GameObject:
   - component: {fileID: 188685055}
   - component: {fileID: 188685057}
   - component: {fileID: 188685056}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Path
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15774,6 +15774,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6902921326287730602, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: spawningType
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -16314,7 +16319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513364876}
   - component: {fileID: 1513364875}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
