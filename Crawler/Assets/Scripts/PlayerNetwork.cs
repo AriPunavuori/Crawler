@@ -91,13 +91,36 @@ public class PlayerNetwork : MonoBehaviour
     //    else
     //        CurrentPlayer.Health = health;
     //}
+
+
+    [PunRPC]
+    void RPC_DisableButton0() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[0].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton1() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[1].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton2() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[2].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton3() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[3].interactable = false;
+    }
+
     [PunRPC]
     void RPC_PickedCharacter() {
+        if(!PhotonNetwork.isMasterClient)
+            return;
         playersSelectedCharacter++;
         print("Player picked a character");
         if(playersSelectedCharacter >= numberOfPlayers) {
-            if(!PhotonNetwork.isMasterClient)
-                return;
             PhotonNetwork.LoadLevel(3);
         }
     }
