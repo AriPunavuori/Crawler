@@ -276,7 +276,8 @@ public class PlayerCharacter : Character {
 				// If remote camera is found follow a camera/player with current camNum.
 				if (camFound)
 				{
-					MainCamera.transform.position = players[camNum].transform.Find("Main Camera").transform.position;
+					//MainCamera.transform.position = players[camNum].transform.Find("Main Camera").transform.position;
+					MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
 				}
 			}
 			
