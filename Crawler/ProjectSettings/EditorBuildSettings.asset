@@ -33,6 +33,9 @@ EditorBuildSettings:
     path: Assets/Scenes/EmilDevScene.unity
     guid: 63186620bfc243342a34bbf23f8d6d7d
   - enabled: 1
+    path: Assets/Scenes/CharacterSelection.unity
+    guid: 669c4c5bf1060dd48aa0e86593cc0524
+  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 9bd5795f80962af4fbbc9ebb4f5b951d
   m_configObjects: {}

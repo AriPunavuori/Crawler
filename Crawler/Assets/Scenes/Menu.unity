@@ -379,6 +379,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: 
   input: {fileID: 0}
+  selectedCharacter: 0
+  joined: 0
 --- !u!114 &125744446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +490,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 262893742}
-  - component: {fileID: 262893743}
   - component: {fileID: 262893744}
   m_Layer: 5
   m_Name: CurrentRoom
@@ -522,18 +523,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &262893743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262893741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107fb3b435003ee488e7a1f757de90ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &262893744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76864ac53e4f1d94d998dbd1bc6e480d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startButton: {fileID: 1214391713}
 --- !u!1 &356516013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &851088513
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1146,7 +1136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00036621094}
+  m_AnchoredPosition: {x: 0, y: -0.0007324219}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &972277728
@@ -1529,7 +1519,7 @@ Canvas:
   m_GameObject: {fileID: 1281015289}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 108120212}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1577,6 +1567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyCanvas: {fileID: 1842493646}
   currentRoomCanvas: {fileID: 262893744}
+  characterSelectionCanvas: {fileID: 0}
 --- !u!1 &1445509939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2333,8 +2324,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 480, y: -0.0023651}
-  m_SizeDelta: {x: 960, y: 1079.8}
+  m_AnchoredPosition: {x: 489.4, y: 0}
+  m_SizeDelta: {x: 956, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652683115
 MonoBehaviour:
