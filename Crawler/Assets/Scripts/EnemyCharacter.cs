@@ -13,7 +13,7 @@ public class EnemyCharacter : Character {
     Vector3 target;
     bool seen;
     float proximityDistance = 1f;
-    float detectionDistance = 35f;
+    public float detectionDistance = 25f;
 
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
