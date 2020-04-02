@@ -26,10 +26,11 @@ public class GameManager : Photon.MonoBehaviour {
 
 	private void Update() {
 		if (useUIBoxes) {
-			Debug.Log(photonPlayers.Length);
+			//Debug.Log(photonPlayers.Length);
 
 			if (PhotonNetwork.playerList != photonPlayers || PhotonNetwork.room != currentRoom) { // Jos pelaajien määrä tai huone vaihtuu
 				UpdatePlayerUIBoxes(); // Päivitä UIBoxit
+				print("Päivittää ui boksit");
 			}
 			photonPlayers = PhotonNetwork.playerList;
 			currentRoom = PhotonNetwork.room;
@@ -73,6 +74,7 @@ public class GameManager : Photon.MonoBehaviour {
 		}
 		playerUIBoxes = new GameObject[4]; // Taulukon koko on aina 4
 		for (int i = 0; i < 4; i++) {
+			print("Pelaajalistan koko: " + players.Length);
 			if (i < players.Length) {
 				GameObject newUIBox = Instantiate(playerUIBox.gameObject); // Tee uusi UIBox
 				newUIBox.GetComponent<PlayerUIBox>().myPlayer = players[i]; // Anna boxin playeriksi listan i:es pelaaja

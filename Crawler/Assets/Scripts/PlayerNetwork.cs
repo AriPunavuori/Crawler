@@ -9,8 +9,10 @@ public class PlayerNetwork : MonoBehaviour
     public static PlayerNetwork Instance;
     public string playerName;
     public InputField input;
-    PhotonView PhotonView;
+    public PhotonView PhotonView;
     public int selectedCharacter;
+    int playersSelectedCharacter = 0;
+    public int numberOfPlayers;
     int PlayersInGame = 0;
     public bool joined;
 
@@ -18,6 +20,7 @@ public class PlayerNetwork : MonoBehaviour
 
     void Awake()
     {
+
         Instance = this;
         PhotonView = GetComponent<PhotonView>();
         PhotonNetwork.sendRate = 60;
@@ -26,6 +29,10 @@ public class PlayerNetwork : MonoBehaviour
     }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        if(scene.name == "CharacterSelection") {
+            if(PhotonNetwork.isMasterClient)
+                PhotonView.RPC("RPC_LoadCharacterSelection", PhotonTargets.Others);
+        }
         if (scene.name == "Level1")
         {
             if (PhotonNetwork.isMasterClient)
@@ -33,6 +40,13 @@ public class PlayerNetwork : MonoBehaviour
             else
                 NonMasterLoadedGame();
         }
+    }
+    void MasterLoadedCharacterSelection() {
+        PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
+    }
+    [PunRPC]
+    void RPC_LoadCharacterSelection() {
+        PhotonNetwork.LoadLevel(2);
     }
     void MasterLoadedGame()
     {
@@ -46,7 +60,7 @@ public class PlayerNetwork : MonoBehaviour
     [PunRPC]
     void RPC_LoadGameOthers()
     {
-        PhotonNetwork.LoadLevel(2);
+        PhotonNetwork.LoadLevel(3);
     }
 
     [PunRPC]
@@ -77,6 +91,39 @@ public class PlayerNetwork : MonoBehaviour
     //    else
     //        CurrentPlayer.Health = health;
     //}
+
+
+    [PunRPC]
+    void RPC_DisableButton0() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[0].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton1() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[1].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton2() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[2].interactable = false;
+    }
+    [PunRPC]
+    void RPC_DisableButton3() {
+        var cs = FindObjectOfType<CharacterSelection>();
+        cs.buttons[3].interactable = false;
+    }
+
+    [PunRPC]
+    void RPC_PickedCharacter() {
+        if(!PhotonNetwork.isMasterClient)
+            return;
+        playersSelectedCharacter++;
+        print("Player picked a character");
+        if(playersSelectedCharacter >= numberOfPlayers) {
+            PhotonNetwork.LoadLevel(3);
+        }
+    }
 
     [PunRPC]
     void RPC_CreatePlayer()

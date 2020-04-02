@@ -33,11 +33,13 @@ MonoBehaviour:
   - DecraseKeyAll
   - Destroy
   - DestroyRpc
+  - die
   - DoJump
   - Flash
   - InstantiateRpc
   - Marco
   - Melee
+  - OnClickStartDelayed
   - OpenDoorAll
   - PickupItemInit
   - Polo
@@ -46,11 +48,17 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - respawn
   - RPC_CreatePlayer
+  - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
-  - RPC_NewHealth
+  - RPC_PickedCharacter
   - Shoot
   - TaggedPlayer
-  - SetSpawningEntity
+  - RPC_DisableButtons
+  - RPC_DisableButton0
+  - RPC_DisableButton1
+  - RPC_DisableButton2
+  - RPC_DisableButton3
   DisableAutoOpenWizard: 1

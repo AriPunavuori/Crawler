@@ -535,7 +535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76864ac53e4f1d94d998dbd1bc6e480d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 1214391713}
 --- !u!1 &356516013
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,7 +989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &851088513
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1567,7 +1566,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyCanvas: {fileID: 1842493646}
   currentRoomCanvas: {fileID: 262893744}
-  characterSelectionCanvas: {fileID: 0}
 --- !u!1 &1445509939
 GameObject:
   m_ObjectHideFlags: 0
