@@ -30,28 +30,38 @@ public class Character : Photon.MonoBehaviour {
     public Vector2 movement;
 
     public void TakeDamage(int dmg) {
-
-        if (health - dmg <= 0)
+        if (npc)
         {
-            if (npc)
-            {
-                if (PhotonNetwork.isMasterClient)
-                {
-                    PhotonNetwork.Destroy(gameObject);
-                }
-                if (!PhotonNetwork.isMasterClient)
-                {
-                    photonView.RPC("Destroy", PhotonTargets.MasterClient);
+            health -= dmg;
+        }
+        else{
 
-                }
-            }
-            else
-            {
                 health -= dmg;
+
+        }
+
+        print("Health after damage " + health);
+    }
+    [PunRPC]
+    public void Destroy()
+    {
+        if(gameObject != null)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
+    private void Update()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (health < 0)
+            {
+                photonView.TransferOwnership(1);
+                PhotonNetwork.Destroy(gameObject);
             }
         }
-        //print("Health after damage " + health);
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision) {
         // Check if collision is projectile and type of shooter
@@ -73,12 +83,8 @@ public class Character : Photon.MonoBehaviour {
         }
         attackTimer = attackInterval; 
     }
-    [PunRPC]
-    public void Destroy()
-    {
 
-        PhotonNetwork.Destroy(gameObject);
-    }
+
 
     [PunRPC]
     public void Shoot(int amount) {
@@ -143,16 +149,23 @@ public class Character : Photon.MonoBehaviour {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach(var hit in hits) {
             //print(hit.gameObject);
+
         }
         foreach(var hit in hits) {
-            var c = hit.gameObject.GetComponent<Character>(); 
-            if(c != null && c.npc != npc) {
+            var c = hit.gameObject.GetComponent<Character>();
+            if (c != null && !c.npc)
+            {
+                Debug.Log(hit.gameObject);
+            }
+            if (c != null && c.npc != npc) {
                 if(npc) {
                     //print("Player should take damage!");
                 } else {
                     //print("NPC should take damage!");
                 }
-                c.TakeDamage(damage);
+
+                    c.TakeDamage(damage);
+
             }
         }
         //if(npc)
@@ -207,14 +220,14 @@ public class Character : Photon.MonoBehaviour {
             health = 300;
         }
         if(characterType == EntityType.Enemy0) {
-            ranged = true;
+            ranged = false;
             damage = 20;
-            attackRange = 20;
-            projectileSpeed = 20f;
+            attackRange = 2;
+            projectileSpeed = 0;
             attackAngle = 0;
-            attackInterval = .2f;
-            speed = 4;
-            health = 150;
+            attackInterval = .5f;
+            speed = 6.5f;
+            health = 20;
         }
         if(characterType == EntityType.Enemy1) {
             ranged = true;

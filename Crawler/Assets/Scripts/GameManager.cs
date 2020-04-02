@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
@@ -8,13 +9,15 @@ public class GameManager : Photon.MonoBehaviour {
 	int keys = 0;
 	Canvas canvas;
 	float counter;
-	public bool useUIBoxes;
-	GameObject[] playerUIBoxes;
+	public bool useUIBoxes = true;
+	public GameObject[] playerUIBoxes;
 	public GameObject playerUIBox;
 	GameObject[] players;
+	Text keysUI;
 
 	void Start() {
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		keysUI = GameObject.Find("Keys").GetComponent<Text>();
 	}
 
 	private void Update() {
@@ -26,6 +29,7 @@ public class GameManager : Photon.MonoBehaviour {
 				counter += Time.deltaTime;
 			}
 		}
+		keysUI.text = "Keys: " + keys.ToString();
 	}
 
 	public bool UseKeyRPC() {
@@ -46,7 +50,7 @@ public class GameManager : Photon.MonoBehaviour {
 		keys -= 1;
 	}
 	public void FoundKey(string name) {
-		//keys += 1;
+		keys += 1;
 		//Debug.Log(keys);
 		Hashtable hash = new Hashtable();
 		hash.Add(name, true);
@@ -62,9 +66,8 @@ public class GameManager : Photon.MonoBehaviour {
 		foreach (Transform child in canvas.transform.GetChild(0).transform) {
 			Destroy(child.gameObject);  // Tuhoa vanhat UIBoxit
 		}
+		playerUIBoxes = new GameObject[players.Length]; // Taulukon koko on playerien määrä
 		for (int i = 0; i < players.Length; i++) {
-			playerUIBoxes = new GameObject[players.Length]; // Taulukon koko on playerien määrä
-
 			GameObject newUIBox = Instantiate(playerUIBox.gameObject); // Tee uusi UIBox
 			newUIBox.GetComponent<PlayerUIBox>().myPlayer = players[i]; // Anna boxin playeriksi listan i:es pelaaja
 			players[i].GetComponent<PlayerCharacter>().myUIBox = newUIBox; // Anna anna i:en pelaajan boxiksi uusi boxi
