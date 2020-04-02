@@ -261,7 +261,7 @@ public class PlayerCharacter : Character {
 		} 
 		else 
 		{
-			transform.position = Vector3.Lerp(transform.position, TargetPosition, 0.25f);
+			transform.position = Vector3.Lerp(transform.position, TargetPosition, 0.1f);
 			rb2D.isKinematic = true;
 		}
 	}
