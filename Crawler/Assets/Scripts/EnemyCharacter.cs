@@ -4,85 +4,174 @@ using UnityEngine;
 
 public class EnemyCharacter : Character {
 
-	Rigidbody2D rigidBody;
-	LayerMask layerMask;
-	public GameObject player;
-    Vector2 target;
-	float targetDistance = 1.25f;
-	float detectionDistance = 5f;
-	public Collider2D[] players;
-	bool following;
+    Rigidbody2D rigidBody;
+    public LayerMask layerMaskPlayer;
+    public LayerMask layerMaskObstacles;
+    public GameObject player;
+    GameObject rotator;
 
-	void Start() {
-		layerMask = LayerMask.GetMask("Player", "Obstacles");
-		rigidBody = GetComponent<Rigidbody2D>();
-		SetCharacterAttributes();
+    Vector3 target;
+    bool seen;
+    float proximityDistance = 1f;
+    float detectionDistance = 35f;
+
+    void Start() {
+        rotator = transform.Find("Rotator").gameObject;
+        layerMaskPlayer = LayerMask.GetMask("Player");
+        layerMaskObstacles = LayerMask.GetMask("Obstacles");
+        rigidBody = GetComponent<Rigidbody2D>();
+        SetCharacterAttributes();
         photonView.TransferOwnership(1);
     }
 
-	private void FixedUpdate() {
+    private void FixedUpdate() {
+        rigidBody.velocity = Vector2.zero;
+        if(player == null) {
+            SearchForPlayers(); // Search for next player
+        } else {
+            if(DistToPlayer() < detectionDistance) {
+                if(TargetSeen()) { // Function updates also target
+                    if(DistToPlayer() > attackRange)
+                        Move(speed); // Moves close enough to attact
+                    else {
+                        // Slow down when getting closer
+                        var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
+                        Move(speed * speedFactor);
+                    }
+                    if(DistToPlayer() < attackRange)
+                        StartAttack();
+                } else {
+                    Move(speed); // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                }
+            } else {
+                player = null; // If player out of detectionRange
+            }
+        }
+    }
 
-		if (player == null) { // Jos ei jahdattavaa
-			players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, LayerMask.GetMask("Player")); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
-			if (players.Length > 0) { // Jos löytyi pelaaja/pelaajia
-				player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
-                Debug.Log(player);
+    void StartAttack() {
+        if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+            rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
+            Attack();
+            attackTimer = 0;
+        } else {
+            attackTimer += Time.deltaTime;
+        }
+    }
 
+    void Move(float s) {
+        if(Vector2.Distance(transform.position, target) > proximityDistance) { // Moves close towards target until in proximityDistance
+            float MoveDirX = target.x - transform.position.x;
+            float MoveDirY = target.y - transform.position.y;
+            rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
+        }
+    }
 
-                int playerID = player.GetComponent<PhotonView>().ownerId;
-                photonView.TransferOwnership(playerID);
-                following = true;
+    float DistToPlayer() {
+        return Vector2.Distance(transform.position, player.transform.position);
+    }
 
+    bool TargetSeen() {
+        Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, DistToPlayer(), layerMaskObstacles); // Castataan ray pelaajaan päin
+        if(hit) {
+            if(seen) { // Boolean for setting only last hit.point
+                target = hit.point;
+                seen = false;
+            }
+        } else {
+            target = player.transform.position;
+            seen = true;
+        }
+        return !hit;
+    }
 
-			}
-		} else { // Jos on jahdattava
-			Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, detectionDistance, layerMask); // Castataan ray pelaajaan päin
-			rigidBody.velocity = Vector2.zero; // Pysähdytään
-
-			if (hit.collider != null) { // Jos ray osui pelaajaan/seinään
-				if (Vector2.Distance(transform.position, player.transform.position) < detectionDistance) { // Jos etäisyys jahdattavaan < 5
-					Debug.DrawLine(transform.position, hit.point, Color.red); // Piirrä punanen debug viiva
-					target = hit.point; // Jahdattavan objektin olinpaikka
-				} else { // Jos meni liian kauas
-					player = null; // Ei jahdattavaa
-					following = false;
-				}
-			}
-			if (Vector2.Distance(transform.position, target) > targetDistance && following) { // Jos etäisyys jahdattavan olinpaikkaan > targetDistance
-				//Vector3 moveDir = (target - transform.position).normalized; // Suunta jahdattavaa päin
-                float MoveDirX = target.x - transform.position.x;
-                float MoveDirY = target.y - transform.position.y;
-
-                rigidBody.velocity = new Vector2(MoveDirX , MoveDirY).normalized * speed;
-
-                //rigidBody.velocity = moveDir * speed; // liiku jahdattavan suuntaan
-			} else if (player != null && Vector2.Distance(transform.position, player.transform.position) < attackRange) { // Jos on jahdattava, joka tarpeeksi lähellä hyökkäystä varten
-				if (attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
-					Melee();
-					attackTimer = 0;
-				} else {
-					attackTimer += Time.deltaTime;
-				}
-			}
-			following = true;
-		}
-	}
-
-	GameObject FindClosest() {
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectionDistance, LayerMask.GetMask("Player"));
-		if (colliders.Length > 0) {
-			GameObject closest = colliders[0].gameObject;
-			float shortestDist = Vector2.Distance(transform.position, closest.transform.position);
-			for (int i = 0; i < colliders.Length; i++) {
-				float dist = Vector2.Distance(transform.position, colliders[i].gameObject.transform.position);
-				if (dist < shortestDist) {
-					closest = colliders[i].gameObject;
-					shortestDist = dist;
-				}
-			}
-			return closest;
-		}
-		return player;
-	}
+    void SearchForPlayers() {
+        Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
+        if(players.Length > 0) { // Jos löytyi pelaaja/pelaajia
+            GameObject closest = players[0].gameObject;
+            float shortestDist = Mathf.Infinity;
+            for(int i = 0; i < players.Length; i++) {
+                float dist = Vector2.Distance(transform.position, players[i].gameObject.transform.position);
+                if(dist < shortestDist) {
+                    player = players[i].gameObject;
+                    shortestDist = dist;
+                }
+            }
+            Debug.Log(player);
+            int playerID = player.GetComponent<PhotonView>().ownerId;
+            photonView.TransferOwnership(playerID);
+        }
+    }
 }
+//private void FixedUpdate() {
+
+//	if (player == null) { // Jos ei jahdattavaa
+//		players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, LayerMask.GetMask("Player")); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
+//		if (players.Length > 0) { // Jos löytyi pelaaja/pelaajia
+//			player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
+//               Debug.Log(player);
+
+//               int playerID = player.GetComponent<PhotonView>().ownerId;
+//               photonView.TransferOwnership(playerID);
+//               following = true;
+//		}
+//	} else { // Jos on jahdattava
+//		Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
+//		RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, detectionDistance, layerMask); // Castataan ray pelaajaan päin
+//		rigidBody.velocity = Vector2.zero; // Pysähdytään
+
+//		if (hit.collider != null) { // Jos ray osui pelaajaan/seinään
+//			if (Vector2.Distance(transform.position, player.transform.position) < detectionDistance) { // Jos etäisyys jahdattavaan < 5
+//				Debug.DrawLine(transform.position, hit.point, Color.red); // Piirrä punanen debug viiva
+//				target = hit.point; // Jahdattavan objektin olinpaikka
+//			} else { // Jos meni liian kauas
+//				player = null; // Ei jahdattavaa
+//				following = false;
+//			}
+//		}
+//		if (Vector2.Distance(transform.position, target) > targetDistance && following) { // Jos etäisyys jahdattavan olinpaikkaan > targetDistance
+//			//Vector3 moveDir = (target - transform.position).normalized; // Suunta jahdattavaa päin
+//               float MoveDirX = target.x - transform.position.x;
+//               float MoveDirY = target.y - transform.position.y;
+
+//               rigidBody.velocity = new Vector2(MoveDirX , MoveDirY).normalized * speed;
+
+//               //rigidBody.velocity = moveDir * speed; // liiku jahdattavan suuntaan
+//		} else if (player != null && Vector2.Distance(transform.position, player.transform.position) < attackRange) { // Jos on jahdattava, joka tarpeeksi lähellä hyökkäystä varten
+//			if (attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+//				Melee();
+//				attackTimer = 0;
+//			} else {
+//				attackTimer += Time.deltaTime;
+//			}
+//		}
+//		following = true;
+//	}
+//}
+
+//void SearchForPlayers() {
+//    players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
+//    if(players.Length > 0) { // Jos löytyi pelaaja/pelaajia
+//        player = FindClosest(); // Aseta lähin löytynyt pelaaja jahdattavaksi
+//        Debug.Log(player);
+//        int playerID = player.GetComponent<PhotonView>().ownerId;
+//        photonView.TransferOwnership(playerID);
+//    }
+//}
+
+//GameObject FindClosest() {
+//    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectionDistance, layerMaskPlayer);
+//    GameObject closest = colliders[0].gameObject;
+//    float shortestDist = Mathf.Infinity;
+//    for(int i = 0; i < colliders.Length; i++) {
+//        float dist = Vector2.Distance(transform.position, colliders[i].gameObject.transform.position);
+//        if(dist < shortestDist) {
+//            closest = colliders[i].gameObject;
+//            shortestDist = dist;
+//        }
+//    }
+//    target = closest.transform.position;
+//    print(target);
+//    return closest;
+//}
