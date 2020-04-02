@@ -358,6 +358,8 @@ MonoBehaviour:
   playerUIBoxes: []
   playerUIBox: {fileID: 2389741441464228277, guid: e5cac87aec27149c9ab1f850140e39b8,
     type: 3}
+  emptyUIBox: {fileID: 2389741441464228277, guid: f97bcd2b2030e4364be8adf2afbc9916,
+    type: 3}
 --- !u!4 &946657022
 Transform:
   m_ObjectHideFlags: 0
@@ -507,8 +509,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -195}
-  m_SizeDelta: {x: 0, y: -390}
+  m_AnchoredPosition: {x: -140.02502, y: 0}
+  m_SizeDelta: {x: -279.95, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1129483809
 MonoBehaviour:
@@ -519,7 +521,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1129483807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -527,7 +529,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 6
+  m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
@@ -605,8 +607,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 20}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -59.999985, y: 51.1}
+  m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143494006
 MonoBehaviour:
@@ -639,7 +641,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 'Keys: 0'
 --- !u!222 &1143494007
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -23,4 +23,5 @@ public class LobbyNetwork : MonoBehaviour {
         if(!PhotonNetwork.inRoom)
         MenuCanvasManager.Instance.lobbyCanvas.transform.SetAsLastSibling();
     }
+
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5840129728284239249}
   - component: {fileID: 5840129728284239248}
   - component: {fileID: 5840129728284239255}
+  - component: {fileID: 7255795705607436932}
   m_Layer: 0
   m_Name: SpawnerNetwork
   m_TagString: Untagged
@@ -96,4 +97,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningType: 4
   spawnInterval: 10
-  NetworkManager: {fileID: 0}
+--- !u!58 &7255795705607436932
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5840129728284239254}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.16
