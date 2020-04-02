@@ -89,7 +89,8 @@ public class Character : Photon.MonoBehaviour {
     [PunRPC]
     public void Shoot(int amount) {
 
-            if(amount % 2 == 0)
+
+        if (amount % 2 == 0)
             {
                 float startOffset = 0.25f * (amount - 1);
                 for (int i = 0; i < amount; i++)
@@ -163,9 +164,7 @@ public class Character : Photon.MonoBehaviour {
                 } else {
                     //print("NPC should take damage!");
                 }
-
                     c.TakeDamage(damage);
-
             }
         }
         //if(npc)
@@ -224,6 +223,7 @@ public class Character : Photon.MonoBehaviour {
             damage = 20;
             attackRange = 3;
             projectileSpeed = 0;
+            projectilesPerAttack = 0;
             attackAngle = 0;
             attackInterval = .5f;
             speed = 6.5f;
@@ -234,6 +234,7 @@ public class Character : Photon.MonoBehaviour {
             damage = 50;
             attackRange = 10;
             projectileSpeed = 5f;
+            projectilesPerAttack = 1;
             attackAngle = 0f;
             attackInterval = 0.5f;
             speed = 7.5f;
@@ -244,6 +245,7 @@ public class Character : Photon.MonoBehaviour {
             damage = 50;
             attackRange = 3;
             projectileSpeed = 0f;
+            projectilesPerAttack = 1;
             attackAngle = 90;
             attackInterval = 0.5f;
             speed = 25;

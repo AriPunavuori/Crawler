@@ -24,12 +24,29 @@ public class Spawner : MonoBehaviour {
             if(PhotonNetwork.isMasterClient) {
                 var player = Physics2D.OverlapCircle(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
                 if(player != null) { // Jos löytyi pelaaja/pelaajia
-                    if(timer < 0) {
-                        var enemyClone = PhotonNetwork.Instantiate("NetworkEnemy", transform.position, Quaternion.identity, 0);
-                        var c = enemyClone.GetComponent<Character>();
-                        c.characterType = spawningType;
-                        c.npc = true;
-                        timer = spawnInterval;
+                    if(timer < 0)
+                    {
+                        if (spawningType == EntityType.Enemy0)
+                        {
+                            PhotonNetwork.Instantiate("NetworkEnemyMelee1", transform.position, Quaternion.identity, 0);
+                            timer = spawnInterval;
+
+                        }
+                        else if (spawningType == EntityType.Enemy1)
+                        {
+
+                            PhotonNetwork.Instantiate("NetworkEnemyRanged1", transform.position, Quaternion.identity, 0);
+                            timer = spawnInterval;
+
+                        }
+                        if (spawningType == EntityType.Enemy2)
+                        {
+
+                        }
+                        if (spawningType == EntityType.Enemy3)
+                        {
+
+                        }
                     }
                 }
                 timer -= Time.deltaTime;

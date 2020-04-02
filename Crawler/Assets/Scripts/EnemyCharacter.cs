@@ -14,6 +14,7 @@ public class EnemyCharacter : Character {
     bool seen;
     float proximityDistance = 1f;
     public float detectionDistance = 25f;
+    int playerID;
 
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
@@ -88,19 +89,24 @@ public class EnemyCharacter : Character {
 
     void SearchForPlayers() {
         Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
-        if(players.Length > 0) { // Jos löytyi pelaaja/pelaajia
+        if (players.Length > 0)
+        { // Jos löytyi pelaaja/pelaajia
             GameObject closest = players[0].gameObject;
             float shortestDist = Mathf.Infinity;
-            for(int i = 0; i < players.Length; i++) {
+            for (int i = 0; i < players.Length; i++)
+            {
                 float dist = Vector2.Distance(transform.position, players[i].gameObject.transform.position);
-                if(dist < shortestDist) {
+                if (dist < shortestDist)
+                {
                     player = players[i].gameObject;
                     shortestDist = dist;
                 }
             }
-            Debug.Log(player);
-            int playerID = player.GetComponent<PhotonView>().ownerId;
-            photonView.TransferOwnership(playerID);
+
+            if (playerID == player.GetComponent<PhotonView>().ownerId){
+                playerID = player.GetComponent<PhotonView>().ownerId;
+                photonView.TransferOwnership(playerID);
+            }
         }
     }
 

@@ -52,4 +52,5 @@ MonoBehaviour:
   - RPC_NewHealth
   - Shoot
   - TaggedPlayer
+  - SetSpawningEntity
   DisableAutoOpenWizard: 1
