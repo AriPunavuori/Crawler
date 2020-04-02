@@ -55,4 +55,5 @@ MonoBehaviour:
   - RPC_LoadCharacterSelection
   - OnClickStartDelayed
   - RPC_PickedCharacter
+  - SetSpawningEntity
   DisableAutoOpenWizard: 1
