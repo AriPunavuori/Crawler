@@ -40,7 +40,7 @@ public class Character : Photon.MonoBehaviour {
 
         }
 
-        print("Health after damage " + health);
+        //print("Health after damage " + health);
     }
     [PunRPC]
     public void Destroy()
