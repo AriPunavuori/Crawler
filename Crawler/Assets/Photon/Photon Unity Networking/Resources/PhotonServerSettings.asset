@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 4028f0c0-bb08-4325-8d74-b472a7e1bb45
+  AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 1
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
@@ -50,15 +50,14 @@ MonoBehaviour:
   - RequestForPickupTimes
   - respawn
   - RPC_CreatePlayer
+  - RPC_DisableButton0
+  - RPC_DisableButton1
+  - RPC_DisableButton2
+  - RPC_DisableButton3
   - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
   - RPC_PickedCharacter
   - Shoot
   - TaggedPlayer
-  - RPC_DisableButtons
-  - RPC_DisableButton0
-  - RPC_DisableButton1
-  - RPC_DisableButton2
-  - RPC_DisableButton3
   DisableAutoOpenWizard: 1
