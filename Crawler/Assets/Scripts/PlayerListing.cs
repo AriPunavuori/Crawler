@@ -9,7 +9,6 @@ public class PlayerListing : MonoBehaviour {
     public Text playerName;
 
     public void ApplyPhotonPlayer(PhotonPlayer photonPlayer) {
-        print(photonPlayer.NickName);
         playerName.text = photonPlayer.NickName;
     }
 }

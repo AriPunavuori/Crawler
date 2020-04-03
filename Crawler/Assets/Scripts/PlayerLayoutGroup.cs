@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerLayoutGroup : MonoBehaviour {
 
     public GameObject playerListingPrefab;
-
-    List<PlayerListing> playerListings = new List<PlayerListing>();
+    public List<PlayerListing> playerListings = new List<PlayerListing>();
+    
+    public Button startGame;
 
     // Called by Photon when Master Client is switched
     void OnMasterClientSwitched() {
@@ -15,6 +17,11 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void OnJoinedRoom() {
+        if(PhotonNetwork.isMasterClient)
+            startGame.interactable = true;
+        else
+            startGame.interactable = false;
+
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }
@@ -24,6 +31,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
             PlayerJoinedRoom(photonPlayers[i]);
         }
     }
+    
 
     // Called by photon when a player joins the room
     void OnPhotonPlayerConnected(PhotonPlayer photonPlayer) {
@@ -36,7 +44,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
         if(photonPlayer == null) {
             return;
         }
-        PlayerLeftRoom(photonPlayer);
         GameObject playerListingsObj = Instantiate(playerListingPrefab);
         playerListingsObj.transform.SetParent(transform, false);
         PlayerListing playerListing = playerListingsObj.GetComponent<PlayerListing>();
@@ -44,7 +51,9 @@ public class PlayerLayoutGroup : MonoBehaviour {
         playerListings.Add(playerListing);
     }
     void PlayerLeftRoom(PhotonPlayer photonPlayer) {
-        int index = playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer);
+        print(photonPlayer.NickName + " left room");
+        print(playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer)); 
+        int index = playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer); // Does not find proper index on the masterclient returns -1 and bypasses deletion
         if(index != -1) {
             Destroy(playerListings[index].gameObject);
             playerListings.RemoveAt(index);

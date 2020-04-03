@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CreateRoom : MonoBehaviour {
 
     public Text roomName;
-
+    public Button startGame;
     public void CreateRoomOnClick() {
 
         RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 4 };
@@ -15,6 +15,7 @@ public class CreateRoom : MonoBehaviour {
         } else {
             print("Create room failed to send");
         }
+        startGame.interactable = true;
     }
     void OnCreateRoomFailed(object[] codeAndMessage) {
         print("Create room failed: " + codeAndMessage[1]);
