@@ -8,8 +8,6 @@ public class CurrentRoomCanvas : MonoBehaviour {
 
     }
 
-
-
     [PunRPC]
     public void OnClickStartDelayed() {
         if(!PhotonNetwork.isMasterClient)
@@ -17,5 +15,14 @@ public class CurrentRoomCanvas : MonoBehaviour {
         PhotonNetwork.room.IsOpen = false;
         PhotonNetwork.room.IsVisible = false;
         PhotonNetwork.LoadLevel(2);
+    }
+    public void OnClickRoomState() {
+        if(!PhotonNetwork.isMasterClient)
+            return;
+        PhotonNetwork.room.IsOpen = !PhotonNetwork.room.IsOpen;
+        PhotonNetwork.room.IsVisible = PhotonNetwork.room.IsOpen;
+    }
+    public void OnClickLeaveRoom() {
+        PhotonNetwork.LeaveRoom();
     }
 }
