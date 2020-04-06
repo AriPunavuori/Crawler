@@ -61,4 +61,5 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - RPC_NewHealth
+  - Die
   DisableAutoOpenWizard: 1

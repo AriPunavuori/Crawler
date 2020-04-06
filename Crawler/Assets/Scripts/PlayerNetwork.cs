@@ -88,6 +88,8 @@ public class PlayerNetwork : MonoBehaviour
             return;
         if(currentPlayer.health <= 0) {
             print("Should die already");
+            var pc = GetComponent<PlayerCharacter>();
+            pc.Die();
             //PhotonNetwork.Destroy(currentPlayer.gameObject);
         } else
             currentPlayer.health = health;

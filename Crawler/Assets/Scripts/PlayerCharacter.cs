@@ -41,12 +41,16 @@ public class PlayerCharacter : Character {
 		MainCamera = transform.Find("Main Camera").gameObject;
 		dashCooldown = 0.0f;
 		SetCharacterAttributes();
+		if(!PhotonNetwork.isMasterClient)
+			return;
+		var photonView = GetComponent<PhotonView>();
+		if(photonView != null)
+			PlayerManagement.Instance.ModifyHealth(photonView.owner, health);
 		players = GameObject.FindGameObjectsWithTag("Player");
-
 	}
 
 	[PunRPC]
-	void die()
+	public void Die()
 	{
 		Debug.Log(gameObject.name + " died");
 		rb2D.isKinematic = true;
@@ -161,12 +165,13 @@ public class PlayerCharacter : Character {
 				}
 			}
 			
-			// Death
-			if (health <= 0 && alive)
-			{
-				die();
-				photonView.RPC("die", PhotonTargets.Others);
-			}
+			//// Death
+			//if (health <= 0 && alive)
+			//{
+			//	die();
+			//	photonView.RPC("die", PhotonTargets.Others);
+			//}
+
 			// Respawn
 			if (respawnTimer <= 0)
 			{

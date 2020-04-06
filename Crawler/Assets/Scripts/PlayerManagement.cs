@@ -14,8 +14,8 @@ public class PlayerManagement : MonoBehaviour {
 
     public void AddPlayerStats(PhotonPlayer photonPlayer) {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
-        if(index == -1) {
-            PlayerStats.Add(new PlayerStats(photonPlayer, 30));
+        if(index == -1) {           
+            PlayerStats.Add(new PlayerStats(photonPlayer, 0));
         }
     }
 
