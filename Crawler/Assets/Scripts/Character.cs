@@ -57,7 +57,7 @@ public class Character : Photon.MonoBehaviour {
     }
     private void Update() {
         if(PhotonNetwork.isMasterClient) {
-            if(health < 0) {
+            if(health < 0) { // What happens here?
                 photonView.TransferOwnership(1);
                 PhotonNetwork.Destroy(gameObject);
             }
