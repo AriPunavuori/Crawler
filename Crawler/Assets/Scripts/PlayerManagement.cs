@@ -23,13 +23,16 @@ public class PlayerManagement : MonoBehaviour {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if(index != -1) {
             PlayerStats playerStats = PlayerStats[index];
+            print("Original health: " + playerStats.Health);
             playerStats.Health += value;
             print(photonPlayer.NickName + " Health changed " + value+"!");
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);
         }
     }
-
-    public int GetStats(PhotonPlayer photonPlayer) {
+    public string GetName(PhotonPlayer photonPlayer) {
+        return photonPlayer.NickName;
+    }
+    public int GetHealth(PhotonPlayer photonPlayer) {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if(index != -1) {
             PlayerStats playerStats = PlayerStats[index];
