@@ -29,33 +29,32 @@ public class Character : Photon.MonoBehaviour {
 
     public Vector2 movement;
 
-    public void TakeDamage(int dmg) {
-        if (npc)
-        {
-            health -= dmg;
-        }
-        else{
+    public void TakeDamage(int dmg, Character c) {
+        PhotonView photonView = c.GetComponent<PhotonView>();
+        if(photonView != null)
+            PlayerManagement.Instance.ModifyHealth(photonView.owner, -dmg);
 
-                health -= dmg;
+        //if(npc) {
+        //    health -= dmg;
+        //} else {
 
-        }
+        //    health -= dmg;
+
+        //}
+        // LOL@above! =)
 
         //print("Health after damage " + health);
+
     }
     [PunRPC]
-    public void Destroy()
-    {
-        if(gameObject != null)
-        {
+    public void Destroy() {
+        if(gameObject != null) {
             PhotonNetwork.Destroy(gameObject);
         }
     }
-    private void Update()
-    {
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (health < 0)
-            {
+    private void Update() {
+        if(PhotonNetwork.isMasterClient) {
+            if(health < 0) {
                 photonView.TransferOwnership(1);
                 PhotonNetwork.Destroy(gameObject);
             }
@@ -68,8 +67,8 @@ public class Character : Photon.MonoBehaviour {
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             if(npc != projectile.shotByNPC)
-                TakeDamage(projectile.damage);
-                //photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
+                TakeDamage(projectile.damage, this);
+            //photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
         }
     }
 
@@ -81,7 +80,7 @@ public class Character : Photon.MonoBehaviour {
             Melee();
             photonView.RPC("Melee", PhotonTargets.Others);
         }
-        attackTimer = attackInterval; 
+        attackTimer = attackInterval;
     }
 
 
@@ -90,87 +89,74 @@ public class Character : Photon.MonoBehaviour {
     public void Shoot(int amount) {
 
 
-        if (amount % 2 == 0)
-            {
-                float startOffset = 0.25f * (amount - 1);
-                for (int i = 0; i < amount; i++)
-                {
+        if(amount % 2 == 0) {
+            float startOffset = 0.25f * (amount - 1);
+            for(int i = 0; i < amount; i++) {
+                GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                projectileClone.transform.parent = projectileSpawn.transform;
+                projectileClone.transform.localPosition = new Vector3(0f, startOffset - (i * 0.50f), 0f);
+                projectileClone.transform.parent = null;
+                Projectile projectile = projectileClone.GetComponent<Projectile>();
+                projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+            }
+        } else {
+            float leftOffset = 0.50f;
+            float rightOffset = 0.50f;
+            for(int i = 0; i < amount; i++) {
+                if(i == 0) {
                     GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
                     projectileClone.transform.parent = projectileSpawn.transform;
-                    projectileClone.transform.localPosition = new Vector3(0f, startOffset - (i * 0.50f), 0f);
+                    projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
                     projectileClone.transform.parent = null;
                     Projectile projectile = projectileClone.GetComponent<Projectile>();
                     projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                }
-            }
-            else
-            {
-                float leftOffset = 0.50f;
-                float rightOffset = 0.50f;
-                for(int i = 0; i < amount; i++)
-                {
-                    if(i == 0)
-                    {
-                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                        projectileClone.transform.parent = projectileSpawn.transform;
-                        projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
-                        projectileClone.transform.parent = null;
-                        Projectile projectile = projectileClone.GetComponent<Projectile>();
-                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                    }
-                    else if(i % 2 == 0)
-                    {
-                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                        projectileClone.transform.parent = projectileSpawn.transform;
-                        projectileClone.transform.localPosition = new Vector3(0f, leftOffset, 0f);
-                        projectileClone.transform.parent = null;
-                        Projectile projectile = projectileClone.GetComponent<Projectile>();
-                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                        leftOffset += 0.50f;
-                    }
-                    else
-                    {
-                        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                        projectileClone.transform.parent = projectileSpawn.transform;
-                        projectileClone.transform.localPosition = new Vector3(0f, -rightOffset, 0f);
-                        projectileClone.transform.parent = null;
-                        Projectile projectile = projectileClone.GetComponent<Projectile>();
-                        projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                        rightOffset += 0.50f;
-                     } 
+                } else if(i % 2 == 0) {
+                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                    projectileClone.transform.parent = projectileSpawn.transform;
+                    projectileClone.transform.localPosition = new Vector3(0f, leftOffset, 0f);
+                    projectileClone.transform.parent = null;
+                    Projectile projectile = projectileClone.GetComponent<Projectile>();
+                    projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                    leftOffset += 0.50f;
+                } else {
+                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+                    projectileClone.transform.parent = projectileSpawn.transform;
+                    projectileClone.transform.localPosition = new Vector3(0f, -rightOffset, 0f);
+                    projectileClone.transform.parent = null;
+                    Projectile projectile = projectileClone.GetComponent<Projectile>();
+                    projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+                    rightOffset += 0.50f;
                 }
             }
         }
+    }
 
-    
+
 
     [PunRPC]
     public void Melee() {
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
-        foreach(var hit in hits) {
-            //print(hit.gameObject);
 
-        }
         foreach(var hit in hits) {
             var c = hit.gameObject.GetComponent<Character>();
-            if (c != null && !c.npc)
-            {
+            if(c != null && !c.npc) {
                 Debug.Log(hit.gameObject);
             }
-            if (c != null && c.npc != npc) {
+            if(c != null && c.npc != npc) {
                 if(npc) {
                     //print("Player should take damage!");
                 } else {
                     //print("NPC should take damage!");
                 }
-                    c.TakeDamage(damage);
+
+                c.TakeDamage(damage, c);
             }
         }
         //if(npc)
-            //print("NPC meleeing!");
+        //print("NPC meleeing!");
         //else
-            //print("Player meleeing!");
+        //print("Player meleeing!");
     }
 
     #region Set attributes

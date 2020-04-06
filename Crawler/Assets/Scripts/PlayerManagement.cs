@@ -23,6 +23,7 @@ public class PlayerManagement : MonoBehaviour {
         if(index != -1) {
             PlayerStats playerStats = PlayerStats[index];
             playerStats.Health += value;
+            print(photonPlayer.NickName + " Health changed " + value+"!");
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);
         }
     }

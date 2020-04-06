@@ -83,12 +83,13 @@ public class PlayerNetwork : MonoBehaviour
 
     [PunRPC]
     void RPC_NewHealth(int health) {
-        print("Tuli hittii!");
+
         if(currentPlayer == null)
             return;
-        if(health <= 0)
-            PhotonNetwork.Destroy(currentPlayer.gameObject);
-        else
+        if(health <= 0) {
+            print("Should die already");
+            //PhotonNetwork.Destroy(currentPlayer.gameObject);
+        } else
             currentPlayer.health = health;
     }
 
