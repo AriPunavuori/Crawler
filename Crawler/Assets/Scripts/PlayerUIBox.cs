@@ -8,19 +8,21 @@ public class PlayerUIBox : MonoBehaviour {
 	public GameObject myPlayer;
 	Text hpText;
 	Text nameText;
+	PhotonView photonView;
 
 	PlayerCharacter pc;
 	void Start() {
 		nameText = transform.GetChild(0).gameObject.GetComponent<Text>();
 		hpText = transform.GetChild(1).gameObject.GetComponent<Text>();
+		photonView = myPlayer.GetComponent<PhotonView>();
 	}
 
 	void Update() {
 
 		if (myPlayer != null) {
 			pc = myPlayer.GetComponent<PlayerCharacter>();
-			hpText.text = "HP = " + pc.health.ToString();
-			nameText.text = pc.name;
+			hpText.text = "HP = " + PlayerManagement.Instance.GetHealth(photonView.owner).ToString();
+			nameText.text = PlayerManagement.Instance.GetName(photonView.owner);
 			if (pc.characterType == EntityType.Hero0) {
 				transform.GetComponent<Image>().color = Color.blue;
 			} else if (pc.characterType == EntityType.Hero1) {
