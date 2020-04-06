@@ -86,7 +86,7 @@ public class PlayerNetwork : MonoBehaviour
 
         if(currentPlayer == null)
             return;
-        if(health <= 0) {
+        if(currentPlayer.health <= 0) {
             print("Should die already");
             //PhotonNetwork.Destroy(currentPlayer.gameObject);
         } else
