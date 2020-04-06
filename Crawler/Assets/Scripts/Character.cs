@@ -31,8 +31,11 @@ public class Character : Photon.MonoBehaviour {
 
     public void TakeDamage(int dmg, Character c) {
         PhotonView photonView = c.GetComponent<PhotonView>();
-        if(photonView != null)
+        if(photonView != null) {
             PlayerManagement.Instance.ModifyHealth(photonView.owner, -dmg);
+            print(photonView.owner);
+        }
+
 
         //if(npc) {
         //    health -= dmg;
@@ -66,8 +69,11 @@ public class Character : Photon.MonoBehaviour {
         // Check if collision is projectile and type of shooter
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
-            if(npc != projectile.shotByNPC)
+            if(npc != projectile.shotByNPC) {
                 TakeDamage(projectile.damage, this);
+                print("Damage goes to " + this.gameObject);
+            }
+
             //photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
         }
     }
@@ -145,9 +151,9 @@ public class Character : Photon.MonoBehaviour {
             }
             if(c != null && c.npc != npc) {
                 if(npc) {
-                    //print("Player should take damage!");
+                    print("Player should take damage!");
                 } else {
-                    //print("NPC should take damage!");
+                    print("NPC should take damage!");
                 }
 
                 c.TakeDamage(damage, c);
