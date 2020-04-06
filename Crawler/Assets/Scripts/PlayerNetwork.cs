@@ -15,7 +15,7 @@ public class PlayerNetwork : MonoBehaviour
     public int numberOfPlayers;
     int PlayersInGame = 0;
     public bool joined;
-
+    PlayerCharacter currentPlayer;
     PlayerCharacter pc;
 
     void Awake()
@@ -81,16 +81,16 @@ public class PlayerNetwork : MonoBehaviour
         PhotonView.RPC("RPC_NewHealth", photonPlayer, health);
     }
 
-    //[PunRPC]
-    //void RPC_NewHealth(int health)
-    //{
-    //    if (CurrentPlayer == null)
-    //        return;
-    //    if (health <= 0)
-    //        PhotonNetwork.Destroy(CurrentPlayer.gameObject);
-    //    else
-    //        CurrentPlayer.Health = health;
-    //}
+    [PunRPC]
+    void RPC_NewHealth(int health) {
+        print("Tuli hittii!");
+        if(currentPlayer == null)
+            return;
+        if(health <= 0)
+            PhotonNetwork.Destroy(currentPlayer.gameObject);
+        else
+            currentPlayer.health = health;
+    }
 
 
     [PunRPC]
@@ -131,9 +131,9 @@ public class PlayerNetwork : MonoBehaviour
         int id = PhotonNetwork.player.ID;
         GameObject obj = PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
-        pc = obj.GetComponent<PlayerCharacter>();
-        pc.characterType = (EntityType)selectedCharacter;
-        print(pc.characterType);
+        currentPlayer = obj.GetComponent<PlayerCharacter>();
+        currentPlayer.characterType = (EntityType)selectedCharacter;
+        print(currentPlayer.characterType);
         joined = true;
     }
 

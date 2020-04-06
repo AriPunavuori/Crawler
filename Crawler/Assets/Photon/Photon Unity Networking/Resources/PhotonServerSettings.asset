@@ -60,4 +60,5 @@ MonoBehaviour:
   - RPC_PickedCharacter
   - Shoot
   - TaggedPlayer
+  - RPC_NewHealth
   DisableAutoOpenWizard: 1
