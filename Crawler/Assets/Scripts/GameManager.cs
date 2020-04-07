@@ -16,13 +16,16 @@ public class GameManager : Photon.MonoBehaviour {
 	PhotonPlayer[] photonPlayers;
 	Room currentRoom;
 	Text keysUI;
+	UIManager um;
 
 	float counter;
 	bool triggerUIUpdate;
 
 
 
-
+	private void Start() {
+		um = FindObjectOfType<UIManager>();
+	}
 
 	public bool UseKeyRPC() {
 		Debug.Log(keys);
@@ -30,6 +33,7 @@ public class GameManager : Photon.MonoBehaviour {
 		if (keys > 0) {
 			photonView.RPC("DecraseKeyAll", PhotonTargets.Others);
 			keys -= 1;
+
 			Debug.Log(keys);
 			return true;
 		}
@@ -39,6 +43,7 @@ public class GameManager : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void DecraseKeyAll() {
+		um.UpdateKeys(keys);
 		keys -= 1;
 	}
 	public void FoundKey(string name) {

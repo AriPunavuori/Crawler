@@ -59,7 +59,7 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     void RPC_LoadedGameScene(PhotonPlayer photonPlayer) {
         Debug.Log(PlayerManager.Instance);
-        PlayerManager.Instance.AddPlayerStats(photonPlayer);
+        PlayerManager.Instance.AddPlayerStats(photonPlayer, selectedCharacter);
         PlayersInGame++;
         if(PlayersInGame == PhotonNetwork.playerList.Length) {
             print("All players in game scene");

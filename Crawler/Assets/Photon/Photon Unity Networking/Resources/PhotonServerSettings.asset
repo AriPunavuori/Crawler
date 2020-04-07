@@ -61,4 +61,7 @@ MonoBehaviour:
   - RPC_PickedCharacter
   - Shoot
   - TaggedPlayer
+  - UpdateKeys
+  - UpdateUIBoxContent
+  - UpdateUIBoxes
   DisableAutoOpenWizard: 1

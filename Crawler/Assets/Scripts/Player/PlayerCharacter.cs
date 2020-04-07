@@ -279,8 +279,8 @@ public class PlayerCharacter : Character {
 				}
 
 			}
-			if (myUIBox != null)
-				myUIBox.GetComponent<RectTransform>().sizeDelta = new Vector2(120, 120); // Make my UIBox Bigger than others.
+			//if (myUIBox != null)
+			//	myUIBox.GetComponent<RectTransform>().sizeDelta = new Vector2(120, 120); // Make my UIBox Bigger than others.
 			
 		} 
 		else 
