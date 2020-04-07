@@ -4,8 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerNetwork : MonoBehaviour
-{
+public class PlayerNetwork : MonoBehaviour {
     public static PlayerNetwork Instance;
     public string playerName;
     public InputField input;
@@ -18,8 +17,7 @@ public class PlayerNetwork : MonoBehaviour
     PlayerCharacter currentPlayer;
     PlayerCharacter pc;
 
-    void Awake()
-    {
+    void Awake() {
 
         Instance = this;
         PhotonView = GetComponent<PhotonView>();
@@ -27,15 +25,13 @@ public class PlayerNetwork : MonoBehaviour
         PhotonNetwork.sendRateOnSerialize = 30;
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
-    void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
+    void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
         if(scene.name == "CharacterSelection") {
             if(PhotonNetwork.isMasterClient)
                 PhotonView.RPC("RPC_LoadCharacterSelection", PhotonTargets.Others);
         }
-        if (scene.name == "Level1")
-        {
-            if (PhotonNetwork.isMasterClient)
+        if(scene.name == "Level1") {
+            if(PhotonNetwork.isMasterClient)
                 MasterLoadedGame();
             else
                 NonMasterLoadedGame();
@@ -48,36 +44,30 @@ public class PlayerNetwork : MonoBehaviour
     void RPC_LoadCharacterSelection() {
         PhotonNetwork.LoadLevel(2);
     }
-    void MasterLoadedGame()
-    {
+    void MasterLoadedGame() {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player);
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
-    void NonMasterLoadedGame()
-    {
+    void NonMasterLoadedGame() {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player);
     }
     [PunRPC]
-    void RPC_LoadGameOthers()
-    {
+    void RPC_LoadGameOthers() {
         PhotonNetwork.LoadLevel(3);
     }
 
     [PunRPC]
-    void RPC_LoadedGameScene(PhotonPlayer photonPlayer)
-    {
-        Debug.Log(PlayerManagement.Instance);
-        PlayerManagement.Instance.AddPlayerStats(photonPlayer);
+    void RPC_LoadedGameScene(PhotonPlayer photonPlayer) {
+        Debug.Log(PlayerManager.Instance);
+        PlayerManager.Instance.AddPlayerStats(photonPlayer);
         PlayersInGame++;
-        if (PlayersInGame == PhotonNetwork.playerList.Length)
-        {
+        if(PlayersInGame == PhotonNetwork.playerList.Length) {
             print("All players in game scene");
             PhotonView.RPC("RPC_CreatePlayer", PhotonTargets.All);
         }
     }
 
-    public void NewHealth(PhotonPlayer photonPlayer, int health)
-    {
+    public void NewHealth(PhotonPlayer photonPlayer, int health) {
         PhotonView.RPC("RPC_NewHealth", photonPlayer, health);
     }
 
@@ -129,8 +119,7 @@ public class PlayerNetwork : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_CreatePlayer()
-    {
+    void RPC_CreatePlayer() {
         int id = PhotonNetwork.player.ID;
         GameObject obj = PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
@@ -140,23 +129,18 @@ public class PlayerNetwork : MonoBehaviour
         joined = true;
     }
 
-    public bool joinedGame()
-    {
-        if (joined == true)
-        {
+    public bool joinedGame() {
+        if(joined == true) {
             return true;
 
         }
         return false;
     }
-    public void OnClickStartButton()
-    {
-        if (input.text != null)
-        {
+    public void OnClickStartButton() {
+        if(input.text != null) {
             playerName = input.text;
             print("Syötetty pelaajan nimi" + playerName);
-        }
-        else
+        } else
             playerName = "Player#" + Random.Range(1000, 9999);
         PhotonNetwork.LoadLevel(1);
     }

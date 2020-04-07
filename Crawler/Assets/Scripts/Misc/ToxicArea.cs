@@ -8,6 +8,6 @@ public class ToxicArea : MonoBehaviour {
             return;
         PhotonView photonView = collision.GetComponent<PhotonView>();
         if(photonView != null)
-            PlayerManagement.Instance.ModifyHealth(photonView.owner, -10);
+            PlayerManager.Instance.ModifyHealth(photonView.owner, -10);
     }
 }

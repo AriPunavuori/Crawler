@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManagement : MonoBehaviour {
+public class PlayerManager : MonoBehaviour {
 
-    public static PlayerManagement Instance;
-    PhotonView PhotonView;
+    public static PlayerManager Instance;
+    PhotonView photonView;
     List<PlayerStats> PlayerStats = new List<PlayerStats>();
     void Awake() {
         Instance = this;
-        PhotonView = GetComponent<PhotonView>();
+        photonView = GetComponent<PhotonView>();
     }
 
     public void AddPlayerStats(PhotonPlayer photonPlayer) {

@@ -45,10 +45,29 @@ public class PlayerCharacter : Character {
 			return;
 		var photonView = GetComponent<PhotonView>();
 		if(photonView != null)
-			PlayerManagement.Instance.ModifyHealth(photonView.owner, health);
+			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 		players = GameObject.FindGameObjectsWithTag("Player");
 	}
+	public void TakeDamage(int dmg, Character c) {
+		PhotonView photonView = c.GetComponent<PhotonView>();
+		if(photonView != null) {
+			PlayerManager.Instance.ModifyHealth(photonView.owner, -dmg);
+			print(photonView.owner);
+		}
 
+
+		//if(npc) {
+		//    health -= dmg;
+		//} else {
+
+		//    health -= dmg;
+
+		//}
+		// LOL@above! =)
+
+		//print("Health after damage " + health);
+
+	}
 	[PunRPC]
 	public void Die()
 	{
@@ -346,5 +365,106 @@ public class PlayerCharacter : Character {
 
 	public void GetSpeed() {
 		speed += 10;
+	}
+
+	// _____________________________Sort these out BELOW!!!____________________________________
+	private void OnCollisionEnter2D(Collision2D collision) {
+		// Check if collision is projectile and type of shooter
+		if(collision.gameObject.CompareTag("Projectile")) {
+			var projectile = collision.gameObject.GetComponent<Projectile>();
+			if(npc != projectile.shotByNPC) {
+				TakeDamage(projectile.damage, this);
+				print("Damage goes to " + this.gameObject);
+			}
+
+			//photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
+		}
+	}
+
+	public void Attack() {
+		if(ranged) {
+			Shoot(projectilesPerAttack);
+			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack);
+		} else {
+			Melee();
+			photonView.RPC("Melee", PhotonTargets.Others);
+		}
+		attackTimer = attackInterval;
+	}
+
+
+
+	[PunRPC]
+	public void Shoot(int amount) {
+
+
+		if(amount % 2 == 0) {
+			float startOffset = 0.25f * (amount - 1);
+			for(int i = 0; i < amount; i++) {
+				GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+				projectileClone.transform.parent = projectileSpawn.transform;
+				projectileClone.transform.localPosition = new Vector3(0f, startOffset - (i * 0.50f), 0f);
+				projectileClone.transform.parent = null;
+				Projectile projectile = projectileClone.GetComponent<Projectile>();
+				projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+			}
+		} else {
+			float leftOffset = 0.50f;
+			float rightOffset = 0.50f;
+			for(int i = 0; i < amount; i++) {
+				if(i == 0) {
+					GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+					projectileClone.transform.parent = projectileSpawn.transform;
+					projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
+					projectileClone.transform.parent = null;
+					Projectile projectile = projectileClone.GetComponent<Projectile>();
+					projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+				} else if(i % 2 == 0) {
+					GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+					projectileClone.transform.parent = projectileSpawn.transform;
+					projectileClone.transform.localPosition = new Vector3(0f, leftOffset, 0f);
+					projectileClone.transform.parent = null;
+					Projectile projectile = projectileClone.GetComponent<Projectile>();
+					projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+					leftOffset += 0.50f;
+				} else {
+					GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+					projectileClone.transform.parent = projectileSpawn.transform;
+					projectileClone.transform.localPosition = new Vector3(0f, -rightOffset, 0f);
+					projectileClone.transform.parent = null;
+					Projectile projectile = projectileClone.GetComponent<Projectile>();
+					projectile.LaunchProjectile(damage, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+					rightOffset += 0.50f;
+				}
+			}
+		}
+	}
+
+
+
+	[PunRPC]
+	public void Melee() {
+
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
+
+		foreach(var hit in hits) {
+			var ec = hit.gameObject.GetComponent<EnemyCharacter>();
+			if(ec != null && !ec.npc) {
+				Debug.Log(hit.gameObject);
+			}
+			if(ec != null && ec.npc != npc) {
+				if(npc) {
+					print("Player should take damage!");
+				} else {
+					print("NPC should take damage!");
+				}
+
+				ec.TakeDamage(damage, ec);
+			}
+		}
+		//if(npc)
+		//print("NPC meleeing!");
+		//else
+		//print("Player meleeing!");
 	}
 }
