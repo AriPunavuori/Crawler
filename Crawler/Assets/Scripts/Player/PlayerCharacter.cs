@@ -7,7 +7,7 @@ public class PlayerCharacter : Character {
 
 	Rigidbody2D rb2D;
 	CircleCollider2D col;
-	SpriteRenderer renderer;
+	SpriteRenderer spriteRenderer;
 	GameObject projHead;
 	GameObject[] players;
 	GameObject MainCamera;
@@ -36,7 +36,7 @@ public class PlayerCharacter : Character {
 		alive = true;
 		rb2D = GetComponent<Rigidbody2D>();
 		col = GetComponent<CircleCollider2D>();
-		renderer = GetComponent<SpriteRenderer>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 		projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
 		dashCooldown = 0.0f;
@@ -78,7 +78,7 @@ public class PlayerCharacter : Character {
 		movement.y = 0;
 		// Disable collider
 		col.enabled = false;
-		renderer.enabled = false;
+		spriteRenderer.enabled = false;
 		// Enable ProjectileHeading child GameObject
 		projHead.SetActive(false);
 		dashCooldown = 5.0f;
@@ -108,7 +108,7 @@ public class PlayerCharacter : Character {
 		rb2D.isKinematic = false;
 		// Enable collider
 		col.enabled = true;
-		renderer.enabled = true;
+		spriteRenderer.enabled = true;
 		// Enable ProjectileHeading child GameObject
 		projHead.SetActive(true);
 		alive = true;
