@@ -12,26 +12,25 @@ public class PlayerUIBox : MonoBehaviour {
 
 	PlayerCharacter pc;
 	void Start() {
+		pc = myPlayer.GetComponent<PlayerCharacter>();
 		nameText = transform.GetChild(0).gameObject.GetComponent<Text>();
 		hpText = transform.GetChild(1).gameObject.GetComponent<Text>();
 		photonView = myPlayer.GetComponent<PhotonView>();
+		nameText.text = PlayerManager.Instance.GetName(photonView.owner);
+		if(pc.characterType == EntityType.Hero0) {
+			transform.GetComponent<Image>().color = Color.blue;
+		} else if(pc.characterType == EntityType.Hero1) {
+			transform.GetComponent<Image>().color = Color.green;
+		} else if(pc.characterType == EntityType.Hero2) {
+			transform.GetComponent<Image>().color = Color.yellow;
+		} else if(pc.characterType == EntityType.Hero3) {
+			transform.GetComponent<Image>().color = Color.red;
+		}
 	}
 
-	void Update() {
-
+	public void UpdateUIBox(int health) {
 		if(myPlayer != null) {
-			pc = myPlayer.GetComponent<PlayerCharacter>();
-			hpText.text = "HP = " + PlayerManager.Instance.GetHealth(photonView.owner).ToString();
-			nameText.text = PlayerManager.Instance.GetName(photonView.owner);
-			if(pc.characterType == EntityType.Hero0) {
-				transform.GetComponent<Image>().color = Color.blue;
-			} else if(pc.characterType == EntityType.Hero1) {
-				transform.GetComponent<Image>().color = Color.green;
-			} else if(pc.characterType == EntityType.Hero2) {
-				transform.GetComponent<Image>().color = Color.yellow;
-			} else if(pc.characterType == EntityType.Hero3) {
-				transform.GetComponent<Image>().color = Color.red;
-			}
+			hpText.text = "HP = " + health;
 		}
 	}
 }

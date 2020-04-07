@@ -33,7 +33,7 @@ MonoBehaviour:
   - DecraseKeyAll
   - Destroy
   - DestroyRpc
-  - die
+  - Die
   - DoJump
   - Flash
   - InstantiateRpc
@@ -57,9 +57,8 @@ MonoBehaviour:
   - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
+  - RPC_NewHealth
   - RPC_PickedCharacter
   - Shoot
   - TaggedPlayer
-  - RPC_NewHealth
-  - Die
   DisableAutoOpenWizard: 1
