@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour {
         if(ec != null) {
             detectionDistance = ec.detectionDistance;
         } else
-        detectionDistance = 25f;
+            detectionDistance = 25f;
         layerMaskPlayer = LayerMask.GetMask("Player");
     }
     void Update() {
@@ -24,29 +24,11 @@ public class Spawner : MonoBehaviour {
             if(PhotonNetwork.isMasterClient) {
                 var player = Physics2D.OverlapCircle(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
                 if(player != null) { // Jos löytyi pelaaja/pelaajia
-                    if(timer < 0)
-                    {
-                        if (spawningType == EntityType.Enemy0)
-                        {
-                            PhotonNetwork.Instantiate("NetworkEnemyMelee1", transform.position, Quaternion.identity, 0);
-                            timer = spawnInterval;
-
-                        }
-                        else if (spawningType == EntityType.Enemy1)
-                        {
-
-                            PhotonNetwork.Instantiate("NetworkEnemyRanged1", transform.position, Quaternion.identity, 0);
-                            timer = spawnInterval;
-
-                        }
-                        if (spawningType == EntityType.Enemy2)
-                        {
-
-                        }
-                        if (spawningType == EntityType.Enemy3)
-                        {
-
-                        }
+                    if(timer < 0) {
+                        var enemy = PhotonNetwork.Instantiate("NetworkEnemy", transform.position, Quaternion.identity, 0);
+                        var ec = enemy.GetComponent<EnemyCharacter>();
+                        ec.characterType = spawningType;
+                        timer = spawnInterval;
                     }
                 }
                 timer -= Time.deltaTime;
@@ -57,7 +39,8 @@ public class Spawner : MonoBehaviour {
         // Check if collision is projectile
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
-                TakeDamage(projectile.damage);
+            if(projectile.shotByNPC == false)
+            TakeDamage(projectile.damage);
         }
     }
     void TakeDamage(int damage) {

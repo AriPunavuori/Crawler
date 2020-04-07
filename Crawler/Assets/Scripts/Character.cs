@@ -14,7 +14,6 @@ public class Character : Photon.MonoBehaviour {
     public float projectileSpeed;
     public int projectilesPerAttack;
     public int weaponLevel;
-    public float attackAngle;
     public int attackRange;
     public int damage;
     public float attackInterval;
@@ -52,25 +51,23 @@ public class Character : Photon.MonoBehaviour {
     public void SetCharacterAttributes() {
         if(characterType == EntityType.Hero0) {
             ranged = true;
-            damage = 20;
+            damage = 5;
             attackRange = 20;
             weaponLevel = 0;
-            projectileSpeed = 5f;
+            projectileSpeed = 15f;
             projectilesPerAttack = 1;
-            attackAngle = 0;
-            attackInterval = .5f;
-            speed = 10;
+            attackInterval = .1f;
+            speed = 5f;
             health = 150;
         }
         if(characterType == EntityType.Hero1) {
             ranged = true;
-            damage = 50;
-            attackRange = 3;
+            damage = 20;
+            attackRange = 15;
             projectileSpeed = 5f;
             projectilesPerAttack = 1;
-            attackAngle = 0f;
-            attackInterval = 0.5f;
-            speed = 7.5f;
+            attackInterval = 0.4f;
+            speed = 4f;
             health = 200;
         }
         if(characterType == EntityType.Hero2) {
@@ -78,9 +75,8 @@ public class Character : Photon.MonoBehaviour {
             damage = 50;
             attackRange = 3;
             projectileSpeed = 0f;
-            attackAngle = 90;
             attackInterval = 0.5f;
-            speed = 25;
+            speed = 4f;
             health = 250;
         }
         if(characterType == EntityType.Hero3) {
@@ -88,52 +84,51 @@ public class Character : Photon.MonoBehaviour {
             damage = 100;
             attackRange = 5;
             projectileSpeed = 0f;
-            attackAngle = 90;
             attackInterval = 1f;
-            speed = 10;
+            speed = 3.5f;
             health = 300;
         }
         if(characterType == EntityType.Enemy0) {
+            npc = true;
             ranged = false;
-            damage = 20;
+            damage = 5;
             attackRange = 3;
             projectileSpeed = 0;
             projectilesPerAttack = 0;
-            attackAngle = 0;
             attackInterval = .5f;
-            speed = 6.5f;
+            speed = 5f;
             health = 20;
         }
         if(characterType == EntityType.Enemy1) {
+            npc = true;
             ranged = true;
-            damage = 50;
+            damage = 5;
             attackRange = 10;
             projectileSpeed = 5f;
             projectilesPerAttack = 1;
-            attackAngle = 0f;
             attackInterval = 0.5f;
-            speed = 7.5f;
+            speed = 4f;
             health = 60;
         }
         if(characterType == EntityType.Enemy2) {
+            npc = true;
             ranged = false;
-            damage = 50;
+            damage = 15;
             attackRange = 3;
             projectileSpeed = 0f;
             projectilesPerAttack = 1;
-            attackAngle = 90;
-            attackInterval = 0.5f;
-            speed = 25;
+            attackInterval = 1f;
+            speed = 3f;
             health = 250;
         }
         if(characterType == EntityType.Enemy3) {
+            npc = true;
             ranged = false;
-            damage = 100;
+            damage = 10;
             attackRange = 5;
             projectileSpeed = 0f;
-            attackAngle = 90;
             attackInterval = 1f;
-            speed = 10;
+            speed = 2f;
             health = 300;
         }
     }
