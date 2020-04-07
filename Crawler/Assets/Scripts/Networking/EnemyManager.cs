@@ -27,6 +27,7 @@ public class EnemyManager : MonoBehaviour {
             EnemyStats es = enemyStats[index];
             print("Original health: " + es.Health);
             es.Health += value;
+            ec.health = es.Health;
             print(ec.gameObject.name + " Enemy health changed " + value + "!");
             // Who do we let know of new health?
             // Maybe ec? Smething like ec.NewHealth();

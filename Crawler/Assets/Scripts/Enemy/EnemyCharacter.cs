@@ -23,6 +23,7 @@ public class EnemyCharacter : Character {
         rigidBody = GetComponent<Rigidbody2D>();
         SetCharacterAttributes();
         EnemyManager.Instance.AddEnemyStats(this);
+        EnemyManager.Instance.ModifyHealth(this, health);
         photonView.TransferOwnership(1);
     }
 
@@ -50,12 +51,11 @@ public class EnemyCharacter : Character {
             }
         }
     }
-    public void TakeDamage(int dmg, Character c) {
-        PhotonView photonView = c.GetComponent<PhotonView>();
-        if(photonView != null) {
-            EnemyManager.Instance.ModifyHealth(this, -dmg);
+    public void TakeDamage(int dmg) {
 
-        }
+        EnemyManager.Instance.ModifyHealth(this, -dmg);
+
+
     }
 
     void StartAttack() {
@@ -97,21 +97,18 @@ public class EnemyCharacter : Character {
 
     void SearchForPlayers() {
         Collider2D[] players = Physics2D.OverlapCircleAll(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
-        if (players.Length > 0)
-        { // Jos löytyi pelaaja/pelaajia
+        if(players.Length > 0) { // Jos löytyi pelaaja/pelaajia
             GameObject closest = players[0].gameObject;
             float shortestDist = Mathf.Infinity;
-            for (int i = 0; i < players.Length; i++)
-            {
+            for(int i = 0; i < players.Length; i++) {
                 float dist = Vector2.Distance(transform.position, players[i].gameObject.transform.position);
-                if (dist < shortestDist)
-                {
+                if(dist < shortestDist) {
                     player = players[i].gameObject;
                     shortestDist = dist;
                 }
             }
 
-            if (playerID == player.GetComponent<PhotonView>().ownerId){
+            if(playerID == player.GetComponent<PhotonView>().ownerId) {
                 playerID = player.GetComponent<PhotonView>().ownerId;
                 photonView.TransferOwnership(playerID);
             }
@@ -132,7 +129,7 @@ public class EnemyCharacter : Character {
         if(collision.gameObject.CompareTag("Projectile")) {
             var projectile = collision.gameObject.GetComponent<Projectile>();
             if(npc != projectile.shotByNPC) {
-                TakeDamage(projectile.damage, this);
+                TakeDamage(projectile.damage);
                 print("Damage goes to " + this.gameObject);
             }
 
@@ -203,28 +200,14 @@ public class EnemyCharacter : Character {
 
     [PunRPC]
     public void Melee() {
-
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
-
         foreach(var hit in hits) {
-            var pc = hit.gameObject.GetComponent<PlayerCharacter>();
-            if(pc != null && !pc.npc) {
+            var pc = hit.gameObject.GetComponent<PlayerCharacter>();                
+            if(pc != null) {
                 Debug.Log(hit.gameObject);
-            }
-            if(pc != null && pc.npc != npc) {
-                if(npc) {
-                    print("Player should take damage!");
-                } else {
-                    print("NPC should take damage!");
-                }
-
                 pc.TakeDamage(damage, pc);
             }
         }
-        //if(npc)
-        //print("NPC meleeing!");
-        //else
-        //print("Player meleeing!");
     }
 }
 

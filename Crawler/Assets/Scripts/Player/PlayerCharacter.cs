@@ -52,7 +52,7 @@ public class PlayerCharacter : Character {
 		PhotonView photonView = c.GetComponent<PhotonView>();
 		if(photonView != null) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, -dmg);
-			print(photonView.owner);
+			//print(photonView.owner);
 		}
 
 
@@ -449,22 +449,10 @@ public class PlayerCharacter : Character {
 
 		foreach(var hit in hits) {
 			var ec = hit.gameObject.GetComponent<EnemyCharacter>();
-			if(ec != null && !ec.npc) {
+			if(ec != null) {
 				Debug.Log(hit.gameObject);
-			}
-			if(ec != null && ec.npc != npc) {
-				if(npc) {
-					print("Player should take damage!");
-				} else {
-					print("NPC should take damage!");
-				}
-
-				ec.TakeDamage(damage, ec);
+				ec.TakeDamage(damage);
 			}
 		}
-		//if(npc)
-		//print("NPC meleeing!");
-		//else
-		//print("Player meleeing!");
 	}
 }

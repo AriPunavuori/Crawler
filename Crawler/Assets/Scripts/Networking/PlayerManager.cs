@@ -23,9 +23,9 @@ public class PlayerManager : MonoBehaviour {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if(index != -1) {
             PlayerStats playerStats = PlayerStats[index];
-            print("Original health: " + playerStats.Health);
+            //print("Original health: " + playerStats.Health);
             playerStats.Health += value;
-            print(photonPlayer.NickName + " Health changed " + value+"!");
+            //print(photonPlayer.NickName + " Health changed " + value+"!");
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);
         }
     }
