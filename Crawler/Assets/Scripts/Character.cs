@@ -102,11 +102,11 @@ public class Character : Photon.MonoBehaviour {
         if(characterType == EntityType.Enemy1) {
             npc = true;
             ranged = true;
-            damage = 5;
+            damage = 1;
             attackRange = 10;
             projectileSpeed = 5f;
             projectilesPerAttack = 1;
-            attackInterval = 0.5f;
+            attackInterval = 2f;
             speed = 4f;
             health = 60;
         }

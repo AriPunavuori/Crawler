@@ -54,19 +54,6 @@ public class PlayerCharacter : Character {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, -dmg);
 			//print(photonView.owner);
 		}
-
-
-		//if(npc) {
-		//    health -= dmg;
-		//} else {
-
-		//    health -= dmg;
-
-		//}
-		// LOL@above! =)
-
-		//print("Health after damage " + health);
-
 	}
 	[PunRPC]
 	public void Die()

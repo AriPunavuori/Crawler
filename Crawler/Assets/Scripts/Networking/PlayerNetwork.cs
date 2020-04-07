@@ -58,7 +58,6 @@ public class PlayerNetwork : MonoBehaviour {
 
     [PunRPC]
     void RPC_LoadedGameScene(PhotonPlayer photonPlayer) {
-        Debug.Log(PlayerManager.Instance);
         PlayerManager.Instance.AddPlayerStats(photonPlayer, selectedCharacter);
         PlayersInGame++;
         if(PlayersInGame == PhotonNetwork.playerList.Length) {
@@ -66,6 +65,7 @@ public class PlayerNetwork : MonoBehaviour {
             PhotonView.RPC("RPC_CreatePlayer", PhotonTargets.All);
         }
     }
+
 
     public void NewHealth(PhotonPlayer photonPlayer, int health) {
         PhotonView.RPC("RPC_NewHealth", photonPlayer, health);
@@ -125,21 +125,18 @@ public class PlayerNetwork : MonoBehaviour {
         obj.name = playerName;
         currentPlayer = obj.GetComponent<PlayerCharacter>();
         currentPlayer.characterType = (EntityType)selectedCharacter;
-        print(currentPlayer.characterType);
         joined = true;
     }
 
     public bool joinedGame() {
         if(joined == true) {
             return true;
-
         }
         return false;
     }
     public void OnClickStartButton() {
         if(input.text != null) {
             playerName = input.text;
-            print("Syötetty pelaajan nimi" + playerName);
         } else
             playerName = "Player#" + Random.Range(1000, 9999);
         PhotonNetwork.LoadLevel(1);

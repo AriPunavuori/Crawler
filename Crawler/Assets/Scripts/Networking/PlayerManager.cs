@@ -16,12 +16,6 @@ public class PlayerManager : MonoBehaviour {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if(index == -1) {           
             PlayerStats.Add(new PlayerStats(photonPlayer, photonPlayer.NickName, 0, selectedCharacter));
-            // Add UIBox to UIManager   
-            photonView.RPC("UpdateUIBoxes", PhotonTargets.All);
-            photonView.RPC("UpdateUIBoxContent", PhotonTargets.All,
-                                                                PlayerStats[index].Name,
-                                                                PlayerStats[index].Health,
-                                                                PlayerStats[index].SelectedCharacter);
         }
     }
 
@@ -29,13 +23,12 @@ public class PlayerManager : MonoBehaviour {
         int index = PlayerStats.FindIndex(x => x.PhotonPlayer == photonPlayer);
         if(index != -1) {
             PlayerStats playerStats = PlayerStats[index];
-            //print("Original health: " + playerStats.Health);
             playerStats.Health += value;
-            //print(photonPlayer.NickName + " Health changed " + value+"!");
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);
-            photonView.RPC("UpdateUIBoxContent", PhotonTargets.All, PlayerStats[index].Name,
-                                                                    PlayerStats[index].Health,
-                                                                    PlayerStats[index].SelectedCharacter);
+            print("Changing health for hero: " + PlayerStats[index].SelectedCharacter);
+            UIManager.Instance.UpdateUIContent( PlayerStats[index].Name,
+                                                PlayerStats[index].Health,
+                                                PlayerStats[index].SelectedCharacter);
         }  
     }
     public string GetName(PhotonPlayer photonPlayer) {
