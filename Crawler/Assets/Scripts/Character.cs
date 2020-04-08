@@ -90,13 +90,13 @@ public class Character : Photon.MonoBehaviour {
         }
         if(characterType == EntityType.Enemy0) {
             npc = true;
-            ranged = false;
-            damage = 5;
+            ranged = true;
+            damage = 1;
             attackRange = 3;
             projectileSpeed = 0;
             projectilesPerAttack = 0;
-            attackInterval = .5f;
-            speed = 5f;
+            attackInterval = 5f;
+            speed = 3.5f;
             health = 20;
         }
         if(characterType == EntityType.Enemy1) {
@@ -106,8 +106,8 @@ public class Character : Photon.MonoBehaviour {
             attackRange = 10;
             projectileSpeed = 5f;
             projectilesPerAttack = 1;
-            attackInterval = 2f;
-            speed = 4f;
+            attackInterval = 2.5f;
+            speed = 3f;
             health = 60;
         }
         if(characterType == EntityType.Enemy2) {
@@ -118,7 +118,7 @@ public class Character : Photon.MonoBehaviour {
             projectileSpeed = 0f;
             projectilesPerAttack = 1;
             attackInterval = 1f;
-            speed = 3f;
+            speed = 2.5f;
             health = 250;
         }
         if(characterType == EntityType.Enemy3) {
