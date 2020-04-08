@@ -14,7 +14,6 @@ public class EnemyCharacter : Character {
     bool seen;
     float proximityDistance = 1f;
     public float detectionDistance = 25f;
-    int playerID;
 
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
@@ -59,12 +58,16 @@ public class EnemyCharacter : Character {
     }
 
     void StartAttack() {
-        if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+        if (PhotonNetwork.isMasterClient)
+        {
+            if (attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
             rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
             Attack();
             attackTimer = 0;
         } else {
             attackTimer += Time.deltaTime;
+        }
+
         }
     }
 
@@ -108,8 +111,9 @@ public class EnemyCharacter : Character {
                 }
             }
 
-            if(playerID == player.GetComponent<PhotonView>().ownerId) {
-                playerID = player.GetComponent<PhotonView>().ownerId;
+            int playerID = player.GetComponent<PhotonView>().ownerId;
+            if (photonView.ownerId != playerID)
+            {
                 photonView.TransferOwnership(playerID);
             }
         }
@@ -139,8 +143,9 @@ public class EnemyCharacter : Character {
 
     public void Attack() {
         if(ranged) {
-            Shoot(projectilesPerAttack);
-            photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack);
+            //Shoot(projectilesPerAttack);
+            photonView.RPC("Shoot", PhotonTargets.All, projectilesPerAttack);
+
         } else {
             Melee();
             photonView.RPC("Melee", PhotonTargets.Others);
