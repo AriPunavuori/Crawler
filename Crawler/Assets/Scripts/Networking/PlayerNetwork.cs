@@ -119,10 +119,11 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     void RPC_CreatePlayer() {
         int id = PhotonNetwork.player.ID;
-        GameObject obj = PhotonNetwork.Instantiate("NetworkPlayer", new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
+        string[] heroType = new string[] { "NetworkPlayer0", "NetworkPlayer1", "NetworkPlayer2", "NetworkPlayer3" };
+        GameObject obj = PhotonNetwork.Instantiate(heroType[selectedCharacter], new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
-        currentPlayer = obj.GetComponent<PlayerCharacter>();
-        currentPlayer.characterType = (EntityType)selectedCharacter;
+        //currentPlayer = obj.GetComponent<PlayerCharacter>();
+        //currentPlayer.characterType = (EntityType)selectedCharacter;
         joined = true;
     }
 

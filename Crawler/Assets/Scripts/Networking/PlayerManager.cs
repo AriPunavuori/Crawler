@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour {
             PlayerStats playerStats = PlayerStats[index];
             playerStats.Health += value;
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);
-            print("Changing health for hero: " + PlayerStats[index].SelectedCharacter);
+            print("Changing health for hero: " + PlayerStats[index].SelectedCharacter + " " + value);
             UIManager.Instance.UpdateUIContent( PlayerStats[index].Name,
                                                 PlayerStats[index].Health,
                                                 PlayerStats[index].SelectedCharacter);
