@@ -406,14 +406,14 @@ MonoBehaviour:
   projectileSpeed: 0
   projectilesPerAttack: 0
   weaponLevel: 0
-  attackRange: 25
-  damage: 10
-  attackInterval: 1
+  attackRange: 0
+  damage: 0
+  attackInterval: 0
   attackTimer: 0
-  speed: 5
-  health: 100
+  speed: 0
+  health: 0
   projectileSpawn: {fileID: 2974526667111253211}
-  projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
+  projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
     type: 3}
   movement: {x: 0, y: 0}
   animator: {fileID: 3307017158627523645}

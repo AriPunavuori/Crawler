@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3329942802077688337}
   - component: {fileID: 6258408253227609357}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: EnemyGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8730651247564314429}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 746693288194520254}
   - component: {fileID: 3872581899113357787}
   - component: {fileID: 4629152570814358593}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: NetworkEnemy0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ MonoBehaviour:
   speed: 0
   health: 0
   projectileSpawn: {fileID: 6074505707017604258}
-  projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
+  projectilePrefab: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,
     type: 3}
   movement: {x: 0, y: 0}
   layerMaskPlayer:
@@ -365,7 +365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7599414833242452228}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Rotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

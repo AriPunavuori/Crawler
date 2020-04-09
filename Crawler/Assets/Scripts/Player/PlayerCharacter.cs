@@ -375,8 +375,8 @@ public class PlayerCharacter : Character {
 			Shoot(projectilesPerAttack, damage);
 			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack, 0);
 		} else {
-			Melee();
-			photonView.RPC("Melee", PhotonTargets.Others);
+			Melee(damage);
+			photonView.RPC("Melee", PhotonTargets.Others, 0);
 		}
 		attackTimer = attackInterval;
 	}
@@ -432,7 +432,7 @@ public class PlayerCharacter : Character {
 
 
 	[PunRPC]
-	public void Melee() {
+	public void Melee(int dmg) {
 
 		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
 
@@ -440,7 +440,7 @@ public class PlayerCharacter : Character {
 			var ec = hit.gameObject.GetComponent<EnemyCharacter>();
 			if(ec != null) {
 				Debug.Log(hit.gameObject);
-				ec.TakeDamage(damage);
+				ec.TakeDamage(dmg);
 			}
 		}
 	}

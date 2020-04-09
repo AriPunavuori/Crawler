@@ -496,7 +496,7 @@ MonoBehaviour:
   speed: 5
   health: 100
   projectileSpawn: {fileID: 2694833740985821565}
-  projectilePrefab: {fileID: 3747813661544999734, guid: 54297523ae205894592f2ea480b4741a,
+  projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
     type: 3}
   movement: {x: 0, y: 0}
   animator: {fileID: 4255697477980282782}
