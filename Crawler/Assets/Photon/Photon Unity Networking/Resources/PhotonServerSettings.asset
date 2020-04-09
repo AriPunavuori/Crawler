@@ -64,4 +64,5 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - UpdateKeys
+  - RPC_DisableButton
   DisableAutoOpenWizard: 1

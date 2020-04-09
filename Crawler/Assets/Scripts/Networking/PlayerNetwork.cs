@@ -15,9 +15,8 @@ public class PlayerNetwork : MonoBehaviour {
     int PlayersInGame = 0;
     public bool joined;
     PlayerCharacter pc;
-
+    bool[] selectedCharacters = new bool[4];
     void Awake() {
-
         Instance = this;
         PhotonView = GetComponent<PhotonView>();
         PhotonNetwork.sendRate = 60;
@@ -84,34 +83,38 @@ public class PlayerNetwork : MonoBehaviour {
 
 
     [PunRPC]
-    void RPC_DisableButton0() {
+    void RPC_DisableButton(int b) {
         var cs = FindObjectOfType<CharacterSelection>();
-        cs.buttons[0].interactable = false;
+        cs.buttons[b].interactable = false;
     }
-    [PunRPC]
-    void RPC_DisableButton1() {
-        var cs = FindObjectOfType<CharacterSelection>();
-        cs.buttons[1].interactable = false;
-    }
-    [PunRPC]
-    void RPC_DisableButton2() {
-        var cs = FindObjectOfType<CharacterSelection>();
-        cs.buttons[2].interactable = false;
-    }
-    [PunRPC]
-    void RPC_DisableButton3() {
-        var cs = FindObjectOfType<CharacterSelection>();
-        cs.buttons[3].interactable = false;
-    }
+    //[PunRPC]
+    //void RPC_DisableButton1() {
+    //    var cs = FindObjectOfType<CharacterSelection>();
+    //    cs.buttons[1].interactable = false;
+    //}
+    //[PunRPC]
+    //void RPC_DisableButton2() {
+    //    var cs = FindObjectOfType<CharacterSelection>();
+    //    cs.buttons[2].interactable = false;
+    //}
+    //[PunRPC]
+    //void RPC_DisableButton3() {
+    //    var cs = FindObjectOfType<CharacterSelection>();
+    //    cs.buttons[3].interactable = false;
+    //}
 
     [PunRPC]
-    void RPC_PickedCharacter() {
+    void RPC_PickedCharacter(int selected) {
         if(!PhotonNetwork.isMasterClient)
             return;
-        playersSelectedCharacter++;
-        print("Player picked a character");
-        if(playersSelectedCharacter >= numberOfPlayers) {
-            PhotonNetwork.LoadLevel(3);
+        if(selectedCharacters[selected] == false) {
+            selectedCharacters[selected] = true;
+            playersSelectedCharacter++;
+            PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
+            print("Player picked a character");
+            if(playersSelectedCharacter >= numberOfPlayers) {
+                PhotonNetwork.LoadLevel(3);
+            }
         }
     }
 
