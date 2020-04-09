@@ -77,11 +77,23 @@ public class PlayerCharacter : Character {
 		alive = false;
 
 		// Try to find a remote camera
-		if (players.Length > 1) {
+		players = GameObject.FindGameObjectsWithTag("Player");
+		if (players.Length > 1)
+		{
 			findCamera();
-		} else {
+		}
+		else
+		{
 			Debug.Log("Cant find camera, no alive players found");
 		}
+		
+		
+
+		if(photonView.isMine)
+		{
+			photonView.RPC("Die", PhotonTargets.Others);
+		}
+		
 	}
 
 	[PunRPC]
@@ -160,8 +172,8 @@ public class PlayerCharacter : Character {
 			//// Death
 			//if (health <= 0 && alive)
 			//{
-			//	die();
-			//	photonView.RPC("die", PhotonTargets.Others);
+			//	Die();
+			//	photonView.RPC("Die", PhotonTargets.Others);
 			//}
 
 			// Respawn
