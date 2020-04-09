@@ -43,6 +43,7 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonNetwork.LoadLevel(2);
     }
     void MasterLoadedGame() {
+        PlayersInGame = 0;
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player, selectedCharacter);
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
@@ -93,21 +94,7 @@ public class PlayerNetwork : MonoBehaviour {
             cs.buttons[selected].interactable = false;
         }
     }
-    //[PunRPC]
-    //void RPC_DisableButton1() {
-    //    var cs = FindObjectOfType<CharacterSelection>();
-    //    cs.buttons[1].interactable = false;
-    //}
-    //[PunRPC]
-    //void RPC_DisableButton2() {
-    //    var cs = FindObjectOfType<CharacterSelection>();
-    //    cs.buttons[2].interactable = false;
-    //}
-    //[PunRPC]
-    //void RPC_DisableButton3() {
-    //    var cs = FindObjectOfType<CharacterSelection>();
-    //    cs.buttons[3].interactable = false;
-    //}
+
     public void PickedCharacter(int c) {
         PlayerNetwork.Instance.PhotonView.RPC("RPC_PickedCharacter", PhotonTargets.MasterClient, PhotonNetwork.player, c);
     }
