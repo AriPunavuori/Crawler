@@ -43,7 +43,7 @@ public class GameManager : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void DecraseKeyAll() {
-		um.UpdateKeys(keys);
+		//um.UpdateKeys(keys);
 		keys -= 1;
 	}
 	public void FoundKey(string name) {
@@ -52,11 +52,12 @@ public class GameManager : Photon.MonoBehaviour {
 		Hashtable hash = new Hashtable();
 		hash.Add(name, true);
 		PhotonNetwork.room.SetCustomProperties(hash);
+		um.UpdateKeys();
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
 	public bool UseKey() {
 		return UseKeyRPC();
 	}
 
-	
+
 }
