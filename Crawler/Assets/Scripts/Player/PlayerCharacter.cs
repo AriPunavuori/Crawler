@@ -28,7 +28,7 @@ public class PlayerCharacter : Character {
     Vector2 dashVector;
     Vector2 lastDir;
     Vector3 TargetPosition;
-
+    int projectilesPerAttack = 1;
     public Animator animator;
     public GameObject playerCam;
     public GameObject myUIBox;
@@ -277,7 +277,7 @@ public class PlayerCharacter : Character {
     void upgradeWeapon() {
         if(characterType == EntityType.Hero0) {
             if(weaponLevel == 0) {
-                projectilesPerAttack++;
+                // projectilesPerAttack++;
             } else if(weaponLevel == 1) {
                 attackInterval = 0.2f;
             }
@@ -312,7 +312,7 @@ public class PlayerCharacter : Character {
         if(potion) {
             print(healths[(int)characterType]);
             if(health + 100 > healths[(int)characterType]) {
-                SetHealth(healths[(int)characterType]-health, this);
+                SetHealth(healths[(int)characterType] - health, this);
             } else
                 SetHealth(100, this);
             potion = false;
@@ -354,47 +354,16 @@ public class PlayerCharacter : Character {
 
     [PunRPC]
     public void Shoot(int amount, int dmg) {
+        float gap = .5f;
+        var offset = (amount - 1f) / 2 * gap;
 
-
-        if(amount % 2 == 0) {
-            float startOffset = 0.25f * (amount - 1);
-            for(int i = 0; i < amount; i++) {
-                GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                projectileClone.transform.parent = projectileSpawn.transform;
-                projectileClone.transform.localPosition = new Vector3(0f, startOffset - (i * 0.50f), 0f);
-                projectileClone.transform.parent = null;
-                Projectile projectile = projectileClone.GetComponent<Projectile>();
-                projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-            }
-        } else {
-            float leftOffset = 0.50f;
-            float rightOffset = 0.50f;
-            for(int i = 0; i < amount; i++) {
-                if(i == 0) {
-                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                    projectileClone.transform.parent = projectileSpawn.transform;
-                    projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
-                    projectileClone.transform.parent = null;
-                    Projectile projectile = projectileClone.GetComponent<Projectile>();
-                    projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                } else if(i % 2 == 0) {
-                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                    projectileClone.transform.parent = projectileSpawn.transform;
-                    projectileClone.transform.localPosition = new Vector3(0f, leftOffset, 0f);
-                    projectileClone.transform.parent = null;
-                    Projectile projectile = projectileClone.GetComponent<Projectile>();
-                    projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                    leftOffset += 0.50f;
-                } else {
-                    GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
-                    projectileClone.transform.parent = projectileSpawn.transform;
-                    projectileClone.transform.localPosition = new Vector3(0f, -rightOffset, 0f);
-                    projectileClone.transform.parent = null;
-                    Projectile projectile = projectileClone.GetComponent<Projectile>();
-                    projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
-                    rightOffset += 0.50f;
-                }
-            }
+        for(int i = 0; i < amount; i++) {
+            GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+            projectileClone.transform.parent = projectileSpawn.transform;
+            projectileClone.transform.localPosition = new Vector3(0f, offset - i * gap, 0f);
+            projectileClone.transform.parent = null;
+            Projectile projectile = projectileClone.GetComponent<Projectile>();
+            projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
         }
     }
 

@@ -29,7 +29,6 @@ public class Character : Photon.MonoBehaviour {
     public int health;
    
     public float attackTimer;
-    public int projectilesPerAttack = 1;
     public int weaponLevel;
 
     public GameObject projectileSpawn;
