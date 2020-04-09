@@ -8,27 +8,36 @@ public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
 
-    // Attributes of characters (No need for public variables after testing)
+    public bool[] npcs = new bool[] { false, false, false, false, true, true, true, true }; // Player or enemy
+    public bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
+    public float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
+    public float[] attackRanges = new float[] { 10, 10, 3, 3, 10, 10, 3, 3 }; // Range of attack
+    public int[] damages = new int[] { 2, 10, 10, 10, 5, 5, 10, 10 };  // Amount of damage
+    public float[] attackIntervals = new float[] { 0.1f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, }; // Attack interval
+    public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
+    public int[] healths = new int[] { 100, 150, 200, 250, 10, 20, 50, 100 }; // Health
+
+    #region Variables
+    // Attributes of characters (No need for public variables after testing)?
     public bool npc;
     public bool ranged;
     public float projectileSpeed;
-    public int projectilesPerAttack;
-    public int weaponLevel;
-    public int attackRange;
+    public float attackRange;
     public int damage;
     public float attackInterval;
-    public float attackTimer;
     public float speed;
-
-    [SerializeField]
     public int health;
+   
+    public float attackTimer;
+    public int projectilesPerAttack = 1;
+    public int weaponLevel;
 
     public GameObject projectileSpawn;
     public GameObject projectilePrefab;
 
     public Vector2 movement;
 
-
+    #endregion
     [PunRPC]
     public void Destroy() {
         if(gameObject != null) {
@@ -43,95 +52,14 @@ public class Character : Photon.MonoBehaviour {
             }
         }
     }
-
-
-
-
-    #region Set attributes
     public void SetCharacterAttributes() {
-        if(characterType == EntityType.Hero0) {
-            ranged = true;
-            damage = 5;
-            attackRange = 20;
-            weaponLevel = 0;
-            projectileSpeed = 15f;
-            projectilesPerAttack = 1;
-            attackInterval = .1f;
-            speed = 5f;
-            health = 150;
-        }
-        if(characterType == EntityType.Hero1) {
-            ranged = true;
-            damage = 20;
-            attackRange = 15;
-            projectileSpeed = 5f;
-            projectilesPerAttack = 1;
-            attackInterval = 0.4f;
-            speed = 4f;
-            health = 200;
-        }
-        if(characterType == EntityType.Hero2) {
-            ranged = false;
-            damage = 50;
-            attackRange = 3;
-            projectileSpeed = 0f;
-            attackInterval = 0.5f;
-            speed = 4f;
-            health = 250;
-        }
-        if(characterType == EntityType.Hero3) {
-            ranged = false;
-            damage = 100;
-            attackRange = 5;
-            projectileSpeed = 0f;
-            attackInterval = 1f;
-            speed = 3.5f;
-            health = 300;
-        }
-        if(characterType == EntityType.Enemy0) {
-            npc = true;
-            ranged = false;
-            damage = 1;
-            attackRange = 3;
-            projectileSpeed = 0;
-            projectilesPerAttack = 0;
-            attackInterval = 1f;
-            speed = 3.5f;
-            health = 20;
-        }
-        if(characterType == EntityType.Enemy1) {
-            npc = true;
-            ranged = true;
-            damage = 1;
-            attackRange = 10;
-            projectileSpeed = 5f;
-            projectilesPerAttack = 1;
-            attackInterval = 2.5f;
-            speed = 3f;
-            health = 60;
-        }
-        if(characterType == EntityType.Enemy2) {
-            npc = true;
-            ranged = false;
-            damage = 15;
-            attackRange = 3;
-            projectileSpeed = 0f;
-            projectilesPerAttack = 1;
-            attackInterval = 1f;
-            speed = 2.5f;
-            health = 250;
-        }
-        if(characterType == EntityType.Enemy3) {
-            npc = true;
-            ranged = false;
-            damage = 10;
-            attackRange = 5;
-            projectileSpeed = 0f;
-            attackInterval = 1f;
-            speed = 2f;
-            health = 300;
-        }
+        npc = npcs[(int)characterType];
+        ranged = rangeds[(int)characterType];
+        projectileSpeed = projectileSpeeds[(int)characterType];
+        attackRange = attackRanges[(int)characterType];
+        damage = damages[(int)characterType];
+        attackInterval = attackIntervals[(int)characterType];
+        speed = speeds[(int)characterType];
+        health = healths[(int)characterType];
     }
-
-    #endregion
 }
