@@ -83,9 +83,15 @@ public class PlayerNetwork : MonoBehaviour {
 
 
     [PunRPC]
-    void RPC_DisableButton(int b) {
+    void RPC_DisableButton(int selected) {
         var cs = FindObjectOfType<CharacterSelection>();
-        cs.buttons[b].interactable = false;
+        if(selected >= 4) {
+            for(int i = 0; i < 4; i++) {
+                cs.buttons[i].interactable = false;
+            }
+        } else {
+            cs.buttons[selected].interactable = false;
+        }
     }
     //[PunRPC]
     //void RPC_DisableButton1() {
@@ -102,14 +108,18 @@ public class PlayerNetwork : MonoBehaviour {
     //    var cs = FindObjectOfType<CharacterSelection>();
     //    cs.buttons[3].interactable = false;
     //}
+    public void PickedCharacter(int c) {
+        PlayerNetwork.Instance.PhotonView.RPC("RPC_PickedCharacter", PhotonTargets.MasterClient, PhotonNetwork.player, c);
+    }
 
     [PunRPC]
-    void RPC_PickedCharacter(int selected) {
+    void RPC_PickedCharacter(PhotonPlayer photonPlayer, int selected) {
         if(!PhotonNetwork.isMasterClient)
             return;
         if(selectedCharacters[selected] == false) {
             selectedCharacters[selected] = true;
             playersSelectedCharacter++;
+            PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", photonPlayer, 4);
             PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
             print("Player picked a character");
             if(playersSelectedCharacter >= numberOfPlayers) {
