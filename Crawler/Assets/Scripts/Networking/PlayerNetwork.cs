@@ -14,7 +14,6 @@ public class PlayerNetwork : MonoBehaviour {
     public int numberOfPlayers;
     int PlayersInGame = 0;
     public bool joined;
-    PlayerCharacter currentPlayer;
     PlayerCharacter pc;
 
     void Awake() {
@@ -74,13 +73,13 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     void RPC_NewHealth(int health) {
 
-        if(currentPlayer == null)
+        if(pc == null)
             return;
-        if(currentPlayer.health <= 0) {
-            //print("Should die already");
-            currentPlayer.Die();
+        if(pc.health <= 0) {
+            print("Should die already");
+            pc.Die();
         } else
-            currentPlayer.health = health;
+            pc.health = health;
     }
 
 
@@ -122,8 +121,7 @@ public class PlayerNetwork : MonoBehaviour {
         string[] heroType = new string[] { "NetworkPlayer0", "NetworkPlayer1", "NetworkPlayer2", "NetworkPlayer3" };
         GameObject obj = PhotonNetwork.Instantiate(heroType[selectedCharacter], new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
-        //currentPlayer = obj.GetComponent<PlayerCharacter>();
-        //currentPlayer.characterType = (EntityType)selectedCharacter;
+        pc = obj.GetComponent<PlayerCharacter>();
         joined = true;
     }
 

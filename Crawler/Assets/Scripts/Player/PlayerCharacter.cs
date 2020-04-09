@@ -11,6 +11,7 @@ public class PlayerCharacter : Character {
 	GameObject projHead;
 	GameObject[] players;
 	GameObject MainCamera;
+	LayerMask layerMaskEnemy;
 	int camNum = 0;
 	bool potion;
 	bool dashing = false;
@@ -37,6 +38,7 @@ public class PlayerCharacter : Character {
 		rb2D = GetComponent<Rigidbody2D>();
 		col = GetComponent<CircleCollider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		layerMaskEnemy = LayerMask.GetMask("Enemy");
 		projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
 		dashCooldown = 0.0f;
@@ -50,8 +52,8 @@ public class PlayerCharacter : Character {
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
 	}
-	public void TakeDamage(int dmg, Character c) {
-		PhotonView photonView = c.GetComponent<PhotonView>();
+	public void TakeDamage(int dmg, PlayerCharacter pc) {
+		PhotonView photonView = pc.GetComponent<PhotonView>();
 		if(photonView != null) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, -dmg);
 			//print(photonView.owner);
@@ -434,13 +436,16 @@ public class PlayerCharacter : Character {
 	[PunRPC]
 	public void Melee(int dmg) {
 
-		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
 
 		foreach(var hit in hits) {
 			var ec = hit.gameObject.GetComponent<EnemyCharacter>();
+			var spawner = hit.gameObject.GetComponent<Spawner>();
 			if(ec != null) {
-				Debug.Log(hit.gameObject);
 				ec.TakeDamage(dmg);
+			}
+			if(spawner != null) {
+				spawner.TakeDamage(damage);
 			}
 		}
 	}
