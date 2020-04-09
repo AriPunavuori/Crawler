@@ -29,6 +29,8 @@ public class PlayerCharacter : Character {
 	Vector2 lastDir;
 	Vector3 TargetPosition;
 
+	int projectilesPerAttack = 1;
+
 	public Animator animator;
 	public GameObject playerCam;
 	public GameObject myUIBox;
