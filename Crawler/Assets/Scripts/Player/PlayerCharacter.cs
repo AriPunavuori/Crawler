@@ -52,10 +52,10 @@ public class PlayerCharacter : Character {
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
 	}
-	public void TakeDamage(int dmg, PlayerCharacter pc) {
+	public void SetHealth(int amount, PlayerCharacter pc) {
 		PhotonView photonView = pc.GetComponent<PhotonView>();
 		if(photonView != null) {
-			PlayerManager.Instance.ModifyHealth(photonView.owner, -dmg);
+			PlayerManager.Instance.ModifyHealth(photonView.owner, amount);
 			//print(photonView.owner);
 		}
 	}
@@ -95,7 +95,8 @@ public class PlayerCharacter : Character {
 		// Fix camera position
 		MainCamera.transform.position = gameObject.transform.position + new Vector3(0, 0, -11);
 		// Reset character attributes
-		SetCharacterAttributes(); 
+		SetCharacterAttributes();
+		SetHealth(health, this);
 		rb2D.isKinematic = false;
 		// Enable collider
 		col.enabled = true;
@@ -364,7 +365,7 @@ public class PlayerCharacter : Character {
 		if(collision.gameObject.CompareTag("Projectile")) {
 			var projectile = collision.gameObject.GetComponent<Projectile>();
 			if(npc != projectile.shotByNPC) {
-				TakeDamage(projectile.damage, this);
+				SetHealth(-projectile.damage, this);
 				print("Damage goes to " + this.gameObject);
 			}
 

@@ -211,7 +211,7 @@ public class EnemyCharacter : Character {
             var pc = hit.gameObject.GetComponent<PlayerCharacter>();                
             if(pc != null) {
                 Debug.Log(hit.gameObject);
-                pc.TakeDamage(damage, pc);
+                pc.SetHealth(-damage, pc);
             }
         }
     }
