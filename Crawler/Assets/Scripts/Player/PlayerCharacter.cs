@@ -314,15 +314,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	#endregion
 
-
-
 	public void Attack() {
 		if (ranged) {
-			Shoot(projectilesPerAttack, damage);
-			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack, 0);
+			Shoot(projectilesPerAttack, true);
+			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack, false);
 		} else {
-			Melee(damage);
-			photonView.RPC("Melee", PhotonTargets.Others, 0);
+			Melee(true);
+			photonView.RPC("Melee", PhotonTargets.Others, false);
 		}
 		attackTimer = attackInterval;
 	}
@@ -330,7 +328,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 	[PunRPC]
-	public void Shoot(int amount, int dmg) {
+	public void Shoot(int amount, bool owner) {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
@@ -340,21 +338,23 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			projectileClone.transform.localPosition = new Vector3(0f, offset - i * gap, 0f);
 			projectileClone.transform.parent = null;
 			Projectile projectile = projectileClone.GetComponent<Projectile>();
-			projectile.LaunchProjectile(dmg, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+			projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized, owner);
 		}
 	}
 
 
 
 	[PunRPC]
-	public void Melee(int dmg) {
-
-		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
-		foreach(var hit in hits) {
-			IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-			if(iDamageable != null) {
-				iDamageable.TakeDamage(damage);
+	public void Melee(bool owner) {
+		if(owner) {
+			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
+			foreach(var hit in hits) {
+				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+				if(iDamageable != null) {
+					iDamageable.TakeDamage(damage);
+				}
 			}
 		}
+		// Play animation
 	}
 }

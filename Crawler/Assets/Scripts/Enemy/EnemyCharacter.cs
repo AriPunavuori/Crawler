@@ -127,36 +127,38 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     public void Attack() {
         if(ranged) {
-            //Shoot(projectilesPerAttack);
-            photonView.RPC("Shoot", PhotonTargets.All, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation);
+            Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
+            photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
 
         } else {
-            //Melee();
-            photonView.RPC("Melee", PhotonTargets.All);
+            Melee(true);
+            photonView.RPC("Melee", PhotonTargets.Others, false);
         }
         attackTimer = attackInterval;
     }
 
     [PunRPC]
-    public void Shoot(Vector3 dir, Quaternion rot) {
+    public void Shoot(Vector3 dir, Quaternion rot, bool owner) {
         GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rot);
         projectileClone.transform.parent = projectileSpawn.transform;
         projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
         projectileClone.transform.parent = null;
         Projectile projectile = projectileClone.GetComponent<Projectile>();
-        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, dir);
+        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, dir, owner);
     }
 
     [PunRPC]
-    public void Melee() {
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
-        foreach(var hit in hits) {
-            IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-            if(iDamageable != null) {
-                iDamageable.TakeDamage(damage);
+    public void Melee(bool owner) {
+        if(owner) {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
+            foreach(var hit in hits) {
+                IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+                if(iDamageable != null) {
+                    iDamageable.TakeDamage(damage);
+                }
             }
         }
+        // Play animation
     }
 }
 

@@ -7,11 +7,12 @@ public class Projectile : MonoBehaviour {
     private float range;
     Vector2 origPos;
     public bool shotByNPC;
+    public bool shotByOwner;
     public bool explosive;
     public bool reflective;
 
 
-    public void LaunchProjectile(int d, float r, float s, bool npc, Vector2 dir) {
+    public void LaunchProjectile(int d, float r, float s, bool npc, Vector2 dir, bool owner) {
         // Get rigidbody
         Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
         // Set damage of the projectile
@@ -20,6 +21,8 @@ public class Projectile : MonoBehaviour {
         shotByNPC = npc;
         // Set range
         range = r;
+        // Set shotByOwner
+        shotByOwner = owner;
         rb2D.AddForce(dir * s, ForceMode2D.Impulse);
         origPos = transform.position;
     }
@@ -31,11 +34,14 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-        if(iDamageable != null) {
-            iDamageable.TakeDamage(damage);
-            DestroyProjectile();
+        if(shotByOwner) {
+            IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                iDamageable.TakeDamage(damage);
+                DestroyProjectile();
+            }
         }
+
         if(!reflective)
             DestroyProjectile();
         else {
