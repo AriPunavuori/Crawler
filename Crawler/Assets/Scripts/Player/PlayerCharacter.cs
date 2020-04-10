@@ -20,7 +20,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float playerCamOffset = 0.002f;
 	float dashCooldown = 3.0f;
 	float dashTime = 0.15f;
-	float dashTimer = 0.15f;
+	float dashTimer;
 	float respawnTime = 10.0f;
 	float respawnTimer = 10.0f;
 	// Multiplier for base player speed when dashing
@@ -43,7 +43,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		layerMaskEnemy = LayerMask.GetMask("Enemy");
 		projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
-		dashCooldown = 0.0f;
+		players = GameObject.FindGameObjectsWithTag("Player");
 		SetCharacterAttributes();
 		if (!PhotonNetwork.isMasterClient)
 			return;
@@ -155,9 +155,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Update() {
 
 		if (photonView.isMine) {
-
-			players = GameObject.FindGameObjectsWithTag("Player");
-
 			// When the player is dead
 			if (!alive) {
 				respawnTimer -= Time.deltaTime;
@@ -170,13 +167,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					}
 				}
 			}
-
-			//// Death
-			//if (health <= 0 && alive)
-			//{
-			//	Die();
-			//	photonView.RPC("Die", PhotonTargets.Others);
-			//}
 
 			// Respawn
 			if (respawnTimer <= 0) {
@@ -209,7 +199,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position);
 				playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
 
-
 				// Setting the correct animation/stance depending on the current mouse position and if moving or not
 				Vector2 mouseVector = new Vector2(Input.mousePosition.x - mousePos.x, Input.mousePosition.y - mousePos.y);
 				//Debug.Log(mouseVector);
@@ -218,12 +207,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				animator.SetFloat("Vertical", mouseVector.y);
 				animator.SetFloat("Magnitude", movement.magnitude);
 
-
-
-				if (Input.GetKeyDown(KeyCode.Space) && dashCooldown <= 0) {
+				if (Input.GetKeyDown(KeyCode.Space) && dashTimer <= 0) {
 					Debug.Log("Dashing");
 					dashing = true;
-					dashCooldown = 5.0f;
+					dashTimer = dashCooldown;
 
 					// Initial dash direction from mouse position
 					//Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
@@ -234,30 +221,20 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				if (dashing) {
-					dashTimer -= Time.deltaTime;
+					//dashTimer += Time.deltaTime;
 					// Updating dashing direction mid dash with mouse position.
 					//Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
 					//dashVector = new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y);
 
 					// Updating dashing direction mid dash with keyboard inputs. Comment to have static direction
 					//dashVector = lastDir;
+					if(dashTimer <= dashCooldown - dashTime) {
+						dashing = false;
+						//dashTimer = dashTime;
+					}
 				}
-
-				if (dashTimer <= 0) {
-					dashing = false;
-					dashTimer = dashTime;
-				}
-
-				if (!dashing && dashCooldown - Time.deltaTime > 0) {
-					dashCooldown -= Time.deltaTime;
-				} else if (!dashing && dashCooldown - Time.deltaTime < 0) {
-					dashCooldown = 0f;
-				}
-
+				dashTimer -= Time.deltaTime;
 			}
-			//if (myUIBox != null)
-			//	myUIBox.GetComponent<RectTransform>().sizeDelta = new Vector2(120, 120); // Make my UIBox Bigger than others.
-
 		} else {
 			transform.position = Vector3.Lerp(transform.position, TargetPosition, 0.1f);
 			rb2D.isKinematic = true;
@@ -290,12 +267,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.gameObject.CompareTag("WeaponUpgrade")) {
-			upgradeWeapon();
-			Destroy(collision.gameObject);
-		}
-	}
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 		if (stream.isWriting) {
 			stream.SendNext(transform.position);
@@ -321,27 +292,26 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	public void GetSpeed() {
-		speed += 10;
+		speed *= 1.25f;
 	}
 
-	void upgradeWeapon() {
-		if(characterType == EntityType.Hero0) {
+	public void GetWeaponUpgrade() {
+		if(ranged) {
 			if(weaponLevel == 0) {
 				projectilesPerAttack++;
 			} else if(weaponLevel == 1) {
-				attackInterval = 0.2f;
+				attackInterval *= .75f;
 			}
-
-		} else if(characterType == EntityType.Hero1) {
+		} else {
 			if(weaponLevel == 0) {
-				attackInterval = 1f;
+				damage *= 3/2 ;
 			} else if(weaponLevel == 1) {
-				projectileSpeed = 20f;
+				attackInterval *= .75f;
 			}
-
 		}
 		weaponLevel++;
 	}
+
 	#endregion
 
 
