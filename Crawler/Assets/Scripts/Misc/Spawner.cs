@@ -4,7 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Spawner : MonoBehaviour, IDamageable<int> {
+public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
+{
     public EntityType spawningType;
     Vector3 spawnPoint;
     string[] enemyType = new string[] { "NetworkEnemy0", "NetworkEnemy1", "NetworkEnemy2", "NetworkEnemy3" };
@@ -13,7 +14,7 @@ public class Spawner : MonoBehaviour, IDamageable<int> {
     public static PlayerNetwork Instance;
     LayerMask layerMaskPlayer;
     float detectionDistance;
-    int health = 200;
+    public int health = 200;
     private void Start() {
         spawnPoint = gameObject.transform.Find("SpawnPoint").transform.position;
         var ec = FindObjectOfType<EnemyCharacter>();
@@ -38,9 +39,37 @@ public class Spawner : MonoBehaviour, IDamageable<int> {
         }
     }
 
-    public void TakeDamage(int damage) {
-        health -= damage;
-        if(health <= 0)
-            Destroy(gameObject);
+
+    [PunRPC]
+    public void TakeDamage(int damage)
+    {
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            health -= damage;
+
+            if (health <= 0)
+
+                PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
+
+        }
+    }
+
+
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(health);
+        }
+        else if (stream.isReading)
+        {
+            this.health = (int)stream.ReceiveNext();
+        }
     }
 }

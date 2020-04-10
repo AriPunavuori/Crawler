@@ -61,4 +61,5 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - UpdateKeys
+  - TakeDamage
   DisableAutoOpenWizard: 1
