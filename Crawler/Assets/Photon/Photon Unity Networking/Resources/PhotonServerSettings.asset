@@ -51,10 +51,7 @@ MonoBehaviour:
   - respawn
   - RPC_CreatePlayer
   - RPC_CreateUIBoxes
-  - RPC_DisableButton0
-  - RPC_DisableButton1
-  - RPC_DisableButton2
-  - RPC_DisableButton3
+  - RPC_DisableButton
   - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
@@ -64,5 +61,4 @@ MonoBehaviour:
   - Shoot
   - TaggedPlayer
   - UpdateKeys
-  - RPC_DisableButton
   DisableAutoOpenWizard: 1

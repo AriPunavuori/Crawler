@@ -7,15 +7,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameManager : Photon.MonoBehaviour {
 	int keys = 0;
-	Canvas canvas;
-	public bool useUIBoxes = true;
-	public GameObject[] playerUIBoxes;
-	public GameObject playerUIBox;
-	public GameObject emptyUIBox;
-	GameObject[] players;
-	PhotonPlayer[] photonPlayers;
-	Room currentRoom;
-	Text keysUI;
 	UIManager um;
 
 	float counter;
@@ -52,7 +43,7 @@ public class GameManager : Photon.MonoBehaviour {
 		Hashtable hash = new Hashtable();
 		hash.Add(name, true);
 		PhotonNetwork.room.SetCustomProperties(hash);
-		um.UpdateKeys();
+		um.UpdateKeys(keys - 1);
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
 	public bool UseKey() {

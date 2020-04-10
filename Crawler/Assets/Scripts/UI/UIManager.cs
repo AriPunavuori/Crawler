@@ -12,38 +12,25 @@ public class UIManager : MonoBehaviour {
 	public Text[] healths;
 	public GameObject UIBox;
 
-	GameObject keyUI;
-	GameObject keyUI1;
-	GameObject keyUI2;
+	GameObject keysUI;
 
 	PhotonView photonView;
-	Text keysUI;
 
 	void Start() {
 		Instance = this;
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		keysUI = GameObject.Find("Keys").GetComponent<Text>();
+		keysUI = GameObject.Find("Keys");
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
-
-		keyUI = GameObject.Find("KeyUI");
-		keyUI1 = GameObject.Find("KeyUI (1)");
-		keyUI2 = GameObject.Find("KeyUI (2)");
 	}
 
 	[PunRPC]
-	public void UpdateKeys() {
-		if (PhotonNetwork.room.CustomProperties["Key"] != null) {
-			print("Key hallussa");
+	public void UpdateKeys(int keyNmbr) {
+		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
+		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
+		if (PhotonNetwork.room.CustomProperties[key] != null) {
+			print("Picked up " + key);
 			keyUI.GetComponent<Image>().color = Color.white;
-		}
-		if (PhotonNetwork.room.CustomProperties["Key (1)"] != null) {
-			print("Key (1) hallussa");
-			keyUI1.GetComponent<Image>().color = Color.white;
-		}
-		if (PhotonNetwork.room.CustomProperties["Key (2)"] != null) {
-			print("Key (2) hallussa");
-			keyUI2.GetComponent<Image>().color = Color.white;
 		}
 	}
 
