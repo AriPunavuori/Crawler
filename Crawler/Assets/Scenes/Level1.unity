@@ -8030,6 +8030,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -44259,6 +44269,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730602, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: spawningType
@@ -44443,6 +44463,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730602, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: spawningType
@@ -44715,6 +44745,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -45564,6 +45604,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -46332,6 +46382,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -46422,6 +46482,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 965752999}
     m_Modifications:
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: viewIdField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -7558553024033293861, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
+        type: 3}
+      propertyPath: instantiationId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6902921326287730603, guid: 5a2fd01ce6d17624bb1877ef9bd14b44,
         type: 3}
       propertyPath: m_Name
@@ -46746,12 +46816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f75aa337f2188c4aadcca9e49c54add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useUIBoxes: 1
-  playerUIBoxes: []
-  playerUIBox: {fileID: 2389741441464228277, guid: e5cac87aec27149c9ab1f850140e39b8,
-    type: 3}
-  emptyUIBox: {fileID: 8257796290706323197, guid: 598a40e15ee13a545b99385516f6f0d5,
-    type: 3}
 --- !u!4 &2109472008
 Transform:
   m_ObjectHideFlags: 0
