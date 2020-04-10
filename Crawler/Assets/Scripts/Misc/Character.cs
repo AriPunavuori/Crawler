@@ -13,7 +13,7 @@ public class Character : Photon.MonoBehaviour {
     public float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
     public float[] attackRanges = new float[] { 10, 10, 3, 3, 10, 10, 3, 3 }; // Range of attack
     public int[] damages = new int[] { 10, 10, 10, 10, 1, 1, 1, 1 };  // Amount of damage
-    public float[] attackIntervals = new float[] { 0.1f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, }; // Attack interval
+    public float[] attackIntervals = new float[] { 0.1f, 0.1f, 0.5f, 0.5f, 5f, 5f, 5f, 5f }; // Attack interval
     public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
     public int[] healths = new int[] { 200, 250, 300, 350, 20, 20, 20, 20 }; // Health
 

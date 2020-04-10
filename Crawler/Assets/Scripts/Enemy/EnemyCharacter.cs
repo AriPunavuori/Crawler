@@ -9,6 +9,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     public LayerMask layerMaskObstacles;
     public GameObject player;
     GameObject rotator;
+    GameObject meleeIndicator;
 
     Vector3 target;
     bool seen;
@@ -17,13 +18,18 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
+        meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
+
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
         SetCharacterAttributes();
+        meleeIndicator.transform.localScale = new Vector3(attackRange, 1, 1);
+        meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
+        meleeIndicator.SetActive(false);
         EnemyManager.Instance.AddEnemyStats(this);
         EnemyManager.Instance.ModifyHealth(this, health);
-        photonView.TransferOwnership(1);
+        //photonView.TransferOwnership(1);
     }
 
     private void FixedUpdate() {
@@ -32,7 +38,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
             SearchForPlayers(); // Search for next player
         } else {
             if(DistToPlayer() < detectionDistance) {
-                if(TargetSeen()) { // Function updates also target
+                if(PlayerSeen()) { // Function updates also target
                     if(DistToPlayer() > attackRange)
                         Move(speed); // Moves close enough to attact
                     else {
@@ -51,10 +57,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         }
     }
     public void TakeDamage(int damage) {
-
         EnemyManager.Instance.ModifyHealth(this, -damage);
-
-
     }
 
     void StartAttack() {
@@ -75,6 +78,9 @@ public class EnemyCharacter : Character, IDamageable<int> {
             float MoveDirX = target.x - transform.position.x;
             float MoveDirY = target.y - transform.position.y;
             rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
+        } else {
+            if(!PlayerSeen())
+                player = null;
         }
     }
 
@@ -82,7 +88,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         return Vector2.Distance(transform.position, player.transform.position);
     }
 
-    bool TargetSeen() {
+    bool PlayerSeen() {
         Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, DistToPlayer(), layerMaskObstacles); // Castataan ray pelaajaan päin
         if(hit) {
@@ -110,10 +116,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
                 }
             }
 
-            int playerID = player.GetComponent<PhotonView>().ownerId;
-            if(photonView.ownerId != playerID) {
-                photonView.TransferOwnership(playerID);
-            }
+            //int playerID = player.GetComponent<PhotonView>().ownerId;
+            //if(photonView.ownerId != playerID) {
+            //    photonView.TransferOwnership(playerID);
+            //}
         }
     }
 
@@ -131,6 +137,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
             photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
 
         } else {
+            //rotator.transform.right = Vector3.right; // Turn rotator
             Melee(true);
             photonView.RPC("Melee", PhotonTargets.Others, false);
         }
@@ -159,6 +166,19 @@ public class EnemyCharacter : Character, IDamageable<int> {
             }
         }
         // Play animation
+        meleeIndicator.SetActive(true);
+        StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval*.9f));
+    }
+    IEnumerator RotateMe(Vector3 byAngles, float inTime) {
+        print("Melee animation");
+        var fromAngle = Quaternion.Euler(rotator.transform.eulerAngles - byAngles);
+        var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
+        for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+            rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
+            if(t>=.975f)
+                meleeIndicator.SetActive(false);
+            yield return null;
+        }
     }
 }
 
