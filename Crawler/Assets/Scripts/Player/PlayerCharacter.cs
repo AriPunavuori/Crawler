@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerCharacter : Character {
+public class PlayerCharacter : Character, IDamageable<int> {
 
 	Rigidbody2D rb2D;
 	CircleCollider2D col;
@@ -53,6 +53,10 @@ public class PlayerCharacter : Character {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
+	}
+
+	public void TakeDamage(int damage) {
+		SetHealth(-damage, this);
 	}
 	public void SetHealth(int amount, PlayerCharacter pc) {
 		PhotonView photonView = pc.GetComponent<PhotonView>();
@@ -115,8 +119,8 @@ public class PlayerCharacter : Character {
 		alive = true;
 	}
 
-	// Try to find a camera to "follow".
-	void findCamera() {
+
+	void findCamera() { // Try to find a camera to "follow"
 		bool cameraFound = false;
 		int alivePlayers = 0;
 		for (int i = 0; i < players.Length; i++) {
@@ -147,8 +151,6 @@ public class PlayerCharacter : Character {
 			Debug.Log("No alive players found");
 		}
 	}
-
-
 
 	void Update() {
 
@@ -288,25 +290,6 @@ public class PlayerCharacter : Character {
 		}
 	}
 
-	void upgradeWeapon() {
-		if (characterType == EntityType.Hero0) {
-			if (weaponLevel == 0) {
-				projectilesPerAttack++;
-			} else if (weaponLevel == 1) {
-				attackInterval = 0.2f;
-			}
-
-		} else if (characterType == EntityType.Hero1) {
-			if (weaponLevel == 0) {
-				attackInterval = 1f;
-			} else if (weaponLevel == 1) {
-				projectileSpeed = 20f;
-			}
-
-		}
-		weaponLevel++;
-	}
-
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.CompareTag("WeaponUpgrade")) {
 			upgradeWeapon();
@@ -340,18 +323,28 @@ public class PlayerCharacter : Character {
 	public void GetSpeed() {
 		speed += 10;
 	}
-	#endregion
-	// _____________________________Sort these out BELOW!!!____________________________________
-	private void OnCollisionEnter2D(Collision2D collision) {
-		// Check if collision is projectile and type of shooter
-		if (collision.gameObject.CompareTag("Projectile")) {
-			var projectile = collision.gameObject.GetComponent<Projectile>();
-			if (npc != projectile.shotByNPC) {
-				SetHealth(-projectile.damage, this);
-				print("Damage goes to " + this.gameObject);
+
+	void upgradeWeapon() {
+		if(characterType == EntityType.Hero0) {
+			if(weaponLevel == 0) {
+				projectilesPerAttack++;
+			} else if(weaponLevel == 1) {
+				attackInterval = 0.2f;
 			}
+
+		} else if(characterType == EntityType.Hero1) {
+			if(weaponLevel == 0) {
+				attackInterval = 1f;
+			} else if(weaponLevel == 1) {
+				projectileSpeed = 20f;
+			}
+
 		}
+		weaponLevel++;
 	}
+	#endregion
+
+
 
 	public void Attack() {
 		if (ranged) {
@@ -387,15 +380,10 @@ public class PlayerCharacter : Character {
 	public void Melee(int dmg) {
 
 		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
-
-		foreach (var hit in hits) {
-			var ec = hit.gameObject.GetComponent<EnemyCharacter>();
-			var spawner = hit.gameObject.GetComponent<Spawner>();
-			if (ec != null) {
-				ec.TakeDamage(dmg);
-			}
-			if (spawner != null) {
-				spawner.TakeDamage(dmg);
+		foreach(var hit in hits) {
+			IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+			if(iDamageable != null) {
+				iDamageable.TakeDamage(damage);
 			}
 		}
 	}

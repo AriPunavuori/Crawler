@@ -26,15 +26,23 @@ public class Projectile : MonoBehaviour {
 
     void Update() {
         if(Vector2.Distance(transform.position, origPos) > range) {
-            Destroy(gameObject);
+            DestroyProjectile();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
+        IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+        if(iDamageable != null) {
+            iDamageable.TakeDamage(damage);
+            DestroyProjectile();
+        }
         if(!reflective)
-            Destroy(gameObject);
+            DestroyProjectile();
         else {
             // Reflect from colliding object with proper angle
         }
+    }
+    public void DestroyProjectile() {
+        Destroy(gameObject);
     }
 }

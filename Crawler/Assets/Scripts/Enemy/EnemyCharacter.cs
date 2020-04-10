@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCharacter : Character {
+public class EnemyCharacter : Character, IDamageable<int> {
 
     Rigidbody2D rigidBody;
     public LayerMask layerMaskPlayer;
@@ -50,23 +50,22 @@ public class EnemyCharacter : Character {
             }
         }
     }
-    public void TakeDamage(int dmg) {
+    public void TakeDamage(int damage) {
 
-        EnemyManager.Instance.ModifyHealth(this, -dmg);
+        EnemyManager.Instance.ModifyHealth(this, -damage);
 
 
     }
 
     void StartAttack() {
-        if (PhotonNetwork.isMasterClient)
-        {
-            if (attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
-            rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
-            Attack();
-            attackTimer = 0;
-        } else {
-            attackTimer += Time.deltaTime;
-        }
+        if(PhotonNetwork.isMasterClient) {
+            if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+                rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
+                Attack();
+                attackTimer = 0;
+            } else {
+                attackTimer += Time.deltaTime;
+            }
 
         }
     }
@@ -112,8 +111,7 @@ public class EnemyCharacter : Character {
             }
 
             int playerID = player.GetComponent<PhotonView>().ownerId;
-            if (photonView.ownerId != playerID)
-            {
+            if(photonView.ownerId != playerID) {
                 photonView.TransferOwnership(playerID);
             }
         }
@@ -124,20 +122,6 @@ public class EnemyCharacter : Character {
             stream.SendNext(health);
         } else {
             this.health = (int)stream.ReceiveNext();
-        }
-    }
-
-    // _____________________________Sort these out BELOW!!!____________________________________
-    private void OnCollisionEnter2D(Collision2D collision) {
-        // Check if collision is projectile and type of shooter
-        if(collision.gameObject.CompareTag("Projectile")) {
-            var projectile = collision.gameObject.GetComponent<Projectile>();
-            if(npc != projectile.shotByNPC) {
-                TakeDamage(projectile.damage);
-                print("Damage goes to " + this.gameObject);
-            }
-
-            //photonView.RPC("TakeDamage", PhotonTargets.Others, projectile.damage);
         }
     }
 
@@ -153,8 +137,6 @@ public class EnemyCharacter : Character {
         attackTimer = attackInterval;
     }
 
-
-
     [PunRPC]
     public void Shoot(Vector3 dir, Quaternion rot) {
         GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rot);
@@ -165,17 +147,14 @@ public class EnemyCharacter : Character {
         projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, dir);
     }
 
-
-
     [PunRPC]
     public void Melee() {
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
         foreach(var hit in hits) {
-            var pc = hit.gameObject.GetComponent<PlayerCharacter>();                
-            if(pc != null) {
-                Debug.Log(hit.gameObject);
-                pc.SetHealth(-damage, pc);
+            IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                iDamageable.TakeDamage(damage);
             }
         }
     }
