@@ -60,18 +60,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         EnemyManager.Instance.ModifyHealth(this, -damage);
     }
 
-    void StartAttack() {
-        if(PhotonNetwork.isMasterClient) {
-            if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
-                rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
-                Attack();
-                attackTimer = 0;
-            } else {
-                attackTimer += Time.deltaTime;
-            }
 
-        }
-    }
 
     void Move(float s) {
         if(Vector2.Distance(transform.position, target) > proximityDistance) { // Moves close towards target until in proximityDistance
@@ -130,12 +119,23 @@ public class EnemyCharacter : Character, IDamageable<int> {
             this.health = (int)stream.ReceiveNext();
         }
     }
+    void StartAttack() {
+        if(PhotonNetwork.isMasterClient) {
+            if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+                Attack();
+                attackTimer = 0;
+            } else {
+                attackTimer += Time.deltaTime;
+            }
+
+        }
+    }
 
     public void Attack() {
+        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
         if(ranged) {
             Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
             photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
-
         } else {
             //rotator.transform.right = Vector3.right; // Turn rotator
             Melee(true);
