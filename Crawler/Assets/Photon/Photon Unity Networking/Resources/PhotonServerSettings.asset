@@ -62,4 +62,5 @@ MonoBehaviour:
   - TaggedPlayer
   - UpdateKeys
   - TakeDamage
+  - SetCharacterAttributes
   DisableAutoOpenWizard: 1

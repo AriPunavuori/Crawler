@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class EnemyCharacter : Character, IDamageable<int> {
 
@@ -11,6 +13,9 @@ public class EnemyCharacter : Character, IDamageable<int> {
     GameObject rotator;
     GameObject meleeIndicator;
 
+    public TextMeshProUGUI healthText;
+     
+
     Vector3 target;
     bool seen;
     float proximityDistance = 1f;
@@ -19,7 +24,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
-
+        healthText.text = "" + health;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
@@ -56,11 +61,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
             }
         }
     }
-    public void TakeDamage(int damage) {
-        EnemyManager.Instance.ModifyHealth(this, -damage);
-    }
-
-
 
     void Move(float s) {
         if(Vector2.Distance(transform.position, target) > proximityDistance) { // Moves close towards target until in proximityDistance
@@ -104,7 +104,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
                     shortestDist = dist;
                 }
             }
-
             //int playerID = player.GetComponent<PhotonView>().ownerId;
             //if(photonView.ownerId != playerID) {
             //    photonView.TransferOwnership(playerID);
@@ -119,6 +118,20 @@ public class EnemyCharacter : Character, IDamageable<int> {
             this.health = (int)stream.ReceiveNext();
         }
     }
+    public void TakeDamage(int damage) {
+        EnemyManager.Instance.ModifyHealth(this, -damage);
+    }
+
+    public void SetHealth(int newHealth) {
+        if(newHealth <= 0) {
+            print("Enemy should die!");
+            PhotonNetwork.Destroy(gameObject);
+        }
+
+        health = newHealth;
+        healthText.text = "" + health;
+    }
+
     void StartAttack() {
         if(PhotonNetwork.isMasterClient) {
             if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika

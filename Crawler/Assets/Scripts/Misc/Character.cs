@@ -15,7 +15,7 @@ public class Character : Photon.MonoBehaviour {
     public int[] damages = new int[] { 10, 10, 10, 10, 1, 1, 1, 1 };  // Amount of damage
     public float[] attackIntervals = new float[] { 0.1f, 0.1f, 0.5f, 0.5f, 5f, 5f, 5f, 5f }; // Attack interval
     public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
-    public int[] healths = new int[] { 200, 250, 300, 350, 20, 20, 20, 20 }; // Health
+    public int[] healths = new int[] { 200, 250, 300, 350, 100, 100, 100, 100 }; // Health
 
     #region Variables
     // Attributes of characters (No need for public variables after testing)?
@@ -38,19 +38,19 @@ public class Character : Photon.MonoBehaviour {
 
     #endregion
     [PunRPC]
-    public void Destroy() {
-        if(gameObject != null) {
-            PhotonNetwork.Destroy(gameObject);
-        }
-    }
-    private void Update() {
-        if(PhotonNetwork.isMasterClient) {
-            if(health < 0) { // What happens here?
-                photonView.TransferOwnership(1);
-                PhotonNetwork.Destroy(gameObject);
-            }
-        }
-    }
+    //public void Destroy() {
+    //    if(gameObject != null) {
+    //        PhotonNetwork.Destroy(gameObject);
+    //    }
+    //}
+    //private void Update() {
+    //    if(PhotonNetwork.isMasterClient) {
+    //        if(health < 0) { // What happens here?
+    //            photonView.TransferOwnership(1);
+    //            PhotonNetwork.Destroy(gameObject);
+    //        }
+    //    }
+    //}
     public void SetCharacterAttributes() {
         npc = npcs[(int)characterType];
         ranged = rangeds[(int)characterType];
