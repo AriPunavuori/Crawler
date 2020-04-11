@@ -132,7 +132,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
     }
 
     public void Attack() {
-        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
         if(ranged) {
             Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
             photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
@@ -146,6 +145,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Shoot(Vector3 dir, Quaternion rot, bool owner) {
+        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
         GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rot);
         projectileClone.transform.parent = projectileSpawn.transform;
         projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -156,6 +156,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Melee(bool owner) {
+        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
         if(owner) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
             foreach(var hit in hits) {
