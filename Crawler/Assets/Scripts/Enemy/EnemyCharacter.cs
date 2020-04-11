@@ -24,7 +24,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
         SetCharacterAttributes();
-        meleeIndicator.transform.localScale = new Vector3(attackRange, 1, 1);
+        meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
         meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
         meleeIndicator.SetActive(false);
         EnemyManager.Instance.AddEnemyStats(this);
@@ -167,7 +167,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         }
         // Play animation
         meleeIndicator.SetActive(true);
-        StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval*.9f));
+        StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
     }
     IEnumerator RotateMe(Vector3 byAngles, float inTime) {
         print("Melee animation");
@@ -175,7 +175,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
         for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
             rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
-            if(t>=.975f)
+            if(t >= .975f)
                 meleeIndicator.SetActive(false);
             yield return null;
         }

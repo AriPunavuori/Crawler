@@ -31,11 +31,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	int projectilesPerAttack = 1;
 
+	GameObject rotator;
+	GameObject meleeIndicator;
+
 	public Animator animator;
 	public GameObject playerCam;
 	public GameObject myUIBox;
 
 	void Start() {
+		rotator = transform.Find("ProjectileHeading").gameObject;
+		meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
+		meleeIndicator.SetActive(false);
 		alive = true;
 		rb2D = GetComponent<Rigidbody2D>();
 		col = GetComponent<CircleCollider2D>();
@@ -356,5 +362,18 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			}
 		}
 		// Play animation
+		meleeIndicator.SetActive(true);
+		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
+	}
+	IEnumerator RotateMe(Vector3 byAngles, float inTime) {
+		print("Melee animation");
+		var fromAngle = Quaternion.Euler(rotator.transform.eulerAngles - byAngles);
+		var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
+		for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+			rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
+			if(t >= .975f)
+				meleeIndicator.SetActive(false);
+			yield return null;
+		}
 	}
 }
