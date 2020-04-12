@@ -140,7 +140,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
             } else {
                 attackTimer += Time.deltaTime;
             }
-
         }
     }
 
@@ -149,7 +148,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
             Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
             photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
         } else {
-            //rotator.transform.right = Vector3.right; // Turn rotator
             Melee(true);
             photonView.RPC("Melee", PhotonTargets.Others, false);
         }
@@ -184,7 +182,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
     }
     IEnumerator RotateMe(Vector3 byAngles, float inTime) {
-        print("Melee animation");
+        //print("Melee animation");
         var fromAngle = Quaternion.Euler(rotator.transform.eulerAngles - byAngles);
         var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
         for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
 {
+    public TextMeshProUGUI healthText;
     public EntityType spawningType;
     Vector3 spawnPoint;
     string[] enemyType = new string[] { "NetworkEnemy0", "NetworkEnemy1", "NetworkEnemy2", "NetworkEnemy3" };
@@ -57,6 +59,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
 
         }
+        healthText.text = "" + health;
     }
 
 
