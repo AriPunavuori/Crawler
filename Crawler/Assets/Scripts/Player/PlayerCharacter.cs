@@ -50,6 +50,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
 		players = GameObject.FindGameObjectsWithTag("Player");
+		meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
+		meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
+		meleeIndicator.SetActive(false);
 		SetCharacterAttributes();
 		if (!PhotonNetwork.isMasterClient)
 			return;
