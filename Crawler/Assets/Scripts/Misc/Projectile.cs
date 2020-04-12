@@ -20,6 +20,7 @@ public class Projectile : MonoBehaviour {
             damage = d;
         } else
             damage = 0;
+        print("Damage: " + damage);
         // Set shooter type
         shotByNPC = npc;
         // Set range
@@ -35,13 +36,13 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if(shotByOwner) {
-            IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-            if(iDamageable != null) {
-                iDamageable.TakeDamage(damage);
-                DestroyProjectile();
-            }
+
+        IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+        if(iDamageable != null) {
+            iDamageable.TakeDamage(damage);
+            DestroyProjectile();
         }
+
 
         if(!reflective)
             DestroyProjectile();
