@@ -12,7 +12,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     public GameObject player;
     GameObject rotator;
     GameObject meleeIndicator;
-
+    int prevHealth;
     public TextMeshProUGUI healthText;
      
 
@@ -36,9 +36,12 @@ public class EnemyCharacter : Character, IDamageable<int> {
         EnemyManager.Instance.ModifyHealth(this, health);
         //photonView.TransferOwnership(1);
     }
-
+    private void Update() {
+        healthText.text = "" + health;
+    }
     private void FixedUpdate() {
         rigidBody.velocity = Vector2.zero;
+
         if(player == null) {
             SearchForPlayers(); // Search for next player
         } else {
@@ -127,9 +130,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
             print("Enemy should die!");
             PhotonNetwork.Destroy(gameObject);
         }
-
         health = newHealth;
-        healthText.text = "" + health;
     }
 
     void StartAttack() {

@@ -322,11 +322,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void Attack() {
 		if (ranged) {
-			Shoot(projectilesPerAttack, true);
-			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack, false);
+			Shoot(projectilesPerAttack);
+			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack);
 		} else {
-			Melee(true);
-			photonView.RPC("Melee", PhotonTargets.Others, false);
+			Melee();
+			photonView.RPC("Melee", PhotonTargets.Others);
 		}
 		attackTimer = attackInterval;
 	}
@@ -334,7 +334,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 	[PunRPC]
-	public void Shoot(int amount, bool owner) {
+	public void Shoot(int amount) {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
@@ -351,8 +351,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 	[PunRPC]
-	public void Melee(bool owner) {
-
+	public void Melee() {
+		if(PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
 			foreach(var hit in hits) {
 				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
@@ -360,7 +360,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					iDamageable.TakeDamage(damage);
 				}
 			}
-
+		}
 		// Play animation
 		meleeIndicator.SetActive(true);
 		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
