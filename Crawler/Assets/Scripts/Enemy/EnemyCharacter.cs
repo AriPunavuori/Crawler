@@ -24,7 +24,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
-        healthText.text = "" + health;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
@@ -32,13 +31,14 @@ public class EnemyCharacter : Character, IDamageable<int> {
         meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
         meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
         meleeIndicator.SetActive(false);
-        EnemyManager.Instance.AddEnemyStats(this);
-        EnemyManager.Instance.ModifyHealth(this, health);
+        //EnemyManager.Instance.AddEnemyStats(this);
+        //EnemyManager.Instance.ModifyHealth(this, health);
+        healthText.text = "" + health;
         //photonView.TransferOwnership(1);
     }
-    private void Update() {
-        healthText.text = "" + health;
-    }
+    //private void Update() {
+    //    healthText.text = "" + health;
+    //}
     private void FixedUpdate() {
         rigidBody.velocity = Vector2.zero;
 
@@ -113,25 +113,50 @@ public class EnemyCharacter : Character, IDamageable<int> {
             //}
         }
     }
+    [PunRPC]
+    public void TakeDamage(int damage) {
 
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+        if(PhotonNetwork.isMasterClient) {
+            health -= damage;
+            healthText.text = "" + health;
+            if(health <= 0)
+
+                PhotonNetwork.Destroy(gameObject);
+        } else {
+            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
+
+        }
+    }
+
+
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if(stream.isWriting) {
             stream.SendNext(health);
-        } else {
+        } else if(stream.isReading) {
             this.health = (int)stream.ReceiveNext();
+            healthText.text = "" + health;
         }
-    }
-    public void TakeDamage(int damage) {
-        EnemyManager.Instance.ModifyHealth(this, -damage);
     }
 
-    public void SetHealth(int newHealth) {
-        if(newHealth <= 0) {
-            print("Enemy should die!");
-            PhotonNetwork.Destroy(gameObject);
-        }
-        health = newHealth;
-    }
+    //void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+    //    if(stream.isWriting) {
+    //        stream.SendNext(health);
+    //    } else {
+    //        this.health = (int)stream.ReceiveNext();
+    //    }
+    //}
+    //public void TakeDamage(int damage) {
+    //    EnemyManager.Instance.ModifyHealth(this, -damage);
+    //}
+
+    //public void SetHealth(int newHealth) {
+    //    if(newHealth <= 0) {
+    //        print("Enemy should die!");
+    //        PhotonNetwork.Destroy(gameObject);
+    //    }
+    //    health = newHealth;
+    //}
 
     void StartAttack() {
         if(PhotonNetwork.isMasterClient) {
@@ -190,7 +215,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
         for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
             rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
-            if(t >= .975f)
+            if(t >= .9f)
                 meleeIndicator.SetActive(false);
             yield return null;
         }

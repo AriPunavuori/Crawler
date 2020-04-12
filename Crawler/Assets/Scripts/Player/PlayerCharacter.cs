@@ -374,7 +374,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
 		for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
 			rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
-			if(t >= .975f)
+			if(t >= .9f)
 				meleeIndicator.SetActive(false);
 			yield return null;
 		}

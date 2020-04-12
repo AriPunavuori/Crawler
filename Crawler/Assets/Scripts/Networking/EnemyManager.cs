@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour {
             EnemyStats es = enemyStats[index];
             //print("Original health: " + es.Health);
             es.Health += value;
-            ec.SetHealth(es.Health);
+            //ec.SetHealth(es.Health);
             print(ec.gameObject.name + " Enemy health changed " + value + "!");
         }
     }
