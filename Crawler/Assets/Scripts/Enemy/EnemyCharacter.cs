@@ -145,30 +145,30 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     public void Attack() {
         if(ranged) {
-            Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
-            photonView.RPC("Shoot", PhotonTargets.Others, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, false);
+            //Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
+            photonView.RPC("Shoot", PhotonTargets.AllViaServer, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation);
         } else {
-            Melee(true);
-            photonView.RPC("Melee", PhotonTargets.Others, false);
+            //Melee(true);
+            photonView.RPC("Melee", PhotonTargets.AllViaServer);
         }
         attackTimer = attackInterval;
     }
 
     [PunRPC]
-    public void Shoot(Vector3 dir, Quaternion rot, bool owner) {
+    public void Shoot(Vector3 dir, Quaternion rot) {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
         GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rot);
         projectileClone.transform.parent = projectileSpawn.transform;
         projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
         projectileClone.transform.parent = null;
         Projectile projectile = projectileClone.GetComponent<Projectile>();
-        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, dir, owner);
+        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, dir);
     }
 
     [PunRPC]
-    public void Melee(bool owner) {
+    public void Melee() {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
-        if(owner) {
+        if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
             foreach(var hit in hits) {
                 IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
@@ -177,6 +177,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
                 }
             }
         }
+
+
         // Play animation
         meleeIndicator.SetActive(true);
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));

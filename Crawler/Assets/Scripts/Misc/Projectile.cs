@@ -12,17 +12,18 @@ public class Projectile : MonoBehaviour {
     public bool reflective;
 
 
-    public void LaunchProjectile(int d, float r, float s, bool npc, Vector2 dir, bool owner) {
+    public void LaunchProjectile(int d, float r, float s, bool npc, Vector2 dir) {
         // Get rigidbody
         Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
         // Set damage of the projectile
-        damage = d;
+        if(PhotonNetwork.isMasterClient) {
+            damage = d;
+        } else
+            damage = 0;
         // Set shooter type
         shotByNPC = npc;
         // Set range
         range = r;
-        // Set shotByOwner
-        shotByOwner = owner;
         rb2D.AddForce(dir * s, ForceMode2D.Impulse);
         origPos = transform.position;
     }
