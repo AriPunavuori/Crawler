@@ -49,7 +49,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
         if (PhotonNetwork.isMasterClient)
         {
             health -= damage;
-
+            healthText.text = "" + health;
             if (health <= 0)
 
                 PhotonNetwork.Destroy(gameObject);
@@ -59,7 +59,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
 
         }
-        healthText.text = "" + health;
+
     }
 
 
@@ -73,6 +73,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable
         else if (stream.isReading)
         {
             this.health = (int)stream.ReceiveNext();
+            healthText.text = "" + health;
         }
     }
 }
