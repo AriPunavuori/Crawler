@@ -12,10 +12,10 @@ public class Character : Photon.MonoBehaviour {
     public bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
     public float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
     public float[] attackRanges = new float[] { 10f, 10f, 2f, 2f, 8f, 8f, 1.5f, 1.5f }; // Range of attack
-    public int[] damages = new int[] { 10, 10, 10, 10, 5, 5, 10, 10 };  // Amount of damage
-    public float[] attackIntervals = new float[] { 0.1f, 0.1f, 0.5f, 0.5f, .5f, .5f, .5f, .5f }; // Attack interval
+    public int[] damages = new int[] { 5, 5, 10, 10, 5, 5, 10, 10 };  // Amount of damage
+    public float[] attackIntervals = new float[] { 0.2f, 0.2f, 0.5f, 0.5f, .5f, .5f, .5f, .5f }; // Attack interval
     public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
-    public int[] healths = new int[] { 200, 200, 200, 200, 20, 20, 50, 60 }; // Health
+    public int[] healths = new int[] { 200, 200, 200, 200, 20 , 60, 100, 100 }; // Health
 
     public bool npc;
     public bool ranged;
