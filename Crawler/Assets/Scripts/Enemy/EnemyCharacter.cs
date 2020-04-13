@@ -14,7 +14,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     GameObject meleeIndicator;
     int prevHealth;
     public TextMeshProUGUI healthText;
-     
+    PlayerCharacter pc;
 
     Vector3 target;
     bool seen;
@@ -42,7 +42,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     private void FixedUpdate() {
         rigidBody.velocity = Vector2.zero;
 
-        if(player == null) {
+        if(player == null || !pc.alive) {
             SearchForPlayers(); // Search for next player
         } else {
             if(DistToPlayer() < detectionDistance) {
@@ -107,6 +107,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
                     shortestDist = dist;
                 }
             }
+            pc = player.GetComponent<PlayerCharacter>();
             //int playerID = player.GetComponent<PhotonView>().ownerId;
             //if(photonView.ownerId != playerID) {
             //    photonView.TransferOwnership(playerID);

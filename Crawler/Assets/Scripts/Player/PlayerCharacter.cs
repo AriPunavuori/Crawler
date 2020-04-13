@@ -16,7 +16,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     bool potion;
     bool dashing = false;
     bool camFound = false;
-    bool alive;
+    public bool alive;
     float playerCamOffset = 0.002f;
     float dashCooldown = 3.0f;
     float dashTime = 0.15f;
