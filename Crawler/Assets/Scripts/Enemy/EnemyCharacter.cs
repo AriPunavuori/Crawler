@@ -172,7 +172,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     public void Attack() {
         if(ranged) {
             //Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
-            photonView.RPC("Shoot", PhotonTargets.AllViaServer, (projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation);
+            photonView.RPC("Shoot", PhotonTargets.AllViaServer);
         } else {
             //Melee(true);
             photonView.RPC("Melee", PhotonTargets.AllViaServer);
@@ -181,9 +181,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
     }
 
     [PunRPC]
-    public void Shoot(Vector3 dir, Quaternion rot) {
-        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
-        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rot);
+    public void Shoot() {
+        rotator.transform.right = target - rotator.transform.position; // Turn rotator
+        Vector2 dir = (projectileSpawn.transform.position - transform.position).normalized;
+        GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rotator.transform.rotation);
         projectileClone.transform.parent = projectileSpawn.transform;
         projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
         projectileClone.transform.parent = null;
@@ -193,7 +194,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Melee() {
-        rotator.transform.right = target - rotator.transform.position; // Turn rotator with projectileSpawn
+        rotator.transform.right = target - rotator.transform.position; // Turn rotator
         if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
             foreach(var hit in hits) {
