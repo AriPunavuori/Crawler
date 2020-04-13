@@ -282,9 +282,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
     #region Powerups
     public void UsePotion() {
         if(potion) {
-            print(healths[(int)characterType]);
-            if(health + 100 > healths[(int)characterType]) {
-                SetHealth(healths[(int)characterType] - health, this);
+            print(CheckCharacterHealt(characterType));
+            if(health + 100 > CheckCharacterHealt(characterType)) {
+                SetHealth(CheckCharacterHealt(characterType) - health, this);
             } else
                 SetHealth(100, this);
             potion = false;

@@ -103,7 +103,7 @@ MonoBehaviour:
   health: 0
   attackTimer: 0
   weaponLevel: 0
-  projectileSpawn: {fileID: 0}
+  projectileSpawn: {fileID: 8273041752780425370}
   projectilePrefab: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,
     type: 3}
   movement: {x: 0, y: 0}

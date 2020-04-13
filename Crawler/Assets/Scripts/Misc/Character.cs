@@ -8,14 +8,14 @@ public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
 
-    public bool[] npcs = new bool[] { false, false, false, false, true, true, true, true }; // Player or enemy
-    public bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
-    public float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
-    public float[] attackRanges = new float[] { 10f, 10f, 2f, 2f, 8f, 8f, 1.5f, 1.5f }; // Range of attack
-    public int[] damages = new int[] { 5, 5, 10, 10, 5, 5, 10, 10 };  // Amount of damage
-    public float[] attackIntervals = new float[] { 0.2f, 0.2f, 0.5f, 0.5f, .5f, .5f, .5f, .5f }; // Attack interval
-    public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
-    public int[] healths = new int[] { 200, 200, 200, 200, 20 , 60, 100, 100 }; // Health
+    bool[] npcs = new bool[] { false, false, false, false, true, true, true, true }; // Player or enemy
+    bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
+    float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
+    float[] attackRanges = new float[] { 10f, 10f, 2f, 2f, 8f, 8f, 1.5f, 1.5f }; // Range of attack
+    int[] damages = new int[] { 5, 5, 10, 10, 5, 5, 10, 10 };  // Amount of damage
+    float[] attackIntervals = new float[] { 0.2f, 0.2f, 0.5f, 0.5f, .5f, .5f, .5f, .5f }; // Attack interval
+    float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
+    int[] healths = new int[] { 200, 200, 200, 200, 40 , 60, 100, 100 }; // Health
 
     public bool npc;
     public bool ranged;
@@ -33,6 +33,10 @@ public class Character : Photon.MonoBehaviour {
     public GameObject projectilePrefab;
 
     public Vector2 movement;
+
+    public int CheckCharacterHealt(EntityType et) {
+        return healths[(int)et];
+    }
     public void SetCharacterAttributes() {
         npc = npcs[(int)characterType];
         ranged = rangeds[(int)characterType];
