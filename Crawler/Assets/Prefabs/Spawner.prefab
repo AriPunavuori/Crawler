@@ -335,6 +335,7 @@ MonoBehaviour:
   healthText: {fileID: 8079565399474025889}
   spawningType: 4
   spawnInterval: 10
+  maxEnemiesInArea: 10
   health: 200
 --- !u!58 &4092325764903510770
 CircleCollider2D:
@@ -449,7 +450,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9587663c4d27e47b19a118aabaac4a08, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1453be39f21744846a8dd4996c2de28d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

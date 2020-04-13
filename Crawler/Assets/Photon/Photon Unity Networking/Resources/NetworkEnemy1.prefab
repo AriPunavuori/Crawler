@@ -53,46 +53,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 5
-  npcs: 0000000001010101
-  rangeds: 0101000001010000
-  projectileSpeeds:
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  attackRanges:
-  - 10
-  - 10
-  - 3
-  - 3
-  - 10
-  - 10
-  - 3
-  - 3
-  damages: 0a0000000a0000000a0000000a00000001000000010000000100000001000000
-  attackIntervals:
-  - 0.1
-  - 0.1
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  speeds:
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  healths: c8000000fa0000002c0100005e01000014000000140000001400000014000000
   npc: 0
   ranged: 0
   projectileSpeed: 0
@@ -701,7 +661,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.70337534, g: 0.6179246, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
