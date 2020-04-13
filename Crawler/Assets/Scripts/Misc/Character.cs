@@ -17,8 +17,6 @@ public class Character : Photon.MonoBehaviour {
     public float[] speeds = new float[] { 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
     public int[] healths = new int[] { 200, 250, 300, 350, 100, 100, 100, 100 }; // Health
 
-    #region Variables
-    // Attributes of characters (No need for public variables after testing)?
     public bool npc;
     public bool ranged;
     public float projectileSpeed;
@@ -35,22 +33,6 @@ public class Character : Photon.MonoBehaviour {
     public GameObject projectilePrefab;
 
     public Vector2 movement;
-
-    #endregion
-    [PunRPC]
-    //public void Destroy() {
-    //    if(gameObject != null) {
-    //        PhotonNetwork.Destroy(gameObject);
-    //    }
-    //}
-    //private void Update() {
-    //    if(PhotonNetwork.isMasterClient) {
-    //        if(health < 0) { // What happens here?
-    //            photonView.TransferOwnership(1);
-    //            PhotonNetwork.Destroy(gameObject);
-    //        }
-    //    }
-    //}
     public void SetCharacterAttributes() {
         npc = npcs[(int)characterType];
         ranged = rangeds[(int)characterType];
