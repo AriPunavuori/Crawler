@@ -7,6 +7,9 @@ public class AudioFW : MonoBehaviour {
     // put sound effects in their own objects under SFX
     // then anywhere in the code, call 'AudioFW.Play(id)'
     // where id is the name of the sound effect object.
+    // put sound effects in their own objects under Loops
+    // then anywhere in the code, call 'AudioFW.PlayLoop(id)'
+    // where id is the name of the loop object.
 
     Dictionary<string, AudioSource> sfx = new Dictionary<string, AudioSource>();
     Dictionary<string, AudioSource> loops = new Dictionary<string, AudioSource>();
@@ -19,7 +22,6 @@ public class AudioFW : MonoBehaviour {
     public static void StopLoop(string id) {
         instance.StopLoopImpl(id);
     }
-
     public static void AdjustPitch(string id, float pitch) {
         instance.AdjustPitchImpl(id, pitch);
     }
@@ -84,15 +86,15 @@ public class AudioFW : MonoBehaviour {
         FindAudioSources();
     }
 
-    void Update() {
-        if(Input.GetKeyDown(KeyCode.A))
-            DebugPrint();
-    }
+    //void Update() {
+    //    if(Input.GetKeyDown(KeyCode.A))
+    //        DebugPrint();
+    //}
 
-    void DebugPrint() {
-        string s = "";
-        foreach(var id in sfx.Keys)
-            s += id + " ";
-        print(s);
-    }
+    //void DebugPrint() {
+    //    string s = "";
+    //    foreach(var id in sfx.Keys)
+    //        s += id + " ";
+    //    print(s);
+    //}
 }

@@ -18,7 +18,7 @@ public class CharacterSelection : MonoBehaviour {
 
     public void OnClickPickCharacter(int c) {
         AudioFW.StopLoop("CharaterSelectionLoop");
-        AudioFW.Play("CharacterSelection");
+        AudioFW.Play("CharacterSelected");
         PlayerNetwork.Instance.selectedCharacter = c;
         PlayerNetwork.Instance.PickedCharacter(c);
     }

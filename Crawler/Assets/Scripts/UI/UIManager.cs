@@ -43,7 +43,6 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	public void RPC_UpdateUIBoxContent(string name, int health, int selected) {
-		print("Updating data in UI index: " + selected);
 		names[selected].text = name;
 		healths[selected].text = "" + health;
 	}
