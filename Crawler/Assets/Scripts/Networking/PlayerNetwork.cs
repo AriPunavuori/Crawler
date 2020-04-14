@@ -23,6 +23,9 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonNetwork.sendRateOnSerialize = 30;
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
+    private void Start() {
+        AudioFW.PlayLoop("MenuLoop");
+    }
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
         if(scene.name == "CharacterSelection") {
             if(PhotonNetwork.isMasterClient)
@@ -111,9 +114,13 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
             print("Player picked a character");
             if(playersSelectedCharacter >= numberOfPlayers) {
-                PhotonNetwork.LoadLevel(3);
+                Invoke("LoadLevel", 5f);
             }
         }
+    }
+
+    void LoadLevel() {
+        PhotonNetwork.LoadLevel(3);
     }
 
     [PunRPC]
@@ -124,6 +131,7 @@ public class PlayerNetwork : MonoBehaviour {
         obj.name = playerName;
         pc = obj.GetComponent<PlayerCharacter>();
         joined = true;
+        AudioFW.PlayLoop("GameLoop");
     }
 
     public bool joinedGame() {

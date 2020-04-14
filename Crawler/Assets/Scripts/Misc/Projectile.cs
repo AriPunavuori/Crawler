@@ -38,6 +38,7 @@ public class Projectile : MonoBehaviour {
 
         if(impulse)
         rb2D.AddForce(dir * s, ForceMode2D.Impulse);
+        AudioFW.Play("Shot");
     }
 
     void Update() {
@@ -74,6 +75,7 @@ public class Projectile : MonoBehaviour {
     }
 
     public void DestroyProjectile() {
+        //AudioFW.Play("Hit");
         particles.SetActive(true);
         graphics.SetActive(false);
         Destroy(gameObject, 0.5f);
