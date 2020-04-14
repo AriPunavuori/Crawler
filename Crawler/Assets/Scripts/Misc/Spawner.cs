@@ -22,6 +22,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         spawnPoint = gameObject.transform.Find("SpawnPoint").transform.position;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskEnemy = LayerMask.GetMask("Enemy");
+        healthText.text = "" + health;
     }
     void Update() {
         if(PlayerNetwork.Instance.joinedGame() == true) {

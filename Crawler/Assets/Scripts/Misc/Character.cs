@@ -8,7 +8,7 @@ public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
 
-    bool[] npcs = new bool[] { false, false, false, false, true, true, true, true }; // Player or enemy
+    // Four first of the values are for heroes the rest for enemies
     bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
     float[] projectileSpeeds = new float[] { 10, 10, 10, 10, 10, 10, 10, 10 }; // Speed of projectile
     float[] attackRanges = new float[] { 10f, 10f, 2f, 2f, 8f, 8f, 1.5f, 1.5f }; // Range of attack
@@ -17,7 +17,6 @@ public class Character : Photon.MonoBehaviour {
     float[] speeds = new float[] { 4.5f, 4.5f, 4.5f, 4.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
     int[] healths = new int[] { 200, 200, 200, 200, 20 , 30, 50, 60 }; // Health
 
-    public bool npc;
     public bool ranged;
     public float projectileSpeed;
     public float attackRange;
@@ -38,7 +37,6 @@ public class Character : Photon.MonoBehaviour {
         return healths[(int)et];
     }
     public void SetCharacterAttributes() {
-        npc = npcs[(int)characterType];
         ranged = rangeds[(int)characterType];
         projectileSpeed = projectileSpeeds[(int)characterType];
         attackRange = attackRanges[(int)characterType];

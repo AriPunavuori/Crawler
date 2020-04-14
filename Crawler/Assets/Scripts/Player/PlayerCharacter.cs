@@ -342,7 +342,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
             projectileClone.transform.localPosition = new Vector3(0f, offset - i * gap, 0f);
             projectileClone.transform.parent = null;
             Projectile projectile = projectileClone.GetComponent<Projectile>();
-            projectile.LaunchProjectile(damage, attackRange, projectileSpeed, npc, (projectileSpawn.transform.position - transform.position).normalized);
+            projectile.LaunchProjectile(damage, attackRange, projectileSpeed, (projectileSpawn.transform.position - transform.position).normalized);
         }
     }
 

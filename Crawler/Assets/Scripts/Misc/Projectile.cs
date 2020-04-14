@@ -4,34 +4,49 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
     public int damage;
+    public float speed;
     private float range;
+
     Vector2 origPos;
-    public bool shotByNPC;
-    public bool shotByOwner;
+    Vector2 direction;
+
+    public bool impulse;
     public bool explosive;
     public bool reflective;
 
+    Rigidbody2D rb2D;
+    public GameObject particles;
+    public GameObject graphics;
 
-    public void LaunchProjectile(int d, float r, float s, bool npc, Vector2 dir) {
-        // Get rigidbody
-        Rigidbody2D rb2D = GetComponent<Rigidbody2D>();
+    private void Awake() {
+        rb2D = GetComponent<Rigidbody2D>();
+    }
+    public void LaunchProjectile(int d, float r, float s, Vector2 dir) {
+        // Set original position
+        origPos = transform.position;
         // Set damage of the projectile
         if(PhotonNetwork.isMasterClient) {
             damage = d;
         } else
             damage = 0;
-        print("Damage: " + damage);
-        // Set shooter type
-        shotByNPC = npc;
         // Set range
         range = r;
+        // Set speed
+        speed = s;
+        // Set direction
+        direction = dir;
+
+        if(impulse)
         rb2D.AddForce(dir * s, ForceMode2D.Impulse);
-        origPos = transform.position;
     }
 
     void Update() {
         if(Vector2.Distance(transform.position, origPos) > range) {
             DestroyProjectile();
+        }
+        if(!impulse) {
+            rb2D.velocity = Vector2.zero;
+            rb2D.velocity = direction * Time.deltaTime * speed * 250;
         }
     }
 
@@ -48,9 +63,19 @@ public class Projectile : MonoBehaviour {
             DestroyProjectile();
         else {
             // Reflect from colliding object with proper angle
+            var contact = collision.GetContact(0);
+            float dn = 2 * Vector2.Dot(direction, contact.normal);
+            var reflection = direction - contact.normal * dn;
+            direction = reflection;
+            transform.right = direction;
+            reflective = false;
+            impulse = false;
         }
     }
+
     public void DestroyProjectile() {
-        Destroy(gameObject);
+        particles.SetActive(true);
+        graphics.SetActive(false);
+        Destroy(gameObject, 0.5f);
     }
 }
