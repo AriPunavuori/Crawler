@@ -39,6 +39,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     public GameObject myUIBox;
 
     void Start() {
+        respawnTimer = respawnTime;
         rotator = transform.Find("ProjectileHeading").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
         meleeIndicator.SetActive(false);
@@ -77,8 +78,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Die() {
-        AudioFW.StopLoop("GameLoop");
-        AudioFW.Play("PlayerDead");
         respawnTimer = respawnTime;
         Debug.Log(gameObject.name + " died");
         rb2D.isKinematic = true;
@@ -102,6 +101,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
 
         if(photonView.isMine) {
+            AudioFW.StopLoop("GameLoop");
+            AudioFW.Play("PlayerDead");
             photonView.RPC("Die", PhotonTargets.Others);
         }
 
@@ -109,7 +110,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     void respawn() {
-        AudioFW.PlayLoop("GameLoop");
         Debug.Log(gameObject.name + " respawned");
         // Spawn at currently chosen remote cam/player position
         gameObject.transform.position = players[camNum].transform.position;
@@ -180,6 +180,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
             if(respawnTimer <= 0) {
                 respawnTimer = respawnTime;
                 respawn();
+                AudioFW.PlayLoop("GameLoop");
                 photonView.RPC("respawn", PhotonTargets.Others);
             }
 
