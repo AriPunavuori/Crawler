@@ -32,6 +32,13 @@ public class UIManager : MonoBehaviour {
 		CreateUIBoxes();
 	}
 
+	private void Update() {
+		if (Time.time >= eraseTextTimer) {
+			infoText.text = "";
+			eraseTextTimer = 0;
+		}
+	}
+
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr) {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
@@ -47,11 +54,13 @@ public class UIManager : MonoBehaviour {
 			potion.SetActive(false);
 		} else {
 			potion.SetActive(true);
+			SetInfoText("Picked up a health potion!", 2);
 		}
 	}
 
 	public void SetInfoText(string text, float textTime) {
 		eraseTextTimer = Time.time + textTime;
+		print(eraseTextTimer);
 		infoText.text = text;
 	}
 
