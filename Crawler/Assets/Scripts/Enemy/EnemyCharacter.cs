@@ -20,7 +20,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
     bool seen;
     float proximityDistance = 1f;
     public float detectionDistance = 25f;
+    public Animator animator;
 
+    bool flipped;
+    float spriteFlipCoolDown;
     void Start() {
         rotator = transform.Find("Rotator").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
@@ -35,6 +38,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
         //EnemyManager.Instance.ModifyHealth(this, health);
         healthText.text = "" + health;
         //photonView.TransferOwnership(1);
+        flipped = false;
+        spriteFlipCoolDown = 0; // Cooldown for sprite flipping to avoid too frequent flips in some instances. Need better solution
     }
     //private void Update() {
     //    healthText.text = "" + health;
@@ -63,6 +68,63 @@ public class EnemyCharacter : Character, IDamageable<int> {
                 player = null; // If player out of detectionRange
             }
         }
+    }
+
+    private void Update()
+    {
+
+
+        // Animation
+        #region Animation handling
+
+        // Need a better solution than rigidbody velocity. For example enemies start facing the wrong direction for a brief period if they get shot
+        // Added spriteFlipCooldown for a temporary "fix"
+        movement.x = rigidBody.velocity.normalized.x;
+
+        if (movement.x > 0 && spriteFlipCoolDown == 0)
+        {
+            if (!flipped)
+            {
+                // Change this value to delay sprite flips
+                spriteFlipCoolDown = 0.4f; 
+            }
+            flipped = true;
+        }
+        else if (movement.x < 0 && spriteFlipCoolDown == 0)
+        {
+            if(flipped)
+            {
+                // Change this value to delay sprite flips
+                spriteFlipCoolDown = 0.4f; 
+            }
+            flipped = false;
+        }
+
+        if(animator.enabled)
+        {
+            animator.SetFloat("Horizontal", movement.x);
+        }
+        
+
+        if(flipped)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        if ((spriteFlipCoolDown - Time.deltaTime) < 0)
+        {
+            spriteFlipCoolDown = 0;
+        }
+        else
+        {
+            spriteFlipCoolDown -= Time.deltaTime;
+        }
+        #endregion
+
     }
 
     void Move(float s) {

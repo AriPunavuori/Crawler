@@ -402,47 +402,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
-  npcs: 0000000001010101
-  rangeds: 0101000001010000
-  projectileSpeeds:
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  - 10
-  attackRanges:
-  - 10
-  - 10
-  - 3
-  - 3
-  - 10
-  - 10
-  - 3
-  - 3
-  damages: 0a0000000a0000000a0000000a00000001000000010000000100000001000000
-  attackIntervals:
-  - 0.1
-  - 0.1
-  - 0.5
-  - 0.5
-  - 5
-  - 5
-  - 5
-  - 5
-  speeds:
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  - 3.5
-  healths: c8000000fa0000002c0100005e01000014000000140000001400000014000000
-  npc: 0
   ranged: 0
   projectileSpeed: 0
   attackRange: 0
@@ -456,6 +415,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
     type: 3}
   movement: {x: 0, y: 0}
+  alive: 0
   animator: {fileID: 3307017158627523645}
   playerCam: {fileID: 5960723493580557457}
   myUIBox: {fileID: 0}
@@ -469,7 +429,7 @@ Animator:
   m_GameObject: {fileID: 4420206221454647654}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cdbb8de91c720b3448c02db68b8b8e94, type: 2}
+  m_Controller: {fileID: 9100000, guid: f24e00a7ae73676458360e8913c23f8f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
