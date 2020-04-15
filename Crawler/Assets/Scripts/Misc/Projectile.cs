@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour {
     public int damage;
     public float speed;
     public float range;
+    public bool npc;
 
     Vector2 origPos;
     Vector2 direction;
@@ -18,10 +19,13 @@ public class Projectile : MonoBehaviour {
     public GameObject particles;
     public GameObject graphics;
 
+    float timeToDestroy = 5f;
+    float launchTime;
+
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
     }
-    public void LaunchProjectile(int d, float r, float s, Vector2 dir) {
+    public void LaunchProjectile(int d, float r, float s, Vector2 dir, bool shotByNPC) {
         // Set original position
         origPos = transform.position;
         // Set damage of the projectile
@@ -35,14 +39,20 @@ public class Projectile : MonoBehaviour {
         speed = s;
         // Set direction
         direction = dir;
-
+        // Set npc
+        npc = shotByNPC;
+        // Set Launchtime
+        launchTime = Time.time;
         if(impulse)
-        rb2D.AddForce(dir * s, ForceMode2D.Impulse);
-        AudioFW.Play("Shot");
+            rb2D.AddForce(dir * s, ForceMode2D.Impulse);
+        if(npc)
+            AudioFW.Play("EnemyShoot");
+        else
+            AudioFW.Play("PlayerShoot");
     }
 
     void Update() {
-        if(Vector2.Distance(transform.position, origPos) > range) {
+        if(Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy) {
             DestroyProjectile();
         }
         if(!impulse) {
@@ -63,16 +73,14 @@ public class Projectile : MonoBehaviour {
 
         if(!reflective) {
             DestroyProjectile();
-        }
-
-        else {
+        } else {
             // Reflect from colliding object with proper angle
             var contact = collision.GetContact(0);
             float dn = 2 * Vector2.Dot(direction, contact.normal);
             var reflection = direction - contact.normal * dn;
             direction = reflection;
             transform.right = direction;
-            reflective = false;
+            //reflective = false;
             impulse = false;
         }
     }

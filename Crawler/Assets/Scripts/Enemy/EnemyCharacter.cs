@@ -252,7 +252,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
         projectileClone.transform.parent = null;
         Projectile projectile = projectileClone.GetComponent<Projectile>();
-        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, dir);
+        projectile.LaunchProjectile(damage, attackRange, projectileSpeed, dir, true);
     }
 
     [PunRPC]

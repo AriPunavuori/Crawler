@@ -49,9 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   speed: 0
+  range: 0
   impulse: 0
   explosive: 0
-  reflective: 0
+  reflective: 1
   particles: {fileID: 2706405032848595800}
   graphics: {fileID: 4541627614878689305}
 --- !u!50 &4620947130781507441

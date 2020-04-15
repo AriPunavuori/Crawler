@@ -21,8 +21,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
     float dashCooldown = 3.0f;
     float dashTime = 0.15f;
     float dashTimer;
-    float respawnTime = 10.0f;
-    float respawnTimer = 10.0f;
+    float respawnTime = 18.0f;
+    float respawnTimer;
     // Multiplier for base player speed when dashing
     float dashFactor = 4.0f;
     Vector2 dashVector;
@@ -64,6 +64,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     }
 
     public void TakeDamage(int damage) {
+        AudioFW.Play("PlayerTakesDamage");
         SetHealth(-damage, this);
     }
     public void SetHealth(int amount, PlayerCharacter pc) {
@@ -76,6 +77,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Die() {
+        AudioFW.StopLoop("GameLoop");
+        AudioFW.Play("PlayerDead");
+        respawnTimer = respawnTime;
         Debug.Log(gameObject.name + " died");
         rb2D.isKinematic = true;
         rb2D.velocity = Vector2.zero;
@@ -105,6 +109,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     void respawn() {
+        AudioFW.PlayLoop("GameLoop");
         Debug.Log(gameObject.name + " respawned");
         // Spawn at currently chosen remote cam/player position
         gameObject.transform.position = players[camNum].transform.position;
@@ -338,10 +343,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
         for(int i = 0; i < amount; i++) {
             GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
             projectileClone.transform.parent = projectileSpawn.transform;
-            projectileClone.transform.localPosition = new Vector3(0f, offset - i * gap, 0f);
+            projectileClone.transform.localPosition = new Vector3(-(offset - i * (gap/2)), offset - i * gap, 0f);
             projectileClone.transform.parent = null;
             Projectile projectile = projectileClone.GetComponent<Projectile>();
-            projectile.LaunchProjectile(damage, attackRange, projectileSpeed, (projectileSpawn.transform.position - transform.position).normalized);
+            projectile.LaunchProjectile(damage, attackRange, projectileSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
         }
     }
 
