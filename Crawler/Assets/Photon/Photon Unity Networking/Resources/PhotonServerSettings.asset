@@ -29,19 +29,14 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - ColorRpc
   - DecraseKeyAll
   - DestroyRpc
   - Die
-  - DoJump
-  - Flash
   - InstantiateRpc
-  - Marco
   - Melee
   - OnClickStartDelayed
   - OpenDoorAll
   - PickupItemInit
-  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
@@ -58,7 +53,6 @@ MonoBehaviour:
   - RPC_PickedCharacter
   - RPC_UpdateUIBoxContent
   - Shoot
-  - TaggedPlayer
   - TakeDamage
   - UpdateKeys
   DisableAutoOpenWizard: 1
