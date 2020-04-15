@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour {
     public GameObject particles;
     public GameObject graphics;
 
-    float timeToDestroy = 5f;
+    float timeToDestroy = 3.5f;
     float launchTime;
 
     private void Awake() {

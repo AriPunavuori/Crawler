@@ -51,7 +51,7 @@ MonoBehaviour:
   speed: 0
   range: 0
   npc: 0
-  impulse: 1
+  impulse: 0
   explosive: 0
   reflective: 0
   particles: {fileID: 5866091868606828565}
