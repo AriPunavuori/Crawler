@@ -142,7 +142,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 2
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -181,9 +181,10 @@ MonoBehaviour:
     type: 3}
   movement: {x: 0, y: 0}
   alive: 0
+  weaponDowngradeTimer: 20
   animator: {fileID: 5100457000379333122}
   playerCam: {fileID: 8405175747139377651}
-  myUIBox: {fileID: 0}
+  uim: {fileID: 0}
 --- !u!95 &5100457000379333122
 Animator:
   serializedVersion: 3

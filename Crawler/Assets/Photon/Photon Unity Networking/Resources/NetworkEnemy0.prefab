@@ -436,7 +436,6 @@ GameObject:
   - component: {fileID: 6763530130218413687}
   - component: {fileID: 7353490158292348222}
   - component: {fileID: 1308322690084531946}
-  - component: {fileID: 746693288194520254}
   - component: {fileID: 3872581899113357787}
   - component: {fileID: 4629152570814358593}
   - component: {fileID: -3058875449871884881}
@@ -554,10 +553,10 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 2
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 2
+  ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 4629152570814358593}
   - {fileID: 3872581899113357787}
@@ -567,18 +566,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &746693288194520254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7261022729598380927}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 121cb4d5de47e0d4d95fee07b40d35ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3872581899113357787
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,7 +31,6 @@ MonoBehaviour:
   - Chat
   - ColorRpc
   - DecraseKeyAll
-  - Destroy
   - DestroyRpc
   - Die
   - DoJump
@@ -60,7 +59,6 @@ MonoBehaviour:
   - RPC_UpdateUIBoxContent
   - Shoot
   - TaggedPlayer
-  - UpdateKeys
   - TakeDamage
-  - SetCharacterAttributes
+  - UpdateKeys
   DisableAutoOpenWizard: 1
