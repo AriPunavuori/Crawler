@@ -23,6 +23,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float dashTimer;
 	float respawnTime = 18.0f;
 	float respawnTimer;
+	float weaponDowngradeTime = 20f;
+	public float weaponDowngradeTimer = 20f;
 	// Multiplier for base player speed when dashing
 	float dashFactor = 4.0f;
 	Vector2 dashVector;
@@ -30,6 +32,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector3 TargetPosition;
 
 	int projectilesPerAttack = 1;
+
+	Stack<int> projectilesPerAttStack = new Stack<int>();
+	Stack<float> projectileSpeedsStack = new Stack<float>();
+	Stack<int> meleeDamagesStack = new Stack<int>();
+	Stack<float> meleeIntervalsStack = new Stack<float>();
 
 	GameObject rotator;
 	GameObject meleeIndicator;
@@ -92,6 +99,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		projHead.SetActive(false);
 		dashCooldown = 5.0f;
 		alive = false;
+
+		// Clear all weapon upgrade stacks (SetCharacterAttributes is run at respawn)
+		projectilesPerAttStack.Clear();
+		projectilesPerAttack = 1;
+		projectileSpeedsStack.Clear();
+		meleeDamagesStack.Clear();
+		meleeIntervalsStack.Clear();
+
+		weaponDowngradeTimer = weaponDowngradeTime;
+
+		weaponLevel = 0;
 
 		// Try to find a remote camera
 		players = GameObject.FindGameObjectsWithTag("Player");
@@ -163,6 +181,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	void Update() {
 
+
 		if (photonView.isMine) {
 			// When the player is dead
 			if (!alive) {
@@ -201,6 +220,34 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				movement.x = Input.GetAxisRaw("Horizontal");
 				movement.y = Input.GetAxisRaw("Vertical");
 
+				// For testing weaponupgrades
+				if (Input.GetKeyDown(KeyCode.N))
+				{
+					GetWeaponUpgrade();
+				}
+
+				if (Input.GetKeyDown(KeyCode.M))
+				{
+					weaponDowngrade();
+				}
+
+				if(weaponLevel > 0)
+				{
+					if ((weaponDowngradeTimer - Time.deltaTime) > 0)
+					{
+						weaponDowngradeTimer -= Time.deltaTime;
+					}
+					else
+					{
+						weaponDowngradeTimer = 0;
+					}
+					if(weaponDowngradeTimer <= 0)
+					{
+						weaponDowngrade();
+					}
+				}
+				
+				
 
 				if (movement.x != 0 || movement.y != 0) {
 					lastDir = new Vector2(movement.x, movement.y);
@@ -313,28 +360,91 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	public void GetWeaponUpgrade() {
-		if (ranged) {
-			if (weaponLevel == 0) {
+		Debug.Log("Weapon level upgraded");
+		if (ranged) 
+		{
+			if(weaponLevel % 2 == 0)
+			{
+				projectilesPerAttStack.Push(projectilesPerAttack);
 				projectilesPerAttack++;
-			} else if (weaponLevel == 1) {
-				attackInterval *= .75f;
+				Debug.Log("Projectiles per attack: " + projectilesPerAttack);
 			}
-		} else {
-			if (weaponLevel == 0) {
-				damage *= 3 / 2;
-			} else if (weaponLevel == 1) {
+			else
+			{
+				projectileSpeedsStack.Push(projectileSpeed);
+				projectileSpeed *= 2f;
+				Debug.Log("Projectile speed: " + projectileSpeed);
+			}
+		} 
+		else 
+		{
+			if (weaponLevel % 2 == 0)
+			{
+				meleeDamagesStack.Push(damage);
+				damage *= (3 / 2);
+				Debug.Log("Damage: " + damage);
+			}
+			else
+			{
+				meleeIntervalsStack.Push(attackInterval);
 				attackInterval *= .75f;
+				Debug.Log("AttackInterval: " + attackInterval);
 			}
 		}
+		weaponDowngradeTimer = weaponDowngradeTime;
 		weaponLevel++;
+	}
+
+	public void weaponDowngrade()
+	{
+		if (weaponLevel > 0)
+		{
+			Debug.Log("Weapon level downgraded");
+			if (ranged)
+			{
+				if (weaponLevel % 2 == 0)
+				{
+					projectileSpeed = projectileSpeedsStack.Pop();
+					Debug.Log("Projectile speed reduced");
+					Debug.Log("Projectile speed: " + projectileSpeed);
+				}
+				else
+				{
+					projectilesPerAttack = projectilesPerAttStack.Pop();
+					Debug.Log("Projectiles per attack decremented");
+					Debug.Log("Projectiles per attack: " + projectilesPerAttack);
+				}
+			}
+			else
+			{
+				if (weaponLevel % 2 == 0)
+				{
+					attackInterval = meleeIntervalsStack.Pop();
+					Debug.Log("Attack interval increased");
+					Debug.Log("AttackInterval: " + attackInterval);
+				}
+				else
+				{
+					damage = meleeDamagesStack.Pop();
+					Debug.Log("Damage reduced");
+					Debug.Log("Damage: " + damage);
+				}
+			}
+			weaponDowngradeTimer = weaponDowngradeTime;
+			weaponLevel--;
+		}
+		else
+		{
+			Debug.Log("Cannot downgrade weapon: weapon level is less than 1");
+		}
 	}
 
 	#endregion
 
 	public void Attack() {
 		if (ranged) {
-			Shoot(projectilesPerAttack);
-			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack);
+			Shoot(projectilesPerAttack, projectileSpeed);
+			photonView.RPC("Shoot", PhotonTargets.Others, projectilesPerAttack, projectileSpeed);
 		} else {
 			Melee();
 			photonView.RPC("Melee", PhotonTargets.Others);
@@ -345,7 +455,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 	[PunRPC]
-	public void Shoot(int amount) {
+	public void Shoot(int amount, float projSpeed) {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
@@ -355,7 +465,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			projectileClone.transform.localPosition = new Vector3(-(offset - i * (gap / 2)), offset - i * gap, 0f);
 			projectileClone.transform.parent = null;
 			Projectile projectile = projectileClone.GetComponent<Projectile>();
-			projectile.LaunchProjectile(damage, attackRange, projectileSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
+			projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
 		}
 	}
 
