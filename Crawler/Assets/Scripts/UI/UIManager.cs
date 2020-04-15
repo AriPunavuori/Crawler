@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour {
 	public static UIManager Instance;
@@ -13,6 +14,8 @@ public class UIManager : MonoBehaviour {
 	public GameObject UIBox;
 
 	GameObject keysUI;
+	GameObject potion;
+	public TextMeshProUGUI respawnText;
 
 	PhotonView photonView;
 
@@ -20,6 +23,10 @@ public class UIManager : MonoBehaviour {
 		Instance = this;
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		keysUI = GameObject.Find("Keys");
+		potion = GameObject.Find("PotionUI");
+		potion.SetActive(false);
+		respawnText = GameObject.Find("RespawnText").GetComponent<TextMeshProUGUI>();
+		respawnText.text = "";
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
 	}
@@ -31,6 +38,14 @@ public class UIManager : MonoBehaviour {
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
 			print("Picked up " + key);
 			keyUI.GetComponent<Image>().color = Color.white;
+		}
+	}
+
+	public void UpdatePotion() {
+		if (potion.activeSelf) {
+			potion.SetActive(false);
+		} else {
+			potion.SetActive(true);
 		}
 	}
 
