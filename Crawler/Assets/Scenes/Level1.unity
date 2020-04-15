@@ -7986,7 +7986,7 @@ GameObject:
   - component: {fileID: 98583962}
   - component: {fileID: 98583961}
   m_Layer: 5
-  m_Name: RespawnText
+  m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47600,7 +47600,7 @@ MonoBehaviour:
   names: []
   healths: []
   UIBox: {fileID: 8257796290706323197, guid: 598a40e15ee13a545b99385516f6f0d5, type: 3}
-  respawnText: {fileID: 0}
+  infoText: {fileID: 0}
 --- !u!4 &365587173
 Transform:
   m_ObjectHideFlags: 0
