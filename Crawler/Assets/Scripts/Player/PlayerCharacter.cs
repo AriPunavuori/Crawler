@@ -62,6 +62,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
 		meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
 		meleeIndicator.SetActive(false);
+		uim = GameObject.Find("UIManager").GetComponent<UIManager>();
 		if (!PhotonNetwork.isMasterClient)
 			return;
 		var photonView = GetComponent<PhotonView>();
@@ -69,7 +70,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
-		uim = GameObject.Find("UIManager").GetComponent<UIManager>();
 	}
 
 	public void TakeDamage(int damage) {
@@ -186,7 +186,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// When the player is dead
 			if (!alive) {
 				respawnTimer -= Time.deltaTime;
-				uim.respawnText.text = "You Died!\n" + "Respawn in " + respawnTimer.ToString("f1");
+				uim.SetInfoText("You Died!\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
 				if (Input.GetMouseButtonDown(0)) {
 					if (players.Length > 1) {
 						findCamera();
@@ -199,7 +199,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// Respawn
 			if (respawnTimer <= 0) {
 				respawnTimer = respawnTime;
-				uim.respawnText.text = "";
+				uim.SetInfoText("", 1);
 				respawn();
 				AudioFW.PlayLoop("GameLoop");
 				photonView.RPC("respawn", PhotonTargets.Others);

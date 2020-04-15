@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour {
 
 	GameObject keysUI;
 	GameObject potion;
-	public TextMeshProUGUI respawnText;
+	public TextMeshProUGUI infoText;
+	float eraseTextTimer;
 
 	PhotonView photonView;
 
@@ -25,10 +26,17 @@ public class UIManager : MonoBehaviour {
 		keysUI = GameObject.Find("Keys");
 		potion = GameObject.Find("PotionUI");
 		potion.SetActive(false);
-		respawnText = GameObject.Find("RespawnText").GetComponent<TextMeshProUGUI>();
-		respawnText.text = "";
+		infoText = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
+		infoText.text = "";
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
+	}
+
+	private void Update() {
+		if (Time.time >= eraseTextTimer) {
+			infoText.text = "";
+			eraseTextTimer = 0;
+		}
 	}
 
 	[PunRPC]
@@ -46,7 +54,14 @@ public class UIManager : MonoBehaviour {
 			potion.SetActive(false);
 		} else {
 			potion.SetActive(true);
+			SetInfoText("Picked up a health potion!", 2);
 		}
+	}
+
+	public void SetInfoText(string text, float textTime) {
+		eraseTextTimer = Time.time + textTime;
+		print(eraseTextTimer);
+		infoText.text = text;
 	}
 
 	public void UpdateUIContent(string name, int health, int selected) {
