@@ -51,13 +51,13 @@ public class Projectile : MonoBehaviour {
             AudioFW.Play("PlayerShoot");
     }
 
-    void Update() {
+    void FixedUpdate() {
         if(Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy) {
             DestroyProjectile();
         }
         if(!impulse) {
             rb2D.velocity = Vector2.zero;
-            rb2D.velocity = direction * Time.deltaTime * speed * 250;
+            rb2D.velocity = direction * Time.fixedDeltaTime * speed * 50;
         }
     }
 
