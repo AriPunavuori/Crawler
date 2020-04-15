@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     public int damage;
     public float speed;
-    private float range;
+    public float range;
 
     Vector2 origPos;
     Vector2 direction;
@@ -57,11 +57,14 @@ public class Projectile : MonoBehaviour {
         if(iDamageable != null) {
             iDamageable.TakeDamage(damage);
             DestroyProjectile();
+            return;
         }
 
 
-        if(!reflective)
+        if(!reflective) {
             DestroyProjectile();
+        }
+
         else {
             // Reflect from colliding object with proper angle
             var contact = collision.GetContact(0);
@@ -75,7 +78,6 @@ public class Projectile : MonoBehaviour {
     }
 
     public void DestroyProjectile() {
-        //AudioFW.Play("Hit");
         particles.SetActive(true);
         graphics.SetActive(false);
         Destroy(gameObject, 0.5f);

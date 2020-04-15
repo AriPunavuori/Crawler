@@ -58,7 +58,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
             return;
         var photonView = GetComponent<PhotonView>();
         if(photonView != null) {
-            print(health);
             PlayerManager.Instance.ModifyHealth(photonView.owner, health);
         }
         players = GameObject.FindGameObjectsWithTag("Player");
