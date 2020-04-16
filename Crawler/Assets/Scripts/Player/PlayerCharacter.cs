@@ -16,7 +16,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	bool potion;
 	bool dashing = false;
 	bool camFound = false;
-	public bool alive;
+    private bool allPlayersFound;
+    public bool alive;
 	float playerCamOffset = 0.002f;
 	float dashCooldown = 3.0f;
 	float dashTime = 0.15f;
@@ -30,8 +31,14 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector2 dashVector;
 	Vector2 lastDir;
 	Vector3 TargetPosition;
+    GameObject DirectionIndicator1;
+    GameObject DirectionIndicator2;
+    GameObject DirectionIndicator3;
+    GameObject PlayerTarget1;
+    GameObject PlayerTarget2;
+    GameObject PlayerTarget3;
 
-	int projectilesPerAttack = 1;
+    int projectilesPerAttack = 1;
 
 	Stack<int> projectilesPerAttStack = new Stack<int>();
 	Stack<float> projectileSpeedsStack = new Stack<float>();
@@ -57,22 +64,68 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		layerMaskEnemy = LayerMask.GetMask("Enemy");
 		projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
-		players = GameObject.FindGameObjectsWithTag("Player");
+        DirectionIndicator1 = transform.Find("DirectionIndicator1").gameObject;
+        DirectionIndicator2 = transform.Find("DirectionIndicator2").gameObject;
+        DirectionIndicator3 = transform.Find("DirectionIndicator3").gameObject;
+        players = GameObject.FindGameObjectsWithTag("Player");
 		SetCharacterAttributes();
 		meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
 		meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
 		meleeIndicator.SetActive(false);
 		uim = GameObject.Find("UIManager").GetComponent<UIManager>();
-		if (!PhotonNetwork.isMasterClient)
+        var photonView = GetComponent<PhotonView>(); // Jos bugeja ni tässä.
+        Invoke("FindPlayers", 1f);
+        /*
+        if (!PhotonNetwork.isMasterClient)
 			return;
 		var photonView = GetComponent<PhotonView>();
+        */
 		if (photonView != null) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 		}
 		players = GameObject.FindGameObjectsWithTag("Player");
 	}
 
-	public void TakeDamage(int damage) {
+    void FindPlayers()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        if (photonView.isMine)
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (this.gameObject.GetComponent<PhotonView>().ownerId != players[i].GetComponent<PhotonView>().ownerId)
+                {
+                    if (PlayerTarget1 == null)
+                    {
+                        DirectionIndicator1.SetActive(true);
+                        var SpriteRenderer = DirectionIndicator1.GetComponent<SpriteRenderer>();
+                        SpriteRenderer.color = Color.red;
+                        PlayerTarget1 = players[i].gameObject;
+                        continue;
+                    }
+                    else if (PlayerTarget2 == null)
+                    {
+                        DirectionIndicator2.SetActive(true);
+                        var SpriteRenderer = DirectionIndicator2.GetComponent<SpriteRenderer>();
+                        SpriteRenderer.color = Color.blue;
+                        PlayerTarget2 = players[i].gameObject;
+                        continue;
+                    }
+                    else if (PlayerTarget3 == null)
+                    {
+                        DirectionIndicator3.SetActive(true);
+                        var SpriteRenderer = DirectionIndicator3.GetComponent<SpriteRenderer>();
+                        SpriteRenderer.color = Color.green;
+                        PlayerTarget3 = players[i].gameObject;
+                        continue;
+                    }
+                }
+            }
+            allPlayersFound = true;
+        }
+    }
+
+    public void TakeDamage(int damage) {
 		var random = Random.Range(0, 4);
 		AudioFW.Play("PlayerTakesDamage" + random);
 		SetHealth(-damage, this);
@@ -184,8 +237,32 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 		if (photonView.isMine) {
-			// When the player is dead
-			if (!alive) {
+            if (allPlayersFound == true)
+            {
+                if (players.Length > 1)
+                {
+                    var heading = PlayerTarget1.gameObject.transform.position - this.transform.position;
+                    var distance = heading.magnitude;
+                    var direction = heading / distance;
+                    DirectionIndicator1.transform.localPosition = direction;
+                    if (players.Length > 2)
+                    {
+                        heading = PlayerTarget2.gameObject.transform.position - this.transform.position;
+                        distance = heading.magnitude;
+                        direction = heading / distance;
+                        DirectionIndicator2.transform.localPosition = direction;
+                        if (players.Length > 3)
+                        {
+                            heading = PlayerTarget3.gameObject.transform.position - this.transform.position;
+                            distance = heading.magnitude;
+                            direction = heading / distance;
+                            DirectionIndicator3.transform.localPosition = direction;
+                        }
+                    }
+                }
+            }
+            // When the player is dead
+            if (!alive) {
 				respawnTimer -= Time.deltaTime;
 				uim.SetInfoText("You Died!\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
 				if (Input.GetMouseButtonDown(0)) {
