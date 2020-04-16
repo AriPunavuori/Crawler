@@ -360,6 +360,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	public void GetWeaponUpgrade() {
+		uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
 		Debug.Log("Weapon level upgraded");
 		if (ranged) 
 		{
@@ -400,6 +401,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if (weaponLevel > 0)
 		{
 			Debug.Log("Weapon level downgraded");
+			if(weaponLevel > 1)
+			{
+				uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel - 1);
+			}
+			else
+			{
+				uim.setPowerupUITimer(0, 0);
+			}
+
 			if (ranged)
 			{
 				if (weaponLevel % 2 == 0)

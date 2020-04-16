@@ -18,6 +18,15 @@ public class UIManager : MonoBehaviour {
 	public TextMeshProUGUI infoText;
 	float eraseTextTimer;
 
+	public Image powerup;
+	// powerupBG is active if player has stacked powerups
+	public Image powerupBG;
+	public TextMeshProUGUI powerupLevelText;
+	float powerUpTime;
+	float powerUpTimer;
+	bool powerUpTimerStarted;
+	int powerupLevel;
+
 	PhotonView photonView;
 
 	void Start() {
@@ -26,6 +35,9 @@ public class UIManager : MonoBehaviour {
 		keysUI = GameObject.Find("Keys");
 		potion = GameObject.Find("PotionUI");
 		potion.SetActive(false);
+		//powerup = GameObject.Find("Powerup").GetComponent<Image>();
+		powerUpTimerStarted = false;
+		powerupLevel = 0;
 		infoText = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
 		infoText.text = "";
 		photonView = GetComponent<PhotonView>();
@@ -36,6 +48,70 @@ public class UIManager : MonoBehaviour {
 		if (Time.time >= eraseTextTimer) {
 			infoText.text = "";
 			eraseTextTimer = 0;
+		}
+
+        #region powerup UI handling
+		if(powerupLevel > 0)
+		{
+			// Enable powerup level text if any powerup is active
+			powerupLevelText.text = powerupLevel.ToString();
+			// bg enabled if player has stacked powerups
+			if (powerupLevel > 1)
+			{
+				powerupBG.enabled = true;
+			}
+			else
+			{
+				powerupBG.enabled = false;
+			}
+		}
+		else
+		{
+			powerupBG.enabled = false;
+			powerupLevelText.text = "";
+		}
+		
+
+
+		if (powerUpTimerStarted)
+		{
+			
+			if(powerUpTimer - Time.deltaTime < 0)
+			{
+				powerUpTimer = 0;
+			}
+			else
+			{
+				powerUpTimer -= Time.deltaTime;
+			}
+
+			powerup.fillAmount = powerUpTimer / powerUpTime;
+
+			if(powerUpTime <= 0)
+			{
+				powerUpTimerStarted = false;
+			}
+		}
+		else
+		{
+			powerup.fillAmount = 0;
+		}
+		#endregion
+	}
+
+	public void setPowerupUITimer(float time, int weaponlevel)
+	{
+		if(time > 0)
+		{
+			powerUpTimerStarted = true;
+			powerUpTime = time;
+			powerUpTimer = powerUpTime;
+			powerupLevel = weaponlevel;
+		}
+		else
+		{
+			powerUpTimerStarted = false;
+			powerupLevel = 0;
 		}
 	}
 
