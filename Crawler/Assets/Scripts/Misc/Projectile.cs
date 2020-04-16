@@ -45,12 +45,14 @@ public class Projectile : MonoBehaviour {
         launchTime = Time.time;
         if(impulse)
             rb2D.AddForce(dir * s, ForceMode2D.Impulse);
-        if(npc)
-            AudioFW.Play("EnemyShoot");
-        else
-            AudioFW.Play("PlayerShoot");
+        if(npc) {
+            var random = Random.Range(0, 4);
+            AudioFW.Play("EnemyShoot" + random);
+        } else {
+            var random = Random.Range(0, 4);
+            AudioFW.Play("PlayerShoot" + random);
+        }
     }
-
     void FixedUpdate() {
         if(Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy) {
             DestroyProjectile();
@@ -86,6 +88,8 @@ public class Projectile : MonoBehaviour {
     }
 
     public void DestroyProjectile() {
+        var random = Random.Range(0, 4);
+        AudioFW.Play("Hit" + random);
         particles.SetActive(true);
         graphics.SetActive(false);
         Destroy(gameObject, 0.5f);

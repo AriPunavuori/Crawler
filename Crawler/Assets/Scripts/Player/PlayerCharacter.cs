@@ -73,7 +73,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	public void TakeDamage(int damage) {
-		AudioFW.Play("PlayerTakesDamage");
+		var random = Random.Range(0, 4);
+		AudioFW.Play("PlayerTakesDamage" + random);
 		SetHealth(-damage, this);
 	}
 	public void SetHealth(int amount, PlayerCharacter pc) {
