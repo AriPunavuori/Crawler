@@ -119,7 +119,6 @@ public class UIManager : MonoBehaviour {
 
 	public void SetInfoText(string text, float textTime) {
 		eraseTextTimer = Time.time + textTime;
-		print(eraseTextTimer);
 		infoText.text = text;
 	}
 
