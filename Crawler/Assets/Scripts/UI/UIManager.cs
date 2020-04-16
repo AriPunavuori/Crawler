@@ -50,77 +50,60 @@ public class UIManager : MonoBehaviour {
 			eraseTextTimer = 0;
 		}
 
-        #region powerup UI handling
-		if(powerupLevel > 0)
-		{
+		#region powerup UI handling
+		if (powerupLevel > 0) {
 			// Enable powerup level text if any powerup is active
 			powerupLevelText.text = powerupLevel.ToString();
 			// bg enabled if player has stacked powerups
-			if (powerupLevel > 1)
-			{
+			if (powerupLevel > 1) {
 				powerupBG.enabled = true;
-			}
-			else
-			{
+			} else {
 				powerupBG.enabled = false;
 			}
-		}
-		else
-		{
+		} else {
 			powerupBG.enabled = false;
 			powerupLevelText.text = "";
 		}
-		
 
 
-		if (powerUpTimerStarted)
-		{
-			
-			if(powerUpTimer - Time.deltaTime < 0)
-			{
+
+		if (powerUpTimerStarted) {
+
+			if (powerUpTimer - Time.deltaTime < 0) {
 				powerUpTimer = 0;
-			}
-			else
-			{
+			} else {
 				powerUpTimer -= Time.deltaTime;
 			}
 
 			powerup.fillAmount = powerUpTimer / powerUpTime;
 
-			if(powerUpTime <= 0)
-			{
+			if (powerUpTime <= 0) {
 				powerUpTimerStarted = false;
 			}
-		}
-		else
-		{
+		} else {
 			powerup.fillAmount = 0;
 		}
 		#endregion
 	}
 
-	public void setPowerupUITimer(float time, int weaponlevel)
-	{
-		if(time > 0)
-		{
+	public void setPowerupUITimer(float time, int weaponlevel) {
+		if (time > 0) {
 			powerUpTimerStarted = true;
 			powerUpTime = time;
 			powerUpTimer = powerUpTime;
 			powerupLevel = weaponlevel;
-		}
-		else
-		{
+		} else {
 			powerUpTimerStarted = false;
 			powerupLevel = 0;
 		}
 	}
 
 	[PunRPC]
-	public void UpdateKeys(int keyNmbr) {
+	public void UpdateKeys(int keyNmbr, string playerName) {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
 		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
-			print("Picked up " + key);
+			SetInfoText(playerName + " Picked up " + key, 2);
 			keyUI.GetComponent<Image>().color = Color.white;
 		}
 	}

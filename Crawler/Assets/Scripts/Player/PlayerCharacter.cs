@@ -221,33 +221,26 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				movement.y = Input.GetAxisRaw("Vertical");
 
 				// For testing weaponupgrades
-				if (Input.GetKeyDown(KeyCode.N))
-				{
+				if (Input.GetKeyDown(KeyCode.N)) {
 					GetWeaponUpgrade();
 				}
 
-				if (Input.GetKeyDown(KeyCode.M))
-				{
+				if (Input.GetKeyDown(KeyCode.M)) {
 					weaponDowngrade();
 				}
 
-				if(weaponLevel > 0)
-				{
-					if ((weaponDowngradeTimer - Time.deltaTime) > 0)
-					{
+				if (weaponLevel > 0) {
+					if ((weaponDowngradeTimer - Time.deltaTime) > 0) {
 						weaponDowngradeTimer -= Time.deltaTime;
-					}
-					else
-					{
+					} else {
 						weaponDowngradeTimer = 0;
 					}
-					if(weaponDowngradeTimer <= 0)
-					{
+					if (weaponDowngradeTimer <= 0) {
 						weaponDowngrade();
 					}
 				}
-				
-				
+
+
 
 				if (movement.x != 0 || movement.y != 0) {
 					lastDir = new Vector2(movement.x, movement.y);
@@ -361,32 +354,25 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void GetWeaponUpgrade() {
 		uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
+		if (photonView.isMine)
+			uim.SetInfoText("Picked up a weapon upgrade!", 2);
 		Debug.Log("Weapon level upgraded");
-		if (ranged) 
-		{
-			if(weaponLevel % 2 == 0)
-			{
+		if (ranged) {
+			if (weaponLevel % 2 == 0) {
 				projectilesPerAttStack.Push(projectilesPerAttack);
 				projectilesPerAttack++;
 				Debug.Log("Projectiles per attack: " + projectilesPerAttack);
-			}
-			else
-			{
+			} else {
 				projectileSpeedsStack.Push(projectileSpeed);
 				projectileSpeed *= 2f;
 				Debug.Log("Projectile speed: " + projectileSpeed);
 			}
-		} 
-		else 
-		{
-			if (weaponLevel % 2 == 0)
-			{
+		} else {
+			if (weaponLevel % 2 == 0) {
 				meleeDamagesStack.Push(damage);
 				damage *= (3 / 2);
 				Debug.Log("Damage: " + damage);
-			}
-			else
-			{
+			} else {
 				meleeIntervalsStack.Push(attackInterval);
 				attackInterval *= .75f;
 				Debug.Log("AttackInterval: " + attackInterval);
@@ -396,45 +382,31 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		weaponLevel++;
 	}
 
-	public void weaponDowngrade()
-	{
-		if (weaponLevel > 0)
-		{
+	public void weaponDowngrade() {
+		if (weaponLevel > 0) {
 			Debug.Log("Weapon level downgraded");
-			if(weaponLevel > 1)
-			{
+			if (weaponLevel > 1) {
 				uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel - 1);
-			}
-			else
-			{
+			} else {
 				uim.setPowerupUITimer(0, 0);
 			}
 
-			if (ranged)
-			{
-				if (weaponLevel % 2 == 0)
-				{
+			if (ranged) {
+				if (weaponLevel % 2 == 0) {
 					projectileSpeed = projectileSpeedsStack.Pop();
 					Debug.Log("Projectile speed reduced");
 					Debug.Log("Projectile speed: " + projectileSpeed);
-				}
-				else
-				{
+				} else {
 					projectilesPerAttack = projectilesPerAttStack.Pop();
 					Debug.Log("Projectiles per attack decremented");
 					Debug.Log("Projectiles per attack: " + projectilesPerAttack);
 				}
-			}
-			else
-			{
-				if (weaponLevel % 2 == 0)
-				{
+			} else {
+				if (weaponLevel % 2 == 0) {
 					attackInterval = meleeIntervalsStack.Pop();
 					Debug.Log("Attack interval increased");
 					Debug.Log("AttackInterval: " + attackInterval);
-				}
-				else
-				{
+				} else {
 					damage = meleeDamagesStack.Pop();
 					Debug.Log("Damage reduced");
 					Debug.Log("Damage: " + damage);
@@ -442,9 +414,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			}
 			weaponDowngradeTimer = weaponDowngradeTime;
 			weaponLevel--;
-		}
-		else
-		{
+		} else {
 			Debug.Log("Cannot downgrade weapon: weapon level is less than 1");
 		}
 	}

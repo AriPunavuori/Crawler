@@ -37,13 +37,13 @@ public class GameManager : Photon.MonoBehaviour {
 		//um.UpdateKeys(keys);
 		keys -= 1;
 	}
-	public void FoundKey(string name) {
+	public void FoundKey(string keyName, string playerName) {
 		keys += 1;
 		//Debug.Log(keys);
 		Hashtable hash = new Hashtable();
-		hash.Add(name, true);
+		hash.Add(keyName, true);
 		PhotonNetwork.room.SetCustomProperties(hash);
-		um.UpdateKeys(keys - 1);
+		um.UpdateKeys(keys - 1, playerName);
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
 	public bool UseKey() {

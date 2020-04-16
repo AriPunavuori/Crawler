@@ -4,15 +4,15 @@ using UnityEngine;
 
 
 public class Key : MonoBehaviour {
-    GameManager gm;
+	GameManager gm;
 
-    private void Start() {
-        gm = FindObjectOfType<GameManager>();
-    }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.CompareTag("Player")) {
-            gm.FoundKey(gameObject.name);
-            Destroy(gameObject);
-        }
-    }
+	private void Start() {
+		gm = FindObjectOfType<GameManager>();
+	}
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.CompareTag("Player")) {
+			gm.FoundKey(gameObject.name, other.name);
+			Destroy(gameObject);
+		}
+	}
 }
