@@ -50,6 +50,9 @@ MonoBehaviour:
   healths: []
   UIBox: {fileID: 8257796290706323197, guid: 598a40e15ee13a545b99385516f6f0d5, type: 3}
   infoText: {fileID: 0}
+  powerup: {fileID: 0}
+  powerupBG: {fileID: 0}
+  powerupLevelText: {fileID: 0}
 --- !u!114 &3210866258048408353
 MonoBehaviour:
   m_ObjectHideFlags: 0
