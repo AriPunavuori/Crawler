@@ -308,6 +308,12 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						Debug.Log("Cant search for a remote camera, only 1 player in the game");
 					}
 				}
+				// If remote camera is found follow a camera/player with current camNum.
+				if (camFound)
+				{
+					//MainCamera.transform.position = players[camNum].transform.Find("Main Camera").transform.position;
+					MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
+				}
 			}
 
 			// Respawn
@@ -448,11 +454,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 			// When the player is dead
 			if (!alive) {
-				// If remote camera is found follow a camera/player with current camNum.
-				if (camFound) {
-					//MainCamera.transform.position = players[camNum].transform.Find("Main Camera").transform.position;
-					MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
-				}
+				
 			}
 
 

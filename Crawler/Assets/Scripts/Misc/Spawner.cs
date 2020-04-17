@@ -53,7 +53,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
 
                 PhotonNetwork.Destroy(gameObject);
         } else {
-            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
+            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
         }
 

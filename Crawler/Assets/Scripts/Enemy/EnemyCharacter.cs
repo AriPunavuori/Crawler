@@ -186,7 +186,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
                 PhotonNetwork.Destroy(gameObject);
         } else {
-            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage);
+            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
         }
     }
