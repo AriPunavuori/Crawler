@@ -343,13 +343,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						// When the player is still
 						if(movement.magnitude <= 0)
 						{
-							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 1f, false));
 						}
 						else
 						{
-							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f, true));
 						}
