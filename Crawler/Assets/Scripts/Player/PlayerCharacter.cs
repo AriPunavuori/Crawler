@@ -126,7 +126,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(int damage, Vector3 recoilOffset) {
+		StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
 		var random = Random.Range(0, 4);
 		AudioFW.Play("PlayerTakesDamage" + random);
 		SetHealth(-damage, this);
@@ -238,23 +239,34 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	{
 		float elapsedTime = 0;
 		Vector3 startingPos = playerCam.transform.position;
+		Vector3 offsetPos = Vector3.zero; 
 
 		while (elapsedTime < recoilTime)
 		{
 			playerCam.transform.position = Vector3.Lerp(startingPos, startingPos + recoilOffset, (elapsedTime / recoilTime));
 			elapsedTime += Time.deltaTime;
+			offsetPos = Vector3.Lerp(startingPos, startingPos + recoilOffset, (elapsedTime / recoilTime));
 			yield return null;
 		}
 
 		// FIX THIS--> (use attackInterval?)
 		elapsedTime = 0;
-		startingPos = playerCam.transform.position;
+		startingPos = offsetPos;
+		playerCam.transform.position = startingPos;
 		while (elapsedTime < recoilTime)
 		{
-			playerCam.transform.position = Vector3.Lerp(startingPos, startingPos - recoilOffset, (elapsedTime / recoilTime));
+			Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
+			//playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
+
+			//playerCam.transform.position = Vector3.Lerp(startingPos, startingPos - recoilOffset, (elapsedTime / recoilTime));
+
+			// Now recoils forward to the mouse direction when the backwards recoil ends, not back to the start direction. (forward recoil direction is updated every frame depeding on the mouse position)
+			playerCam.transform.position = Vector3.Lerp(startingPos, new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position, (elapsedTime / recoilTime));
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
+
+		
 	}
 
 	void Update() {
@@ -299,7 +311,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			}
 
 			// Respawn
-			if (respawnTimer <= 0) {
+			if (respawnTimer <= 0 || Input.GetKeyDown(KeyCode.R)) {
 				respawnTimer = respawnTime;
 				uim.SetInfoText("", 1);
 				respawn();
@@ -333,15 +345,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						{
 							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 1f, false));
 						}
 						else
 						{
 							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f, true));
 						}
-						
+
 
 					}
 				}
@@ -602,7 +614,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			foreach (var hit in hits) {
 				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
 				if (iDamageable != null) {
-					iDamageable.TakeDamage(damage);
+					iDamageable.TakeDamage(damage, new Vector3(0,0,0));
 				}
 			}
 		}

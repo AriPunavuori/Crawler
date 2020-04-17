@@ -44,7 +44,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
 
 
     [PunRPC]
-    public void TakeDamage(int damage) {
+    public void TakeDamage(int damage, Vector3 v) {
 
         if(PhotonNetwork.isMasterClient) {
             health -= damage;

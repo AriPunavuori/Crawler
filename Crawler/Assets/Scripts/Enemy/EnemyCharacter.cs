@@ -177,7 +177,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         }
     }
     [PunRPC]
-    public void TakeDamage(int damage) {
+    public void TakeDamage(int damage, Vector3 v) {
 
         if(PhotonNetwork.isMasterClient) {
             health -= damage;
@@ -263,7 +263,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
             foreach(var hit in hits) {
                 IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
                 if(iDamageable != null) {
-                    iDamageable.TakeDamage(damage);
+                    Vector3 recoilVector = new Vector3(hit.gameObject.transform.position.x - transform.position.x, hit.gameObject.transform.position.y - transform.position.y, 0f).normalized;
+                    iDamageable.TakeDamage(damage, recoilVector);
                 }
             }
         }

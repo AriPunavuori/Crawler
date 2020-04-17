@@ -67,7 +67,8 @@ public class Projectile : MonoBehaviour {
 
         IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
         if(iDamageable != null) {
-            iDamageable.TakeDamage(damage);
+            Vector3 recoilVector = rb2D.velocity.normalized;
+            iDamageable.TakeDamage(damage, recoilVector);
             DestroyProjectile();
             return;
         }
