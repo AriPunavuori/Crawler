@@ -11,11 +11,41 @@ public class GameManager : Photon.MonoBehaviour {
 
 	float counter;
 	bool triggerUIUpdate;
-
+	bool gameOver;
+	bool gameReady = false;
+	GameObject[] players;
 
 
 	private void Start() {
 		um = FindObjectOfType<UIManager>();
+	}
+
+	private void Update()
+	{
+		if (PhotonNetwork.isMasterClient)
+		{
+			GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+			int alivePlayers = 0;
+
+			foreach (GameObject i in players)
+			{
+				if (i.GetComponent<PlayerCharacter>().alive)
+				{
+					alivePlayers++;
+				}
+			}
+			if (alivePlayers == PhotonNetwork.playerList.Length)
+			{
+				gameReady = true;
+			}
+			//Debug.Log("Players alive: " + alivePlayers);
+			//Debug.Log(gameReady);
+			if (alivePlayers == 0 && gameReady)
+			{
+				Debug.Log("Restarting game");
+				PhotonNetwork.LoadLevel(3);
+			}
+		}
 	}
 
 	public bool UseKeyRPC() {
