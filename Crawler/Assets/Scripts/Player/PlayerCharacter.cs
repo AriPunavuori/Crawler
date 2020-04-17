@@ -26,6 +26,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float respawnTimer;
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
+	public bool shooting;
 	// Multiplier for base player speed when dashing
 	float dashFactor = 4.0f;
 	Vector2 dashVector;
@@ -233,6 +234,29 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 
+	IEnumerator recoil(Vector3 recoilOffset, float recoilTime)
+	{
+		float elapsedTime = 0;
+		Vector3 startingPos = playerCam.transform.position;
+
+		while (elapsedTime < recoilTime)
+		{
+			playerCam.transform.position = Vector3.Lerp(startingPos, startingPos + recoilOffset, (elapsedTime / recoilTime));
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+
+		// FIX THIS--> (use attackInterval?)
+		elapsedTime = 0;
+		startingPos = playerCam.transform.position;
+		while (elapsedTime < recoilTime)
+		{
+			playerCam.transform.position = Vector3.Lerp(startingPos, startingPos - recoilOffset, (elapsedTime / recoilTime));
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+	}
+
 	void Update() {
 
 
@@ -293,6 +317,41 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				// Attack input
 				if (attackTimer < 0 && Input.GetKey(KeyCode.Mouse0)) {
 					Attack();
+
+					// Camera recoil when shooting. Kinda shit tbh
+					if (ranged)
+					{
+						shooting = true;
+						
+						Vector3 camSP = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
+						Vector2 mouseVectorN = new Vector2(Input.mousePosition.x - camSP.x, Input.mousePosition.y - camSP.y).normalized;
+						//Vector3 campos = playerCam.transform.position;
+						//playerCam.transform.position = new Vector3(Mathf.Lerp(campos.x, -mouseVectorN.x, 0.5f) * 10, Mathf.Lerp(campos.y, -mouseVectorN.y, 0.5f) * 10, campos.z);
+						
+						// When the player is still
+						if(movement.magnitude <= 0)
+						{
+							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f));
+						}
+						else
+						{
+							StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
+							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f));
+						}
+						
+
+					}
+				}
+				else if(attackTimer < 0)
+				{
+					if(ranged)
+					{
+						shooting = false;
+					}
+					
 				}
 				// Movement input
 				movement.x = Input.GetAxisRaw("Horizontal");
@@ -325,7 +384,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// Camera movement
-				Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position);
+				Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
 				playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
 
 				// Setting the correct animation/stance depending on the current mouse position and if moving or not
@@ -390,7 +449,16 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					//rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * dashFactor;
 					rb2D.velocity = dashVector.normalized * speed * dashFactor;
 				} else {
-					rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
+					if(!shooting)
+					{
+						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
+					}
+					else
+					{
+						// When player is shooting slow his movement speed. Could also do for melee
+						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
+					}
+					
 				}
 			//Debug.Log(rb2D.velocity.magnitude);
 		}

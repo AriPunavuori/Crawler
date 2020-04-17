@@ -919,7 +919,7 @@ MonoBehaviour:
   weaponDowngradeTimer: 20
   animator: {fileID: 2323823717491432977}
   playerCam: {fileID: 7735903620295355639}
-  uim: {fileID: 0}
+  uim: {fileID: 4704620280472466728, guid: 2811434311e4ccc45a461e6da1510602, type: 3}
 --- !u!95 &2323823717491432977
 Animator:
   serializedVersion: 3
