@@ -32,6 +32,7 @@ public class PlayerNetwork : MonoBehaviour {
                 PhotonView.RPC("RPC_LoadCharacterSelection", PhotonTargets.Others);
         }
         if(scene.name == "Level1") {
+            PlayersInGame = 0;
             if(PhotonNetwork.isMasterClient)
                 MasterLoadedGame();
             else
@@ -46,7 +47,6 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonNetwork.LoadLevel(2);
     }
     void MasterLoadedGame() {
-        PlayersInGame = 0;
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player, selectedCharacter);
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
