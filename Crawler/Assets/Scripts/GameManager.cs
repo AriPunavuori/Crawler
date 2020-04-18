@@ -18,6 +18,8 @@ public class GameManager : Photon.MonoBehaviour {
 
 	private void Start() {
 		um = FindObjectOfType<UIManager>();
+		AudioFW.StopAllSounds();
+		AudioFW.PlayLoop("GameLoop");
 	}
 
 	private void Update()
@@ -63,7 +65,7 @@ public class GameManager : Photon.MonoBehaviour {
 	}
 
 	[PunRPC]
-	public void DecraseKeyAll() {
+	public void DecreaseKeyAll() {
 		//um.UpdateKeys(keys);
 		keys -= 1;
 	}

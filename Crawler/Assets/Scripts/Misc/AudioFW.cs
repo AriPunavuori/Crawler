@@ -13,6 +13,7 @@ public class AudioFW : MonoBehaviour {
 
     Dictionary<string, AudioSource> sfx = new Dictionary<string, AudioSource>();
     Dictionary<string, AudioSource> loops = new Dictionary<string, AudioSource>();
+    List<AudioSource> playingLoops;
     public static void Play(string id) {
         instance.PlayImpl(id);
     }
@@ -22,6 +23,9 @@ public class AudioFW : MonoBehaviour {
     public static void StopLoop(string id) {
         instance.StopLoopImpl(id);
     }
+    public static void StopAllSounds() {
+        instance.StopAllSoundsImpl();
+    }
     public static void AdjustPitch(string id, float pitch) {
         instance.AdjustPitchImpl(id, pitch);
     }
@@ -30,7 +34,10 @@ public class AudioFW : MonoBehaviour {
             Debug.LogError("No sound with ID " + id);
             return;
         }
-        sfx[id].PlayOneShot(sfx[id].clip);
+        if(!sfx[id].isPlaying) {
+            sfx[id].PlayOneShot(sfx[id].clip);
+        }
+
     }
     void PlayLoopImpl(string id) {
         if(!loops.ContainsKey(id)) {
@@ -47,6 +54,14 @@ public class AudioFW : MonoBehaviour {
             return;
         }
         loops[id].Stop();
+    }
+    void StopAllSoundsImpl() {
+        foreach(KeyValuePair<string, AudioSource> loop in loops) {
+            loop.Value.Stop();
+        }
+        foreach(KeyValuePair<string, AudioSource> sfx in sfx) {
+            sfx.Value.Stop();
+        }
     }
     void AdjustPitchImpl(string id, float pitch) {
         if(!loops.ContainsKey(id)) {
@@ -87,8 +102,8 @@ public class AudioFW : MonoBehaviour {
     }
 
     //void Update() {
-    //    if(Input.GetKeyDown(KeyCode.A))
-    //        DebugPrint();
+    //    if(Input.GetKeyDown(KeyCode.P))
+    //        StopAllLoops();
     //}
 
     //void DebugPrint() {

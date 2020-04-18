@@ -131,7 +131,6 @@ public class PlayerNetwork : MonoBehaviour {
         obj.name = playerName;
         pc = obj.GetComponent<PlayerCharacter>();
         joined = true;
-        AudioFW.PlayLoop("GameLoop");
     }
 
     public bool joinedGame() {

@@ -92,7 +92,8 @@ public class Projectile : MonoBehaviour {
         var random = Random.Range(0, 4);
         AudioFW.Play("Hit" + random);
         particles.SetActive(true);
+        particles.transform.parent = null;
         graphics.SetActive(false);
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject);
     }
 }
