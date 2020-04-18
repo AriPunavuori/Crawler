@@ -180,7 +180,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			AudioFW.Play("PlayerDead");
 			photonView.RPC("Die", PhotonTargets.Others);
 		}
-
 	}
 
 	[PunRPC]
