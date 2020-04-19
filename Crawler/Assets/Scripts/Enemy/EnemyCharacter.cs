@@ -183,8 +183,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
             health -= damage;
             healthText.text = "" + health;
             if(health <= 0)
-
-                PhotonNetwork.Destroy(gameObject);
+                if(gameObject != null)
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
         } else {
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 

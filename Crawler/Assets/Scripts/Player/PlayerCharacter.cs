@@ -8,11 +8,22 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Rigidbody2D rb2D;
 	CircleCollider2D col;
 	SpriteRenderer spriteRenderer;
-	GameObject projHead;
+    SpriteRenderer PlayerTarget1Renderer;
+    SpriteRenderer PlayerTarget2Renderer;
+    SpriteRenderer PlayerTarget3Renderer;
+    GameObject projHead;
 	GameObject[] players;
 	GameObject MainCamera;
-	LayerMask layerMaskEnemy;
-	int camNum = 0;
+    GameObject IndicatorColliderObj;
+    GameObject DirectionIndicator1;
+    GameObject DirectionIndicator2;
+    GameObject DirectionIndicator3;
+    GameObject PlayerTarget1;
+    GameObject PlayerTarget2;
+    GameObject PlayerTarget3;
+    LayerMask layerMaskEnemy;
+    LayerMask layerMaskIndicator;
+    int camNum = 0;
 	bool potion;
 	bool dashing = false;
 	bool camFound = false;
@@ -32,12 +43,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector2 dashVector;
 	Vector2 lastDir;
 	Vector3 TargetPosition;
-    GameObject DirectionIndicator1;
-    GameObject DirectionIndicator2;
-    GameObject DirectionIndicator3;
-    GameObject PlayerTarget1;
-    GameObject PlayerTarget2;
-    GameObject PlayerTarget3;
+    Vector2 heading;
+    Vector2 direction;
+    float distance;
+
 
     int projectilesPerAttack = 1;
 
@@ -63,13 +72,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		col = GetComponent<CircleCollider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		layerMaskEnemy = LayerMask.GetMask("Enemy");
-		projHead = transform.Find("ProjectileHeading").gameObject;
+        layerMaskIndicator = LayerMask.GetMask("DirectionIndicator");
+        projHead = transform.Find("ProjectileHeading").gameObject;
 		MainCamera = transform.Find("Main Camera").gameObject;
         DirectionIndicator1 = transform.Find("DirectionIndicator1").gameObject;
         DirectionIndicator2 = transform.Find("DirectionIndicator2").gameObject;
         DirectionIndicator3 = transform.Find("DirectionIndicator3").gameObject;
+        IndicatorColliderObj = MainCamera.transform.Find("IndicatorCollider").gameObject;
         players = GameObject.FindGameObjectsWithTag("Player");
-		SetCharacterAttributes();
+        SetCharacterAttributes();
 		meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
 		meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
 		meleeIndicator.SetActive(false);
@@ -92,6 +103,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
         players = GameObject.FindGameObjectsWithTag("Player");
         if (photonView.isMine)
         {
+            IndicatorColliderObj.SetActive(true);
             for (int i = 0; i < players.Length; i++)
             {
                 if (this.gameObject.GetComponent<PhotonView>().ownerId != players[i].GetComponent<PhotonView>().ownerId)
@@ -100,8 +112,26 @@ public class PlayerCharacter : Character, IDamageable<int> {
                     {
                         DirectionIndicator1.SetActive(true);
                         var SpriteRenderer = DirectionIndicator1.GetComponent<SpriteRenderer>();
-                        SpriteRenderer.color = Color.red;
+
                         PlayerTarget1 = players[i].gameObject;
+                        PlayerTarget1Renderer = PlayerTarget1.GetComponent<SpriteRenderer>();
+                        var charType = PlayerTarget1.GetComponent<Character>().characterType;
+                        if(charType == EntityType.Hero0)
+                        {
+                            SpriteRenderer.color = Color.red;
+                        }
+                        else if (charType == EntityType.Hero1)
+                        {
+                            SpriteRenderer.color = Color.green;
+                        }
+                        else if (charType == EntityType.Hero2)
+                        {
+                            SpriteRenderer.color = Color.yellow;
+                        }
+                        else if (charType == EntityType.Hero3)
+                        {
+                            SpriteRenderer.color = Color.blue;
+                        }
                         continue;
                     }
                     else if (PlayerTarget2 == null)
@@ -110,7 +140,26 @@ public class PlayerCharacter : Character, IDamageable<int> {
                         var SpriteRenderer = DirectionIndicator2.GetComponent<SpriteRenderer>();
                         SpriteRenderer.color = Color.blue;
                         PlayerTarget2 = players[i].gameObject;
+                        PlayerTarget2Renderer = PlayerTarget2.GetComponent<SpriteRenderer>();
+                        var charType = PlayerTarget2.GetComponent<Character>().characterType; ;
+                        if (charType == EntityType.Hero0)
+                        {
+                            SpriteRenderer.color = Color.red;
+                        }
+                        else if (charType == EntityType.Hero1)
+                        {
+                            SpriteRenderer.color = Color.green;
+                        }
+                        else if (charType == EntityType.Hero2)
+                        {
+                            SpriteRenderer.color = Color.yellow;
+                        }
+                        else if (charType == EntityType.Hero3)
+                        {
+                            SpriteRenderer.color = Color.blue;
+                        }
                         continue;
+
                     }
                     else if (PlayerTarget3 == null)
                     {
@@ -118,6 +167,24 @@ public class PlayerCharacter : Character, IDamageable<int> {
                         var SpriteRenderer = DirectionIndicator3.GetComponent<SpriteRenderer>();
                         SpriteRenderer.color = Color.green;
                         PlayerTarget3 = players[i].gameObject;
+                        PlayerTarget3Renderer = PlayerTarget3.GetComponent<SpriteRenderer>();
+                        var charType = PlayerTarget3.GetComponent<Character>().characterType; ;
+                        if (charType == EntityType.Hero0)
+                        {
+                            SpriteRenderer.color = Color.red;
+                        }
+                        else if (charType == EntityType.Hero1)
+                        {
+                            SpriteRenderer.color = Color.green;
+                        }
+                        else if (charType == EntityType.Hero2)
+                        {
+                            SpriteRenderer.color = Color.yellow;
+                        }
+                        else if (charType == EntityType.Hero3)
+                        {
+                            SpriteRenderer.color = Color.blue;
+                        }
                         continue;
                     }
                 }
@@ -264,34 +331,54 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
-
-		
 	}
 
 	void Update() {
-
-
 		if (photonView.isMine) {
-            if (allPlayersFound == true)
+            if (allPlayersFound == true) // Player Direction Indicator
             {
                 if (players.Length > 1)
                 {
-                    var heading = PlayerTarget1.gameObject.transform.position - this.transform.position;
-                    var distance = heading.magnitude;
-                    var direction = heading / distance;
-                    DirectionIndicator1.transform.localPosition = direction;
-                    if (players.Length > 2)
+                    if (!PlayerTarget1Renderer.isVisible)
                     {
-                        heading = PlayerTarget2.gameObject.transform.position - this.transform.position;
+                        DirectionIndicator1.SetActive(true);
+                        heading = PlayerTarget1.gameObject.transform.position - this.transform.position;
                         distance = heading.magnitude;
                         direction = heading / distance;
-                        DirectionIndicator2.transform.localPosition = direction;
-                        if (players.Length > 3)
+                        DirectionIndicator1.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
+                    }
+                    else
+                    {
+                        DirectionIndicator1.SetActive(false);
+                    }
+                    if (players.Length > 2)
+                    {
+                        if (!PlayerTarget2Renderer.isVisible)
                         {
-                            heading = PlayerTarget3.gameObject.transform.position - this.transform.position;
+                            DirectionIndicator2.SetActive(true);
+                            heading = PlayerTarget2.gameObject.transform.position - this.transform.position;
                             distance = heading.magnitude;
                             direction = heading / distance;
-                            DirectionIndicator3.transform.localPosition = direction;
+                            DirectionIndicator2.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
+                        }
+                        else
+                        {
+                            DirectionIndicator2.SetActive(false);
+                        }
+                        if (players.Length > 3)
+                        {
+                            if (!PlayerTarget3Renderer.isVisible)
+                            {
+                                DirectionIndicator3.SetActive(true);
+                                heading = PlayerTarget3.gameObject.transform.position - this.transform.position;
+                                distance = heading.magnitude;
+                                direction = heading / distance;
+                                DirectionIndicator3.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
+                            }
+                            else
+{
+                                DirectionIndicator3.SetActive(false);
+                            }
                         }
                     }
                 }
@@ -358,10 +445,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
 							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f, true));
 						}
-
-
 					}
 				}
+
 				else if(attackTimer < 0)
 				{
 					if(ranged)
@@ -393,8 +479,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						weaponDowngrade();
 					}
 				}
-
-
 
 				if (movement.x != 0 || movement.y != 0) {
 					lastDir = new Vector2(movement.x, movement.y);
@@ -590,8 +674,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 		attackTimer = attackInterval;
 	}
-
-
 
 	[PunRPC]
 	public void Shoot(int amount, float projSpeed) {
