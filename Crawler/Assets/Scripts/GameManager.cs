@@ -22,28 +22,22 @@ public class GameManager : Photon.MonoBehaviour {
 		AudioFW.PlayLoop("GameLoop");
 	}
 
-	private void Update()
-	{
-		if (PhotonNetwork.isMasterClient)
-		{
+	private void Update() {
+		if (PhotonNetwork.isMasterClient) {
 			GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 			int alivePlayers = 0;
 
-			foreach (GameObject i in players)
-			{
-				if (i.GetComponent<PlayerCharacter>().alive)
-				{
+			foreach (GameObject i in players) {
+				if (i.GetComponent<PlayerCharacter>().alive) {
 					alivePlayers++;
 				}
 			}
-			if (alivePlayers == PhotonNetwork.playerList.Length)
-			{
+			if (alivePlayers == PhotonNetwork.playerList.Length) {
 				gameReady = true;
 			}
 			//Debug.Log("Players alive: " + alivePlayers);
 			//Debug.Log(gameReady);
-			if (alivePlayers == 0 && gameReady)
-			{
+			if (alivePlayers == 0 && gameReady) {
 				Debug.Log("Restarting game");
 				PhotonNetwork.LoadLevel(3);
 			}
