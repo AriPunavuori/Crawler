@@ -197,7 +197,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		hpIndicator.transform.SetParent(null);
 		//PhotonNetwork.Instantiate("HealthChangeIndicator", transform.position, Quaternion.identity, 0);
 		PhotonView photonView = pc.GetComponent<PhotonView>();
-		if (photonView != null) {
+		if (photonView != null && PhotonNetwork.isMasterClient) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, amount);
 			//print(photonView.owner);
 		}
