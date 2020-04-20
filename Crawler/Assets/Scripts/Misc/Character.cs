@@ -9,13 +9,13 @@ public class Character : Photon.MonoBehaviour {
     public EntityType characterType;
 
     // Four first of the values are for heroes the rest for enemies
-    bool[] rangeds = new bool[] { true, true, false, false, true, true, false, false }; // Ranger or melee
-    float[] projectileSpeeds = new float[] { 15f, 7.5f, 10f, 6.5f, 10f, 10f, 10f, 10f }; // Speed of projectile
-    float[] attackRanges = new float[] { 10f, 15f, 2f, 2f, 8f, 8f, 1.5f, 1.5f }; // Range of attack
-    int[] damages = new int[] { 10, 20, 15, 35, 5, 5, 10, 10 };  // Amount of damage
-    float[] attackIntervals = new float[] { 0.2f, 0.4f, 0.2f, 0.4f, .5f, .5f, .5f, .5f }; // Attack interval
+    bool[] rangeds = new bool[] { true, false, true, false, true, true, false, false }; // Ranger or melee
+    float[] projectileSpeeds = new float[] { 15f, 7.5f, 7.5f, 6.5f, 6.5f, 6.5f, 10f, 10f }; // Speed of projectile
+    float[] attackRanges = new float[] { 7.5f, 2.5f, 10f, 2.5f, 6.5f, 8f, 1.5f, 1.5f }; // Range of attack
+    int[] damages = new int[] { 10, 20, 15, 25, 5, 5, 10, 10 };  // Amount of damage
+    float[] attackIntervals = new float[] { 0.2f, 0.3f, 0.3f, 0.35f, .5f, .5f, .5f, .5f }; // Attack interval
     float[] speeds = new float[] { 4.5f, 4.5f, 4.5f, 4.5f, 3.5f, 3.5f, 3.5f, 3.5f }; // Movement speed
-    int[] healths = new int[] { 150, 200, 200, 200, 20 , 30, 50, 60 }; // Health
+    int[] healths = new int[] { 200, 250, 200, 250, 20 , 30, 50, 60 }; // Health
 
     public bool ranged;
     public float projectileSpeed;
