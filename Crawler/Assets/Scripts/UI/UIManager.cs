@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour {
 	public Text[] healths;
 	public Image[] healthBars;
 	public GameObject UIBox;
-	int[] baseHealths = { 150, 200, 200, 200 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
+	int[] baseHealths = { 200, 250, 200, 250 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
 
 	GameObject keysUI;
 	GameObject potion;
