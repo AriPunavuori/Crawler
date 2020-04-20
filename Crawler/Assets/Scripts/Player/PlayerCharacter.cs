@@ -21,6 +21,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	GameObject PlayerTarget1;
 	GameObject PlayerTarget2;
 	GameObject PlayerTarget3;
+	public GameObject healthChangeIndicator;
 	LayerMask layerMaskEnemy;
 	LayerMask layerMaskPlayer;
 	LayerMask layerMaskIndicator;
@@ -39,6 +40,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
 	public bool shooting;
+
+	float damageCooldownLength = .5f;
+	float timeDamageTaken;
 
 	// Specials
 
@@ -172,10 +176,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	public void TakeDamage(int damage, Vector3 recoilOffset) {
-		StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
-		var random = Random.Range(0, 4);
-		AudioFW.Play("PlayerTakesDamage" + random);
-		SetHealth(-damage, this);
+		if(Time.time > timeDamageTaken + damageCooldownLength) {
+			timeDamageTaken = Time.time;
+			StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
+			var random = Random.Range(0, 4);
+			AudioFW.Play("PlayerTakesDamage" + random);
+			SetHealth(-damage, this);
+		}
 	}
 	public void GetHealed(int heal) {
 		print(heal);
@@ -185,6 +192,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			SetHealth(heal, this);
 	}
 	public void SetHealth(int amount, PlayerCharacter pc) {
+		var hpIndicator = Instantiate(healthChangeIndicator, transform).GetComponent<HealthChangeIndicator>();
+		hpIndicator.SetHealthChangeText(amount);
+		hpIndicator.transform.SetParent(null);
+		//PhotonNetwork.Instantiate("HealthChangeIndicator", transform.position, Quaternion.identity, 0);
 		PhotonView photonView = pc.GetComponent<PhotonView>();
 		if (photonView != null) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, amount);

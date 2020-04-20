@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour {
 	GameObject keysUI;
 	GameObject potion;
 	public TextMeshProUGUI infoText;
-	float eraseTextTimer;
+	float eraseTextTime;
 
 	public Image powerup;
 	// powerupBG is active if player has stacked powerups
@@ -45,9 +45,9 @@ public class UIManager : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (Time.time >= eraseTextTimer) {
+		if (Time.time >= eraseTextTime) {
 			infoText.text = "";
-			eraseTextTimer = 0;
+			eraseTextTime = 0;
 		}
 
 		#region powerup UI handling
@@ -118,7 +118,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetInfoText(string text, float textTime) {
-		eraseTextTimer = Time.time + textTime;
+		eraseTextTime = Time.time + textTime;
 		infoText.text = text;
 	}
 
