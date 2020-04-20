@@ -101,11 +101,20 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
-		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
+		string key = keyUI.name.Trim('U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
-			SetInfoText(playerName + " Picked up " + key, 2);
+			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 10);
 			keyUI.GetComponent<Image>().color = Color.white;
 		}
+	}
+
+	int GetKeyPickerName(string picker) {
+		for (int i = 0; i < names.Length; i++) {
+			if (names[i].text == picker) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	public void UpdatePotion() {
