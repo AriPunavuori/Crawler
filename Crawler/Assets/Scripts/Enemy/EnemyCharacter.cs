@@ -260,7 +260,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     [PunRPC]
     public void Melee() {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator
-        if(PhotonNetwork.isMasterClient) {
+        if(photonView.isMine) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
             foreach(var hit in hits) {
                 IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
