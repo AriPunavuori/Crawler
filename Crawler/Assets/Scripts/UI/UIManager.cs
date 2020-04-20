@@ -11,7 +11,9 @@ public class UIManager : MonoBehaviour {
 	public GameObject[] UIBoxes;
 	public Text[] names;
 	public Text[] healths;
+	public Image[] healthBars;
 	public GameObject UIBox;
+	int[] baseHealths = { 150, 200, 200, 200 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
 
 	GameObject keysUI;
 	GameObject potion;
@@ -132,7 +134,33 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void RPC_UpdateUIBoxContent(string name, int health, int selected) {
 		names[selected].text = name;
+		StartCoroutine(updateHealthBar(health, 0.1f, selected));
 		healths[selected].text = "" + health;
+	}
+
+	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected)
+	{
+		float elapsedTime = 0;
+		// only gets local player base stats
+		//int baseHealth = Character.Instance.CheckCharacterHealt(Character.Instance.characterType);
+		int baseHealth = baseHealths[selected];
+		int currentHealth = int.Parse(healths[selected].text);
+
+		bool filled = false;
+
+		while (!filled)
+		{
+			healthBars[selected].fillAmount = Mathf.Lerp(((float)currentHealth / baseHealth), ((float)newHealth / baseHealth), (elapsedTime / updateTime));
+
+			elapsedTime += Time.deltaTime;
+
+			// Stop when filled with 2 decimal points of accuracy
+			if (System.Math.Round(healthBars[selected].fillAmount, 2) == System.Math.Round((float)newHealth / baseHealth, 2))
+			{
+				filled = true;
+			}
+			yield return null;
+		}
 	}
 
 	[PunRPC]
@@ -144,11 +172,13 @@ public class UIManager : MonoBehaviour {
 		UIBoxes = new GameObject[4]; // Taulukon koko on aina 4
 		names = new Text[4];
 		healths = new Text[4];
+		healthBars = new Image[4];
 		for (int i = 0; i < UIBoxes.Length; i++) {
 			GameObject newUIBox = Instantiate(UIBox.gameObject); // Tee uusi UIBox
 			UIBoxes[i] = newUIBox;    // Aseta uusi boxi taulukkoon
 			names[i] = newUIBox.transform.GetChild(0).GetComponent<Text>();
 			healths[i] = newUIBox.transform.GetChild(1).GetComponent<Text>();
+			healthBars[i] = newUIBox.transform.GetChild(2).GetChild(0).GetComponent<Image>();
 			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0)); // laita boxi canvasin "players" -elementin lapseksi
 		}
 	}

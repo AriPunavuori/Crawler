@@ -126,7 +126,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
     }
 
-    public void TakeDamage(int damage, Vector3 recoilOffset) {
+	[PunRPC]
+	public void RecoilRPC(Vector3 recoilOffset, float recoilTime)
+	{
+		StartCoroutine(recoil(recoilOffset, recoilTime));
+	}
+
+
+
+	public void TakeDamage(int damage, Vector3 recoilOffset) {
+		PhotonView photonView = this.GetComponent<PhotonView>();
+		photonView.RPC("RecoilRPC", photonView.owner, recoilOffset * 0.5f, 0.05f);
 		StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
 		var random = Random.Range(0, 4);
 		AudioFW.Play("PlayerTakesDamage" + random);
@@ -180,6 +190,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			AudioFW.Play("PlayerDead");
 			photonView.RPC("Die", PhotonTargets.Others);
 		}
+
+		// Check for End game here?
+
 	}
 
 	[PunRPC]
@@ -248,7 +261,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			yield return null;
 		}
 
-		// FIX THIS--> (use attackInterval?)
 		elapsedTime = 0;
 		startingPos = offsetPos;
 		playerCam.transform.position = startingPos;
@@ -264,8 +276,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
-
-		
 	}
 
 	void Update() {
@@ -370,6 +380,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					}
 					
 				}
+
+
 				// Movement input
 				movement.x = Input.GetAxisRaw("Horizontal");
 				movement.y = Input.GetAxisRaw("Vertical");
