@@ -40,7 +40,6 @@ MonoBehaviour:
   - PunPickup
   - PunPickupSimple
   - PunRespawn
-  - RecoilRPC
   - RequestForPickupItems
   - RequestForPickupTimes
   - respawn

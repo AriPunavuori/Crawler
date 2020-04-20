@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour {
 	public Text[] healths;
 	public Image[] healthBars;
 	public GameObject UIBox;
-	int[] baseHealths = { 150, 200, 200, 200 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
+	int[] baseHealths = { 200, 250, 200, 250 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
 
 	GameObject keysUI;
 	GameObject potion;
@@ -155,21 +155,31 @@ public class UIManager : MonoBehaviour {
 		int baseHealth = baseHealths[selected];
 		int currentHealth = int.Parse(healths[selected].text);
 
-		bool filled = false;
 
-		while (!filled)
+		//bool filled = false;
+
+		while (elapsedTime < updateTime)
 		{
 			healthBars[selected].fillAmount = Mathf.Lerp(((float)currentHealth / baseHealth), ((float)newHealth / baseHealth), (elapsedTime / updateTime));
 
 			elapsedTime += Time.deltaTime;
 
 			// Stop when filled with 2 decimal points of accuracy
-			if (System.Math.Round(healthBars[selected].fillAmount, 2) == System.Math.Round((float)newHealth / baseHealth, 2))
-			{
-				filled = true;
-			}
+			//if (System.Math.Round(healthBars[selected].fillAmount, 2) == System.Math.Round((float)newHealth / baseHealth, 2))
+			//{
+			//	filled = true;
+			//	//Debug.Log("fillAmount: " + healthBars[selected].fillAmount);
+			//	Debug.Log("Filled");
+			//}
 			yield return null;
 		}
+
+		// Lazy fallback fix if bar doesnt get fileld in time
+		if(System.Math.Round(healthBars[selected].fillAmount, 2) != System.Math.Round((float)newHealth / baseHealth, 2))
+		{
+			healthBars[selected].fillAmount = (float)newHealth / baseHealth;
+		}
+
 	}
 
 	[PunRPC]
