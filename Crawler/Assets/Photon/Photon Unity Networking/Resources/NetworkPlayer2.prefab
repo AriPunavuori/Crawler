@@ -81,7 +81,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 11dc35a700c4b5344afa21d2c55c7c5f, type: 3}
+  m_Sprite: {fileID: -5475543393486090090, guid: 73692520a58d84d448adf5b30ca4a81a,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -180,7 +181,7 @@ MonoBehaviour:
   attackTimer: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 2851530787461515505}
-  projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
+  projectilePrefab: {fileID: 70656158235786044, guid: ede69093648dbb046bf6b8a1f379df99,
     type: 3}
   movement: {x: 0, y: 0}
   alive: 0
@@ -199,7 +200,7 @@ Animator:
   m_GameObject: {fileID: 465830960182727936}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7bc6c9ac1348d4a40a9d6d3781ab6cbc, type: 2}
+  m_Controller: {fileID: 9100000, guid: f24e00a7ae73676458360e8913c23f8f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

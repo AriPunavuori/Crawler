@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: magiIdleUpLeft
+  m_Name: LightOniIdleUpLeft
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 5466757390694213454, guid: cfc802aefc8c1134a8204529806e2bac,
+      value: {fileID: -5805393349363337397, guid: 27578e32e85e4e3419bc93619e39211c,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -41,7 +41,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 5466757390694213454, guid: cfc802aefc8c1134a8204529806e2bac, type: 3}
+    - {fileID: -5805393349363337397, guid: 27578e32e85e4e3419bc93619e39211c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

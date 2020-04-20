@@ -179,10 +179,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 	public void GetHealed(int heal) {
 		print(heal);
-		//if(health + heal > CheckCharacterHealt(characterType)) {
-		//    SetHealth(CheckCharacterHealt(characterType) - health, this);
-		//} else
-		SetHealth(heal, this);
+		if(health + heal > CheckCharacterHealt(characterType)) {
+			SetHealth(CheckCharacterHealt(characterType) - health, this);
+		} else
+			SetHealth(heal, this);
 	}
 	public void SetHealth(int amount, PlayerCharacter pc) {
 		PhotonView photonView = pc.GetComponent<PhotonView>();
