@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour {
 	GameObject keysUI;
 	GameObject potion;
 	public TextMeshProUGUI infoText;
-	float eraseTextTimer;
+	float eraseTextTime;
 
 	public Image powerup;
 	// powerupBG is active if player has stacked powerups
@@ -47,9 +47,9 @@ public class UIManager : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (Time.time >= eraseTextTimer) {
+		if (Time.time >= eraseTextTime) {
 			infoText.text = "";
-			eraseTextTimer = 0;
+			eraseTextTime = 0;
 		}
 
 		#region powerup UI handling
@@ -103,11 +103,20 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
-		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
+		string key = keyUI.name.Trim('U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
-			SetInfoText(playerName + " Picked up " + key, 2);
+			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 10);
 			keyUI.GetComponent<Image>().color = Color.white;
 		}
+	}
+
+	int GetKeyPickerName(string picker) {
+		for (int i = 0; i < names.Length; i++) {
+			if (names[i].text == picker) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	public void UpdatePotion() {
@@ -120,7 +129,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetInfoText(string text, float textTime) {
-		eraseTextTimer = Time.time + textTime;
+		eraseTextTime = Time.time + textTime;
 		infoText.text = text;
 	}
 

@@ -44,6 +44,8 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - respawn
+  - RPC_AreaDamage
+  - RPC_AreaHeal
   - RPC_CreatePlayer
   - RPC_CreateUIBoxes
   - RPC_DisableButton

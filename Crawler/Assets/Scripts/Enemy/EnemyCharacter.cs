@@ -183,8 +183,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
             health -= damage;
             healthText.text = "" + health;
             if(health <= 0)
-
-                PhotonNetwork.Destroy(gameObject);
+                if(gameObject != null)
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
         } else {
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
@@ -258,7 +260,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
     [PunRPC]
     public void Melee() {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator
-        if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
             foreach(var hit in hits) {
                 IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
@@ -267,9 +268,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
                     iDamageable.TakeDamage(damage, recoilVector);
                 }
             }
-        }
-
-
         // Play animation
         meleeIndicator.SetActive(true);
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));

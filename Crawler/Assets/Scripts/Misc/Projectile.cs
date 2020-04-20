@@ -29,10 +29,7 @@ public class Projectile : MonoBehaviour {
         // Set original position
         origPos = transform.position;
         // Set damage of the projectile
-        if(PhotonNetwork.isMasterClient) {
-            damage = d;
-        } else
-            damage = 0;
+        damage = d;
         // Set range
         range = r;
         // Set speed
