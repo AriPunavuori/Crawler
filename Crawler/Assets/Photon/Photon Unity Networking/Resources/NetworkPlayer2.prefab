@@ -184,6 +184,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 70656158235786044, guid: ede69093648dbb046bf6b8a1f379df99,
     type: 3}
   movement: {x: 0, y: 0}
+  healthChangeIndicator: {fileID: 1925722747347466912, guid: f095fca3660d1ce418729271f70c53e7,
+    type: 3}
   alive: 0
   weaponDowngradeTimer: 20
   shooting: 0
