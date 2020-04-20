@@ -193,8 +193,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
         }
     }
 
-
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if(stream.isWriting) {
             stream.SendNext(health);
@@ -203,25 +201,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
             healthText.text = "" + health;
         }
     }
-
-    //void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
-    //    if(stream.isWriting) {
-    //        stream.SendNext(health);
-    //    } else {
-    //        this.health = (int)stream.ReceiveNext();
-    //    }
-    //}
-    //public void TakeDamage(int damage) {
-    //    EnemyManager.Instance.ModifyHealth(this, -damage);
-    //}
-
-    //public void SetHealth(int newHealth) {
-    //    if(newHealth <= 0) {
-    //        print("Enemy should die!");
-    //        PhotonNetwork.Destroy(gameObject);
-    //    }
-    //    health = newHealth;
-    //}
 
     void StartAttack() {
         if(PhotonNetwork.isMasterClient) {
@@ -236,10 +215,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     public void Attack() {
         if(ranged) {
-            //Shoot((projectileSpawn.transform.position - transform.position).normalized, projectileSpawn.transform.rotation, true);
             photonView.RPC("Shoot", PhotonTargets.AllViaServer);
         } else {
-            //Melee(true);
             photonView.RPC("Melee", PhotonTargets.AllViaServer);
         }
         attackTimer = attackInterval;

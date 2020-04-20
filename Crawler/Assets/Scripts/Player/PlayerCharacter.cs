@@ -175,34 +175,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
     }
 
-    public void TakeDamage(int damage, Vector3 recoilOffset) {
-        if(Time.time > timeDamageTaken + damageCooldownLength) {
-            timeDamageTaken = Time.time;
-            StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
-            var random = Random.Range(0, 4);
-            AudioFW.Play("PlayerTakesDamage" + random);
-            SetHealth(-damage, this);
-        }
-    }
-    public void GetHealed(int heal) {
-        print(heal);
-        if(health + heal > CheckCharacterHealt(characterType)) {
-            SetHealth(CheckCharacterHealt(characterType) - health, this);
-        } else
-            SetHealth(heal, this);
-    }
-    public void SetHealth(int amount, PlayerCharacter pc) {
-        var hpIndicator = Instantiate(healthChangeIndicator, transform).GetComponent<HealthChangeIndicator>();
-        hpIndicator.SetHealthChangeText(amount);
-        hpIndicator.transform.SetParent(null);
-        //PhotonNetwork.Instantiate("HealthChangeIndicator", transform.position, Quaternion.identity, 0);
-        PhotonView photonView = pc.GetComponent<PhotonView>();
-        if(photonView != null && PhotonNetwork.isMasterClient) {
-            PlayerManager.Instance.ModifyHealth(photonView.owner, amount);
-            //print(photonView.owner);
-        }
-    }
-
     [PunRPC]
     public void Die() {
         respawnTimer = respawnTime;
@@ -505,7 +477,43 @@ public class PlayerCharacter : Character, IDamageable<int> {
             rb2D.isKinematic = true;
         }
     }
+
+    public void TakeDamage(int damage, Vector3 recoilOffset) {
+        if(Time.time > timeDamageTaken + damageCooldownLength) {
+            timeDamageTaken = Time.time;
+            StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
+            var random = Random.Range(0, 4);
+            AudioFW.Play("PlayerTakesDamage" + random);
+            SetHealth(-damage, this);
+        }
+    }
+    public void GetHealed(int heal) {
+        SetHealth(heal, this);
+    }
+    public void SetHealth(int amount, PlayerCharacter pc) {
+        var hpIndicator = Instantiate(healthChangeIndicator, transform).GetComponent<HealthChangeIndicator>();
+        hpIndicator.SetHealthChangeText(amount);
+        hpIndicator.transform.SetParent(null);
+        PhotonView photonView = pc.GetComponent<PhotonView>();
+        if(photonView != null && PhotonNetwork.isMasterClient) {
+            PlayerManager.Instance.ModifyHealth(photonView.owner, amount);
+        }
+    }
+
     #region Specials
+    void AreaHeal() {
+        photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
+    }
+
+    [PunRPC]
+    void RPC_AreaHeal() {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskPlayer);
+        foreach(var hit in hits) {
+            var pc = hit.GetComponent<PlayerCharacter>();
+            pc.GetHealed(specialAmount);
+        }
+    }
+
     void Dash() {
         dashing = true;
         dashVector = lastDir;
@@ -531,17 +539,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
             }
         }
     }
-    void AreaHeal() {
-        photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
-    }
-    [PunRPC]
-    void RPC_AreaHeal() {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskPlayer);
-        foreach(var hit in hits) {
-            var pc = hit.GetComponent<PlayerCharacter>();
-            pc.GetHealed(specialAmount);
-        }
-    }
+
     #endregion
     private void FixedUpdate() {
 
@@ -574,14 +572,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
     #region Powerups
     public void UsePotion() {
         if(potion) {
-            print(CheckCharacterHealt(characterType));
             if(photonView.isMine) {
                 uim.UpdatePotion();
             }
-            if(health + 100 > CheckCharacterHealt(characterType)) {
-                SetHealth(CheckCharacterHealt(characterType) - health, this);
-            } else
-                SetHealth(100, this);
+            SetHealth(100, this);
             potion = false;
         }
     }
