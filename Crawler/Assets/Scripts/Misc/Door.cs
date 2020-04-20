@@ -20,19 +20,18 @@ public class Door : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision) {
 		string keyName = "Key" + gameObject.name.Trim('D', 'o', 'o', 'r');
 
-		if (collision.gameObject.CompareTag("Player") && photonView.isMine) {
+		if (collision.gameObject.CompareTag("Player") && !opened) {
 			Debug.Log("This door requires " + keyName + " to open");
 			uim.SetInfoText("This door requires " + keyName + " to open", 2);
 		}
 
 		if (PhotonNetwork.room.CustomProperties[keyName] != null) {
 
-			if (/*collision.gameObject.CompareTag("Player") && */(bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
+			if (collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
 				//if (gm.UseKey())
 				//{
 				Debug.Log(gameObject.name + " opened");
-				uim.SetInfoText(collision.transform.name + " opened " + gameObject.name, 2);
-				photonView.RPC("OpenDoorAll", PhotonTargets.All);
+				photonView.RPC("OpenDoorAll", PhotonTargets.All, collision.gameObject.name);
 				//}
 			}
 
@@ -50,9 +49,10 @@ public class Door : MonoBehaviour {
 
 
 	[PunRPC]
-	public void OpenDoorAll() {
+	public void OpenDoorAll(string openerName) {
 		//bc.enabled = false;
 		opened = true;
+		uim.SetInfoText(openerName + " opened " + gameObject.name, 2);
 		StartCoroutine(RotateMe(Vector3.forward * 90, 2));
 	}
 }
