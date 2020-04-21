@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EntityType { Hero0, Hero1, Hero2, Hero3, Enemy0, Enemy1, Enemy2, Enemy3 }
-[RequireComponent(typeof(PhotonView))]
+
 public class Character : Photon.MonoBehaviour {
 
     public EntityType characterType;
