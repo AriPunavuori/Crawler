@@ -49,55 +49,42 @@ public class EnemyCharacter : Character, IDamageable<int> {
     //}
     private void FixedUpdate() {
 
-        if(!stunned)
-        {
-            rigidBody.velocity = Vector2.zero;
+        if(!stunned) {
+            if(PhotonNetwork.isMasterClient)
+                rigidBody.velocity = Vector2.zero;
 
-            if (player == null || !pc.alive)
-            {
+            if(player == null || !pc.alive) {
                 SearchForPlayers(); // Search for next player
-            }
-            else
-            {
-                if (DistToPlayer() < detectionDistance)
-                {
-                    if (PlayerSeen())
-                    { // Function updates also target
-                        if (DistToPlayer() > attackRange)
+            } else {
+                if(DistToPlayer() < detectionDistance) {
+                    if(PlayerSeen()) { // Function updates also target
+                        if(DistToPlayer() > attackRange)
                             Move(speed); // Moves close enough to attact
-                        else
-                        {
+                        else {
                             // Slow down when getting closer
                             var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
                             Move(speed * speedFactor);
                         }
-                        if (DistToPlayer() < attackRange)
+                        if(DistToPlayer() < attackRange)
                             StartAttack();
-                    }
-                    else
-                    {
+                    } else {
                         Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
                     }                   // Goes to nearest obstacle on the way towards player
-                }
-                else
-                {
+                } else {
                     player = null; // If player out of detectionRange
                 }
             }
         }
-        
+
     }
 
-    public void stun(float stunTime)
-    {
+    public void stun(float stunTime) {
         stunned = true;
         stunDeactTime = Time.time + stunTime;
     }
 
-    private void Update()
-    {
-        if(Time.time >= stunDeactTime)
-        {
+    private void Update() {
+        if(Time.time >= stunDeactTime) {
             stunned = false;
         }
 
@@ -108,46 +95,34 @@ public class EnemyCharacter : Character, IDamageable<int> {
         // Added spriteFlipCooldown for a temporary "fix"
         movement.x = rigidBody.velocity.normalized.x;
 
-        if (movement.x > 0 && spriteFlipCoolDown == 0)
-        {
-            if (!flipped)
-            {
+        if(movement.x > 0 && spriteFlipCoolDown == 0) {
+            if(!flipped) {
                 // Change this value to delay sprite flips
-                spriteFlipCoolDown = 0.4f; 
+                spriteFlipCoolDown = 0.4f;
             }
             flipped = true;
-        }
-        else if (movement.x < 0 && spriteFlipCoolDown == 0)
-        {
-            if(flipped)
-            {
+        } else if(movement.x < 0 && spriteFlipCoolDown == 0) {
+            if(flipped) {
                 // Change this value to delay sprite flips
-                spriteFlipCoolDown = 0.4f; 
+                spriteFlipCoolDown = 0.4f;
             }
             flipped = false;
         }
 
-        if(animator.enabled)
-        {
+        if(animator.enabled) {
             animator.SetFloat("Horizontal", movement.x);
         }
-        
 
-        if(flipped)
-        {
+
+        if(flipped) {
             GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else
-        {
+        } else {
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        if ((spriteFlipCoolDown - Time.deltaTime) < 0)
-        {
+        if((spriteFlipCoolDown - Time.deltaTime) < 0) {
             spriteFlipCoolDown = 0;
-        }
-        else
-        {
+        } else {
             spriteFlipCoolDown -= Time.deltaTime;
         }
         #endregion
@@ -158,7 +133,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
         if(Vector2.Distance(transform.position, target) > proximityDistance) { // Moves close towards target until in proximityDistance
             float MoveDirX = target.x - transform.position.x;
             float MoveDirY = target.y - transform.position.y;
-            rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
+            if(PhotonNetwork.isMasterClient)
+                rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
         } else {
             if(!PlayerSeen())
                 player = null;
@@ -210,8 +186,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
             health -= damage;
             healthText.text = "" + health;
             if(health <= 0)
-                if(gameObject != null)
-                {
+                if(gameObject != null) {
                     PhotonNetwork.Destroy(gameObject);
                 }
         } else {
@@ -264,14 +239,14 @@ public class EnemyCharacter : Character, IDamageable<int> {
     [PunRPC]
     public void Melee() {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
-            foreach(var hit in hits) {
-                IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-                if(iDamageable != null) {
-                    Vector3 recoilVector = new Vector3(hit.gameObject.transform.position.x - transform.position.x, hit.gameObject.transform.position.y - transform.position.y, 0f).normalized;
-                    iDamageable.TakeDamage(damage, recoilVector);
-                }
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
+        foreach(var hit in hits) {
+            IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                Vector3 recoilVector = new Vector3(hit.gameObject.transform.position.x - transform.position.x, hit.gameObject.transform.position.y - transform.position.y, 0f).normalized;
+                iDamageable.TakeDamage(damage, recoilVector);
             }
+        }
         // Play animation
         meleeIndicator.SetActive(true);
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
