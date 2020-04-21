@@ -44,25 +44,6 @@ public class GameManager : Photon.MonoBehaviour {
 		}
 	}
 
-	public bool UseKeyRPC() {
-		Debug.Log(keys);
-
-		if (keys > 0) {
-			photonView.RPC("DecraseKeyAll", PhotonTargets.Others);
-			keys -= 1;
-
-			Debug.Log(keys);
-			return true;
-		}
-		Debug.Log(keys);
-		return false;
-	}
-
-	[PunRPC]
-	public void DecreaseKeyAll() {
-		//um.UpdateKeys(keys);
-		keys -= 1;
-	}
 	public void FoundKey(string keyName, string playerName) {
 		keys += 1;
 		//Debug.Log(keys);
@@ -72,9 +53,7 @@ public class GameManager : Photon.MonoBehaviour {
 		um.UpdateKeys(keys - 1, playerName);
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}
-	public bool UseKey() {
-		return UseKeyRPC();
-	}
+
 
 
 }

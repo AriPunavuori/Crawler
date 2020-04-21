@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour {
 	public Text[] healths;
 	public Image[] healthBars;
 	public GameObject UIBox;
-	int[] baseHealths = { 200, 250, 200, 250 }; // Just copied from the Character script.(Hero0 is always the top box, Hero1 2nd box etc.)
 
 	GameObject keysUI;
 	GameObject potion;
@@ -133,26 +132,26 @@ public class UIManager : MonoBehaviour {
 		infoText.text = text;
 	}
 
-	public void UpdateUIContent(string name, int health, int selected) {
-		photonView.RPC("RPC_UpdateUIBoxContent", PhotonTargets.All, name, health, selected);
+	public void UpdateUIContent(string name, int health, int selected, int baseHealth) {
+		photonView.RPC("RPC_UpdateUIBoxContent", PhotonTargets.All, name, health, selected, baseHealth);
 	}
 	public void CreateUIBoxes() {
 		photonView.RPC("RPC_CreateUIBoxes", PhotonTargets.AllBuffered);
 	}
 
 	[PunRPC]
-	public void RPC_UpdateUIBoxContent(string name, int health, int selected) {
+	public void RPC_UpdateUIBoxContent(string name, int health, int selected, int baseHealth) {
 		names[selected].text = name;
-		StartCoroutine(updateHealthBar(health, 0.1f, selected));
+		StartCoroutine(updateHealthBar(health, 0.1f, selected, baseHealth));
 		healths[selected].text = "" + health;
 	}
 
-	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected)
+	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected, int baseHealth)
 	{
 		float elapsedTime = 0;
 		// only gets local player base stats
 		//int baseHealth = Character.Instance.CheckCharacterHealt(Character.Instance.characterType);
-		int baseHealth = baseHealths[selected];
+		//int baseHealth = baseHealths[selected];
 		int currentHealth = int.Parse(healths[selected].text);
 
 

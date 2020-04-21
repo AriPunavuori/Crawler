@@ -28,11 +28,8 @@ public class Door : MonoBehaviour {
 		if (PhotonNetwork.room.CustomProperties[keyName] != null) {
 
 			if (collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
-				//if (gm.UseKey())
-				//{
 				Debug.Log(gameObject.name + " opened");
 				photonView.RPC("OpenDoorAll", PhotonTargets.All, collision.gameObject.name);
-				//}
 			}
 
 		}
