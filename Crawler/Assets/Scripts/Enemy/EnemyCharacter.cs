@@ -15,6 +15,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
     int prevHealth;
     public TextMeshProUGUI healthText;
     PlayerCharacter pc;
+    public bool stunned;
+    float stunDeactTime;
 
     Vector3 target;
     bool seen;
@@ -39,40 +41,65 @@ public class EnemyCharacter : Character, IDamageable<int> {
         healthText.text = "" + health;
         //photonView.TransferOwnership(1);
         flipped = false;
+        stunned = false;
         spriteFlipCoolDown = 0; // Cooldown for sprite flipping to avoid too frequent flips in some instances. Need better solution
     }
     //private void Update() {
     //    healthText.text = "" + health;
     //}
     private void FixedUpdate() {
-        rigidBody.velocity = Vector2.zero;
 
-        if(player == null || !pc.alive) {
-            SearchForPlayers(); // Search for next player
-        } else {
-            if(DistToPlayer() < detectionDistance) {
-                if(PlayerSeen()) { // Function updates also target
-                    if(DistToPlayer() > attackRange)
-                        Move(speed); // Moves close enough to attact
-                    else {
-                        // Slow down when getting closer
-                        var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
-                        Move(speed * speedFactor);
+        if(!stunned)
+        {
+            rigidBody.velocity = Vector2.zero;
+
+            if (player == null || !pc.alive)
+            {
+                SearchForPlayers(); // Search for next player
+            }
+            else
+            {
+                if (DistToPlayer() < detectionDistance)
+                {
+                    if (PlayerSeen())
+                    { // Function updates also target
+                        if (DistToPlayer() > attackRange)
+                            Move(speed); // Moves close enough to attact
+                        else
+                        {
+                            // Slow down when getting closer
+                            var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
+                            Move(speed * speedFactor);
+                        }
+                        if (DistToPlayer() < attackRange)
+                            StartAttack();
                     }
-                    if(DistToPlayer() < attackRange)
-                        StartAttack();
-                } else {
-                    Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
-                }                   // Goes to nearest obstacle on the way towards player
-            } else {
-                player = null; // If player out of detectionRange
+                    else
+                    {
+                        Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                    }                   // Goes to nearest obstacle on the way towards player
+                }
+                else
+                {
+                    player = null; // If player out of detectionRange
+                }
             }
         }
+        
+    }
+
+    public void stun(float stunTime)
+    {
+        stunned = true;
+        stunDeactTime = Time.time + stunTime;
     }
 
     private void Update()
     {
-
+        if(Time.time >= stunDeactTime)
+        {
+            stunned = false;
+        }
 
         // Animation
         #region Animation handling

@@ -50,6 +50,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     float specialEffectArea = 7.5f;
     int specialAmount = 10;
+    public float pushForce = 350f;
 
     // Multiplier for base player speed when dashing
     float dashFactor = 4.0f;
@@ -440,6 +441,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
                         AreaHeal();
                     } else if(characterType == EntityType.Hero2) {
                         // Dark MaGi - Push
+                        Push();
                     } else if(characterType == EntityType.Hero3) {
                         // Dark Oni - Area Damage
                         AreaDamage();
@@ -538,6 +540,31 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
                 if(iDamageable != null) {
                     iDamageable.TakeDamage(specialAmount, new Vector3(0, 0, 0));
+                }
+            }
+        }
+    }
+
+
+
+    void Push()
+    {
+        Debug.Log("Push");
+        if(PhotonNetwork.isMasterClient)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
+            foreach(Collider2D col in hits)
+            {
+                if (col.GetComponent<EnemyCharacter>())
+                {
+                    if (!col.GetComponent<EnemyCharacter>().stunned)
+                    {
+                        Rigidbody2D enemyRB = col.GetComponent<Rigidbody2D>();
+                        Vector3 enemyLoc = col.GetComponent<Transform>().position;
+                        Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
+                        col.GetComponent<EnemyCharacter>().stun(0.5f);
+                        enemyRB.AddForce(pushVector * pushForce);
+                    }
                 }
             }
         }
