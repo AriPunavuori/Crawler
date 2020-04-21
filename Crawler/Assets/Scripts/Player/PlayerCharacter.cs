@@ -11,7 +11,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     SpriteRenderer PlayerTarget1Renderer;
     SpriteRenderer PlayerTarget2Renderer;
     SpriteRenderer PlayerTarget3Renderer;
-        Sprite lightmagiLeft;
+    Sprite lightmagiLeft;
     Sprite lightOnileft;
     Sprite darkMagiLeft;
     Sprite darkOniLeft;
@@ -133,71 +133,46 @@ public class PlayerCharacter : Character, IDamageable<int> {
                         PlayerTarget1 = players[i].gameObject;
                         PlayerTarget1Renderer = PlayerTarget1.GetComponent<SpriteRenderer>();
                         var charType = PlayerTarget1.GetComponent<Character>().characterType;
-                        if (charType == EntityType.Hero0)
-                        {
+                        if(charType == EntityType.Hero0) {
                             SpriteRenderer.sprite = lightmagiLeft;
-                        }
-                        else if (charType == EntityType.Hero1)
-                        {
+                        } else if(charType == EntityType.Hero1) {
                             SpriteRenderer.sprite = lightOnileft;
-                        }
-                        else if (charType == EntityType.Hero2)
-                        {
+                        } else if(charType == EntityType.Hero2) {
                             SpriteRenderer.sprite = darkMagiLeft;
-                        }
-                        else if (charType == EntityType.Hero3)
-                        {
+                        } else if(charType == EntityType.Hero3) {
                             SpriteRenderer.sprite = darkOniLeft;
                         }
                         continue;
-                    }
-                    else if (PlayerTarget2 == null)
-                    {
+                    } else if(PlayerTarget2 == null) {
                         DirectionIndicator2.SetActive(true);
                         var SpriteRenderer = DirectionIndicator2.GetComponent<SpriteRenderer>();
                         PlayerTarget2 = players[i].gameObject;
                         PlayerTarget2Renderer = PlayerTarget2.GetComponent<SpriteRenderer>();
                         var charType = PlayerTarget2.GetComponent<Character>().characterType; ;
-                        if (charType == EntityType.Hero0)
-                        {
+                        if(charType == EntityType.Hero0) {
                             SpriteRenderer.sprite = lightmagiLeft;
-                        }
-                        else if (charType == EntityType.Hero1)
-                        {
+                        } else if(charType == EntityType.Hero1) {
                             SpriteRenderer.sprite = lightOnileft;
-                        }
-                        else if (charType == EntityType.Hero2)
-                        {
+                        } else if(charType == EntityType.Hero2) {
                             SpriteRenderer.sprite = darkMagiLeft;
-                        }
-                        else if (charType == EntityType.Hero3)
-                        {
+                        } else if(charType == EntityType.Hero3) {
                             SpriteRenderer.sprite = darkOniLeft;
                         }
                         continue;
 
-                    }
-                    else if (PlayerTarget3 == null)
-                    {
+                    } else if(PlayerTarget3 == null) {
                         DirectionIndicator3.SetActive(true);
                         var SpriteRenderer = DirectionIndicator3.GetComponent<SpriteRenderer>();
                         PlayerTarget3 = players[i].gameObject;
                         PlayerTarget3Renderer = PlayerTarget3.GetComponent<SpriteRenderer>();
                         var charType = PlayerTarget3.GetComponent<Character>().characterType; ;
-                        if (charType == EntityType.Hero0)
-                        {
+                        if(charType == EntityType.Hero0) {
                             SpriteRenderer.sprite = lightmagiLeft;
-                        }
-                        else if (charType == EntityType.Hero1)
-                        {
+                        } else if(charType == EntityType.Hero1) {
                             SpriteRenderer.sprite = lightOnileft;
-                        }
-                        else if (charType == EntityType.Hero2)
-                        {
+                        } else if(charType == EntityType.Hero2) {
                             SpriteRenderer.sprite = darkMagiLeft;
-                        }
-                        else if (charType == EntityType.Hero3)
-                        {
+                        } else if(charType == EntityType.Hero3) {
                             SpriteRenderer.sprite = darkOniLeft;
                         }
                         continue;
@@ -331,54 +306,39 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
     }
     void IndicatePlayers() {
-        if (players.Length > 1)
-        {
-            if (PlayerTarget1Renderer != null)
-            {
-                if (!PlayerTarget1Renderer.isVisible)
-                {
+        if(players.Length > 1) {
+            if(PlayerTarget1Renderer != null) {
+                if(!PlayerTarget1Renderer.isVisible) {
                     DirectionIndicator1.SetActive(true);
                     heading = PlayerTarget1.gameObject.transform.position - this.transform.position;
                     distance = heading.magnitude;
                     direction = heading / distance;
                     DirectionIndicator1.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-                }
-                else
-                {
+                } else {
                     DirectionIndicator1.SetActive(false);
                 }
             }
-            if (players.Length > 2)
-            {
-                if (PlayerTarget2Renderer != null)
-                {
-                    if (!PlayerTarget2Renderer.isVisible)
-                    {
+            if(players.Length > 2) {
+                if(PlayerTarget2Renderer != null) {
+                    if(!PlayerTarget2Renderer.isVisible) {
                         DirectionIndicator2.SetActive(true);
                         heading = PlayerTarget2.gameObject.transform.position - this.transform.position;
                         distance = heading.magnitude;
                         direction = heading / distance;
                         DirectionIndicator2.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-                    }
-                    else
-                    {
+                    } else {
                         DirectionIndicator2.SetActive(false);
                     }
                 }
-                if (players.Length > 3)
-                {
-                    if (PlayerTarget3Renderer != null)
-                    {
-                        if (!PlayerTarget3Renderer.isVisible)
-                        {
+                if(players.Length > 3) {
+                    if(PlayerTarget3Renderer != null) {
+                        if(!PlayerTarget3Renderer.isVisible) {
                             DirectionIndicator3.SetActive(true);
                             heading = PlayerTarget3.gameObject.transform.position - this.transform.position;
                             distance = heading.magnitude;
                             direction = heading / distance;
                             DirectionIndicator3.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-                        }
-                        else
-                        {
+                        } else {
                             DirectionIndicator3.SetActive(false);
                         }
                     }
@@ -597,24 +557,19 @@ public class PlayerCharacter : Character, IDamageable<int> {
     }
 
 
-    void Push()
-    {
+    void Push() {
         photonView.RPC("RPC_Push", PhotonTargets.AllViaServer);
     }
 
     [PunRPC]
-    void RPC_Push()
-    {
+    void RPC_Push() {
         Debug.Log("Push");
-        if(PhotonNetwork.isMasterClient)
-        {
+        if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
-            foreach(Collider2D col in hits)
-            {
-                if (col.GetComponent<EnemyCharacter>())
-                {
-                    if (!col.GetComponent<EnemyCharacter>().stunned && !col.GetComponent<EnemyCharacter>().flying)
-                    {
+            foreach(Collider2D col in hits) {
+                if(col.GetComponent<EnemyCharacter>()) {
+                    if(!col.GetComponent<EnemyCharacter>().stunned && !col.GetComponent<EnemyCharacter>().flying) {
+                        AudioFW.Play("Boom");
                         Rigidbody2D enemyRB = col.GetComponent<Rigidbody2D>();
                         Vector3 enemyLoc = col.GetComponent<Transform>().position;
                         Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
