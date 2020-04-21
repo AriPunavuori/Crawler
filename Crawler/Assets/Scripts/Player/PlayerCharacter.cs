@@ -353,8 +353,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 IndicatePlayers();
             }
 
-
-
+            
             // Respawn
             if(respawnTimer <= 0 || Input.GetKeyDown(KeyCode.R)) {
                 respawnTimer = respawnTime;
@@ -405,8 +404,28 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 movement.x = Input.GetAxisRaw("Horizontal");
                 movement.y = Input.GetAxisRaw("Vertical");
 
+
+                Vector3 camPosition = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
+
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttack"))
+                {
+                    
+                    if (Input.mousePosition.x - camPosition.x < 0)
+                    {
+                        spriteRenderer.flipX = true;
+                    }
+                    else
+                    {
+                        spriteRenderer.flipX = false;
+                    }
+                }
+                else
+                {
+                    spriteRenderer.flipX = false;
+                }
+
                 // For testing weaponupgrades
-                if(Input.GetKeyDown(KeyCode.N)) {
+                if (Input.GetKeyDown(KeyCode.N)) {
                     GetWeaponUpgrade();
                 }
 
@@ -440,6 +459,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 animator.SetFloat("Horizontal", mouseVector.x);
                 animator.SetFloat("Vertical", mouseVector.y);
                 animator.SetFloat("Magnitude", movement.magnitude);
+                
 
                 if(Input.GetKeyDown(KeyCode.Space) && specialTime + specialCooldown <= Time.time) {
                     specialTime = Time.time;
@@ -740,6 +760,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
             }
         }
         // Play animation
+        if(characterType == EntityType.Hero1)
+        {
+            animator.Play("LightOniAttack");
+        }
         meleeIndicator.SetActive(true);
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
     }
