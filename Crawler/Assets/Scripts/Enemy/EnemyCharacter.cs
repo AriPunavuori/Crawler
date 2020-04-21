@@ -19,7 +19,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
     public bool flying;
     float flyDeactTime;
     float stunDeactTime;
-    
+
 
     Vector3 target;
     bool seen;
@@ -53,82 +53,61 @@ public class EnemyCharacter : Character, IDamageable<int> {
     //}
     private void FixedUpdate() {
 
-            if (!flying)
-            {
-                if (!stunned)
-                {
+        if(!flying) {
+            if(!stunned) {
+                if(PhotonNetwork.isMasterClient)
                     rigidBody.velocity = Vector2.zero;
-                    if (player == null || !pc.alive)
-                    {
-                        SearchForPlayers(); // Search for next player
-                    }
-                    else
-                    {
-                        if (DistToPlayer() < detectionDistance)
-                        {
-                            if (PlayerSeen())
-                            { // Function updates also target
-                                if (DistToPlayer() > attackRange)
-                                    Move(speed); // Moves close enough to attact
-                                else
-                                {
-                                    // Slow down when getting closer
-                                    var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
-                                    Move(speed * speedFactor);
-                                }
-                                if (DistToPlayer() < attackRange)
-                                    StartAttack();
+                if(player == null || !pc.alive) {
+                    SearchForPlayers(); // Search for next player
+                } else {
+                    if(DistToPlayer() < detectionDistance) {
+                        if(PlayerSeen()) { // Function updates also target
+                            if(DistToPlayer() > attackRange)
+                                Move(speed); // Moves close enough to attact
+                            else {
+                                // Slow down when getting closer
+                                var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
+                                Move(speed * speedFactor);
                             }
-                            else
-                            {
-                                Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
-                            }                   // Goes to nearest obstacle on the way towards player
-                        }
-                        else
-                        {
-                            player = null; // If player out of detectionRange
-                        }
+                            if(DistToPlayer() < attackRange)
+                                StartAttack();
+                        } else {
+                            Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                        }                   // Goes to nearest obstacle on the way towards player
+                    } else {
+                        player = null; // If player out of detectionRange
                     }
                 }
-
-            
+            }
         }
-        
-        
     }
 
-    public void Fly(float flyTime)
-    {
+    public void Fly(float flyTime) {
         flying = true;
         flyDeactTime = Time.time + flyTime;
         rigidBody.drag = 5f;
     }
 
-    public void Stun(float stunTime)
-    {
+    public void Stun(float stunTime) {
         stunned = true;
         stunDeactTime = Time.time + stunTime;
     }
 
-    private void Update()
-    {
-        
-            if (Time.time >= flyDeactTime && flying)
-            {
-                flying = false;
-                if (!stunned)
-                {
-                    Stun(2f);
-                }
-            }
+    private void Update() {
 
-            if (Time.time >= stunDeactTime && stunned)
-            {
-                rigidBody.drag = 0f;
-                stunned = false;
+        if(Time.time >= flyDeactTime && flying) {
+            flying = false;
+            if(!stunned) {
+                Stun(2f);
             }
-        
-        
+        }
+
+        if(Time.time >= stunDeactTime && stunned) {
+            rigidBody.drag = 0f;
+            stunned = false;
+        }
+
+
 
         // Animation
         #region Animation handling
@@ -175,8 +154,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         if(Vector2.Distance(transform.position, target) > proximityDistance) { // Moves close towards target until in proximityDistance
             float MoveDirX = target.x - transform.position.x;
             float MoveDirY = target.y - transform.position.y;
-            if(PhotonNetwork.isMasterClient)
-            {
+            if(PhotonNetwork.isMasterClient) {
                 rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
             }
         } else {
