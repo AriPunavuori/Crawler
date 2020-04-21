@@ -512,7 +512,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     [PunRPC]
     void RPC_AreaHeal() {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskPlayer);
-        Instantiate(healEffectParticles, transform.position, Quaternion.identity);
+        Instantiate(healEffectParticles, transform.position, Quaternion.identity, transform);
         foreach(var hit in hits) {
             var pc = hit.GetComponent<PlayerCharacter>();
             pc.GetHealed(specialAmount);
