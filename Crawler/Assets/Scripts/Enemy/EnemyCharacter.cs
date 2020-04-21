@@ -98,7 +98,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         if(Time.time >= flyDeactTime && flying) {
             flying = false;
             if(!stunned) {
-                Stun(2f);
+                Stun(0.3f);
             }
         }
 
