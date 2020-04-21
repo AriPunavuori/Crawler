@@ -137,46 +137,34 @@ public class EnemyCharacter : Character, IDamageable<int> {
         // Added spriteFlipCooldown for a temporary "fix"
         movement.x = rigidBody.velocity.normalized.x;
 
-        if (movement.x > 0 && spriteFlipCoolDown == 0)
-        {
-            if (!flipped)
-            {
+        if(movement.x > 0 && spriteFlipCoolDown == 0) {
+            if(!flipped) {
                 // Change this value to delay sprite flips
-                spriteFlipCoolDown = 0.4f; 
+                spriteFlipCoolDown = 0.4f;
             }
             flipped = true;
-        }
-        else if (movement.x < 0 && spriteFlipCoolDown == 0)
-        {
-            if(flipped)
-            {
+        } else if(movement.x < 0 && spriteFlipCoolDown == 0) {
+            if(flipped) {
                 // Change this value to delay sprite flips
-                spriteFlipCoolDown = 0.4f; 
+                spriteFlipCoolDown = 0.4f;
             }
             flipped = false;
         }
 
-        if(animator.enabled)
-        {
+        if(animator.enabled) {
             animator.SetFloat("Horizontal", movement.x);
         }
-        
 
-        if(flipped)
-        {
+
+        if(flipped) {
             GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else
-        {
+        } else {
             GetComponent<SpriteRenderer>().flipX = false;
         }
 
-        if ((spriteFlipCoolDown - Time.deltaTime) < 0)
-        {
+        if((spriteFlipCoolDown - Time.deltaTime) < 0) {
             spriteFlipCoolDown = 0;
-        }
-        else
-        {
+        } else {
             spriteFlipCoolDown -= Time.deltaTime;
         }
         #endregion
@@ -242,8 +230,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
             health -= damage;
             healthText.text = "" + health;
             if(health <= 0)
-                if(gameObject != null)
-                {
+                if(gameObject != null) {
                     PhotonNetwork.Destroy(gameObject);
                 }
         } else {
@@ -296,14 +283,14 @@ public class EnemyCharacter : Character, IDamageable<int> {
     [PunRPC]
     public void Melee() {
         rotator.transform.right = target - rotator.transform.position; // Turn rotator
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
-            foreach(var hit in hits) {
-                IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-                if(iDamageable != null) {
-                    Vector3 recoilVector = new Vector3(hit.gameObject.transform.position.x - transform.position.x, hit.gameObject.transform.position.y - transform.position.y, 0f).normalized;
-                    iDamageable.TakeDamage(damage, recoilVector);
-                }
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
+        foreach(var hit in hits) {
+            IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                Vector3 recoilVector = new Vector3(hit.gameObject.transform.position.x - transform.position.x, hit.gameObject.transform.position.y - transform.position.y, 0f).normalized;
+                iDamageable.TakeDamage(damage, recoilVector);
             }
+        }
         // Play animation
         meleeIndicator.SetActive(true);
         StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
