@@ -50,7 +50,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     float specialEffectArea = 7.5f;
     int specialAmount = 10;
-    public float pushForce = 20f;
+    float pushForce = 30f;
 
     // Multiplier for base player speed when dashing
     float dashFactor = 4.0f;
@@ -562,12 +562,12 @@ public class PlayerCharacter : Character, IDamageable<int> {
             {
                 if (col.GetComponent<EnemyCharacter>())
                 {
-                    if (!col.GetComponent<EnemyCharacter>().stunned)
+                    if (!col.GetComponent<EnemyCharacter>().stunned && !col.GetComponent<EnemyCharacter>().flying)
                     {
                         Rigidbody2D enemyRB = col.GetComponent<Rigidbody2D>();
                         Vector3 enemyLoc = col.GetComponent<Transform>().position;
                         Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
-                        col.GetComponent<EnemyCharacter>().stun(0.2f);
+                        col.GetComponent<EnemyCharacter>().Fly(0.5f);
                         enemyRB.AddForce(pushVector * pushForce, ForceMode2D.Impulse);
                     }
                 }
