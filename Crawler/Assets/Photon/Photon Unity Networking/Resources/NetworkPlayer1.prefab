@@ -1023,6 +1023,10 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   healthChangeIndicator: {fileID: 1925722747347466912, guid: f095fca3660d1ce418729271f70c53e7,
     type: 3}
+  healEffectParticles: {fileID: 547250712354114204, guid: 1466c29965f4ff947a4a778f6c813b33,
+    type: 3}
+  damageEffectParticles: {fileID: 3624877892322573566, guid: 95a0566f7e9d87c47adc0dea35fc68f1,
+    type: 3}
   alive: 0
   weaponDowngradeTimer: 20
   shooting: 0

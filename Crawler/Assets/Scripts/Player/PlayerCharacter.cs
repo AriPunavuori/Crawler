@@ -22,6 +22,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
     GameObject PlayerTarget2;
     GameObject PlayerTarget3;
     public GameObject healthChangeIndicator;
+    public GameObject healEffectParticles;
+    public GameObject damageEffectParticles;
     LayerMask layerMaskEnemy;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskIndicator;
@@ -508,6 +510,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     [PunRPC]
     void RPC_AreaHeal() {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskPlayer);
+        Instantiate(healEffectParticles, transform.position, Quaternion.identity);
         foreach(var hit in hits) {
             var pc = hit.GetComponent<PlayerCharacter>();
             pc.GetHealed(specialAmount);
@@ -527,7 +530,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     }
     [PunRPC]
     void RPC_AreaDamage() {
-        print("Area damage in effect");
+        Instantiate(damageEffectParticles, transform.position, Quaternion.identity);
         if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskEnemy);
             foreach(var hit in hits) {
