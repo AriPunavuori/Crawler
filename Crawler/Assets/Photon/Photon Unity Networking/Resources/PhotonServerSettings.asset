@@ -29,7 +29,6 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - DecreaseKeyAll
   - DestroyRpc
   - Die
   - InstantiateRpc

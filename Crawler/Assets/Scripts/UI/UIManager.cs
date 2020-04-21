@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
-		string key = keyUI.name.Trim('U', 'I'); //poimittava Key -gameobjekti
+		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
 			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 10);
 			keyUI.GetComponent<Image>().color = Color.white;
@@ -146,8 +146,7 @@ public class UIManager : MonoBehaviour {
 		healths[selected].text = "" + health;
 	}
 
-	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected, int baseHealth)
-	{
+	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected, int baseHealth) {
 		float elapsedTime = 0;
 		// only gets local player base stats
 		//int baseHealth = Character.Instance.CheckCharacterHealt(Character.Instance.characterType);
@@ -157,8 +156,7 @@ public class UIManager : MonoBehaviour {
 
 		//bool filled = false;
 
-		while (elapsedTime < updateTime)
-		{
+		while (elapsedTime < updateTime) {
 			healthBars[selected].fillAmount = Mathf.Lerp(((float)currentHealth / baseHealth), ((float)newHealth / baseHealth), (elapsedTime / updateTime));
 
 			elapsedTime += Time.deltaTime;
@@ -174,8 +172,7 @@ public class UIManager : MonoBehaviour {
 		}
 
 		// Lazy fallback fix if bar doesnt get fileld in time
-		if(System.Math.Round(healthBars[selected].fillAmount, 2) != System.Math.Round((float)newHealth / baseHealth, 2))
-		{
+		if (System.Math.Round(healthBars[selected].fillAmount, 2) != System.Math.Round((float)newHealth / baseHealth, 2)) {
 			healthBars[selected].fillAmount = (float)newHealth / baseHealth;
 		}
 
