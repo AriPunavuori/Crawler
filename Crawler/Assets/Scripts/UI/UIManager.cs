@@ -194,7 +194,7 @@ public class UIManager : MonoBehaviour {
 			names[i] = newUIBox.transform.GetChild(0).GetComponent<Text>();
 			healths[i] = newUIBox.transform.GetChild(1).GetComponent<Text>();
 			healthBars[i] = newUIBox.transform.GetChild(2).GetChild(0).GetComponent<Image>();
-			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0)); // laita boxi canvasin "players" -elementin lapseksi
+			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0), false); // laita boxi canvasin "players" -elementin lapseksi
 		}
 	}
 }
