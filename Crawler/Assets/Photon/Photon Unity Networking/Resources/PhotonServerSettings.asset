@@ -52,10 +52,9 @@ MonoBehaviour:
   - RPC_LoadGameOthers
   - RPC_NewHealth
   - RPC_PickedCharacter
+  - RPC_Push
   - RPC_UpdateUIBoxContent
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - Push
-  - RPC_Push
   DisableAutoOpenWizard: 1
