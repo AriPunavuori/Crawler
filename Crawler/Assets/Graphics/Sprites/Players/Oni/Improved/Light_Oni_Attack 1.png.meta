@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 52761bfab665e8c47b731a1f39fbda49
+guid: 8de6ce8965c095f4396e0371f27b9216
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3254526861213270895
-    second: Light_Oni_Attack_0
+      213: 5962660427254750660
+    second: Light_Oni_Attack 1_0
   - first:
-      213: -6088157296080919217
-    second: Light_Oni_Attack_1
+      213: -1934625939968860699
+    second: Light_Oni_Attack 1_1
   - first:
-      213: -3334694217418839619
-    second: Light_Oni_Attack_2
+      213: 3743581081746256224
+    second: Light_Oni_Attack 1_2
   - first:
-      213: 1877970157897151746
-    second: Light_Oni_Attack_3
+      213: 1583391130422928245
+    second: Light_Oni_Attack 1_3
   - first:
-      213: 1586384106658389957
-    second: Light_Oni_Attack_4
+      213: -1686673111824109238
+    second: Light_Oni_Attack 1_4
   - first:
-      213: 5437983398713784565
-    second: Light_Oni_Attack_5
+      213: -5352314479118866223
+    second: Light_Oni_Attack 1_5
   - first:
-      213: -4756125766839261235
-    second: Light_Oni_Attack_6
+      213: -5050500158561445070
+    second: Light_Oni_Attack 1_6
   - first:
-      213: 3050809652096130549
-    second: Light_Oni_Attack_7
+      213: -596865755964039420
+    second: Light_Oni_Attack 1_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Light_Oni_Attack_0
+      name: Light_Oni_Attack 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f638592efe66a2d20800000000000000
-      internalID: 3254526861213270895
+      spriteID: 4cd5cca2110afb250800000000000000
+      internalID: 5962660427254750660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_1
+      name: Light_Oni_Attack 1_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f45e4661235828ba0800000000000000
-      internalID: -6088157296080919217
+      spriteID: 5ed56ea25f3d625e0800000000000000
+      internalID: -1934625939968860699
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_2
+      name: Light_Oni_Attack 1_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db96338f649c8b1d0800000000000000
-      internalID: -3334694217418839619
+      spriteID: 061bb55d82fd3f330800000000000000
+      internalID: 3743581081746256224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_3
+      name: Light_Oni_Attack 1_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2057e30a8e3ef0a10800000000000000
-      internalID: 1877970157897151746
+      spriteID: 573ec5d08d559f510800000000000000
+      internalID: 1583391130422928245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_4
+      name: Light_Oni_Attack 1_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5cfd2b2a0f7f30610800000000000000
-      internalID: 1586384106658389957
+      spriteID: a41758dbdbbb798e0800000000000000
+      internalID: -1686673111824109238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_5
+      name: Light_Oni_Attack 1_5
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +229,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f87ec6e619977b40800000000000000
-      internalID: 5437983398713784565
+      spriteID: 1d8a0f9c652c8b5b0800000000000000
+      internalID: -5352314479118866223
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_6
+      name: Light_Oni_Attack 1_6
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc7a67860d8defdb0800000000000000
-      internalID: -4756125766839261235
+      spriteID: 23b14ee4dd409e9b0800000000000000
+      internalID: -5050500158561445070
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack_7
+      name: Light_Oni_Attack 1_7
       rect:
         serializedVersion: 2
         x: 224
         y: 0
         width: 32
-        height: 96
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5fdd586f637a65a20800000000000000
-      internalID: 3050809652096130549
+      spriteID: 40f1b2dd1c187b7f0800000000000000
+      internalID: -596865755964039420
       vertices: []
       indices: 
       edges: []
