@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour {
 	public Text[] healths;
 	public Image[] healthBars;
 	public GameObject UIBox;
+	public GameObject SpecialCoolDownUI;
+	public Image SpecialBar;
 
 	GameObject keysUI;
 	GameObject potion;
@@ -30,6 +32,10 @@ public class UIManager : MonoBehaviour {
 	bool powerUpTimerStarted;
 	int powerupLevel;
 
+	float cooldownFinishTime;
+	float cooldownTime;
+	bool specialBarReduced;
+
 	PhotonView photonView;
 
 	void Start() {
@@ -45,6 +51,9 @@ public class UIManager : MonoBehaviour {
 		powerupLevel = 0;
 		infoText = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
 		infoText.text = "";
+		SpecialCoolDownUI = GameObject.Find("SpecialCooldownUI");
+		SpecialBar = SpecialCoolDownUI.transform.GetChild(1).GetComponent<Image>();
+		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
 	}
@@ -58,6 +67,12 @@ public class UIManager : MonoBehaviour {
 			speedBoost.SetActive(false);
 		}
 
+		if(Time.time < cooldownFinishTime && specialBarReduced)
+		{
+			SpecialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
+		}
+		
+		
 
 		#region powerup UI handling
 		if (powerupLevel > 0) {
@@ -93,6 +108,16 @@ public class UIManager : MonoBehaviour {
 			powerup.fillAmount = 0;
 		}
 		#endregion
+	}
+
+
+	
+
+	public void setSpecialCooldownTimer(float finishTime, float specialCooldownTime)
+	{
+		StartCoroutine(reduceSpecialBar(1, 0, 0.25f));
+		cooldownFinishTime = finishTime;
+		cooldownTime = specialCooldownTime;
 	}
 
 	public void setPowerupUITimer(float time, int weaponlevel) {
@@ -192,6 +217,22 @@ public class UIManager : MonoBehaviour {
 			healthBars[selected].fillAmount = (float)newHealth / baseHealth;
 		}
 
+	}
+
+	IEnumerator reduceSpecialBar(float startAmount, float endAmount, float updateTime)
+	{
+		float elapsedTime = 0;
+		specialBarReduced = false;
+
+		while (elapsedTime < updateTime)
+		{
+			SpecialBar.fillAmount = Mathf.Lerp(startAmount, endAmount, (elapsedTime / updateTime));
+
+			elapsedTime += Time.deltaTime;
+
+			yield return null;
+		}
+		specialBarReduced = true;
 	}
 
 	[PunRPC]

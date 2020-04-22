@@ -38,7 +38,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	private bool allPlayersFound;
 	public bool alive;
 	float playerCamOffset = 0.002f;
-	float specialCooldown = 3.0f;
+	//float specialCooldown = 3.0f;
 	float dashLength = 0.15f;
 	float specialTime;
 	float respawnTime = 18.0f;
@@ -196,7 +196,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		spriteRenderer.enabled = false;
 		// Enable ProjectileHeading child GameObject
 		projHead.SetActive(false);
-		specialCooldown = 5.0f;
 		alive = false;
 
 		// Clear all weapon upgrade stacks (SetCharacterAttributes is run at respawn)
@@ -471,6 +470,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						// Dark Oni - Area Damage
 						AreaDamage();
 					}
+					uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
 				}
 
 				if (dashing) {
