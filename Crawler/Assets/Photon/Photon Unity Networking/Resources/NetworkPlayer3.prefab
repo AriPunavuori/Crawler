@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2190632977502907877}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 8560415815655668995}
   m_RootOrder: 3
@@ -188,7 +188,7 @@ Transform:
   m_GameObject: {fileID: 3988130731540526830}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 8560415815655668995}
   m_RootOrder: 4
@@ -665,7 +665,7 @@ Transform:
   m_GameObject: {fileID: 4917944836680447307}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 8560415815655668995}
   m_RootOrder: 2
@@ -819,11 +819,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: 8.5, y: -4.75}
-  - {x: 8.5, y: 4.75}
-  - {x: -8.5, y: 4.75}
-  - {x: -8.5, y: -4.75}
-  - {x: 8.5, y: -4.75}
+  - {x: 8.82, y: -4.67}
+  - {x: 8.82, y: 4.67}
+  - {x: -8.82, y: 4.67}
+  - {x: -8.82, y: -4.67}
+  - {x: 8.82, y: -4.67}
 --- !u!1 &5949633543605607865
 GameObject:
   m_ObjectHideFlags: 0
