@@ -171,7 +171,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!114 &5908076135583592746
 MonoBehaviour:
@@ -611,6 +611,8 @@ MonoBehaviour:
     m_Bits: 0
   player: {fileID: 0}
   healthText: {fileID: 6727258463284880585}
+  stunned: 0
+  flying: 0
   detectionDistance: 25
   animator: {fileID: -6182296333595623410}
 --- !u!58 &5100540691699434468
