@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour {
 
 	GameObject keysUI;
 	GameObject potion;
+	GameObject speedBoost;
 	public TextMeshProUGUI infoText;
 	float eraseTextTime;
 
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour {
 	// powerupBG is active if player has stacked powerups
 	public Image powerupBG;
 	public TextMeshProUGUI powerupLevelText;
+	float speedBoostTime;
 	float powerUpTime;
 	float powerUpTimer;
 	bool powerUpTimerStarted;
@@ -36,6 +38,8 @@ public class UIManager : MonoBehaviour {
 		keysUI = GameObject.Find("Keys");
 		potion = GameObject.Find("PotionUI");
 		potion.SetActive(false);
+		speedBoost = GameObject.Find("SpeedBoostUI");
+		speedBoost.SetActive(false);
 		//powerup = GameObject.Find("Powerup").GetComponent<Image>();
 		powerUpTimerStarted = false;
 		powerupLevel = 0;
@@ -50,6 +54,10 @@ public class UIManager : MonoBehaviour {
 			infoText.text = "";
 			eraseTextTime = 0;
 		}
+		if (Time.time >= speedBoostTime) {
+			speedBoost.SetActive(false);
+		}
+
 
 		#region powerup UI handling
 		if (powerupLevel > 0) {
@@ -104,7 +112,7 @@ public class UIManager : MonoBehaviour {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
 		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
-			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 10);
+			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 2);
 			keyUI.GetComponent<Image>().color = Color.white;
 		}
 	}
@@ -124,6 +132,14 @@ public class UIManager : MonoBehaviour {
 		} else {
 			potion.SetActive(true);
 			SetInfoText("Picked up a health potion!", 2);
+		}
+	}
+
+	public void UpdateSpeedBoost() {
+		if (!speedBoost.activeSelf) {
+			speedBoost.SetActive(true);
+			SetInfoText("Picked up a speed boost!", 2);
+			speedBoostTime = Time.time + 2;
 		}
 	}
 
