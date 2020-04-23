@@ -9,16 +9,16 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
     public AudioListener myMic;
     Vector2 mousePos;
     Vector2 preMousePos;
-    // Start is called before the first frame update
+
     void Start() {
         if(photonView.isMine) {
-            Cursor.SetCursor(crosshair, Vector2.zero, CursorMode.Auto);
+            var cursorCenter = new Vector2(crosshair.width / 2, crosshair.height / 2);
+            Cursor.SetCursor(crosshair, cursorCenter, CursorMode.Auto);
             myCam.enabled = true;
             myMic.enabled = true;
         }
     }
 
-    // Update is called once per frame
     void Update() {
         if(photonView.isMine) {
             mousePos = Input.mousePosition;
