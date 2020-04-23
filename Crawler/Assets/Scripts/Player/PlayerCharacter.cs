@@ -366,11 +366,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			if (alive) {
 				attackTimer -= Time.deltaTime;
 				// Health potion input
-				if (Input.GetKeyDown(KeyCode.H)) {
+				if (Input.GetKeyDown(KeyCode.H)|| Input.GetAxis("Fire3") > 0.5f) {
 					UsePotion();
 				}
 				// Attack input
-				if (attackTimer < 0 && (Input.GetAxis("Fire1") > 0.5f)) {
+				if (attackTimer < 0 && Input.GetAxis("Fire1") > 0.5f) {
 					Attack();
 
 					// Camera recoil when shooting. Kinda shit tbh
@@ -456,7 +456,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				animator.SetFloat("Magnitude", movement.magnitude);
 
 
-				if (Input.GetKeyDown(KeyCode.Space) && specialTime + specialCooldown <= Time.time) {
+				if (Input.GetKeyDown(KeyCode.Space)|| (Input.GetAxis("Fire2") > 0.5f) && specialTime + specialCooldown <= Time.time) {
 					specialTime = Time.time;
 					Debug.Log("Special");
 					if (characterType == EntityType.Hero0) {
