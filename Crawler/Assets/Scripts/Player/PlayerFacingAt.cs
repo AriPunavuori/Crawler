@@ -15,6 +15,8 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
         if(photonView.isMine) {
             var cursorCenter = new Vector2(crosshair.width / 2, crosshair.height / 2);
             Cursor.SetCursor(crosshair, cursorCenter, CursorMode.Auto);
+            Cursor.visible = false;
+            controllerPointer.SetActive(false);
             myCam.enabled = true;
             myMic.enabled = true;
         }
