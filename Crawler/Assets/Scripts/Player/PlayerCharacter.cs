@@ -370,7 +370,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					UsePotion();
 				}
 				// Attack input
-				if (attackTimer < 0 && Input.GetKey(KeyCode.Mouse0)) {
+				if (attackTimer < 0 && (Input.GetAxis("Fire1") > 0.5f)) {
 					Attack();
 
 					// Camera recoil when shooting. Kinda shit tbh
