@@ -519,6 +519,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 	public void GetHealed(int heal) {
+		AudioFW.Play("Heal");
 		SetHealth(heal, this);
 	}
 	public void SetHealth(int amount, PlayerCharacter pc) {
@@ -632,6 +633,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			if (photonView.isMine) {
 				uim.UpdatePotion();
 			}
+			AudioFW.Play("Heal");
 			SetHealth(100, this);
 			potion = false;
 		}
