@@ -421,6 +421,7 @@ MonoBehaviour:
   attackInterval: 0
   speed: 0
   health: 0
+  specialCooldown: 0
   attackTimer: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 3360601058127371607}
@@ -631,7 +632,7 @@ MonoBehaviour:
     DrawErrorGizmo: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 0
     InterpolateRotateTowardsSpeed: 720
     InterpolateLerpSpeed: 5
   m_ScaleModel:
