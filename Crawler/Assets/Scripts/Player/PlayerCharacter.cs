@@ -634,7 +634,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				uim.UpdatePotion();
 				AudioFW.Play("PotionDrink");
 			}
-			AudioFW.Play("Heal");
 			SetHealth(100, this);
 			potion = false;
 		}

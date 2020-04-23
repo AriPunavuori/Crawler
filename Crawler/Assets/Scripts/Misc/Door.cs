@@ -22,6 +22,7 @@ public class Door : MonoBehaviour {
 
 		if (collision.gameObject.CompareTag("Player") && !opened) {
 			Debug.Log("This door requires " + keyName + " to open");
+			AudioFW.Play("DoorLocked");
 			uim.SetInfoText("This door requires " + keyName + " to open", 2);
 		}
 
@@ -29,6 +30,7 @@ public class Door : MonoBehaviour {
 
 			if (collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
 				Debug.Log(gameObject.name + " opened");
+				AudioFW.Play("DoorOpen");
 				photonView.RPC("OpenDoorAll", PhotonTargets.All, collision.gameObject.name);
 			}
 
