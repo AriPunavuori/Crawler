@@ -23,6 +23,11 @@ public class PlayerFacingAt : Photon.MonoBehaviour
         if (photonView.isMine)
         {
 
+            // if (joystick input axis.x or axis.y > 0.1f){
+                //Vector2 dir = axis.x, axis.y;
+                //transform.right = dir;
+            //}
+
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
