@@ -45,6 +45,7 @@ public class GameManager : Photon.MonoBehaviour {
 	}
 
 	public void FoundKey(string keyName, string playerName) {
+		AudioFW.Play("KeyPickup");
 		keys += 1;
 		//Debug.Log(keys);
 		Hashtable hash = new Hashtable();

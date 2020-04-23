@@ -10,6 +10,7 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
     Vector2 mousePos;
     Vector2 preMousePos;
 
+
     void Start() {
         if(photonView.isMine) {
             var cursorCenter = new Vector2(crosshair.width / 2, crosshair.height / 2);
