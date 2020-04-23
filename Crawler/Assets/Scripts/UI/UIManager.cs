@@ -9,8 +9,8 @@ public class UIManager : MonoBehaviour {
 	Canvas canvas;
 	public bool useUIBoxes = true;
 	public GameObject[] UIBoxes;
-	public Text[] names;
-	public Text[] healths;
+	public TextMeshProUGUI[] names;
+	public TextMeshProUGUI[] healths;
 	public Image[] healthBars;
 	public GameObject UIBox;
 	public GameObject SpecialCoolDownUI;
@@ -67,12 +67,11 @@ public class UIManager : MonoBehaviour {
 			speedBoost.SetActive(false);
 		}
 
-		if(Time.time < cooldownFinishTime && specialBarReduced)
-		{
+		if (Time.time < cooldownFinishTime && specialBarReduced) {
 			SpecialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
 		}
-		
-		
+
+
 
 		#region powerup UI handling
 		if (powerupLevel > 0) {
@@ -111,10 +110,9 @@ public class UIManager : MonoBehaviour {
 	}
 
 
-	
 
-	public void setSpecialCooldownTimer(float finishTime, float specialCooldownTime)
-	{
+
+	public void setSpecialCooldownTimer(float finishTime, float specialCooldownTime) {
 		StartCoroutine(reduceSpecialBar(1, 0, 0.25f));
 		cooldownFinishTime = finishTime;
 		cooldownTime = specialCooldownTime;
@@ -156,14 +154,14 @@ public class UIManager : MonoBehaviour {
 			potion.SetActive(false);
 		} else {
 			potion.SetActive(true);
-			SetInfoText("Picked up a health potion!", 2);
+			SetInfoText("Picked up a health potion", 2);
 		}
 	}
 
 	public void UpdateSpeedBoost() {
 		if (!speedBoost.activeSelf) {
 			speedBoost.SetActive(true);
-			SetInfoText("Picked up a speed boost!", 2);
+			SetInfoText("Picked up a speed boost", 2);
 			speedBoostTime = Time.time + 2;
 		}
 	}
@@ -219,13 +217,11 @@ public class UIManager : MonoBehaviour {
 
 	}
 
-	IEnumerator reduceSpecialBar(float startAmount, float endAmount, float updateTime)
-	{
+	IEnumerator reduceSpecialBar(float startAmount, float endAmount, float updateTime) {
 		float elapsedTime = 0;
 		specialBarReduced = false;
 
-		while (elapsedTime < updateTime)
-		{
+		while (elapsedTime < updateTime) {
 			SpecialBar.fillAmount = Mathf.Lerp(startAmount, endAmount, (elapsedTime / updateTime));
 
 			elapsedTime += Time.deltaTime;
@@ -242,14 +238,14 @@ public class UIManager : MonoBehaviour {
 				Destroy(box);
 			}
 		UIBoxes = new GameObject[4]; // Taulukon koko on aina 4
-		names = new Text[4];
-		healths = new Text[4];
+		names = new TextMeshProUGUI[4];
+		healths = new TextMeshProUGUI[4];
 		healthBars = new Image[4];
 		for (int i = 0; i < UIBoxes.Length; i++) {
 			GameObject newUIBox = Instantiate(UIBox.gameObject); // Tee uusi UIBox
 			UIBoxes[i] = newUIBox;    // Aseta uusi boxi taulukkoon
-			names[i] = newUIBox.transform.GetChild(0).GetComponent<Text>();
-			healths[i] = newUIBox.transform.GetChild(1).GetComponent<Text>();
+			names[i] = newUIBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+			healths[i] = newUIBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 			healthBars[i] = newUIBox.transform.GetChild(2).GetChild(0).GetComponent<Image>();
 			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0), false); // laita boxi canvasin "players" -elementin lapseksi
 		}
