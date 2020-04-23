@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66433e7ba851c584bbb993593a0091a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshair: {fileID: 2800000, guid: 372258a9391ac5a45ba05ce70b7be658, type: 3}
+  crosshair: {fileID: 2800000, guid: c658a8ca36ba4cb419ce338da142af44, type: 3}
   controllerPointer: {fileID: 3544476726711395101}
   myCam: {fileID: 9009128316106283901}
   myMic: {fileID: 3425569622308981872}

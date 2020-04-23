@@ -9,10 +9,12 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
     public AudioListener myMic;
     Vector2 mousePos;
     Vector2 preMousePos;
+    Vector2 mouseOffSet;
     // Start is called before the first frame update
     void Start() {
-        if(photonView.isMine) {
-            Cursor.SetCursor(crosshair, Vector2.zero, CursorMode.Auto);
+        mouseOffSet = new Vector2(-30f, 15f);
+        if (photonView.isMine) {
+            Cursor.SetCursor(crosshair, mouseOffSet, CursorMode.Auto);
             myCam.enabled = true;
             myMic.enabled = true;
         }
