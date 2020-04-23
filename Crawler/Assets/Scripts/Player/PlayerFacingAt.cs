@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerFacingAt : Photon.MonoBehaviour {
     public Camera myCam;
     public AudioListener myMic;
-
+    Vector3 mousePos;
+    Vector3 preMousePos;
     // Start is called before the first frame update
     void Start() {
         if(photonView.isMine) {
@@ -17,15 +18,18 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(photonView.isMine) {
-            Vector2 input = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
-            if(input.magnitude > 0.2f) {
-                transform.right = input;
-            } else {
+            mousePos = Input.mousePosition;
+            if(mousePos != preMousePos) {
                 Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
                 Vector3 dir = Input.mousePosition - pos;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
+            Vector2 input = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
+            if(input.magnitude > 0.2f) {
+                transform.right = input;
+            }
+            preMousePos = mousePos;
         }
     }
 }

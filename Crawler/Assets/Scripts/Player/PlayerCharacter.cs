@@ -449,8 +449,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				Vector2 mouseVector = new Vector2(Input.mousePosition.x - mousePos.x, Input.mousePosition.y - mousePos.y);
 				//Debug.Log(mouseVector);
 
-				animator.SetFloat("Horizontal", mouseVector.x);
-				animator.SetFloat("Vertical", mouseVector.y);
+
+
+				animator.SetFloat("Horizontal", projHead.transform.right.x);
+				animator.SetFloat("Vertical", projHead.transform.right.y);
 				animator.SetFloat("Magnitude", movement.magnitude);
 
 
