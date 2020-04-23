@@ -489,7 +489,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 			} else { // Camera switching when the player is dead
 				respawnTimer -= Time.deltaTime;
-				uim.SetInfoText("You Died!\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
+				uim.SetInfoText("You Died\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
 				if (Input.GetMouseButtonDown(0)) {
 					if (players.Length > 1) {
 						findCamera();
@@ -631,6 +631,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if (potion) {
 			if (photonView.isMine) {
 				uim.UpdatePotion();
+				AudioFW.Play("PotionDrink");
 			}
 			SetHealth(100, this);
 			potion = false;
@@ -641,6 +642,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		potion = true;
 		if (photonView.isMine) {
 			uim.UpdatePotion();
+			AudioFW.Play("PotionPickup");
 		}
 	}
 
@@ -654,7 +656,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void GetWeaponUpgrade() {
 		if (photonView.isMine) {
 			uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
-			uim.SetInfoText("Picked up a weapon upgrade!", 2);
+			uim.SetInfoText("Picked up a weapon upgrade", 2);
 		}
 		Debug.Log("Weapon level upgraded");
 		if (ranged) {
