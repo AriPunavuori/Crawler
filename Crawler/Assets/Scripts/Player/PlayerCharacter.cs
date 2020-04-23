@@ -512,7 +512,14 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void TakeDamage(int damage, Vector3 recoilOffset) {
 		if (Time.time > timeDamageTaken + damageCooldownLength) {
 			timeDamageTaken = Time.time;
-			StartCoroutine(recoil(recoilOffset * 0.5f, 0.05f));
+			// If the player took more than 10 damage start recoil
+			if (damage > 10)
+			{
+				// Scale recoil based on damage 
+				float recoilMultiplier = Mathf.Pow((float)damage, 2f) / 200f; // Nonlinear scaling, recoil difference between 10 and 20 dmg is 4x. Could also reverse this?
+				//float timeMult = (float)damage / 100;
+				StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
+			}
 			var random = Random.Range(0, 4);
 			AudioFW.Play("PlayerTakesDamage" + random);
 			SetHealth(-damage, this);
