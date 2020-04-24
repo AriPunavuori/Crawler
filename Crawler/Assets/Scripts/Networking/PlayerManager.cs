@@ -28,6 +28,8 @@ public class PlayerManager : MonoBehaviour {
             PlayerStats playerStats = PlayerStats[index];
             if(playerStats.Health + value > baseHealth.CheckCharacterHealt((EntityType)playerStats.SelectedCharacter))
                 playerStats.Health = baseHealth.CheckCharacterHealt((EntityType)playerStats.SelectedCharacter);
+            else if(playerStats.Health + value <= 0)
+                playerStats.Health = 0;
             else
                 playerStats.Health += value;
             PlayerNetwork.Instance.NewHealth(photonPlayer, playerStats.Health);

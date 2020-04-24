@@ -36,6 +36,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
+        attackTime = Time.time - attackInterval * .75f;
     }
     void Start() {
         SetCharacterAttributes();
@@ -71,7 +72,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
                                 var speedFactor = ((DistToTarget() - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
                                 Move(speed * speedFactor);
                                 StartAttack();
-                            }      
+                            }
                         } else { // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
                             var speedFactor = ((DistToTarget() - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
                             Move(speed * speedFactor);
