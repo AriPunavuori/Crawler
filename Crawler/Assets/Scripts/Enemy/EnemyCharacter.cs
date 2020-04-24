@@ -29,13 +29,15 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     bool flipped;
     float spriteFlipCoolDown;
-    void Start() {
+    private void Awake() {
         target = transform.position;
         rotator = transform.Find("Rotator").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
         rigidBody = GetComponent<Rigidbody2D>();
+    }
+    void Start() {
         SetCharacterAttributes();
         meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
         meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
@@ -248,6 +250,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     public void Shoot() {
+        print(rotator);
+        print(target);
         rotator.transform.right = target - rotator.transform.position; // Turn rotator
         Vector2 dir = (projectileSpawn.transform.position - transform.position).normalized;
         GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, rotator.transform.rotation);
