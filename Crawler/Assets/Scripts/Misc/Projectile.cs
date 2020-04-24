@@ -21,6 +21,7 @@ public class Projectile : MonoBehaviour {
 
     float timeToDestroy = 3.5f;
     float launchTime;
+    bool destroyed;
 
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
@@ -50,8 +51,10 @@ public class Projectile : MonoBehaviour {
             AudioFW.Play("PlayerShoot" + random);
         }
     }
+
     void FixedUpdate() {
         if(Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy) {
+            if(!destroyed)
             DestroyProjectile();
         }
         if(!impulse) {
@@ -91,6 +94,7 @@ public class Projectile : MonoBehaviour {
         particles.SetActive(true);
         particles.transform.parent = null;
         graphics.SetActive(false);
+        destroyed = true;
         Destroy(gameObject);
     }
 }
