@@ -638,7 +638,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
         if(potion) {
             uim.UpdatePotion();
             AudioFW.Play("PotionDrink");
-            SetHealth(100, this);
             potion = false;
             photonView.RPC("RPC_UsePotion", PhotonTargets.MasterClient, 100, this);
         }
