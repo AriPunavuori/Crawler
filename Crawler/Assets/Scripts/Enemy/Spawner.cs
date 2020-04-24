@@ -16,7 +16,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     public static PlayerNetwork Instance;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
-    float detectionDistance = 20;
+    float detectionDistance = 10;
     public int health = 200;
     private void Start() {
         spawnPoint = gameObject.transform.Find("SpawnPoint").transform.position;
