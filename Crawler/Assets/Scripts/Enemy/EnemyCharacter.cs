@@ -19,17 +19,18 @@ public class EnemyCharacter : Character, IDamageable<int> {
     public bool flying;
     float flyDeactTime;
     float stunDeactTime;
-
+    float minSpeed = .15f;
 
     Vector3 target;
-    bool seen;
-    float proximityDistance = 1f;
-    public float detectionDistance = 25f;
+    bool seenOnPreviousFrame;
+    float proximityDistance = 1.25f;
+    float detectionDistance = 15f;
     public Animator animator;
 
     bool flipped;
     float spriteFlipCoolDown;
     void Start() {
+        target = transform.position;
         rotator = transform.Find("Rotator").gameObject;
         meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
         layerMaskPlayer = LayerMask.GetMask("Player");
@@ -63,16 +64,15 @@ public class EnemyCharacter : Character, IDamageable<int> {
                     if(DistToPlayer() < detectionDistance) {
                         if(PlayerSeen()) { // Function updates also target
                             if(DistToPlayer() > attackRange)
-                                Move(speed); // Moves close enough to attact
-                            else {
-                                // Slow down when getting closer
-                                var speedFactor = (DistToPlayer() - proximityDistance) / (attackRange - proximityDistance);
+                                Move(speed); // Moves full speed close enough to attact
+                            else { // Slow down and attack when in proximity
+                                var speedFactor = ((DistToTarget() - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
                                 Move(speed * speedFactor);
-                            }
-                            if(DistToPlayer() < attackRange)
                                 StartAttack();
-                        } else {
-                            Move(speed);    // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                            }      
+                        } else { // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                            var speedFactor = ((DistToTarget() - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
+                            Move(speed * speedFactor);
                         }                   // Goes to nearest obstacle on the way towards player
                     } else {
                         player = null; // If player out of detectionRange
@@ -155,6 +155,9 @@ public class EnemyCharacter : Character, IDamageable<int> {
             float MoveDirX = target.x - transform.position.x;
             float MoveDirY = target.y - transform.position.y;
             if(PhotonNetwork.isMasterClient) {
+                print(MoveDirX);
+                print(MoveDirY);
+                print(s);
                 rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
             }
         } else {
@@ -166,18 +169,21 @@ public class EnemyCharacter : Character, IDamageable<int> {
     float DistToPlayer() {
         return Vector2.Distance(transform.position, player.transform.position);
     }
+    float DistToTarget() {
+        return Vector2.Distance(transform.position, target);
+    }
 
     bool PlayerSeen() {
         Vector2 dirVector = player.transform.position - transform.position; // Pelaajan suuntaan vihollisesta
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVector, DistToPlayer(), layerMaskObstacles); // Castataan ray pelaajaan päin
         if(hit) {
-            if(seen) { // Boolean for setting only last hit.point
+            if(seenOnPreviousFrame) { // Boolean for setting only last hit.point
                 target = hit.point;
-                seen = false;
+                seenOnPreviousFrame = false;
             }
         } else {
             target = player.transform.position;
-            seen = true;
+            seenOnPreviousFrame = true;
         }
         return !hit;
     }
