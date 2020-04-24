@@ -58,4 +58,5 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - RPC_UpdateBoxColors
   DisableAutoOpenWizard: 1

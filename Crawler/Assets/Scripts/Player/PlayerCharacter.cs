@@ -545,6 +545,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     void RPC_AreaHeal() {
+        AudioFW.Play("Heal");
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskPlayer);
         Instantiate(healEffectParticles, transform.position, Quaternion.identity, transform);
         foreach(var hit in hits) {
@@ -566,6 +567,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     }
     [PunRPC]
     void RPC_AreaDamage() {
+        AudioFW.Play("AreaDamage");
         Instantiate(damageEffectParticles, transform.position, Quaternion.identity);
         if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskEnemy);
@@ -586,13 +588,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     [PunRPC]
     void RPC_Push() {
+        AudioFW.Play("Boom");
         Debug.Log("Push");
         if(PhotonNetwork.isMasterClient) {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
             foreach(Collider2D col in hits) {
                 if(col.GetComponent<EnemyCharacter>()) {
                     if(!col.GetComponent<EnemyCharacter>().stunned && !col.GetComponent<EnemyCharacter>().flying) {
-                        AudioFW.Play("Boom");
                         Rigidbody2D enemyRB = col.GetComponent<Rigidbody2D>();
                         Vector3 enemyLoc = col.GetComponent<Transform>().position;
                         Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
