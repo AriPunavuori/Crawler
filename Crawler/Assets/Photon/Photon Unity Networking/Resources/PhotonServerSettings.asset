@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_PickedCharacter
   - RPC_Push
   - RPC_UpdateUIBoxContent
+  - RPC_UsePotion
   - Shoot
   - TakeDamage
   - UpdateKeys

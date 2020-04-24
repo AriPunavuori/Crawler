@@ -639,13 +639,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
             uim.UpdatePotion();
             AudioFW.Play("PotionDrink");
             potion = false;
-            photonView.RPC("RPC_UsePotion", PhotonTargets.MasterClient, 100, this);
+            photonView.RPC("RPC_UsePotion", PhotonTargets.All, 100);
         }
     }
 
     [PunRPC]
-    void RPC_UsePotion(int amount, PlayerCharacter pc) {
-        SetHealth(amount, pc);
+    void RPC_UsePotion(int amount) {
+        SetHealth(amount, this);
     }
 
     public void GetPotion() {
