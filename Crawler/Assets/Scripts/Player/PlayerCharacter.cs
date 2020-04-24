@@ -364,15 +364,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
             // When the player is alive
             if(alive) {
-                attackTimer -= Time.deltaTime;
+
                 // Health potion input
                 if(Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f) {
                     UsePotion();
                 }
                 // Attack input
-                if(attackTimer < 0 && Input.GetAxis("Fire1") > 0.5f) {
-                    Attack();
-
+                if(Input.GetAxis("Fire1") > 0.5f) {
+                    if(Time.time > attackTime + attackInterval) {
+                        attackTime = Time.time;
+                        Attack();
+                    }
                     // Camera recoil when shooting. Kinda shit tbh
                     if(ranged) {
                         shooting = true;
@@ -393,11 +395,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
                             //StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f, true));
                         }
                     }
-                } else if(attackTimer < 0) {
+                } else {
                     if(ranged) {
                         shooting = false;
                     }
-
                 }
                 // Movement input
                 movement.x = Input.GetAxisRaw("Horizontal");
@@ -743,7 +744,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
             Melee();
             photonView.RPC("Melee", PhotonTargets.Others);
         }
-        attackTimer = attackInterval;
     }
 
     [PunRPC]

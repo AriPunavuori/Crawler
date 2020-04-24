@@ -231,11 +231,9 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
     void StartAttack() {
         if(PhotonNetwork.isMasterClient) {
-            if(attackTimer >= attackInterval) { // Odota attackInterval -pituinen aika
+            if(Time.time >= attackTime + attackInterval) { // Odota attackInterval -pituinen aika
                 Attack();
-                attackTimer = 0;
-            } else {
-                attackTimer += Time.deltaTime;
+                attackTime = Time.time;
             }
         }
     }
@@ -246,7 +244,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
         } else {
             photonView.RPC("Melee", PhotonTargets.AllViaServer);
         }
-        attackTimer = attackInterval;
     }
 
     [PunRPC]
