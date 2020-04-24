@@ -640,7 +640,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
             AudioFW.Play("PotionDrink");
             SetHealth(100, this);
             potion = false;
+            photonView.RPC("RPC_UsePotion", PhotonTargets.MasterClient, 100, this);
         }
+    }
+
+    [PunRPC]
+    void RPC_UsePotion(int amount, PlayerCharacter pc) {
+        SetHealth(amount, pc);
     }
 
     public void GetPotion() {
