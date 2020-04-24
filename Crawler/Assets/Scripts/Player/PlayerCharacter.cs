@@ -640,9 +640,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			if (photonView.isMine) {
 				uim.UpdatePotion();
 				AudioFW.Play("PotionDrink");
+				SetHealth(100, this);
+				potion = false;
 			}
-			SetHealth(100, this);
-			potion = false;
 		}
 	}
 
