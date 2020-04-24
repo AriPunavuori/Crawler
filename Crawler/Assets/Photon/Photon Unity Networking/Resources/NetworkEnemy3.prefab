@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae14b56425d90f4c889b33352dbb1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 6
+  characterType: 7
   ranged: 0
   projectileSpeed: 0
   attackRange: 0
