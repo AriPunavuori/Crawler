@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
 	public TextMeshProUGUI[] names;
 	public TextMeshProUGUI[] healths;
 	public Image[] healthBars;
+	public Sprite[] boxBackgrounds = new Sprite[4];
 	public GameObject UIBox;
 	public GameObject SpecialCoolDownUI;
 	public Image SpecialBar;
@@ -71,8 +72,6 @@ public class UIManager : MonoBehaviour {
 			SpecialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
 		}
 
-
-
 		#region powerup UI handling
 		if (powerupLevel > 0) {
 			// Enable powerup level text if any powerup is active
@@ -87,8 +86,6 @@ public class UIManager : MonoBehaviour {
 			powerupBG.enabled = false;
 			powerupLevelText.text = "";
 		}
-
-
 
 		if (powerUpTimerStarted) {
 
@@ -108,9 +105,6 @@ public class UIManager : MonoBehaviour {
 		}
 		#endregion
 	}
-
-
-
 
 	public void setSpecialCooldownTimer(float finishTime, float specialCooldownTime) {
 		StartCoroutine(reduceSpecialBar(1, 0, 0.25f));
@@ -148,10 +142,10 @@ public class UIManager : MonoBehaviour {
 		if (picker == "NetworkPlayer1(Clone)") {
 			picker = names[1].text;
 		}
-		if (picker == "NetworkPlayer1(Clone)") {
+		if (picker == "NetworkPlayer2(Clone)") {
 			picker = names[2].text;
 		}
-		if (picker == "NetworkPlayer1(Clone)") {
+		if (picker == "NetworkPlayer3(Clone)") {
 			picker = names[3].text;
 		}
 		for (int i = 0; i < names.Length; i++) {
@@ -186,6 +180,7 @@ public class UIManager : MonoBehaviour {
 
 	public void UpdateUIContent(string name, int health, int selected, int baseHealth) {
 		photonView.RPC("RPC_UpdateUIBoxContent", PhotonTargets.All, name, health, selected, baseHealth);
+		photonView.RPC("RPC_UpdateBoxColors", PhotonTargets.All);
 	}
 	public void CreateUIBoxes() {
 		photonView.RPC("RPC_CreateUIBoxes", PhotonTargets.AllBuffered);
@@ -245,6 +240,15 @@ public class UIManager : MonoBehaviour {
 	}
 
 	[PunRPC]
+	void RPC_UpdateBoxColors() {
+		for (int i = 0; i < UIBoxes.Length; i++) {
+			if (names[i].text != "No Player") {
+				UIBoxes[i].GetComponent<Image>().color = Color.white;
+			}
+		}
+	}
+
+	[PunRPC]
 	public void RPC_CreateUIBoxes() {
 		if (UIBoxes != null)
 			foreach (var box in UIBoxes) {
@@ -256,10 +260,11 @@ public class UIManager : MonoBehaviour {
 		healthBars = new Image[4];
 		for (int i = 0; i < UIBoxes.Length; i++) {
 			GameObject newUIBox = Instantiate(UIBox.gameObject); // Tee uusi UIBox
+			newUIBox.GetComponent<Image>().sprite = boxBackgrounds[i];
 			UIBoxes[i] = newUIBox;    // Aseta uusi boxi taulukkoon
 			names[i] = newUIBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-			healths[i] = newUIBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-			healthBars[i] = newUIBox.transform.GetChild(2).GetChild(0).GetComponent<Image>();
+			healths[i] = newUIBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+			healthBars[i] = newUIBox.transform.GetChild(1).GetChild(0).GetComponent<Image>();
 			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0), false); // laita boxi canvasin "players" -elementin lapseksi
 		}
 	}
