@@ -14,8 +14,8 @@ public class Character : Photon.MonoBehaviour {
     float[] attackRanges = new float[] { 7.5f, 2f, 10f, 2f, 6.5f, 6.5f, 1.5f, 1.5f }; // Range of attack
     int[] damages = new int[] { 10, 20, 15, 25, 5, 15, 5, 50 };  // Amount of damage
     float[] attackIntervals = new float[] { 0.2f, 0.3f, 0.3f, 0.35f, .5f, .75f, .5f, 1.5f }; // Attack interval
-    float[] speeds = new float[] { 4.5f, 4.5f, 4.5f, 4.5f, 3.5f, 35f, 5f, 4.5f }; // Movement speed
-    int[] healths = new int[] { 150, 200, 150, 250, 20 , 40, 10, 60 }; // Health
+    float[] speeds = new float[] { 4.5f, 4.5f, 4.5f, 4.5f, 3.5f, 0.5f, 5f, 4.5f }; // Movement speed
+    int[] healths = new int[] { 150, 200, 150, 250, 20 , 40, 10, 80 }; // Health
     float[] specialCooldowns = new float[] { 3.0f, 10.0f, 7.0f, 10.0f, 0f, 0f, 0f, 0f }; // Special cooldowns
 
     public bool ranged;
