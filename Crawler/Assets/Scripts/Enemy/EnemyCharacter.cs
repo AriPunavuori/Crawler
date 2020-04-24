@@ -155,9 +155,6 @@ public class EnemyCharacter : Character, IDamageable<int> {
             float MoveDirX = target.x - transform.position.x;
             float MoveDirY = target.y - transform.position.y;
             if(PhotonNetwork.isMasterClient) {
-                print(MoveDirX);
-                print(MoveDirY);
-                print(s);
                 rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
             }
         } else {

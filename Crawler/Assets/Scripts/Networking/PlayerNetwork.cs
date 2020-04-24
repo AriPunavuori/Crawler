@@ -78,7 +78,7 @@ public class PlayerNetwork : MonoBehaviour {
 
         if(pc == null)
             return;
-        if(pc.health <= 0) {
+        if(health <= 0) {
             print("Should die already");
             pc.Die();
             //PhotonView.RPC("Die", PhotonTargets.Others);
