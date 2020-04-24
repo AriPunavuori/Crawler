@@ -132,6 +132,7 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
+		print(playerName + "updatekeys");
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
 		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
@@ -141,6 +142,18 @@ public class UIManager : MonoBehaviour {
 	}
 
 	int GetKeyPickerName(string picker) {
+		if (picker == "NetworkPlayer0(Clone)") {
+			picker = names[0].text;
+		}
+		if (picker == "NetworkPlayer1(Clone)") {
+			picker = names[1].text;
+		}
+		if (picker == "NetworkPlayer1(Clone)") {
+			picker = names[2].text;
+		}
+		if (picker == "NetworkPlayer1(Clone)") {
+			picker = names[3].text;
+		}
 		for (int i = 0; i < names.Length; i++) {
 			if (names[i].text == picker) {
 				return i;
