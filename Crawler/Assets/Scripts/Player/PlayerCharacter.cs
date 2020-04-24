@@ -456,7 +456,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				animator.SetFloat("Magnitude", movement.magnitude);
 
 
-				if (Input.GetKeyDown(KeyCode.Space)|| (Input.GetAxis("Fire2") > 0.5f) && specialTime + specialCooldown <= Time.time) {
+				if ((Input.GetKeyDown(KeyCode.Space)|| (Input.GetAxis("Fire2") > 0.5f)) && specialTime + specialCooldown <= Time.time) {
 					specialTime = Time.time;
 					Debug.Log("Special");
 					if (characterType == EntityType.Hero0) {
