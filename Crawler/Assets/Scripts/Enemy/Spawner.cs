@@ -10,13 +10,13 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     public EntityType spawningType;
     Vector3 spawnPoint;
     string[] enemyType = new string[] { "NetworkEnemy0", "NetworkEnemy1", "NetworkEnemy2", "NetworkEnemy3" };
-    public float spawnInterval = 5f;
-    public int maxEnemiesInArea = 10;
+    public float spawnInterval = 3f;
+    public int maxEnemiesInArea = 16;
     float timer;
     public static PlayerNetwork Instance;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
-    float detectionDistance = 10;
+    float detectionDistance = 15;
     public int health = 200;
     private void Start() {
         spawnPoint = gameObject.transform.Find("SpawnPoint").transform.position;
