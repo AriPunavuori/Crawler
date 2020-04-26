@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 3792664326764848987}
   - component: {fileID: 7484457383355854754}
   - component: {fileID: 5908076135583592746}
-  - component: {fileID: 8157843121444019747}
   m_Layer: 5
   m_Name: CanvasHP
   m_TagString: Untagged
@@ -195,23 +194,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &8157843121444019747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3585260141928408762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &5756707331154392029
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +581,7 @@ MonoBehaviour:
   speed: 0
   health: 0
   specialCooldown: 0
-  attackTimer: 0
+  attackTime: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 7476082494721652205}
   projectilePrefab: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,

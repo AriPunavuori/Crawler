@@ -62,7 +62,7 @@ MonoBehaviour:
   speed: 0
   health: 0
   specialCooldown: 0
-  attackTimer: 0
+  attackTime: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 8273041752780425370}
   projectilePrefab: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,
@@ -78,7 +78,6 @@ MonoBehaviour:
   healthText: {fileID: 7504102888985997050}
   stunned: 0
   flying: 0
-  detectionDistance: 25
   animator: {fileID: 8263724027082454643}
 --- !u!58 &3552905579314142723
 CircleCollider2D:
@@ -350,7 +349,6 @@ GameObject:
   - component: {fileID: 1563283879519527648}
   - component: {fileID: 2787849937947929348}
   - component: {fileID: 7846248507753601580}
-  - component: {fileID: 8212247433854051766}
   m_Layer: 5
   m_Name: CanvasHP
   m_TagString: Untagged
@@ -421,23 +419,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 4
---- !u!114 &8212247433854051766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2507585906010649127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &2964564695702967824
 GameObject:
   m_ObjectHideFlags: 0
