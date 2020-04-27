@@ -15,7 +15,16 @@ public class RoomListing : MonoBehaviour {
         LobbyCanvas lobbyCanvas = lobbyCanvasObj.GetComponent<LobbyCanvas>();
         Button button = GetComponent<Button>();
         button.onClick.AddListener(()=>lobbyCanvas.OnClickJoinRoom(roomNameText.text));
+
     }
+
+    public void OnClick() {
+        var playerList = GameObject.Find("PlayerList").GetComponent<UIElementJuicer>();
+        playerList.MoveIn(true);
+        var roomList = GameObject.Find("RoomList").GetComponent<UIElementJuicer>();
+        roomList.MoveOut(false);
+    }
+
     private void OnDestroy() {
         Button button = GetComponent<Button>();
         button.onClick.RemoveAllListeners();
