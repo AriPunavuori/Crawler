@@ -693,6 +693,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1625812528}
+        m_MethodName: MoveOut
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &731488390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -748,10 +759,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 731488393}
           m_MethodName: OnButtonHoverEnter
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 731488387}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -763,10 +774,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 731488393}
           m_MethodName: OnButtonHoverExit
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 731488387}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -784,6 +795,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 0, z: 0}
+  tweenLength: 0
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &732800743
 GameObject:
   m_ObjectHideFlags: 0
@@ -1530,6 +1547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyCanvas: {fileID: 1842493646}
   currentRoomCanvas: {fileID: 262893744}
+  playerList: {fileID: 1625812523}
 --- !u!1 &1399815999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1927,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1652683118}
+        m_MethodName: MoveIn
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1625812528}
+        m_MethodName: MoveOut
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1572994144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1964,10 +2004,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1572994147}
           m_MethodName: OnButtonHoverEnter
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1572994141}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1979,10 +2019,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1572994147}
           m_MethodName: OnButtonHoverExit
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1572994141}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2000,6 +2040,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 0, z: 0}
+  tweenLength: 0
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &1587484637
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,6 +2213,7 @@ GameObject:
   - component: {fileID: 1625812527}
   - component: {fileID: 1625812526}
   - component: {fileID: 1625812525}
+  - component: {fileID: 1625812528}
   m_Layer: 5
   m_Name: PlayerList
   m_TagString: Untagged
@@ -2192,7 +2239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -200}
+  m_AnchoredPosition: {x: 1750, y: -200}
   m_SizeDelta: {x: 600, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1625812525
@@ -2261,6 +2308,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625812523}
   m_CullTransparentMesh: 0
+--- !u!114 &1625812528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625812523}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 0
+  movementDelta: {x: -1200, y: 0, z: 0}
+  tweenLength: 0.5
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &1652683113
 GameObject:
   m_ObjectHideFlags: 0
@@ -2273,6 +2338,7 @@ GameObject:
   - component: {fileID: 1652683117}
   - component: {fileID: 1652683116}
   - component: {fileID: 1652683115}
+  - component: {fileID: 1652683118}
   m_Layer: 5
   m_Name: RoomList
   m_TagString: Untagged
@@ -2298,7 +2364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -200}
+  m_AnchoredPosition: {x: 1750, y: -200}
   m_SizeDelta: {x: 600, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652683115
@@ -2367,6 +2433,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652683113}
   m_CullTransparentMesh: 0
+--- !u!114 &1652683118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652683113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: -1200, y: 0, z: 0}
+  tweenLength: 0.5
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &1789495979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,6 +2529,7 @@ GameObject:
   - component: {fileID: 1824483408}
   - component: {fileID: 1824483407}
   - component: {fileID: 1824483406}
+  - component: {fileID: 1824483409}
   m_Layer: 5
   m_Name: InputField
   m_TagString: Untagged
@@ -2572,6 +2657,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824483404}
   m_CullTransparentMesh: 0
+--- !u!114 &1824483409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824483404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 0, z: 0}
+  tweenLength: 0
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &1842493643
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,6 +2863,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1652683118}
+        m_MethodName: MoveOut
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1625812528}
+        m_MethodName: MoveIn
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1908196884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2815,10 +2940,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1908196887}
           m_MethodName: OnButtonHoverEnter
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1908196881}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2830,10 +2955,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1908196887}
           m_MethodName: OnButtonHoverExit
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 1908196881}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2851,6 +2976,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 0, z: 0}
+  tweenLength: 0
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &2119882816
 GameObject:
   m_ObjectHideFlags: 0

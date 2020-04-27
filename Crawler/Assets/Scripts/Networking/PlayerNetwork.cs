@@ -16,6 +16,7 @@ public class PlayerNetwork : MonoBehaviour {
     public bool joined;
     PlayerCharacter pc;
     bool[] selectedCharacters = new bool[4];
+
     void Awake() {
         Instance = this;
         PhotonView = GetComponent<PhotonView>();
@@ -50,9 +51,11 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player, selectedCharacter);
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
+
     void NonMasterLoadedGame() {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player, selectedCharacter);
     }
+
     [PunRPC]
     void RPC_LoadGameOthers() {
         PhotonNetwork.LoadLevel(3);
@@ -139,11 +142,16 @@ public class PlayerNetwork : MonoBehaviour {
         }
         return false;
     }
+
     public void OnClickStartButton() {
         if(input.text != null) {
             playerName = input.text;
         } else
             playerName = "Player#" + Random.Range(1000, 9999);
+
+        Invoke("LoadMenu", .5f);
+    }
+    void LoadMenu() {
         PhotonNetwork.LoadLevel(1);
     }
 }

@@ -2,21 +2,19 @@
 using UnityEngine.UI;
 
 public class CurrentRoomCanvas : MonoBehaviour {
-    public void OnClickStartSync() {
-        if(!PhotonNetwork.isMasterClient)
-            return;
-        PhotonNetwork.LoadLevel(2);
 
+    public void OnClickStartDelayed() {
+        Invoke("StartCharacterSelection", .5f);
     }
 
-    [PunRPC]
-    public void OnClickStartDelayed() {
+    void StartCharacterSelection() {
         if(!PhotonNetwork.isMasterClient)
             return;
         PhotonNetwork.room.IsOpen = false;
         PhotonNetwork.room.IsVisible = false;
         PhotonNetwork.LoadLevel(2);
     }
+
     public void OnClickRoomState() {
         if(!PhotonNetwork.isMasterClient)
             return;

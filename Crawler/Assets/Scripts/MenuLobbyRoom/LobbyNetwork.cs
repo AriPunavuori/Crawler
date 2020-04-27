@@ -20,6 +20,10 @@ public class LobbyNetwork : MonoBehaviour {
     void OnJoinedLobby() {
         print("Joined lobby");
         if(!PhotonNetwork.inRoom)
+            Invoke("SwitchCanvas", .5f);
+    }
+
+    void SwitchCanvas() {
         MenuCanvasManager.Instance.lobbyCanvas.transform.SetAsLastSibling();
     }
 

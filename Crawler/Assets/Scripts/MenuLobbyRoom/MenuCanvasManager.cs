@@ -10,6 +10,8 @@ public class MenuCanvasManager : MonoBehaviour {
 
     public CurrentRoomCanvas currentRoomCanvas;
 
+    public GameObject playerList;
+
     private void Awake() {
         Instance = this;
     }

@@ -1402,7 +1402,7 @@ GameObject:
   - component: {fileID: 332577222}
   - component: {fileID: 332577224}
   - component: {fileID: 332577223}
-  - component: {fileID: 332577225}
+  - component: {fileID: 332577226}
   m_Layer: 5
   m_Name: Girl
   m_TagString: Untagged
@@ -1422,11 +1422,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007079716}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1641, y: 33}
+  m_AnchoredPosition: {x: 1880, y: 33}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &332577223
@@ -1465,7 +1465,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332577221}
   m_CullTransparentMesh: 0
---- !u!114 &332577225
+--- !u!114 &332577226
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1474,13 +1474,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 332577221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dfc0eed6dfb0224cae18b79ae2fdc8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTrans: {fileID: 332577222}
-  timeOfEase: 0.5
-  whereToMove: 380
-  objectsToEnable:
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 15, y: -15}
+  entryMovement: 1
+  movementDelta: {x: -1500, y: 0, z: 0}
+  tweenLength: 0.5
+  objectsToEnableAfterEntryTween:
   - {fileID: 891542622}
 --- !u!1 &345988708
 GameObject:
@@ -1493,7 +1495,7 @@ GameObject:
   - component: {fileID: 345988709}
   - component: {fileID: 345988711}
   - component: {fileID: 345988710}
-  - component: {fileID: 345988712}
+  - component: {fileID: 345988713}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1513,7 +1515,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2007079716}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1639,7 +1641,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345988708}
   m_CullTransparentMesh: 0
---- !u!114 &345988712
+--- !u!114 &345988713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1648,13 +1650,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 345988708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dfc0eed6dfb0224cae18b79ae2fdc8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTrans: {fileID: 345988709}
-  timeOfEase: 0.75
-  whereToMove: -350
-  objectsToEnable:
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 1500, y: 0, z: 0}
+  tweenLength: 0.75
+  objectsToEnableAfterEntryTween:
   - {fileID: 332577221}
 --- !u!1 &354208083
 GameObject:
@@ -2956,7 +2960,7 @@ GameObject:
   - component: {fileID: 891542626}
   - component: {fileID: 891542625}
   - component: {fileID: 891542623}
-  - component: {fileID: 891542627}
+  - component: {fileID: 891542628}
   m_Layer: 5
   m_Name: InputField
   m_TagString: Untagged
@@ -3045,7 +3049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -350, y: -905}
+  m_AnchoredPosition: {x: -350, y: -950}
   m_SizeDelta: {x: 450, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &891542625
@@ -3084,7 +3088,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891542622}
   m_CullTransparentMesh: 0
---- !u!114 &891542627
+--- !u!114 &891542628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3093,13 +3097,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 891542622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9af9914391679c45be00c577a2d4350, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTrans: {fileID: 891542624}
-  timeOfEase: 0.35
-  whereToMove: -50
-  objectsToEnable:
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 900, z: 0}
+  tweenLength: 0.35
+  objectsToEnableAfterEntryTween:
   - {fileID: 946369225}
 --- !u!1 &945360177
 GameObject:
@@ -3241,7 +3247,6 @@ GameObject:
   - component: {fileID: 946369229}
   - component: {fileID: 946369228}
   - component: {fileID: 946369227}
-  - component: {fileID: 946369231}
   - component: {fileID: 946369233}
   - component: {fileID: 946369232}
   m_Layer: 5
@@ -3264,11 +3269,11 @@ RectTransform:
   m_Children:
   - {fileID: 1460397573}
   m_Father: {fileID: 2007079716}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -350, y: -980}
+  m_AnchoredPosition: {x: -350, y: -1025}
   m_SizeDelta: {x: 450, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &946369227
@@ -3348,6 +3353,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 332577226}
+        m_MethodName: MoveOut
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &946369229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3384,22 +3400,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946369225}
   m_CullTransparentMesh: 0
---- !u!114 &946369231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 946369225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9af9914391679c45be00c577a2d4350, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rectTrans: {fileID: 946369226}
-  timeOfEase: 0.35
-  whereToMove: -125
-  objectsToEnable: []
 --- !u!114 &946369232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3419,10 +3419,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 946369233}
           m_MethodName: OnButtonHoverEnter
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 946369226}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -3434,10 +3434,10 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 946369233}
           m_MethodName: OnButtonHoverExit
-          m_Mode: 2
+          m_Mode: 1
           m_Arguments:
-            m_ObjectArgument: {fileID: 946369226}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -3455,7 +3455,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  factor: 1.1
+  onHoverSizeMultiplier: 1.05
+  shadowDistance: {x: 10, y: -10}
+  entryMovement: 1
+  movementDelta: {x: 0, y: 900, z: 0}
+  tweenLength: 0.35
+  objectsToEnableAfterEntryTween: []
 --- !u!1 &1010264343
 GameObject:
   m_ObjectHideFlags: 0
@@ -5359,10 +5364,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1521703077}
-  - {fileID: 332577222}
-  - {fileID: 946369226}
-  - {fileID: 891542624}
   - {fileID: 345988709}
+  - {fileID: 332577222}
+  - {fileID: 891542624}
+  - {fileID: 946369226}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

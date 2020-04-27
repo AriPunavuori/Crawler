@@ -25,21 +25,27 @@ public class PlayerLayoutGroup : MonoBehaviour {
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }
-        MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
+        Invoke("SwitchCanvas", .5f);
         PhotonPlayer[] photonPlayers = PhotonNetwork.playerList;
         for(int i = 0; i < photonPlayers.Length; i++) {
             PlayerJoinedRoom(photonPlayers[i]);
         }
     }
-    
 
+    void SwitchCanvas() {
+        MenuCanvasManager.Instance.playerList.GetComponent<UIElementJuicer>().enabled = true;
+        MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
+    }
+    
     // Called by photon when a player joins the room
     void OnPhotonPlayerConnected(PhotonPlayer photonPlayer) {
         PlayerJoinedRoom(photonPlayer);
     }
+
     void OnPhotonPlayerDisconnected(PhotonPlayer photonPlayer) {
         PlayerLeftRoom(photonPlayer);
     }
+
     void PlayerJoinedRoom(PhotonPlayer photonPlayer) {
         if(photonPlayer == null) {
             return;
@@ -50,6 +56,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
         playerListing.ApplyPhotonPlayer(photonPlayer);
         playerListings.Add(playerListing);
     }
+
     void PlayerLeftRoom(PhotonPlayer photonPlayer) {
         print(photonPlayer.NickName + " left room");
         print(playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer)); 
@@ -59,6 +66,4 @@ public class PlayerLayoutGroup : MonoBehaviour {
             playerListings.RemoveAt(index);
         }
     }
-
-
 }
