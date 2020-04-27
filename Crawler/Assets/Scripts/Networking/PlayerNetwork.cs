@@ -24,9 +24,11 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonNetwork.sendRateOnSerialize = 30;
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
+
     private void Start() {
         AudioFW.PlayLoop("MenuLoop");
     }
+
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
         if(scene.name == "CharacterSelection") {
             if(PhotonNetwork.isMasterClient)
@@ -40,13 +42,16 @@ public class PlayerNetwork : MonoBehaviour {
                 NonMasterLoadedGame();
         }
     }
+
     void MasterLoadedCharacterSelection() {
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
     }
+
     [PunRPC]
     void RPC_LoadCharacterSelection() {
         PhotonNetwork.LoadLevel(2);
     }
+
     void MasterLoadedGame() {
         PhotonView.RPC("RPC_LoadedGameScene", PhotonTargets.MasterClient, PhotonNetwork.player, selectedCharacter);
         PhotonView.RPC("RPC_LoadGameOthers", PhotonTargets.Others);
@@ -148,7 +153,6 @@ public class PlayerNetwork : MonoBehaviour {
             playerName = input.text;
         } else
             playerName = "Player#" + Random.Range(1000, 9999);
-
         Invoke("LoadMenu", .5f);
     }
     void LoadMenu() {

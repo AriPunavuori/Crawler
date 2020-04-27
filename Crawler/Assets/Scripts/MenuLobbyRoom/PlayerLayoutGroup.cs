@@ -7,7 +7,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
 
     public GameObject playerListingPrefab;
     public List<PlayerListing> playerListings = new List<PlayerListing>();
-    
     public Button startGame;
 
     // Called by Photon when Master Client is switched
@@ -33,7 +32,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void SwitchCanvas() {
-        MenuCanvasManager.Instance.playerList.GetComponent<UIElementJuicer>().enabled = true;
         MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
     }
     

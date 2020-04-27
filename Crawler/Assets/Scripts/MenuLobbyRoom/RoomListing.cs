@@ -6,7 +6,9 @@ public class RoomListing : MonoBehaviour {
     public Text roomNameText;
 
     public string roomName;
+
     public bool updated;
+
     void Start() {
         GameObject lobbyCanvasObj = MenuCanvasManager.Instance.lobbyCanvas.gameObject;
         if (lobbyCanvasObj == null) {
@@ -15,7 +17,6 @@ public class RoomListing : MonoBehaviour {
         LobbyCanvas lobbyCanvas = lobbyCanvasObj.GetComponent<LobbyCanvas>();
         Button button = GetComponent<Button>();
         button.onClick.AddListener(()=>lobbyCanvas.OnClickJoinRoom(roomNameText.text));
-
     }
 
     public void OnClick() {
@@ -29,6 +30,7 @@ public class RoomListing : MonoBehaviour {
         Button button = GetComponent<Button>();
         button.onClick.RemoveAllListeners();
     }
+
     public void SetRoomNameText(string text) {
         roomName = text;
         roomNameText.text = roomName;
