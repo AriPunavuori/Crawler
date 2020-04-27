@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 21203276}
   - component: {fileID: 21203279}
   - component: {fileID: 21203280}
+  - component: {fileID: 21203281}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -276,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  factor: 1.5
 --- !u!114 &21203280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +321,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &21203281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21203274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &95904704
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +882,7 @@ GameObject:
   - component: {fileID: 1048370794}
   - component: {fileID: 1048370797}
   - component: {fileID: 1048370798}
+  - component: {fileID: 1048370799}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1006,6 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  factor: 1.5
 --- !u!114 &1048370798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1049,6 +1068,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1048370799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048370792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1051425577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1409,7 @@ GameObject:
   - component: {fileID: 1157003572}
   - component: {fileID: 1157003576}
   - component: {fileID: 1157003575}
+  - component: {fileID: 1157003577}
   m_Layer: 5
   m_Name: Button (3)
   m_TagString: Untagged
@@ -1559,6 +1594,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  factor: 1.5
+--- !u!114 &1157003577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157003570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1167861947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,6 +2038,7 @@ GameObject:
   - component: {fileID: 2106702472}
   - component: {fileID: 2106702475}
   - component: {fileID: 2106702476}
+  - component: {fileID: 2106702477}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
@@ -2128,6 +2180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0cebf16703701428a248bef90576a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  factor: 1.5
 --- !u!114 &2106702476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,3 +2224,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &2106702477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106702470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
