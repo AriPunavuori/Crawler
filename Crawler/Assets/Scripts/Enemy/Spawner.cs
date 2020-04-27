@@ -45,6 +45,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
 
     void Spit() {
         LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
+        AudioFW.Play("Spit");
         SpawnNow();
     }
 
