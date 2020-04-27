@@ -33,7 +33,8 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                     if(enemies.Length < maxEnemiesInArea) {
                         var player = Physics2D.OverlapCircle(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
                         if(player != null) { // Jos löytyi pelaaja/pelaajia
-                            var enemy = PhotonNetwork.Instantiate(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0);
+                            LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
+                            Invoke("Spit", spawnInterval * 0.5f);
                         }
                     }
                 }
@@ -42,6 +43,14 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         }
     }
 
+    void Spit() {
+        LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
+        SpawnNow();
+    }
+
+    void SpawnNow() {
+        var enemy = PhotonNetwork.Instantiate(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0);
+    }
 
     [PunRPC]
     public void TakeDamage(int damage, Vector3 v) {
