@@ -1,31 +1,22 @@
 fileFormatVersion: 2
-guid: 27578e32e85e4e3419bc93619e39211c
+guid: d0d11a5f8b5560049a78bb2723cc82e7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2486845890069778653
-    second: 32oni_turns_0
+      213: 1295000768650154855
+    second: Light_Oni_Attack_Back_Right_0
   - first:
-      213: 3696905884855668160
-    second: 32oni_turns_1
+      213: 5128038509170692489
+    second: Light_Oni_Attack_Back_Right_1
   - first:
-      213: 7721056353578981036
-    second: 32oni_turns_2
+      213: -4803272013925434590
+    second: Light_Oni_Attack_Back_Right_2
   - first:
-      213: -4518544654150935478
-    second: 32oni_turns_3
+      213: 8272982227112221100
+    second: Light_Oni_Attack_Back_Right_3
   - first:
-      213: -5585062027754179018
-    second: 32oni_turns_4
-  - first:
-      213: -5805393349363337397
-    second: 32oni_turns_5
-  - first:
-      213: -8875373862205935795
-    second: 32oni_turns_6
-  - first:
-      213: -1713743420640483434
-    second: 32oni_turns_7
+      213: -1797322804761490642
+    second: Light_Oni_Attack_Back_Right_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -69,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,12 +101,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 32oni_turns_0
+      name: Light_Oni_Attack_Back_Right_0
       rect:
         serializedVersion: 2
         x: 0
         y: 32
-        width: 32
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -124,40 +115,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd0dfb0492d038220800000000000000
-      internalID: 2486845890069778653
+      spriteID: 763104f7654c8f110800000000000000
+      internalID: 1295000768650154855
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 32oni_turns_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0cd8fd2b05c0e4330800000000000000
-      internalID: 3696905884855668160
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32oni_turns_2
+      name: Light_Oni_Attack_Back_Right_1
       rect:
         serializedVersion: 2
         x: 64
         y: 32
-        width: 32
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -166,19 +136,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca619dd78d3b62b60800000000000000
-      internalID: 7721056353578981036
+      spriteID: 98194a5cad37a2740800000000000000
+      internalID: 5128038509170692489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 32oni_turns_3
+      name: Light_Oni_Attack_Back_Right_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 128
         y: 32
-        width: 32
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -187,19 +157,40 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4cd79bc397ea41c0800000000000000
-      internalID: -4518544654150935478
+      spriteID: 22b366a5d89575db0800000000000000
+      internalID: -4803272013925434590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 32oni_turns_4
+      name: Light_Oni_Attack_Back_Right_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca9d420e0898fc270800000000000000
+      internalID: 8272982227112221100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Light_Oni_Attack_Back_Right_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -208,71 +199,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 636703b3dafdd72b0800000000000000
-      internalID: -5585062027754179018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32oni_turns_5
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b4778cdc1891f6fa0800000000000000
-      internalID: -5805393349363337397
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32oni_turns_6
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d4fad6efe7654d480800000000000000
-      internalID: -8875373862205935795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 32oni_turns_7
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 697af80507f8738e0800000000000000
-      internalID: -1713743420640483434
+      spriteID: e2b8b738e60ae07e0800000000000000
+      internalID: -1797322804761490642
       vertices: []
       indices: 
       edges: []

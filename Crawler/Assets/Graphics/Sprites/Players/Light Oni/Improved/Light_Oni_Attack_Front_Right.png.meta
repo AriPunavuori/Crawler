@@ -1,31 +1,19 @@
 fileFormatVersion: 2
-guid: 8de6ce8965c095f4396e0371f27b9216
+guid: 4ebd832b17af7754bb72db3d6b9b7735
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5962660427254750660
-    second: Light_Oni_Attack 1_0
+      213: -659878060723632048
+    second: Light_Oni_Attack_Front_Right_0
   - first:
-      213: -1934625939968860699
-    second: Light_Oni_Attack 1_1
+      213: -2145109540588081906
+    second: Light_Oni_Attack_Front_Right_1
   - first:
-      213: 3743581081746256224
-    second: Light_Oni_Attack 1_2
+      213: 3084278026167172465
+    second: Light_Oni_Attack_Front_Right_2
   - first:
-      213: 1583391130422928245
-    second: Light_Oni_Attack 1_3
-  - first:
-      213: -1686673111824109238
-    second: Light_Oni_Attack 1_4
-  - first:
-      213: -5352314479118866223
-    second: Light_Oni_Attack 1_5
-  - first:
-      213: -5050500158561445070
-    second: Light_Oni_Attack 1_6
-  - first:
-      213: -596865755964039420
-    second: Light_Oni_Attack 1_7
+      213: 1505778127796571367
+    second: Light_Oni_Attack_Front_Right_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -69,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,169 +98,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Light_Oni_Attack 1_0
+      name: Light_Oni_Attack_Front_Right_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cd5cca2110afb250800000000000000
-      internalID: 5962660427254750660
+      spriteID: 0588e736664a7d6f0800000000000000
+      internalID: -659878060723632048
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack 1_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ed56ea25f3d625e0800000000000000
-      internalID: -1934625939968860699
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Light_Oni_Attack 1_2
+      name: Light_Oni_Attack_Front_Right_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 061bb55d82fd3f330800000000000000
-      internalID: 3743581081746256224
+      spriteID: e0d22f4fc3a0b32e0800000000000000
+      internalID: -2145109540588081906
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack 1_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 573ec5d08d559f510800000000000000
-      internalID: 1583391130422928245
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Light_Oni_Attack 1_4
+      name: Light_Oni_Attack_Front_Right_2
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a41758dbdbbb798e0800000000000000
-      internalID: -1686673111824109238
+      spriteID: 17dbc3a068e8dca20800000000000000
+      internalID: 3084278026167172465
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_Oni_Attack 1_5
+      name: Light_Oni_Attack_Front_Right_3
       rect:
         serializedVersion: 2
-        x: 160
+        x: 192
         y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d8a0f9c652c8b5b0800000000000000
-      internalID: -5352314479118866223
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Light_Oni_Attack 1_6
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 23b14ee4dd409e9b0800000000000000
-      internalID: -5050500158561445070
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Light_Oni_Attack 1_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 40f1b2dd1c187b7f0800000000000000
-      internalID: -596865755964039420
+      spriteID: 7ec0ed1ba3995e410800000000000000
+      internalID: 1505778127796571367
       vertices: []
       indices: 
       edges: []
