@@ -53,10 +53,10 @@ MonoBehaviour:
   - RPC_NewHealth
   - RPC_PickedCharacter
   - RPC_Push
+  - RPC_UpdateBoxColors
   - RPC_UpdateUIBoxContent
   - RPC_UsePotion
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - RPC_UpdateBoxColors
   DisableAutoOpenWizard: 1
