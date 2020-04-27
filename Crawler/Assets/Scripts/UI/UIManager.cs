@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
+		Invoke("UpdateBoxColors", 0.5f);
 	}
 
 	private void Update() {
@@ -180,7 +181,6 @@ public class UIManager : MonoBehaviour {
 
 	public void UpdateUIContent(string name, int health, int selected, int baseHealth) {
 		photonView.RPC("RPC_UpdateUIBoxContent", PhotonTargets.All, name, health, selected, baseHealth);
-		photonView.RPC("RPC_UpdateBoxColors", PhotonTargets.All);
 	}
 	public void CreateUIBoxes() {
 		photonView.RPC("RPC_CreateUIBoxes", PhotonTargets.AllBuffered);
@@ -241,11 +241,22 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	void RPC_UpdateBoxColors() {
+		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+		int p = 0;
 		for (int i = 0; i < UIBoxes.Length; i++) {
 			if (names[i].text != "No Player") {
-				UIBoxes[i].GetComponent<Image>().color = Color.white;
+				if (players[p].GetComponent<PlayerCharacter>().alive) {
+					UIBoxes[i].GetComponent<Image>().color = Color.white;
+				} else {
+					UIBoxes[i].GetComponent<Image>().color = new Color(1, 1, 1, 0.4f);
+				}
+				p++;
 			}
 		}
+	}
+
+	public void UpdateBoxColors() {
+		photonView.RPC("RPC_UpdateBoxColors", PhotonTargets.All);
 	}
 
 	[PunRPC]
