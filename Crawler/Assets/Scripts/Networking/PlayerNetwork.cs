@@ -146,12 +146,4 @@ public class PlayerNetwork : MonoBehaviour {
             playerName = "Player#" + Random.Range(1000, 9999);
         PhotonNetwork.LoadLevel(1);
     }
-
-    public void OnButtonHoverEnter(RectTransform rect) {
-        LeanTween.scale(rect, Vector3.one * 1.1f, .05f);
-    }
-
-    public void OnButtonHoverExit(RectTransform rect) {
-        LeanTween.scale(rect, Vector3.one, .05f);
-    }
 }
