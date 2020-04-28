@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   speed: 0
+  range: 0
+  npc: 0
   impulse: 0
   explosive: 0
   reflective: 0
@@ -160,7 +162,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1737373650554822963, guid: d415e96f7767ab549b2806c879fa4512,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
