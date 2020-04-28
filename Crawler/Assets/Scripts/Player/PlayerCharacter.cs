@@ -38,6 +38,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	private bool allPlayersFound;
 	public bool alive;
 	float playerCamOffset = 0.002f;
+	//float playerCamOffset = 2f;
 	//float specialCooldown = 3.0f;
 	float dashLength = 0.15f;
 	float specialTime;
@@ -64,6 +65,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector2 heading;
 	Vector2 direction;
 	float distance;
+
+	Vector3 camPos;
 
 
 	int projectilesPerAttack = 1;
@@ -107,6 +110,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeIndicator.transform.localScale = new Vector3(attackRange, .1f, 1);
 		meleeIndicator.transform.localPosition = new Vector3(attackRange / 2, 0, 0);
 		meleeIndicator.SetActive(false);
+		camPos = MainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
 		uim = GameObject.Find("UIManager").GetComponent<UIManager>();
 		var photonView = GetComponent<PhotonView>(); // Jos bugeja ni tässä.
 		Invoke("FindPlayers", 1f);
@@ -295,13 +299,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		startingPos = offsetPos;
 		playerCam.transform.position = startingPos;
 		while (elapsedTime < recoilTime) {
-			Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
-																				   //playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
-
-			//playerCam.transform.position = Vector3.Lerp(startingPos, startingPos - recoilOffset, (elapsedTime / recoilTime));
-
 			// Now recoils forward to the mouse direction when the backwards recoil ends, not back to the start direction. (forward recoil direction is updated every frame depeding on the mouse position)
-			playerCam.transform.position = Vector3.Lerp(startingPos, new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position, (elapsedTime / recoilTime));
+			playerCam.transform.position = Vector3.Lerp(startingPos, new Vector3((Input.mousePosition.x - camPos.x) * playerCamOffset, (Input.mousePosition.y - camPos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position, (elapsedTime / recoilTime));
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
@@ -354,6 +353,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				IndicatePlayers();
 			}
 
+			camPos = MainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
 
 			// Respawn
 			if (respawnTimer <= 0 || Input.GetKeyDown(KeyCode.R)) {
@@ -373,7 +373,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					// Oni
 					if (characterType == EntityType.Hero1)
 					{
-						// If neither of Onis attack animations are longer playing
+						// If neither of Onis attack animations are playing
 						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackBack"))
 						{
 							// Flip sprites back to normal
@@ -384,7 +384,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					// Dark Oni
 					if (characterType == EntityType.Hero3)
 					{
-						// If neither of Dark Onis attack animations are longer playing
+						// If neither of Dark Onis attack animations are playing
 						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackBack"))
 						{
 							// Flip sprites back to normal
@@ -407,37 +407,21 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						Attack();
 					}
 					// Camera recoil when shooting. Kinda shit tbh
-					if (ranged) {
+					if (ranged) 
+					{
 						shooting = true;
-
-						Vector3 camSP = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
-						Vector2 mouseVectorN = new Vector2(Input.mousePosition.x - camSP.x, Input.mousePosition.y - camSP.y).normalized;
-						//Vector3 campos = playerCam.transform.position;
-						//playerCam.transform.position = new Vector3(Mathf.Lerp(campos.x, -mouseVectorN.x, 0.5f) * 10, Mathf.Lerp(campos.y, -mouseVectorN.y, 0.5f) * 10, campos.z);
-
-						// When the player is still
-						if (movement.magnitude <= 0) {
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 1f, false));
-						} else {
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, 0.05f));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 0.05f, attackInterval / 2));
-							//StartCoroutine(recoil(new Vector3(-mouseVectorN.x, -mouseVectorN.y, 0f) * 1f, 5f, true));
-						}
 					}
-				} else {
-					if (ranged) {
+				}
+				else 
+				{
+					if (ranged) 
+					{
 						shooting = false;
 					}
 				}
 				// Movement input
 				movement.x = Input.GetAxisRaw("Horizontal");
 				movement.y = Input.GetAxisRaw("Vertical");
-
-
-				Vector3 camPosition = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
-				
 
 				// For testing weaponupgrades
 				if (Input.GetKeyDown(KeyCode.N)) {
@@ -446,6 +430,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 				if (Input.GetKeyDown(KeyCode.M)) {
 					weaponDowngrade();
+				}
+
+				// For debugging use only (might break something)
+				if(Input.GetKeyDown(KeyCode.B))
+				{
+					potion = true;
+					UsePotion();
 				}
 
 				if (weaponLevel > 0) {
@@ -464,17 +455,12 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// Camera movement
-				Vector3 mousePos = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
-				playerCam.transform.position = new Vector3((Input.mousePosition.x - mousePos.x) * playerCamOffset, (Input.mousePosition.y - mousePos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
-
-				// Setting the correct animation/stance depending on the current mouse position and if moving or not
-				Vector2 mouseVector = new Vector2(Input.mousePosition.x - mousePos.x, Input.mousePosition.y - mousePos.y);
-				//Debug.Log(mouseVector);
+				playerCam.transform.position = new Vector3((Input.mousePosition.x - camPos.x) * playerCamOffset, (Input.mousePosition.y - camPos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
+				//playerCam.transform.position = new Vector3((projHead.transform.position.x - transform.position.x) * playerCamOffset, (projHead.transform.position.y - transform.position.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
 
 
-
-				animator.SetFloat("Horizontal", mouseVector.x);
-				animator.SetFloat("Vertical", mouseVector.y);
+				animator.SetFloat("Horizontal", projHead.transform.right.x);
+				animator.SetFloat("Vertical", projHead.transform.right.y);
 				animator.SetFloat("Magnitude", movement.magnitude);
 
 
@@ -498,12 +484,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				if (dashing) {
-					//dashTimer += Time.deltaTime;
-					// Updating dashing direction mid dash with mouse position.
-					//Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
-					//dashVector = new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y);
-					// Updating dashing direction mid dash with keyboard inputs. Comment to have static direction
-					//dashVector = lastDir;
+
 					if (specialTime + dashLength <= Time.time) {
 						dashing = false;
 					}
@@ -521,7 +502,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 				// If remote camera is found follow a camera/player with current camNum.
 				if (camFound) {
-					//MainCamera.transform.position = players[camNum].transform.Find("Main Camera").transform.position;
 					MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
 				}
 			}
@@ -537,8 +517,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// If the player took more than 10 damage start recoil
 			if (damage > 10) {
 				// Scale recoil based on damage 
-				float recoilMultiplier = Mathf.Pow((float)damage, 2f) / 200f; // Nonlinear scaling, recoil difference between 10 and 20 dmg is 4x. Could also reverse this?
-																			  //float timeMult = (float)damage / 100;
+				float recoilMultiplier = damage / 20f;
+				//float timeMult = (float)damage / 100;
 				StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
 			var random = Random.Range(0, 4);
@@ -579,10 +559,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Dash() {
 		dashing = true;
 		dashVector = lastDir;
-		// Initial dash direction from mouse position
-		//Vector3 position = Camera.main.WorldToScreenPoint(transform.position);
-		//dashVector = new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y);
-		// Dashing to the last movement direction from keyboard inputs
 	}
 	void AreaDamage() {
 		photonView.RPC("RPC_AreaDamage", PhotonTargets.AllViaServer);
@@ -645,7 +621,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
 					}
 				}
-			//Debug.Log(rb2D.velocity.magnitude);
 		}
 	}
 
@@ -799,8 +774,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 		if (photonView.isMine)
 		{
-			Vector3 camPosition = Camera.main.WorldToScreenPoint(transform.position);
-			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPosition.x, Input.mousePosition.y - camPosition.y).normalized;
+			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPos.x, Input.mousePosition.y - camPos.y).normalized;
 			// Flip sprites when facing left, flip is reset at update when animation is no longer playing
 			if (mouseVector.x < 0)
 			{
@@ -810,7 +784,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// Play Oni attack animation
 			if (characterType == EntityType.Hero1) 
 			{
-				Debug.LogError(mouseVector);
+				//Debug.LogError(mouseVector);
 				
 				// When facing downwards
 				if (mouseVector.y <= 0)
@@ -837,22 +811,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					animator.SetTrigger("DarkOniAttackBack");
 				}
 			}
-		}
-		
-
-
-		//meleeIndicator.SetActive(true);
-		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
-	}
-	IEnumerator RotateMe(Vector3 byAngles, float inTime) {
-		print("Melee animation");
-		var fromAngle = Quaternion.Euler(rotator.transform.eulerAngles - byAngles);
-		var toAngle = Quaternion.Euler(rotator.transform.eulerAngles + byAngles);
-		for (var t = 0f; t < 1; t += Time.deltaTime / inTime) {
-			rotator.transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
-			if (t >= .9f)
-				meleeIndicator.SetActive(false);
-			yield return null;
 		}
 	}
 }
