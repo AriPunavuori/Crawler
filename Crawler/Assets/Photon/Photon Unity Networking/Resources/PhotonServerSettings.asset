@@ -59,4 +59,5 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - flipSprite
   DisableAutoOpenWizard: 1

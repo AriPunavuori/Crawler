@@ -422,7 +422,7 @@ MonoBehaviour:
   speed: 0
   health: 0
   specialCooldown: 0
-  attackTimer: 0
+  attackTime: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 3360601058127371607}
   projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
@@ -483,6 +483,12 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: Magnitude
+  - Type: 9
+    SynchronizeType: 2
+    Name: DarkOniAttackFront
+  - Type: 9
+    SynchronizeType: 2
+    Name: DarkOniAttackBack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

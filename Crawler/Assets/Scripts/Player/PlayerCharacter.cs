@@ -367,6 +367,35 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// When the player is alive
 			if (alive) {
 
+				// If sprites are flipped
+				if (spriteRenderer.flipX == true)
+				{
+					// Oni
+					if (characterType == EntityType.Hero1)
+					{
+						// If neither of Onis attack animations are longer playing
+						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackBack"))
+						{
+							// Flip sprites back to normal
+							spriteRenderer.flipX = false;
+							photonView.RPC("flipSprite", PhotonTargets.Others, false);
+						}
+					}
+					// Dark Oni
+					if (characterType == EntityType.Hero3)
+					{
+						// If neither of Dark Onis attack animations are longer playing
+						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackBack"))
+						{
+							// Flip sprites back to normal
+							spriteRenderer.flipX = false;
+							photonView.RPC("flipSprite", PhotonTargets.Others, false);
+						}
+					}
+
+				}
+
+
 				// Health potion input
 				if (Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f) {
 					UsePotion();
@@ -408,17 +437,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 				Vector3 camPosition = Camera.main.WorldToScreenPoint(transform.position); // name misleading?
-
-				if (animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttack")) {
-
-					if (Input.mousePosition.x - camPosition.x < 0) {
-						spriteRenderer.flipX = true;
-					} else {
-						spriteRenderer.flipX = false;
-					}
-				} else {
-					spriteRenderer.flipX = false;
-				}
+				
 
 				// For testing weaponupgrades
 				if (Input.GetKeyDown(KeyCode.N)) {
@@ -454,8 +473,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 
 
-				animator.SetFloat("Horizontal", projHead.transform.right.x);
-				animator.SetFloat("Vertical", projHead.transform.right.y);
+				animator.SetFloat("Horizontal", mouseVector.x);
+				animator.SetFloat("Vertical", mouseVector.y);
 				animator.SetFloat("Magnitude", movement.magnitude);
 
 
@@ -762,7 +781,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
 		}
 	}
-
+	[PunRPC]
+	public void flipSprite(bool flipped)
+	{
+		spriteRenderer.flipX = flipped;
+	}
 	[PunRPC]
 	public void Melee() {
 		if (PhotonNetwork.isMasterClient) {
@@ -774,10 +797,50 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 			}
 		}
-		// Play animation
-		if (characterType == EntityType.Hero1) {
-			animator.Play("LightOniAttack");
+		if (photonView.isMine)
+		{
+			Vector3 camPosition = Camera.main.WorldToScreenPoint(transform.position);
+			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPosition.x, Input.mousePosition.y - camPosition.y).normalized;
+			// Flip sprites when facing left, flip is reset at update when animation is no longer playing
+			if (mouseVector.x < 0)
+			{
+				spriteRenderer.flipX = true;
+				photonView.RPC("flipSprite", PhotonTargets.Others, true);
+			}
+			// Play Oni attack animation
+			if (characterType == EntityType.Hero1) 
+			{
+				Debug.LogError(mouseVector);
+				
+				// When facing downwards
+				if (mouseVector.y <= 0)
+				{
+					animator.SetTrigger("LightOniAttackFront");
+				}
+				// When facing upwards
+				else
+				{
+					animator.SetTrigger("LightOniAttackBack");
+				}
+			}
+			// Play Dark Oni animation
+			else if (characterType == EntityType.Hero3)
+			{
+				// When facing downwards
+				if (mouseVector.y <= 0)
+				{
+					animator.SetTrigger("DarkOniAttackFront");
+				}
+				// When facing upwards
+				else
+				{
+					animator.SetTrigger("DarkOniAttackBack");
+				}
+			}
 		}
+		
+
+
 		meleeIndicator.SetActive(true);
 		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
 	}
