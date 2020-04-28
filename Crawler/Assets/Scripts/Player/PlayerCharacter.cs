@@ -841,7 +841,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		
 
 
-		meleeIndicator.SetActive(true);
+		//meleeIndicator.SetActive(true);
 		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
 	}
 	IEnumerator RotateMe(Vector3 byAngles, float inTime) {
