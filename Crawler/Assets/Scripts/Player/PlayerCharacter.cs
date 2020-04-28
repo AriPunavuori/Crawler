@@ -439,6 +439,12 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					UsePotion();
 				}
 
+				// Teleport to boss
+				if(Input.GetKeyDown(KeyCode.T))
+				{
+					transform.position = new Vector3(68f, 137f, 0f);
+				}
+
 				if (weaponLevel > 0) {
 					if ((weaponDowngradeTimer - Time.deltaTime) > 0) {
 						weaponDowngradeTimer -= Time.deltaTime;
