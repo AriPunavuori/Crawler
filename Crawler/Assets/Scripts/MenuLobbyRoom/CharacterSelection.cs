@@ -11,6 +11,13 @@ public class CharacterSelection : MonoBehaviour {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopLoop("MenuLoop");
         AudioFW.PlayLoop("CharaterSelectionLoop");
+        Invoke("SelectFirstCharacter", 2.25f);
+    }
+
+    void SelectFirstCharacter() {
+        print("Select first");
+        print(buttons[0]);
+        buttons[0].Select();
     }
 
     public void OnClickPickCharacter(int c) {
