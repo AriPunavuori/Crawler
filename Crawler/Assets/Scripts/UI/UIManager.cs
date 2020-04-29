@@ -131,26 +131,34 @@ public class UIManager : MonoBehaviour {
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
 		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
-			SetInfoText(names[GetKeyPickerName(playerName)].text + " Picked up " + key, 2);
+			SetInfoText(names[GetRealName(playerName)].text + " Picked up " + key, 2);
 			keyUI.GetComponent<Image>().color = Color.white;
 		}
 	}
 
-	int GetKeyPickerName(string picker) {
-		if (picker == "NetworkPlayer0(Clone)") {
-			picker = names[0].text;
+	public void UpdateDeath(string playerName) {
+		SetInfoText(names[GetRealName(playerName)].text + " Has Died", 2);
+	}
+
+	public void UpdateRespawn(string playerName) {
+		SetInfoText(names[GetRealName(playerName)].text + " Has Respawned", 2);
+	}
+
+	int GetRealName(string playerName) {
+		if (playerName == "NetworkPlayer0(Clone)") {
+			playerName = names[0].text;
 		}
-		if (picker == "NetworkPlayer1(Clone)") {
-			picker = names[1].text;
+		if (playerName == "NetworkPlayer1(Clone)") {
+			playerName = names[1].text;
 		}
-		if (picker == "NetworkPlayer2(Clone)") {
-			picker = names[2].text;
+		if (playerName == "NetworkPlayer2(Clone)") {
+			playerName = names[2].text;
 		}
-		if (picker == "NetworkPlayer3(Clone)") {
-			picker = names[3].text;
+		if (playerName == "NetworkPlayer3(Clone)") {
+			playerName = names[3].text;
 		}
 		for (int i = 0; i < names.Length; i++) {
-			if (names[i].text == picker) {
+			if (names[i].text == playerName) {
 				return i;
 			}
 		}
@@ -241,16 +249,9 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	void RPC_UpdateBoxColors() {
-		GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-		int p = 0;
 		for (int i = 0; i < UIBoxes.Length; i++) {
 			if (names[i].text != "No Player") {
-				if (players[p].GetComponent<PlayerCharacter>().alive) {
-					UIBoxes[i].GetComponent<Image>().color = Color.white;
-				} else {
-					UIBoxes[i].GetComponent<Image>().color = new Color(1, 1, 1, 0.4f);
-				}
-				p++;
+				UIBoxes[i].GetComponent<Image>().color = Color.white;
 			}
 		}
 	}
