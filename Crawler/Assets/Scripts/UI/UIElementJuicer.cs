@@ -44,7 +44,7 @@ public class UIElementJuicer : MonoBehaviour {
 
     void MoveInDelayed() {
         destination = (Vector3)rectTransform.anchoredPosition + movementDelta;
-        LeanTween.move(rectTransform, destination, tweenLength).setEaseInOutElastic();
+        LeanTween.move(rectTransform, destination, tweenLength).setEaseInOutBack();
     }
 
     public void MoveOut(bool delayed) {
@@ -56,7 +56,7 @@ public class UIElementJuicer : MonoBehaviour {
 
     void MoveOutDelayed() {
         destination = (Vector3)rectTransform.anchoredPosition - movementDelta;
-        LeanTween.move(rectTransform, destination, tweenLength).setEaseInBack();
+        LeanTween.move(rectTransform, destination, tweenLength).setEaseInOutBack();
     }
 
     void EnableObjects() {

@@ -56,9 +56,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void PlayerLeftRoom(PhotonPlayer photonPlayer) {
-        print(photonPlayer.NickName + " left room");
-        print(playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer)); 
-        int index = playerListings.FindIndex(x => x.PhotonPlayer == photonPlayer); // Does not find proper index on the masterclient returns -1 and bypasses deletion
+        int index = playerListings.FindIndex(x => x.photonPlayer == photonPlayer);
         if(index != -1) {
             Destroy(playerListings[index].gameObject);
             playerListings.RemoveAt(index);
