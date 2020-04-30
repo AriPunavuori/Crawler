@@ -38,7 +38,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     bool camFound = false;
     private bool allPlayersFound;
     public bool alive;
-    float playerCamOffset = 0.002f;
+    float playerCamOffset = 0.00425f;
 
     float maxCamOffset = 4f;
     //float specialCooldown = 3.0f;
@@ -466,21 +466,22 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 }
 
                 // Camera movement
-                Vector3 newCamPos;
-                if(pfa.usingController) {
-                    newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
-                                            Input.GetAxis("Vertical2") * maxCamOffset,
-                                            playerCam.transform.position.z) + transform.position;
-                    LeanTween.cancel(playerCam);
-                    LeanTween.move(playerCam, newCamPos, .5f);
-                } else {
-                    newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
-                                            Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
-                                            playerCam.transform.position.z) + transform.position;
-                    playerCam.transform.position = newCamPos;
+                if(!stunned) {
+                    Vector3 newCamPos;
+                    if(pfa.usingController) {
+                        newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
+                                                Input.GetAxis("Vertical2") * maxCamOffset,
+                                                playerCam.transform.position.z) + transform.position;
+                        LeanTween.cancel(playerCam);
+                        LeanTween.move(playerCam, newCamPos, .5f);
+                    } else {
+                        newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
+                                                Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
+                                                playerCam.transform.position.z) + transform.position;
+                        LeanTween.cancel(playerCam);
+                        LeanTween.move(playerCam, newCamPos, .25f);
+                    }
                 }
-
-                //playerCam.transform.position = new Vector3((Input.mousePosition.x - camPos.x) * playerCamOffset, (Input.mousePosition.y - camPos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
 
                 animator.SetFloat("Horizontal", projHead.transform.right.x);
                 animator.SetFloat("Vertical", projHead.transform.right.y);
@@ -540,9 +541,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
             // If the player took more than 10 damage start recoil
             if(damage > 10) {
                 // Scale recoil based on damage 
-                float recoilMultiplier = damage / 20f;
+                float recoilMultiplier = damage / 40f;
                 //float timeMult = (float)damage / 100;
-                StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
+                LeanTween.move(playerCam, playerCam.transform.position + -recoilOffset * recoilMultiplier, .25f).setEaseOutExpo();
+                Stun(.25f);
+                //StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
             }
             var random = Random.Range(0, 4);
             AudioFW.Play("PlayerTakesDamage" + random);
