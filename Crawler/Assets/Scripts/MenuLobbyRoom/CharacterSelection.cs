@@ -22,6 +22,7 @@ public class CharacterSelection : MonoBehaviour {
     public void OnClickPickCharacter(int c) {
         AudioFW.StopLoop("CharaterSelectionLoop");
         LeanTween.cancel(chooseText, true);
+        LeanTween.scale(chooseText, Vector3.one, 0f);
         chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
         LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
         Invoke("PlayAudioDelayed", .25f);
