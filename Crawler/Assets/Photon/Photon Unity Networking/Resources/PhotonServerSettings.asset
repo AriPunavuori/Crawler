@@ -34,6 +34,7 @@ MonoBehaviour:
   - flipSprite
   - InstantiateRpc
   - Melee
+  - MeleeAttackSpawner
   - OpenDoorAll
   - PickupItemInit
   - PunPickup
@@ -47,26 +48,20 @@ MonoBehaviour:
   - RPC_CreatePlayer
   - RPC_CreateUIBoxes
   - RPC_DisableButton
+  - RPC_fireAtAllTargets
   - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
   - RPC_NewHealth
   - RPC_PickedCharacter
   - RPC_Push
+  - RPC_PushAttack
+  - RPC_rotateBurstRoutineMult
+  - RPC_SpawnEnemies
   - RPC_UpdateBoxColors
   - RPC_UpdateUIBoxContent
   - RPC_UsePotion
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - rotateBurts
-  - rotateBurstRPC
-  - RPC_rotateBurst
-  - fireAtAllTargets
-  - RPC_fireAtAllTargets
-  - RPC_SpawnEnemies
-  - rotateBurstRoutineMult
-  - RPC_rotateBurstRoutineMult
-  - RPC_PushAttack
-  - MeleeAttackSpawner
   DisableAutoOpenWizard: 1
