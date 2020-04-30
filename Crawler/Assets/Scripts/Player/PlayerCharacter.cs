@@ -654,6 +654,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		speed *= 1.25f;
 		if (photonView.isMine) {
 			uim.UpdateSpeedBoost();
+			AudioFW.Play("SpeedBoost");
 		}
 	}
 
@@ -661,6 +662,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if (photonView.isMine) {
 			uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
 			uim.SetInfoText("Picked up a weapon upgrade", 2);
+			AudioFW.Play("WeaponUpgrade");
 		}
 		Debug.Log("Weapon level upgraded");
 		if (ranged) {
