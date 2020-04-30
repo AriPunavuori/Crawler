@@ -47,8 +47,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
 	public bool shooting;
-	public bool stunned;
-	float stunDeactTime;
 
 	float damageCooldownLength = .5f;
 	float timeDamageTaken;
@@ -91,7 +89,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
 		meleeIndicator.SetActive(false);
 		alive = true;
-		stunned = false;
 		rb2D = GetComponent<Rigidbody2D>();
 		col = GetComponent<CircleCollider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -194,6 +191,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void Die() {
 		respawnTimer = respawnTime;
 		Debug.Log(gameObject.name + " died");
+		uim.UpdateDeath(gameObject.name);
 		rb2D.isKinematic = true;
 		rb2D.velocity = Vector2.zero;
 		movement.x = 0;
@@ -204,7 +202,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		// Enable ProjectileHeading child GameObject
 		projHead.SetActive(false);
 		alive = false;
-		uim.UpdateBoxColors();
 
 		// Clear all weapon upgrade stacks (SetCharacterAttributes is run at respawn)
 		projectilesPerAttStack.Clear();
@@ -235,6 +232,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	[PunRPC]
 	void respawn() {
 		Debug.Log(gameObject.name + " respawned");
+		uim.UpdateRespawn(gameObject.name);
 		// Spawn at currently chosen remote cam/player position
 		gameObject.transform.position = players[camNum].transform.position;
 		// Fix camera position
@@ -249,7 +247,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		// Enable ProjectileHeading child GameObject
 		projHead.SetActive(true);
 		alive = true;
-		uim.UpdateBoxColors();
 	}
 
 
@@ -350,18 +347,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 	void Update() {
-		
-
 		if (photonView.isMine) {
 			// Player Direction Indicator
 			if (allPlayersFound == true) {
 				IndicatePlayers();
-			}
-
-			if (Time.time >= stunDeactTime && stunned)
-			{
-				stunned = false;
-				rb2D.drag = 0;
 			}
 
 			camPos = MainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
@@ -379,25 +368,20 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			if (alive) {
 
 				// If sprites are flipped
-				if (spriteRenderer.flipX == true)
-				{
+				if (spriteRenderer.flipX == true) {
 					// Oni
-					if (characterType == EntityType.Hero1)
-					{
+					if (characterType == EntityType.Hero1) {
 						// If neither of Onis attack animations are playing
-						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackBack"))
-						{
+						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackBack")) {
 							// Flip sprites back to normal
 							spriteRenderer.flipX = false;
 							photonView.RPC("flipSprite", PhotonTargets.Others, false);
 						}
 					}
 					// Dark Oni
-					if (characterType == EntityType.Hero3)
-					{
+					if (characterType == EntityType.Hero3) {
 						// If neither of Dark Onis attack animations are playing
-						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackBack"))
-						{
+						if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackBack")) {
 							// Flip sprites back to normal
 							spriteRenderer.flipX = false;
 							photonView.RPC("flipSprite", PhotonTargets.Others, false);
@@ -418,15 +402,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						Attack();
 					}
 					// Camera recoil when shooting. Kinda shit tbh
-					if (ranged) 
-					{
+					if (ranged) {
 						shooting = true;
 					}
-				}
-				else 
-				{
-					if (ranged) 
-					{
+				} else {
+					if (ranged) {
 						shooting = false;
 					}
 				}
@@ -444,15 +424,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// For debugging use only (might break something)
-				if(Input.GetKeyDown(KeyCode.B))
-				{
+				if (Input.GetKeyDown(KeyCode.B)) {
 					potion = true;
 					UsePotion();
 				}
 
 				// Teleport to boss
-				if(Input.GetKeyDown(KeyCode.T))
-				{
+				if (Input.GetKeyDown(KeyCode.T)) {
 					transform.position = new Vector3(68f, 137f, 0f);
 				}
 
@@ -562,13 +540,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
 	}
 
-	public void Stun(float stunTime)
-	{
-		rb2D.drag = 10f;
-		stunned = true;
-		stunDeactTime = Time.time + stunTime;
-	}
-
 	[PunRPC]
 	void RPC_AreaHeal() {
 		AudioFW.Play("Heal");
@@ -634,24 +605,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		// Move the PlayerCharacter of the correct player
 		if (photonView.isMine) {
 			if (rb2D != null)
-				if(!stunned)
-				{
-					if (dashing)
-					{
-						//rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * dashFactor;
-						rb2D.velocity = dashVector.normalized * speed * dashFactor;
-					}
-					else
-					{
-						if (!shooting)
-						{
-							rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
-						}
-						else
-						{
-							// When player is shooting slow his movement speed. Could also do for melee
-							rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
-						}
+				if (dashing) {
+					//rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * dashFactor;
+					rb2D.velocity = dashVector.normalized * speed * dashFactor;
+				} else {
+					if (!shooting) {
+						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
+					} else {
+						// When player is shooting slow his movement speed. Could also do for melee
+						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
 					}
 				}
 		}
@@ -790,8 +752,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 	[PunRPC]
-	public void flipSprite(bool flipped)
-	{
+	public void flipSprite(bool flipped) {
 		spriteRenderer.flipX = flipped;
 	}
 	[PunRPC]
@@ -805,42 +766,34 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 			}
 		}
-		if (photonView.isMine)
-		{
+		if (photonView.isMine) {
 			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPos.x, Input.mousePosition.y - camPos.y).normalized;
 			// Flip sprites when facing left, flip is reset at update when animation is no longer playing
-			if (mouseVector.x < 0)
-			{
+			if (mouseVector.x < 0) {
 				spriteRenderer.flipX = true;
 				photonView.RPC("flipSprite", PhotonTargets.Others, true);
 			}
 			// Play Oni attack animation
-			if (characterType == EntityType.Hero1) 
-			{
+			if (characterType == EntityType.Hero1) {
 				//Debug.LogError(mouseVector);
-				
+
 				// When facing downwards
-				if (mouseVector.y <= 0)
-				{
+				if (mouseVector.y <= 0) {
 					animator.SetTrigger("LightOniAttackFront");
 				}
 				// When facing upwards
-				else
-				{
+				else {
 					animator.SetTrigger("LightOniAttackBack");
 				}
 			}
 			// Play Dark Oni animation
-			else if (characterType == EntityType.Hero3)
-			{
+			else if (characterType == EntityType.Hero3) {
 				// When facing downwards
-				if (mouseVector.y <= 0)
-				{
+				if (mouseVector.y <= 0) {
 					animator.SetTrigger("DarkOniAttackFront");
 				}
 				// When facing upwards
-				else
-				{
+				else {
 					animator.SetTrigger("DarkOniAttackBack");
 				}
 			}
