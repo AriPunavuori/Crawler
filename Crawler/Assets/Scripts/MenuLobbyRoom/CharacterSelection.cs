@@ -16,12 +16,15 @@ public class CharacterSelection : MonoBehaviour {
     }
 
     void PumpText() {
+        foreach(var button in buttons) {
+            button.interactable = true;
+        }
         LeanTween.scale(chooseText, Vector3.one * 1.2f, 2f).setLoopPingPong().setEaseInOutSine();
     }
 
     public void OnClickPickCharacter(int c) {
         AudioFW.StopLoop("CharaterSelectionLoop");
-        LeanTween.cancel(chooseText, true);
+        LeanTween.cancel(chooseText);
         LeanTween.scale(chooseText, Vector3.one, 0f);
         chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
         LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
