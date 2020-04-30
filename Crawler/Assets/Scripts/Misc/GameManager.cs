@@ -13,6 +13,7 @@ public class GameManager : Photon.MonoBehaviour {
 	bool triggerUIUpdate;
 	bool gameOver;
 	bool gameReady = false;
+	bool bossSpawned = false;
 	GameObject[] players;
 
 
@@ -30,6 +31,11 @@ public class GameManager : Photon.MonoBehaviour {
 			foreach (GameObject i in players) {
 				if (i.GetComponent<PlayerCharacter>().alive) {
 					alivePlayers++;
+					if(gameReady && i.transform.position.y > 137 && !bossSpawned)
+					{
+						PhotonNetwork.Instantiate("BossEnemy", new Vector3(68.5f, 147.5f, 0f), Quaternion.identity, 0);
+						bossSpawned = true;
+					}
 				}
 			}
 			if (alivePlayers == PhotonNetwork.playerList.Length) {

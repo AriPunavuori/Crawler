@@ -47,6 +47,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
 	public bool shooting;
+	public bool stunned;
+	float stunDeactTime;
 
 	float damageCooldownLength = .5f;
 	float timeDamageTaken;
@@ -89,6 +91,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
 		meleeIndicator.SetActive(false);
 		alive = true;
+		stunned = false;
 		rb2D = GetComponent<Rigidbody2D>();
 		col = GetComponent<CircleCollider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -347,10 +350,18 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 	void Update() {
+		
+
 		if (photonView.isMine) {
 			// Player Direction Indicator
 			if (allPlayersFound == true) {
 				IndicatePlayers();
+			}
+
+			if (Time.time >= stunDeactTime && stunned)
+			{
+				stunned = false;
+				rb2D.drag = 0;
 			}
 
 			camPos = MainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
@@ -551,6 +562,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
 	}
 
+	public void Stun(float stunTime)
+	{
+		rb2D.drag = 10f;
+		stunned = true;
+		stunDeactTime = Time.time + stunTime;
+	}
+
 	[PunRPC]
 	void RPC_AreaHeal() {
 		AudioFW.Play("Heal");
@@ -616,15 +634,24 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		// Move the PlayerCharacter of the correct player
 		if (photonView.isMine) {
 			if (rb2D != null)
-				if (dashing) {
-					//rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * dashFactor;
-					rb2D.velocity = dashVector.normalized * speed * dashFactor;
-				} else {
-					if (!shooting) {
-						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
-					} else {
-						// When player is shooting slow his movement speed. Could also do for melee
-						rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
+				if(!stunned)
+				{
+					if (dashing)
+					{
+						//rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * dashFactor;
+						rb2D.velocity = dashVector.normalized * speed * dashFactor;
+					}
+					else
+					{
+						if (!shooting)
+						{
+							rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed;
+						}
+						else
+						{
+							// When player is shooting slow his movement speed. Could also do for melee
+							rb2D.velocity = new Vector2(movement.x * speed, movement.y * speed).normalized * speed * 0.7f;
+						}
 					}
 				}
 		}

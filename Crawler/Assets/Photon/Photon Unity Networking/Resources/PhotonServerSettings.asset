@@ -59,4 +59,14 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - rotateBurts
+  - rotateBurstRPC
+  - RPC_rotateBurst
+  - fireAtAllTargets
+  - RPC_fireAtAllTargets
+  - RPC_SpawnEnemies
+  - rotateBurstRoutineMult
+  - RPC_rotateBurstRoutineMult
+  - RPC_PushAttack
+  - MeleeAttackSpawner
   DisableAutoOpenWizard: 1
