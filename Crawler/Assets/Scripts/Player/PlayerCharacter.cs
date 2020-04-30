@@ -543,7 +543,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 // Scale recoil based on damage 
                 float recoilMultiplier = damage / 40f;
                 //float timeMult = (float)damage / 100;
-                LeanTween.move(playerCam, playerCam.transform.position + -recoilOffset * recoilMultiplier, .25f).setEaseOutExpo();
+                LeanTween.move(playerCam, playerCam.transform.position + recoilOffset * recoilMultiplier, .25f).setEaseOutExpo();
                 Stun(.25f);
                 //StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
             }
