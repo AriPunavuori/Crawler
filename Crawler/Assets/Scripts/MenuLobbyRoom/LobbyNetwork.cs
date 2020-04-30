@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyNetwork : MonoBehaviour {
     bool beenToLobby;
+    Button buttonCreate;
     void Start() {
+        buttonCreate = GameObject.Find("ButtonCreate").GetComponent<Button>();
         if(!PhotonNetwork.connected) {
             print("Connecting to server");
             PhotonNetwork.ConnectUsingSettings("0.0.0");
@@ -20,6 +23,7 @@ public class LobbyNetwork : MonoBehaviour {
 
     void OnJoinedLobby() {
         print("Joined lobby");
+        buttonCreate.interactable = true;
         if(!PhotonNetwork.inRoom) {
             Invoke("SwitchCanvas", .5f);
             if(beenToLobby) {

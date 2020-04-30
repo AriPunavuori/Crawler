@@ -21,8 +21,6 @@ public class CreateRoom : MonoBehaviour {
         print("Create room failed: " + codeAndMessage[1]);
     }
     void OnCreatedRoom() {
-        var buttonStart = GameObject.Find("ButtonStart").GetComponent<Button>();
-        buttonStart.Select();
         print("Created room successfully");
     }
 }

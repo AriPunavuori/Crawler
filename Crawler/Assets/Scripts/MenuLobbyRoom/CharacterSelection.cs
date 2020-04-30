@@ -2,27 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class CharacterSelection : MonoBehaviour {
 
     public Button[] buttons;
-
+    public GameObject chooseText;
 
     private void Start() {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopLoop("MenuLoop");
         AudioFW.PlayLoop("CharaterSelectionLoop");
-        Invoke("SelectFirstCharacter", 2.25f);
+        Invoke("PumpText", 2.25f);
     }
 
-    void SelectFirstCharacter() {
-        print("Select first");
-        print(buttons[0]);
-        buttons[0].Select();
+    void PumpText() {
+        foreach(var button in buttons) {
+            button.interactable = true;
+        }
+        LeanTween.scale(chooseText, Vector3.one * 1.2f, 2f).setLoopPingPong().setEaseInOutSine();
     }
 
     public void OnClickPickCharacter(int c) {
         AudioFW.StopLoop("CharaterSelectionLoop");
-        Invoke("PlayAudioDelayed", .1f);
+        LeanTween.cancel(chooseText);
+        LeanTween.scale(chooseText, Vector3.one, 0f);
+        chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
+        LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
+        Invoke("PlayAudioDelayed", .25f);
         PlayerNetwork.Instance.selectedCharacter = c;
         PlayerNetwork.Instance.PickedCharacter(c);
     }

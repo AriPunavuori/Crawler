@@ -76,7 +76,6 @@ public class PlayerNetwork : MonoBehaviour {
         }
     }
 
-
     public void NewHealth(PhotonPlayer photonPlayer, int health) {
         PhotonView.RPC("RPC_NewHealth", photonPlayer, health);
     }
@@ -89,11 +88,9 @@ public class PlayerNetwork : MonoBehaviour {
         if(health <= 0) {
             print("Should die already");
             pc.Die();
-            //PhotonView.RPC("Die", PhotonTargets.Others);
         } else
             pc.health = health;
     }
-
 
     [PunRPC]
     void RPC_DisableButton(int selected) {
@@ -155,6 +152,7 @@ public class PlayerNetwork : MonoBehaviour {
             playerName = "Player#" + Random.Range(1000, 9999);
         Invoke("LoadMenu", .5f);
     }
+
     void LoadMenu() {
         PhotonNetwork.LoadLevel(1);
     }

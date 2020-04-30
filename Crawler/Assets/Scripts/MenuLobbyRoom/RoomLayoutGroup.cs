@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoomLayoutGroup : MonoBehaviour {
 
@@ -14,6 +15,7 @@ public class RoomLayoutGroup : MonoBehaviour {
         }
         RemoveOldRooms();
     }
+
     void RoomReceived(RoomInfo room) {
         int index = roomListingButtons.FindIndex(x => x.roomName == room.Name);
         if(index == -1) {
@@ -22,7 +24,6 @@ public class RoomLayoutGroup : MonoBehaviour {
                 roomListingObj.transform.SetParent(transform, false);
                 RoomListing roomListing = roomListingObj.GetComponent<RoomListing>();
                 roomListingButtons.Add(roomListing);
-
                 index = (roomListingButtons.Count - 1);
             }
         }
@@ -32,6 +33,7 @@ public class RoomLayoutGroup : MonoBehaviour {
             roomListing.updated = true;
         }
     }
+
     void RemoveOldRooms() {
         List<RoomListing> removeRooms = new List<RoomListing>();
         foreach(var roomListing in roomListingButtons) {

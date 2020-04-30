@@ -1,19 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using TMPro;
 
 public class HealthChangeIndicator : MonoBehaviour {
     public TextMeshProUGUI healthText;
     float lifeTime = 1f;
-    float timeToDestroy;
-    void Update() {
-        transform.position += Vector3.up * Time.deltaTime;
-        if(Time.time > timeToDestroy)
-            Destroy(gameObject);
+    Action doDestroy;
+    
+    void Start() {
+        doDestroy += DoDestroy;
+        LeanTween.move(gameObject, transform.position + Vector3.up, lifeTime).setEaseOutCirc().setOnComplete(doDestroy);
     }
+
+    void DoDestroy() {
+        Destroy(gameObject);
+    }
+
     public void SetHealthChangeText(int change) {
-        timeToDestroy = Time.time + lifeTime;
         healthText.text = "" + change;
     }
 }
