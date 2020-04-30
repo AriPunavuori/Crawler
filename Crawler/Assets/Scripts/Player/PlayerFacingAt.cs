@@ -7,6 +7,8 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
     public GameObject controllerPointer;
     public Camera myCam;
     public AudioListener myMic;
+    public bool usingController;
+    public Vector2 input;
     Vector2 mousePos;
     Vector2 preMousePos;
 
@@ -32,12 +34,14 @@ public class PlayerFacingAt : Photon.MonoBehaviour {
                 Vector2 dir = (Vector2)Input.mousePosition - pos;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                usingController = false;
             }
-            Vector2 input = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
+            input = new Vector2(Input.GetAxis("Horizontal2"), Input.GetAxis("Vertical2"));
             if(input.magnitude > 0.2f) {
                 Cursor.visible = false;
                 controllerPointer.SetActive(true);
                 transform.right = input;
+                usingController = true;
             }
             preMousePos = mousePos;
         }
