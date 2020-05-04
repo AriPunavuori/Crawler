@@ -45,7 +45,7 @@ public class GameManager : Photon.MonoBehaviour {
 			//Debug.Log(gameReady);
 			if (alivePlayers == 0 && gameReady) {
 				Debug.Log("Restarting game");
-				PhotonNetwork.LoadLevel(3);
+				PhotonNetwork.LoadLevel(4);
 			}
 		}
 	}
