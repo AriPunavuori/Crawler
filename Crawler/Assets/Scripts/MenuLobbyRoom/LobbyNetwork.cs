@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LobbyNetwork : MonoBehaviour {
     bool beenToLobby;
     Button buttonCreate;
+    public InputField roomInput;
     void Start() {
         buttonCreate = GameObject.Find("ButtonCreate").GetComponent<Button>();
         if(!PhotonNetwork.connected) {
@@ -24,6 +25,10 @@ public class LobbyNetwork : MonoBehaviour {
     void OnJoinedLobby() {
         print("Joined lobby");
         buttonCreate.interactable = true;
+        if(PlayerPrefs.GetString("RoomName") != "") {
+            roomInput.text = PlayerPrefs.GetString("RoomName");
+        }
+        
         if(!PhotonNetwork.inRoom) {
             Invoke("SwitchCanvas", .5f);
             if(beenToLobby) {
