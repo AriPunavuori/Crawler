@@ -36,8 +36,8 @@ public class ToxicArea : MonoBehaviour {
         //    photonView.RPC("Choking", photonView.owner, false);
         //if(PhotonNetwork.isMasterClient) {
         IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-        if(players.ContainsKey(iDamageable)) ;
-        players.Remove(iDamageable);
+        if(players.ContainsKey(iDamageable))
+            players.Remove(iDamageable);
         //}
     }
 }
