@@ -276,8 +276,8 @@ public class EnemyCharacter : Character, IDamageable<int> {
 			}
 		}
 		// Play animation
-		meleeIndicator.SetActive(true);
-		StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
+		//meleeIndicator.SetActive(true);
+		//StartCoroutine(RotateMe(Vector3.forward * 85, attackInterval * .3f));
 	}
 	IEnumerator RotateMe(Vector3 byAngles, float inTime) {
 		//print("Melee animation");
