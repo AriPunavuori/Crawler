@@ -46,6 +46,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float specialTime;
 	float respawnTime = 18.0f;
 	float respawnTimer;
+	float speedDowngradeTime = 20f;
+	public float speedDowngradeTimer = 20f;
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
 	public bool shooting;
@@ -218,6 +220,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeDamagesStack.Clear();
 		meleeIntervalsStack.Clear();
 
+		speedDowngradeTimer = speedDowngradeTime;
 		weaponDowngradeTimer = weaponDowngradeTime;
 
 		weaponLevel = 0;
@@ -432,11 +435,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 				// For testing weaponupgrades
 				if (Input.GetKeyDown(KeyCode.N)) {
-					GetWeaponUpgrade();
+					SpeedDowngrade();
 				}
 
 				if (Input.GetKeyDown(KeyCode.M)) {
-					weaponDowngrade();
+					GetSpeedBoost();
 				}
 
 				// For debugging use only (might break something)
@@ -448,6 +451,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				// Teleport to boss
 				if (Input.GetKeyDown(KeyCode.T)) {
 					transform.position = new Vector3(68f, 137f, 0f);
+				}
+
+				if (speedLevel > 0) {
+					if ((speedDowngradeTimer - Time.deltaTime) > 0) {
+						speedDowngradeTimer -= Time.deltaTime;
+					} else {
+						speedDowngradeTimer = 0;
+					}
+					if (speedDowngradeTimer <= 0) {
+						SpeedDowngrade();
+					}
 				}
 
 				if (weaponLevel > 0) {
@@ -589,6 +603,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Dash() {
+		AudioFW.Play("Dash");
 		dashing = true;
 		dashVector = lastDir;
 	}
@@ -689,11 +704,27 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 
-	public void GetSpeed() {
-		speed *= 1.25f;
+	public void GetSpeedBoost() {
 		if (photonView.isMine) {
 			AudioFW.Play("SpeedBoost");
-			uim.UpdateSpeedBoost();
+			uim.setSpeedBoostUITimer(speedDowngradeTime, speedLevel + 1);
+			uim.SetInfoText("Picked up a speed boost", 2);
+		}
+		speed *= 1.25f;
+		speedDowngradeTimer = speedDowngradeTime;
+		speedLevel++;
+	}
+
+	public void SpeedDowngrade() {
+		if (speedLevel > 0) {
+			if (speedLevel > 1) {
+				uim.setSpeedBoostUITimer(speedDowngradeTime, speedLevel - 1);
+			} else {
+				uim.setSpeedBoostUITimer(0, 0);
+			}
+			speed /= 1.25f;
+			speedDowngradeTimer = speedDowngradeTime;
+			speedLevel--;
 		}
 	}
 
