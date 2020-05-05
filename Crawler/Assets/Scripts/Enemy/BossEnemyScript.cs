@@ -660,6 +660,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 if (health <= 0)
                     if (gameObject != null)
                     {
+                        GameManager.Instance.gameWon = true;
                         PhotonNetwork.Destroy(gameObject);
                     }
             }
