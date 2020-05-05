@@ -6,6 +6,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 
 public class GameManager : Photon.MonoBehaviour {
+	public static GameManager Instance;
 	int keys = 0;
 	UIManager um;
 
@@ -14,10 +15,12 @@ public class GameManager : Photon.MonoBehaviour {
 	bool gameOver;
 	bool gameReady = false;
 	bool bossSpawned = false;
+	public bool gameWon;
 	GameObject[] players;
 
 
 	private void Start() {
+		Instance = this;
 		um = FindObjectOfType<UIManager>();
 		AudioFW.StopAllSounds();
 		AudioFW.PlayLoop("GameLoop");
@@ -47,6 +50,8 @@ public class GameManager : Photon.MonoBehaviour {
 				Debug.Log("Restarting game");
 				PhotonNetwork.LoadLevel(3);
 			}
+			if(gameWon)
+				PhotonNetwork.LoadLevel(4);
 		}
 	}
 

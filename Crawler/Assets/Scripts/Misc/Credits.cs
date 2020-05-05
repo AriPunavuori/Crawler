@@ -10,7 +10,7 @@ public class Credits : MonoBehaviour {
         watchedOutro += WatchOutro;
         if(PlayerPrefs.GetInt("OutroSeen") == 1)
             skipOutro.interactable = true;
-        LeanTween.move(outroText, Vector2.up * 1300, 43f).setOnComplete(watchedOutro);
+        LeanTween.move(outroText, Vector2.up * 1300, 43f).setOnComplete(watchedOutro).setEaseOutSine();
         AudioFW.StopAllSounds();
         AudioFW.Play("Credits");
     }

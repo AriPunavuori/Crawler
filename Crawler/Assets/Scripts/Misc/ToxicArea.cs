@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ToxicArea : MonoBehaviour {
     Dictionary<IDamageable<int>, float> players = new Dictionary<IDamageable<int>, float>();
-    public float damageInterval = 1f;
-    public int damage = 2;
+    float damageInterval = .5f;
+    int damage = 2;
 
     private void FixedUpdate() {
         IDamageable<int>[] iDamageables = players.Keys.ToArray<IDamageable<int>>();
