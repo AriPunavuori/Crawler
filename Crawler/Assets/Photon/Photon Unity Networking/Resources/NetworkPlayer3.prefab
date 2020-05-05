@@ -372,7 +372,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.2
 --- !u!114 &4557386998223016675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
   health: 0
   specialCooldown: 0
   attackTime: 0
+  speedLevel: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 3360601058127371607}
   projectilePrefab: {fileID: 3619504373449961812, guid: b5f9e636651deb44bb8f52342c73f3d2,
@@ -434,9 +435,12 @@ MonoBehaviour:
     type: 3}
   damageEffectParticles: {fileID: 3624877892322573566, guid: 95a0566f7e9d87c47adc0dea35fc68f1,
     type: 3}
+  potion: 0
   alive: 0
+  speedDowngradeTimer: 20
   weaponDowngradeTimer: 20
   shooting: 0
+  stunned: 0
   animator: {fileID: 7299574491484445715}
   playerCam: {fileID: 6508414762956245411}
   uim: {fileID: 4704620280472466728, guid: 2811434311e4ccc45a461e6da1510602, type: 3}
@@ -544,6 +548,8 @@ MonoBehaviour:
   controllerPointer: {fileID: 6465887583207506116}
   myCam: {fileID: 8232067719783499084}
   myMic: {fileID: 5410793457140261223}
+  usingController: 0
+  input: {x: 0, y: 0}
 --- !u!114 &4130861848050650059
 MonoBehaviour:
   m_ObjectHideFlags: 0
