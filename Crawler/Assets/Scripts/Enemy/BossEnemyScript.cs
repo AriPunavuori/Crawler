@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
-    int baseHealth = 9000;
+    int baseHealth;
     public int health;
     int bossStage;
     LayerMask layerMaskPlayer;
@@ -41,6 +41,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     // Start is called before the first frame update
     void Start()
     {
+        baseHealth = 5000 * PlayerNetwork.Instance.numberOfPlayers;
         health = baseHealth;
         bossStage = 1;
         //projSpawnRot = ProjectileRotator.transform.rotation;
@@ -445,7 +446,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
                 if(!fightStarted)
                 {
-                    foundPlayers = Physics2D.OverlapCircleAll(transform.position, 4f, layerMaskPlayer);
+                    foundPlayers = Physics2D.OverlapCircleAll(transform.position, 7f, layerMaskPlayer);
                     //Debug.Log(foundPlayers.Length);
                     if(foundPlayers.Length == PhotonNetwork.room.PlayerCount)
                     {
