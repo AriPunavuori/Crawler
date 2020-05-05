@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
-    public int health = 1000;
+    public int health = 3000;
     int bossStage;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
@@ -18,7 +18,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     bool pushAttackFin = true;
     bool rotateBurstFin = true;
     float rotateBurstTime;
-    float rotateBurstCooldown = 10f;
+    float rotateBurstCooldown = 20f;
     bool fireAtTargetsFin = true;
     bool meleeAttackFin = true;
     Collider2D[] foundPlayers;
@@ -456,6 +456,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 if (fightStarted && bossStage == 1)
                 {
                     updateMeleeRange(30f, 2f, false, 0);
+
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
                         Debug.Log("ds");
@@ -532,11 +533,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     }
                 }
 
-                if (health <= 750 && bossStage == 1)
+                if (health <= 2000 && bossStage == 1)
                 {
                     updateBossStage(2);
                 }
-                if(health <= 500 && bossStage == 2)
+                if(health <= 1000 && bossStage == 2)
                 {
                     updateBossStage(3);
                 }
