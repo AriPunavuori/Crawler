@@ -49,7 +49,10 @@ MonoBehaviour:
   - RPC_CreateUIBoxes
   - RPC_DisableButton
   - RPC_fireAtTargets
+  - RPC_GameLost
+  - RPC_GameWon
   - RPC_LoadCharacterSelection
+  - RPC_LoadCreditsOthers
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
   - RPC_NewHealth
@@ -65,5 +68,4 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - RPC_LoadCreditsOthers
   DisableAutoOpenWizard: 1

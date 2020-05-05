@@ -9,7 +9,7 @@ public class GameManager : Photon.MonoBehaviour {
 	public static GameManager Instance;
 	int keys = 0;
 	UIManager um;
-
+	public PlayerCharacter pc;
 	float counter;
 	bool triggerUIUpdate;
 	bool gameOver;
@@ -47,11 +47,17 @@ public class GameManager : Photon.MonoBehaviour {
 			//Debug.Log("Players alive: " + alivePlayers);
 			//Debug.Log(gameReady);
 			if (alivePlayers == 0 && gameReady) {
-				Debug.Log("Restarting game");
-				PhotonNetwork.LoadLevel(3);
+				//Playercharacter RPC_GameWon
+				gameReady = false;
+				print("PlayerCharacter.GameLost");
+				pc.GameLost();
 			}
-			if(gameWon)
-				PhotonNetwork.LoadLevel(4);
+			if(gameWon) {
+				//Playercharacter RPC_GameWon
+				gameWon = false;
+				print("PlayerCharacter.GameWon");
+				pc.GameWon();
+			}
 		}
 	}
 

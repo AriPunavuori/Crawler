@@ -18,6 +18,7 @@ public class Credits : MonoBehaviour {
     void WatchOutro() {
         PlayerPrefs.SetInt("OutroSeen", 1);
         skipOutro.interactable = true;
+        skipOutro.Select();
     }
 
     public void OnClickQuitGame() {
