@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
-		Invoke("UpdateBoxColors", 0.5f);
+		Invoke("UpdateBoxColors", 1f);
 	}
 
 	private void Update() {
