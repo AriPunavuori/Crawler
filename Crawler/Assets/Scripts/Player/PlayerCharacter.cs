@@ -92,7 +92,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
     // Scene switching
     bool gameWon;
     bool switchingScene;
-    float sceneTimer = 5f;
+    float sceneTimer = 15f;
 
 
     public void GameWon() {

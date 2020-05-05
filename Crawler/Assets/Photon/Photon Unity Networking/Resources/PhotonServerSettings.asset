@@ -45,6 +45,7 @@ MonoBehaviour:
   - respawn
   - RPC_AreaDamage
   - RPC_AreaHeal
+  - RPC_BossDefeated
   - RPC_CreatePlayer
   - RPC_CreateUIBoxes
   - RPC_DisableButton
