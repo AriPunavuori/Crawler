@@ -326,7 +326,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					distance = heading.magnitude;
 					direction = heading / distance;
 					DirectionIndicator1.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-				} else {
+                    if (PlayerTarget1.GetComponent<PlayerCharacter>().alive == false)
+                    {
+                        DirectionIndicator1.SetActive(false);
+                    }
+                } else {
 					DirectionIndicator1.SetActive(false);
 				}
 			}
@@ -338,7 +342,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						distance = heading.magnitude;
 						direction = heading / distance;
 						DirectionIndicator2.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-					} else {
+                        if (PlayerTarget2.GetComponent<PlayerCharacter>().alive == false)
+                        {
+                            DirectionIndicator2.SetActive(false);
+                        }
+                    } else {
 						DirectionIndicator2.SetActive(false);
 					}
 				}
@@ -350,7 +358,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 							distance = heading.magnitude;
 							direction = heading / distance;
 							DirectionIndicator3.transform.position = Physics2D.Raycast(MainCamera.transform.position, direction, Mathf.Infinity, layerMaskIndicator, Mathf.Infinity, Mathf.Infinity).point;
-						} else {
+                            if (PlayerTarget3.GetComponent<PlayerCharacter>().alive == false)
+                            {
+                                DirectionIndicator3.SetActive(false);
+                            }
+                        } else {
 							DirectionIndicator3.SetActive(false);
 						}
 					}
