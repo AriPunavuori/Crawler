@@ -11,7 +11,7 @@ public class ToxicArea : MonoBehaviour {
     private void FixedUpdate() {
         IDamageable<int>[] iDamageables = players.Keys.ToArray<IDamageable<int>>();
         for(int i = 0; i < iDamageables.Length; i++) {
-            if(players[iDamageables[i]]< Time.time) {
+            if(players[iDamageables[i]] < Time.time) {
                 iDamageables[i].TakeDamage(damage, Vector3.zero);
                 players[iDamageables[i]] = Time.time + damageInterval;
             }
@@ -19,19 +19,23 @@ public class ToxicArea : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-        if(iDamageable != null) {
-            if(!players.ContainsKey(iDamageable)) {
-                players[iDamageable] = 0f;
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+            IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                if(!players.ContainsKey(iDamageable)) {
+                    players[iDamageable] = 0f;
+                }
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-        if(iDamageable != null) {
-            if(players.ContainsKey(iDamageable)) {
-                players.Remove(iDamageable);
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Player")) {
+            IDamageable<int> iDamageable = collision.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+            if(iDamageable != null) {
+                if(players.ContainsKey(iDamageable)) {
+                    players.Remove(iDamageable);
+                }
             }
         }
     }
