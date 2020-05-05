@@ -48,7 +48,7 @@ MonoBehaviour:
   - RPC_CreatePlayer
   - RPC_CreateUIBoxes
   - RPC_DisableButton
-  - RPC_fireAtAllTargets
+  - RPC_fireAtTargets
   - RPC_LoadCharacterSelection
   - RPC_LoadedGameScene
   - RPC_LoadGameOthers
@@ -57,14 +57,12 @@ MonoBehaviour:
   - RPC_Push
   - RPC_PushAttack
   - RPC_rotateBurstRoutineMult
-  - RPC_SpawnEnemies
+  - RPC_startFight
+  - RPC_updateBossStage
   - RPC_UpdateBoxColors
   - RPC_UpdateUIBoxContent
   - RPC_UsePotion
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - RPC_startFight
-  - RPC_fireAtTargets
-  - RPC_updateBossStage
   DisableAutoOpenWizard: 1
