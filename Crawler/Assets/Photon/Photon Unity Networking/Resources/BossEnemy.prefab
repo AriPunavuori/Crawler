@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2df49c5897d86e43980c0e05d7e8ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 900030000
   meleerangeColliders: []
   ProjectileRotator: {fileID: 8302525885081540478, guid: ddb37b5019b4233499cc044b4af1a28d,
     type: 3}
