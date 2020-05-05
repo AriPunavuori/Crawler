@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025724090e111bc469c7728c99461589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: {fileID: 0}
+  roomNameInput: {fileID: 0}
   startGame: {fileID: 0}
 --- !u!114 &731488389
 MonoBehaviour:
@@ -1889,7 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025724090e111bc469c7728c99461589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: {fileID: 0}
+  roomNameInput: {fileID: 0}
   startGame: {fileID: 0}
 --- !u!114 &1572994143
 MonoBehaviour:
@@ -2766,6 +2766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107fb3b435003ee488e7a1f757de90ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomInput: {fileID: 1824483406}
 --- !u!114 &1842493646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2833,7 +2834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025724090e111bc469c7728c99461589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: {fileID: 1074734769}
+  roomNameInput: {fileID: 1074734769}
   startGame: {fileID: 731488389}
 --- !u!114 &1908196883
 MonoBehaviour:

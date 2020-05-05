@@ -1,10 +1,14 @@
-﻿using System.IO;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerNetwork : MonoBehaviour {
+    public Button skipIntro;
+    public GameObject Intro;
+    public GameObject nameEntry;
+    public RectTransform introText;
     public static PlayerNetwork Instance;
     public string playerName;
     public InputField input;
@@ -16,6 +20,7 @@ public class PlayerNetwork : MonoBehaviour {
     public bool joined;
     PlayerCharacter pc;
     bool[] selectedCharacters = new bool[4];
+    Action watchedIntro;
 
     void Awake() {
         Instance = this;
@@ -26,6 +31,24 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     private void Start() {
+        watchedIntro += WatchIntro;
+        input.text = PlayerPrefs.GetString("Name");
+        //PlayerPrefs.SetInt("IntroSeen", 0);
+        if(PlayerPrefs.GetInt("IntroSeen") == 1)
+            skipIntro.interactable = true;
+        LeanTween.move(introText, Vector2.up * 1900, 50f).setOnComplete(watchedIntro);
+        AudioFW.PlayLoop("IntroLoop");
+    }
+
+    void WatchIntro() {
+        PlayerPrefs.SetInt("IntroSeen", 1);
+        skipIntro.interactable = true;
+    }
+
+    public void NameEntry() {
+        Intro.SetActive(false);
+        nameEntry.SetActive(true);
+        AudioFW.StopAllSounds();
         AudioFW.PlayLoop("MenuLoop");
     }
 
@@ -146,10 +169,12 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     public void OnClickStartButton() {
-        if(input.text != null) {
+
+        if(input.text != "") {
+            PlayerPrefs.SetString("Name", input.text);
             playerName = input.text;
         } else
-            playerName = "Player#" + Random.Range(1000, 9999);
+            playerName = "Player#" + UnityEngine.Random.Range(1000, 9999);
         Invoke("LoadMenu", .5f);
     }
 

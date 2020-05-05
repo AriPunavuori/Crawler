@@ -19,15 +19,22 @@ public class UIManager : MonoBehaviour {
 
 	GameObject keysUI;
 	GameObject potion;
-	GameObject speedBoost;
 	public TextMeshProUGUI infoText;
 	float eraseTextTime;
 
 	public Image powerup;
-	// powerupBG is active if player has stacked powerups
-	public Image powerupBG;
+	public Image powerupBG; // powerupBG is active if player has stacked powerups
 	public TextMeshProUGUI powerupLevelText;
+
+	public Image speedBoost;
+	public Image speedBoostBG;
+	public TextMeshProUGUI speedBoostLevelText;
+
 	float speedBoostTime;
+	float speedBoostTimer;
+	bool speedBoostTimerStarted;
+	int speedBoostLevel;
+
 	float powerUpTime;
 	float powerUpTimer;
 	bool powerUpTimerStarted;
@@ -45,9 +52,8 @@ public class UIManager : MonoBehaviour {
 		keysUI = GameObject.Find("Keys");
 		potion = GameObject.Find("PotionUI");
 		potion.SetActive(false);
-		speedBoost = GameObject.Find("SpeedBoostUI");
-		speedBoost.SetActive(false);
-		//powerup = GameObject.Find("Powerup").GetComponent<Image>();
+		speedBoostTimerStarted = false;
+		speedBoostLevel = 0;
 		powerUpTimerStarted = false;
 		powerupLevel = 0;
 		infoText = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
@@ -65,13 +71,43 @@ public class UIManager : MonoBehaviour {
 			infoText.text = "";
 			eraseTextTime = 0;
 		}
-		if (Time.time >= speedBoostTime) {
-			speedBoost.SetActive(false);
-		}
 
 		if (Time.time < cooldownFinishTime && specialBarReduced) {
 			SpecialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
 		}
+
+		#region speedboost UI handling
+		if (speedBoostLevel > 0) {
+			// Enable powerup level text if any powerup is active
+			speedBoostLevelText.text = speedBoostLevel.ToString();
+			// bg enabled if player has stacked powerups
+			if (speedBoostLevel > 1) {
+				speedBoostBG.enabled = true;
+			} else {
+				speedBoostBG.enabled = false;
+			}
+		} else {
+			speedBoostBG.enabled = false;
+			speedBoostLevelText.text = "";
+		}
+
+		if (speedBoostTimerStarted) {
+
+			if (speedBoostTimer - Time.deltaTime < 0) {
+				speedBoostTimer = 0;
+			} else {
+				speedBoostTimer -= Time.deltaTime;
+			}
+
+			speedBoost.fillAmount = speedBoostTimer / speedBoostTime;
+
+			if (speedBoostTime <= 0) {
+				speedBoostTimerStarted = false;
+			}
+		} else {
+			speedBoost.fillAmount = 0;
+		}
+		#endregion
 
 		#region powerup UI handling
 		if (powerupLevel > 0) {
@@ -125,6 +161,18 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void setSpeedBoostUITimer(float time, int speedlevel) {
+		if (time > 0) {
+			speedBoostTimerStarted = true;
+			speedBoostTime = time;
+			speedBoostTimer = speedBoostTime;
+			speedBoostLevel = speedlevel;
+		} else {
+			speedBoostTimerStarted = false;
+			speedBoostLevel = 0;
+		}
+	}
+
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
 		print(playerName + "updatekeys");
@@ -171,14 +219,6 @@ public class UIManager : MonoBehaviour {
 		} else {
 			potion.SetActive(true);
 			SetInfoText("Picked up a health potion", 2);
-		}
-	}
-
-	public void UpdateSpeedBoost() {
-		if (!speedBoost.activeSelf) {
-			speedBoost.SetActive(true);
-			SetInfoText("Picked up a speed boost", 2);
-			speedBoostTime = Time.time + 2;
 		}
 	}
 

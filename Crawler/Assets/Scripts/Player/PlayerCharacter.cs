@@ -15,6 +15,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Sprite lightOnileft;
 	Sprite darkMagiLeft;
 	Sprite darkOniLeft;
+	PlayerFacingAt pfa;
 	GameObject projHead;
 	GameObject[] players;
 	GameObject MainCamera;
@@ -32,18 +33,21 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	LayerMask layerMaskPlayer;
 	LayerMask layerMaskIndicator;
 	int camNum = 0;
-	bool potion;
+	public bool potion;
 	bool dashing = false;
 	bool camFound = false;
 	private bool allPlayersFound;
 	public bool alive;
-	float playerCamOffset = 0.002f;
-	//float playerCamOffset = 2f;
+	float playerCamOffset = 0.00425f;
+
+	float maxCamOffset = 4f;
 	//float specialCooldown = 3.0f;
 	float dashLength = 0.15f;
 	float specialTime;
 	float respawnTime = 18.0f;
 	float respawnTimer;
+	float speedDowngradeTime = 20f;
+	public float speedDowngradeTimer = 20f;
 	float weaponDowngradeTime = 20f;
 	public float weaponDowngradeTimer = 20f;
 	public bool shooting;
@@ -87,7 +91,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	void Start() {
 		respawnTimer = respawnTime;
+
 		rotator = transform.Find("ProjectileHeading").gameObject;
+		pfa = rotator.GetComponent<PlayerFacingAt>();
 		meleeIndicator = rotator.transform.Find("MeleeIndicator").gameObject;
 		meleeIndicator.SetActive(false);
 		alive = true;
@@ -214,6 +220,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		meleeDamagesStack.Clear();
 		meleeIntervalsStack.Clear();
 
+		speedDowngradeTimer = speedDowngradeTime;
 		weaponDowngradeTimer = weaponDowngradeTime;
 
 		weaponLevel = 0;
@@ -428,11 +435,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 				// For testing weaponupgrades
 				if (Input.GetKeyDown(KeyCode.N)) {
-					GetWeaponUpgrade();
+					SpeedDowngrade();
 				}
 
 				if (Input.GetKeyDown(KeyCode.M)) {
-					weaponDowngrade();
+					GetSpeedBoost();
 				}
 
 				// For debugging use only (might break something)
@@ -444,6 +451,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				// Teleport to boss
 				if (Input.GetKeyDown(KeyCode.T)) {
 					transform.position = new Vector3(68f, 137f, 0f);
+				}
+
+				if (speedLevel > 0) {
+					if ((speedDowngradeTimer - Time.deltaTime) > 0) {
+						speedDowngradeTimer -= Time.deltaTime;
+					} else {
+						speedDowngradeTimer = 0;
+					}
+					if (speedDowngradeTimer <= 0) {
+						SpeedDowngrade();
+					}
 				}
 
 				if (weaponLevel > 0) {
@@ -462,9 +480,22 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// Camera movement
-				playerCam.transform.position = new Vector3((Input.mousePosition.x - camPos.x) * playerCamOffset, (Input.mousePosition.y - camPos.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
-				//playerCam.transform.position = new Vector3((projHead.transform.position.x - transform.position.x) * playerCamOffset, (projHead.transform.position.y - transform.position.y) * playerCamOffset, playerCam.transform.position.z) + transform.position;
-
+				if (!stunned) {
+					Vector3 newCamPos;
+					if (pfa.usingController) {
+						newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
+												Input.GetAxis("Vertical2") * maxCamOffset,
+												playerCam.transform.position.z) + transform.position;
+						LeanTween.cancel(playerCam);
+						LeanTween.move(playerCam, newCamPos, .5f);
+					} else {
+						newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
+												Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
+												playerCam.transform.position.z) + transform.position;
+						LeanTween.cancel(playerCam);
+						LeanTween.move(playerCam, newCamPos, .25f);
+					}
+				}
 
 				animator.SetFloat("Horizontal", projHead.transform.right.x);
 				animator.SetFloat("Vertical", projHead.transform.right.y);
@@ -524,9 +555,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			// If the player took more than 10 damage start recoil
 			if (damage > 10) {
 				// Scale recoil based on damage 
-				float recoilMultiplier = damage / 20f;
+				float recoilMultiplier = damage / 40f;
 				//float timeMult = (float)damage / 100;
-				StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
+				LeanTween.move(playerCam, playerCam.transform.position + recoilOffset * recoilMultiplier, .25f).setEaseOutExpo();
+				Stun(.25f);
+				//StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
 			var random = Random.Range(0, 4);
 			AudioFW.Play("PlayerTakesDamage" + random);
@@ -570,6 +603,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Dash() {
+		AudioFW.Play("Dash");
 		dashing = true;
 		dashVector = lastDir;
 	}
@@ -670,15 +704,33 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 	}
 
-	public void GetSpeed() {
-		speed *= 1.25f;
+	public void GetSpeedBoost() {
 		if (photonView.isMine) {
-			uim.UpdateSpeedBoost();
+			AudioFW.Play("SpeedBoost");
+			uim.setSpeedBoostUITimer(speedDowngradeTime, speedLevel + 1);
+			uim.SetInfoText("Picked up a speed boost", 2);
+		}
+		speed *= 1.25f;
+		speedDowngradeTimer = speedDowngradeTime;
+		speedLevel++;
+	}
+
+	public void SpeedDowngrade() {
+		if (speedLevel > 0) {
+			if (speedLevel > 1) {
+				uim.setSpeedBoostUITimer(speedDowngradeTime, speedLevel - 1);
+			} else {
+				uim.setSpeedBoostUITimer(0, 0);
+			}
+			speed /= 1.25f;
+			speedDowngradeTimer = speedDowngradeTime;
+			speedLevel--;
 		}
 	}
 
 	public void GetWeaponUpgrade() {
 		if (photonView.isMine) {
+			AudioFW.Play("WeaponUpgrade");
 			uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
 			uim.SetInfoText("Picked up a weapon upgrade", 2);
 		}
@@ -777,6 +829,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 	[PunRPC]
 	public void Melee() {
+		int random = Random.Range(0, 4);
+		AudioFW.Play("PlrMelee" + random);
 		if (PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
 			foreach (var hit in hits) {
