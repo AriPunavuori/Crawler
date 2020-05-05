@@ -12,7 +12,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     LayerMask layerMaskEnemy;
     public Collider2D[] meleerangeColliders;
     float meleeRangeTimer;
-    float maxMeleeRangeTime = 3f;
+    float maxMeleeRangeTime = 2.5f;
     float enemySpawnTime;
     float enemySpawnCooldown = 5f;
     bool enemiesSpawned = true;
@@ -252,7 +252,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         }
         if(proj)
         {
-            proj.GetComponent<Projectile>().LaunchProjectile(dmg, 3f, speed, dir, true);
+            proj.GetComponent<Projectile>().LaunchProjectile(dmg, 10f, speed, dir, true);
         }
         // Last projectile is fired and the action has finished
         //if(last)
@@ -421,20 +421,31 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 if (Random.Range(1, 3) == 1)
                 {
                     pushAttackFin = false;
-                    pushAttack(force, warningTime);
+                    pushAttack(force, warningTime / 1.5f);
                     meleeRangeTimer = 0;
                 }
                 else
                 {
-                    meleeAttackFin = false;
-                    MeleeAttack(1f, 360, dmg, 1, 0, 0, 1f);
-                    meleeRangeTimer = 0;
+                    if(Random.Range(1, 3) == 1)
+                    {
+                        meleeAttackFin = false;
+                        MeleeAttack(1f, 360, dmg, 1, Random.Range(0,360), 0, warningTime);
+                        meleeRangeTimer = 0;
+                    }
+                    else
+                    {
+                        meleeAttackFin = false;
+                        MeleeAttack(2.5f, 360, dmg, 4, Random.Range(0, 360), 90, warningTime);
+                        meleeRangeTimer = 0;
+                    }
+
+                    
                 }
             }
             else
             {
                 pushAttackFin = false;
-                pushAttack(force, warningTime);
+                pushAttack(force, warningTime / 1.5f);
                 meleeRangeTimer = 0;
             }
             
@@ -465,7 +476,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 //Debug.Log("rotateBurstFin: " + rotateBurstFin);
                 if (fightStarted && bossStage == 1)
                 {
-                    updateMeleeRange(30f, 2f, false, 0);
+                    updateMeleeRange(50f, 2f, false, 0);
 
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
@@ -493,10 +504,10 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     enemySpawnTime = Time.time + 5f;
 
                     // Now you can only be in melee range for 2 continous seconds before melee attack is initiated
-                    maxMeleeRangeTime = 2f;
+                    maxMeleeRangeTime = 1.5f;
 
                     // Melee hand attack is now enabled
-                    updateMeleeRange(30f, 2f, true, 50);
+                    updateMeleeRange(80f, 2f, true, 50);
 
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
@@ -517,44 +528,47 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     }
                 }
 
-                if (fightStarted && bossStage == 3)
-                {
-                    // First enemy spawn of the stage happens after 5 seconds
-                    enemySpawnTime = Time.time + 5f;
+                //if (fightStarted && bossStage == 3)
+                //{
+                //    // First enemy spawn of the stage happens after 5 seconds
+                //    enemySpawnTime = Time.time + 5f;
 
-                    updateMeleeRange(50f, 1f, true, 50);
+                //    updateMeleeRange(50f, 1f, true, 50);
 
-                    if (fireAtTargetsFin && rotateBurstFin)
-                    {
-                        Debug.Log("ds");
-                        fireAtTargetsFin = false;
-                        fireAtTargets(3.5f, 20, true, true, 0.5f);
-                    }
-                    if (Time.time > rotateBurstTime && rotateBurstFin)
-                    {
-                        rotateBurstFin = false;
-                        rotateBurstRoutineMult(10f, 360, 3, 8, 60);
-                    }
-                    if (enemiesSpawned && Time.time > enemySpawnTime)
-                    {
-                        enemiesSpawned = false;
-                        spawnEnemies(3, 4);
-                        enemySpawnTime = Time.time + 15f;
-                    }
-                }
+                //    if (fireAtTargetsFin && rotateBurstFin)
+                //    {
+                //        Debug.Log("ds");
+                //        fireAtTargetsFin = false;
+                //        fireAtTargets(3.5f, 20, true, true, 0.5f);
+                //    }
+                //    if (Time.time > rotateBurstTime && rotateBurstFin)
+                //    {
+                //        rotateBurstFin = false;
+                //        rotateBurstRoutineMult(10f, 360, 3, 8, 60);
+                //    }
+                //    if (enemiesSpawned && Time.time > enemySpawnTime)
+                //    {
+                //        enemiesSpawned = false;
+                //        spawnEnemies(3, 4);
+                //        enemySpawnTime = Time.time + 15f;
+                //    }
+                //}
                 
 
                 if (health <= (baseHealth * ((float)2 /3)) && bossStage == 1)
                 {
                     updateBossStage(2);
                 }
-                if(health <= (baseHealth * ((float)1 /3)) && bossStage == 2)
+                //if(health <= (baseHealth * ((float)1 /3)) && bossStage == 2)
+                //{
+                //    updateBossStage(3);
+                //}
+
+
+                if(Input.GetKeyDown(KeyCode.U))
                 {
-                    updateBossStage(3);
+                    updateBossStage(2);
                 }
-
-
-
 
                 //if (Input.GetKeyDown(KeyCode.U))
                 //{
@@ -601,6 +615,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     {
         transform.GetComponent<SpriteRenderer>().color = Color.yellow;
         yield return new WaitForSeconds(warningTime);
+        rotator.gameObject.transform.GetChild(0).GetComponent<Collider2D>().enabled = true;
         float rotDelta = 0;
         float elapsedTime = 0;
         Quaternion startRot = new Quaternion();
@@ -641,6 +656,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         for (int i = 0; i < spawnAmount; i++)
         {
             GameObject rotator = Instantiate(MeleeRotator, transform.position, startRot, transform);
+            //rotator.GetComponent<Collider2D>().enabled = false; // Done in prefab
             startRot.eulerAngles += new Vector3(0, 0, angle);
             StartCoroutine(MeleeAttackRotator(time, rotationAmount, dmg, rotator, warningTime));
         }

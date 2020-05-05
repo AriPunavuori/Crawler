@@ -69,5 +69,4 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - BossDefeated
   DisableAutoOpenWizard: 1
