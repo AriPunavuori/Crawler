@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
-    public int health = 30000;
+    int baseHealth = 9000;
+    public int health;
     int bossStage;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
@@ -40,6 +41,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     // Start is called before the first frame update
     void Start()
     {
+        health = baseHealth;
         bossStage = 1;
         //projSpawnRot = ProjectileRotator.transform.rotation;
         layerMaskPlayer = LayerMask.GetMask("Player");
@@ -532,12 +534,13 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                         enemySpawnTime = Time.time + 15f;
                     }
                 }
+                
 
-                if (health <= 20000 && bossStage == 1)
+                if (health <= (baseHealth * ((float)2 /3)) && bossStage == 1)
                 {
                     updateBossStage(2);
                 }
-                if(health <= 10000 && bossStage == 2)
+                if(health <= (baseHealth * ((float)1 /3)) && bossStage == 2)
                 {
                     updateBossStage(3);
                 }
