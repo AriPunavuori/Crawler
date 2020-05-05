@@ -216,6 +216,7 @@ public class EnemyCharacter : Character, IDamageable<int> {
 			healthText.text = "" + health;
 			if (health <= 0)
 				if (gameObject != null) {
+					AudioFW.Play("EnemyDeath");
 					PhotonNetwork.Destroy(gameObject);
 				}
 		} else {
@@ -266,6 +267,11 @@ public class EnemyCharacter : Character, IDamageable<int> {
 
 	[PunRPC]
 	public void Melee() {
+		if (characterType == EntityType.Enemy3) {
+			AudioFW.Play("AlienAttack");
+		} else if (characterType == EntityType.Enemy2) {
+			AudioFW.Play("SpiderAttack");
+		}
 		rotator.transform.right = target - rotator.transform.position; // Turn rotator
 		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskPlayer);
 		foreach (var hit in hits) {
