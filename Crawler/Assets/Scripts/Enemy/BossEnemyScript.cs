@@ -52,6 +52,13 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         enemySpawnTime = Time.time + enemySpawnCooldown;
     }
 
+    
+    [PunRPC]
+    void RPC_BossDefeated()
+    {
+        GameManager.Instance.gameWon = true;
+    }
+
 
     [PunRPC]
     public void RPC_startFight()
@@ -665,7 +672,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 if (health <= 0)
                     if (gameObject != null)
                     {
-                        GameManager.Instance.gameWon = true;
+                        photonView.RPC("RPC_BossDefeated", PhotonTargets.MasterClient);
                         PhotonNetwork.Destroy(gameObject);
                     }
             }
