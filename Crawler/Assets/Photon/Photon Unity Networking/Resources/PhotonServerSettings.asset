@@ -65,4 +65,5 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - RPC_LoadCreditsOthers
   DisableAutoOpenWizard: 1

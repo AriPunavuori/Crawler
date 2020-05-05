@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
-    public int health = 3000;
+    public int health = 30000;
     int bossStage;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
@@ -533,11 +533,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     }
                 }
 
-                if (health <= 2000 && bossStage == 1)
+                if (health <= 20000 && bossStage == 1)
                 {
                     updateBossStage(2);
                 }
-                if(health <= 1000 && bossStage == 2)
+                if(health <= 10000 && bossStage == 2)
                 {
                     updateBossStage(3);
                 }

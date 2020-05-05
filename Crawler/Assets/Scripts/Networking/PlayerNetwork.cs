@@ -64,6 +64,24 @@ public class PlayerNetwork : MonoBehaviour {
             else
                 NonMasterLoadedGame();
         }
+        if(scene.name == "Credits")
+        {
+            if (PhotonNetwork.isMasterClient)
+            {
+                MasterLoadedCredits();
+            }
+        }
+    }
+
+    void MasterLoadedCredits()
+    {
+        PhotonView.RPC("RPC_LoadCreditsOthers", PhotonTargets.Others);
+    }
+
+    [PunRPC]
+    void RPC_LoadCreditsOthers()
+    {
+        PhotonNetwork.LoadLevel(4);
     }
 
     void MasterLoadedCharacterSelection() {
