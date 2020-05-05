@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour {
 
     float timeToDestroy = 3.5f;
     float launchTime;
+    bool launched = false;
 
     private void Awake() {
         rb2D = GetComponent<Rigidbody2D>();
@@ -60,12 +61,20 @@ public class Projectile : MonoBehaviour {
             var random = Random.Range(0, 4);
             AudioFW.Play("PlayerShoot" + random);
         }
+        launched = true;
+        Debug.Log("launched");
     }
 
     void FixedUpdate() {
-        if(Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy) {
-            DestroyProjectile();
+
+        if(launched)
+        {
+            if (Vector2.Distance(transform.position, origPos) > range || Time.time > launchTime + timeToDestroy)
+            {
+                DestroyProjectile();
+            }
         }
+        
         if(!impulse) {
             rb2D.velocity = Vector2.zero;
             rb2D.velocity = direction * Time.fixedDeltaTime * speed * 50;
@@ -98,6 +107,14 @@ public class Projectile : MonoBehaviour {
             transform.right = direction;
             //reflective = false;
             impulse = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.name == "BossShield")
+        {
+            DestroyProjectile();
         }
     }
 

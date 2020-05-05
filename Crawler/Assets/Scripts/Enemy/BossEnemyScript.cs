@@ -2,14 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum BossStage {Stage1, Stage2, Stage3 };
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
     public int health = 1000;
-    BossStage bossStage = BossStage.Stage1;
+    int bossStage;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
+    public Collider2D[] meleerangeColliders;
+    float meleeRangeTimer;
+    float maxMeleeRangeTime = 3f;
+    float enemySpawnTime;
+    float enemySpawnCooldown = 5f;
+    bool enemiesSpawned = true;
+    bool pushAttackFin = true;
+    bool rotateBurstFin = true;
+    float rotateBurstTime;
+    float rotateBurstCooldown = 10f;
+    bool fireAtTargetsFin = true;
+    bool meleeAttackFin = true;
+    Collider2D[] foundPlayers;
+    bool fightStarted = false;
+    bool immune = true;
     List<Collider2D> playerColliders = new List<Collider2D>();
     List<GameObject> playerTargets = new List<GameObject>();
     List<Collider2D> enemyColliders = new List<Collider2D>();
@@ -26,10 +40,38 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     // Start is called before the first frame update
     void Start()
     {
+        bossStage = 1;
         //projSpawnRot = ProjectileRotator.transform.rotation;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskEnemy = LayerMask.GetMask("Enemy");
         updateTargets();
+        rotateBurstTime = Time.time + rotateBurstCooldown;
+        enemySpawnTime = Time.time + enemySpawnCooldown;
+    }
+
+
+    [PunRPC]
+    public void RPC_startFight()
+    {
+        transform.GetChild(1).gameObject.SetActive(false);
+        immune = false;
+        fightStarted = true;
+    }
+    public void startFight()
+    {
+        photonView.RPC("RPC_startFight", PhotonTargets.AllViaServer);
+    }
+
+    [PunRPC]
+    public void RPC_updateBossStage(int stage)
+    {
+        bossStage = stage;
+        Debug.Log("Bossstage updated");
+        Debug.Log("Bosstage: " + bossStage);
+    }
+    public void updateBossStage(int stage)
+    {
+        photonView.RPC("RPC_updateBossStage", PhotonTargets.AllViaServer, stage);
     }
 
     void updateTargets()
@@ -83,12 +125,6 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         }
     }
 
-    [PunRPC]
-    void RPC_SpawnEnemies(int type, int amount)
-    {
-        
-        
-    }
 
     void spawnEnemies(int type, int amount)
     {
@@ -98,6 +134,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             EnemySpawnRotator.transform.rotation = enemySpawnRot;
             PhotonNetwork.Instantiate(enemyType[type], EnemySpawn.transform.position, Quaternion.identity, 0);
         }
+        enemiesSpawned = true;
     }
 
     /// <summary>
@@ -105,24 +142,113 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     /// </summary>
     /// <param name="speed"></param>
     /// <param name="dmg"></param>
-    void fireAtAllTargets(float speed, int dmg, bool homing)
+    void fireAtTargets(float speed, int dmg, bool homing, bool onlyRangeds, float chargeTime)
     {
-        photonView.RPC("RPC_fireAtAllTargets", PhotonTargets.AllViaServer, speed, dmg, homing);
+        photonView.RPC("RPC_fireAtTargets", PhotonTargets.AllViaServer, speed, dmg, homing, onlyRangeds, chargeTime);
+    }
+
+    void finishFAT()
+    {
+        fireAtTargetsFin = true;
     }
 
     [PunRPC]
-    void RPC_fireAtAllTargets(float speed, int dmg, bool homing)
+    void RPC_fireAtTargets(float speed, int dmg, bool homing, bool onlyRangeds, float chargeTime)
     {
+        //fireAtTargetsFin = false;
         updateTargets();
-        foreach(GameObject target in playerTargets)
+        for(int i = 0; i < playerTargets.Count; i++)
         {
-            Vector2 dir = (target.transform.position - transform.position).normalized;
-            GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
-            Projectile projectile = projectileClone.GetComponent<Projectile>();
-            projectile.target = target;
-            projectile.homing = homing;
-            projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
+            //bool last = false;
+            GameObject target = playerTargets[i];
+            //if(i == (playerTargets.Count - 1))
+            //{
+            //    last = true;
+            //}
+            if (onlyRangeds)
+            {
+                if (target.GetComponent<Character>().ranged)
+                {
+                    Vector2 dir = (target.transform.position - transform.position).normalized;
+                    GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
+                    //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                    Projectile projectile = projectileClone.GetComponent<Projectile>();
+                    projectile.damage = dmg;
+                    projectile.target = target;
+                    projectile.homing = homing;
+                    StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
+                    //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
+                }
+            }
+            else
+            {
+                Vector2 dir = (target.transform.position - transform.position).normalized;
+                GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
+                //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                Projectile projectile = projectileClone.GetComponent<Projectile>();
+                projectile.damage = dmg;
+                projectile.target = target;
+                projectile.homing = homing;
+                StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
+                //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
+            }
         }
+        // Maybe better to use this if projectile gets destroyed mid charge
+        Invoke("finishFAT", chargeTime);
+
+        //foreach(GameObject target in playerTargets)
+        //{
+        //    if(onlyRangeds)
+        //    {
+        //        if(target.GetComponent<Character>().ranged)
+        //        {
+        //            Vector2 dir = (target.transform.position - transform.position).normalized;
+        //            GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
+        //            //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //            Projectile projectile = projectileClone.GetComponent<Projectile>();
+        //            projectile.target = target;
+        //            projectile.homing = homing;
+        //            StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
+        //            //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Vector2 dir = (target.transform.position - transform.position).normalized;
+        //        GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
+        //        //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //        Projectile projectile = projectileClone.GetComponent<Projectile>();
+        //        projectile.target = target;
+        //        projectile.homing = homing;
+        //        StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
+        //        //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
+        //    }
+        //}
+    }
+
+    IEnumerator chargeProjectile(float speed, int dmg, float chargeTime, Vector2 dir, GameObject proj)
+    {
+        float elapsedTime = 0;
+        float scalingFactor = 0;
+        while(elapsedTime < chargeTime)
+        {
+            elapsedTime += Time.deltaTime;
+            scalingFactor = elapsedTime / chargeTime;
+            if(proj)
+            {
+                proj.GetComponent<Transform>().localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+            }
+            yield return null;
+        }
+        if(proj)
+        {
+            proj.GetComponent<Projectile>().LaunchProjectile(dmg, 3f, speed, dir, true);
+        }
+        // Last projectile is fired and the action has finished
+        //if(last)
+        //{
+        //    fireAtTargetsFin = true;
+        //}
     }
 
     void rotateBurstRoutineMult(float time, float rotation, int shotsPerSec, int spawnAmount, float distance)
@@ -133,6 +259,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     [PunRPC]
     void RPC_rotateBurstRoutineMult(float time, float rotation, int shotsPerSec, int spawnAmount, float distance)
     {
+        rotateBurstFin = false;
         Quaternion startRot = new Quaternion();
         startRot.eulerAngles = new Vector3(0, 0, 0);
 
@@ -160,6 +287,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             c.gameObject.GetComponent<Rigidbody2D>().AddForce(pushDir * force, ForceMode2D.Impulse);
         }
         transform.GetComponent<SpriteRenderer>().color = Color.white;
+        pushAttackFin = true;
     }
 
     void pushAttack(float force, float warningTime)
@@ -201,12 +329,14 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
                 projectileClone.transform.parent = null;
                 Projectile projectile = projectileClone.GetComponent<Projectile>();
-                projectile.LaunchProjectile(10, 10f, 7.5f, dir, true);
+                projectile.LaunchProjectile(10, 10f, 5f, dir, true);
                 shotTime = elapsedTime + shotInterval;
             }
             yield return null;
         }
         Destroy(rotator);
+        rotateBurstTime = Time.time + rotateBurstCooldown; 
+        rotateBurstFin = true;
     }
 
     /// <summary>
@@ -258,6 +388,50 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         photonView.RPC("RPC_rotateBurst", PhotonTargets.AllViaServer, time, rotation, shotsPerSec);
     }
 
+    void updateMeleeRange(float force, float warningTime, bool meleeAttack, int dmg)
+    {
+        meleerangeColliders = Physics2D.OverlapCircleAll(transform.position, 3f, layerMaskPlayer);
+        if(meleerangeColliders.Length > 0 && pushAttackFin)
+        {
+            meleeRangeTimer += Time.deltaTime;
+            Debug.Log("meleeRangeTimer: " + meleeRangeTimer);
+        }
+
+        if(meleerangeColliders.Length < 1)
+        {
+            //Debug.Log("meleeRangeTimer reset");
+            meleeRangeTimer = 0;
+        }
+
+        if(meleeRangeTimer > maxMeleeRangeTime && pushAttackFin && meleeAttackFin)
+        {
+            // If melee attack is enabled there is 50% chance it will happen instead of push
+            if(meleeAttack)
+            {
+                if (Random.Range(1, 3) == 1)
+                {
+                    pushAttackFin = false;
+                    pushAttack(force, warningTime);
+                    meleeRangeTimer = 0;
+                }
+                else
+                {
+                    meleeAttackFin = false;
+                    MeleeAttack(1f, 360, dmg, 1, 0, 0, 1f);
+                    meleeRangeTimer = 0;
+                }
+            }
+            else
+            {
+                pushAttackFin = false;
+                pushAttack(force, warningTime);
+                meleeRangeTimer = 0;
+            }
+            
+            
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -266,45 +440,155 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
             if(PhotonNetwork.isMasterClient)
             {
-                if (Input.GetKeyDown(KeyCode.U))
+
+                if(!fightStarted)
                 {
-                    updateTargets();
-                    rotateBurst(10, 360, 10);
+                    foundPlayers = Physics2D.OverlapCircleAll(transform.position, 4f, layerMaskPlayer);
+                    //Debug.Log(foundPlayers.Length);
+                    if(foundPlayers.Length == PhotonNetwork.room.PlayerCount)
+                    {
+                        startFight();
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.I))
+
+                //Debug.Log("FireAttargetsfin: " + fireAtTargetsFin);
+                //Debug.Log("rotateBurstFin: " + rotateBurstFin);
+                if (fightStarted && bossStage == 1)
                 {
-                    updateTargets();
-                    fireAtAllTargets(5f, 25, false);
+                    updateMeleeRange(30f, 2f, false, 0);
+                    if (fireAtTargetsFin && rotateBurstFin)
+                    {
+                        Debug.Log("ds");
+                        fireAtTargetsFin = false;
+                        fireAtTargets(3.5f, 10, false, true, 1f);
+                    }
+                    if(Time.time > rotateBurstTime && rotateBurstFin)
+                    {
+                        rotateBurstFin = false;
+                        rotateBurstRoutineMult(5f, 360, 2, 4, 90);
+                    }
+                    if(enemiesSpawned && Time.time > enemySpawnTime)
+                    {
+                        enemiesSpawned = false;
+                        spawnEnemies(2, 4);
+                        enemySpawnTime = Time.time + 15f;
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.Y))
+
+
+                if (fightStarted && bossStage == 2)
                 {
-                    updateTargets();
-                    fireAtAllTargets(2f, 25, true);
+                    // First enemy spawn of the stage happens after 5 seconds
+                    enemySpawnTime = Time.time + 5f;
+
+                    // Now you can only be in melee range for 2 continous seconds before melee attack is initiated
+                    maxMeleeRangeTime = 2f;
+
+                    // Melee hand attack is now enabled
+                    updateMeleeRange(30f, 2f, true, 50);
+
+                    if (fireAtTargetsFin && rotateBurstFin)
+                    {
+                        Debug.Log("ds");
+                        fireAtTargetsFin = false;
+                        fireAtTargets(3f, 20, true, true, 0.5f);
+                    }
+                    if (Time.time > rotateBurstTime && rotateBurstFin)
+                    {
+                        rotateBurstFin = false;
+                        rotateBurstRoutineMult(8f, 360, 3, 6, 60);
+                    }
+                    if (enemiesSpawned && Time.time > enemySpawnTime)
+                    {
+                        enemiesSpawned = false;
+                        spawnEnemies(0, 4);
+                        enemySpawnTime = Time.time + 15f;
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.J))
+
+                if (fightStarted && bossStage == 3)
                 {
-                    spawnEnemies(Random.Range(0, 3), Random.Range(1, 6));
+                    // First enemy spawn of the stage happens after 5 seconds
+                    enemySpawnTime = Time.time + 5f;
+
+                    updateMeleeRange(50f, 1f, true, 50);
+
+                    if (fireAtTargetsFin && rotateBurstFin)
+                    {
+                        Debug.Log("ds");
+                        fireAtTargetsFin = false;
+                        fireAtTargets(3.5f, 20, true, true, 0.5f);
+                    }
+                    if (Time.time > rotateBurstTime && rotateBurstFin)
+                    {
+                        rotateBurstFin = false;
+                        rotateBurstRoutineMult(10f, 360, 3, 8, 60);
+                    }
+                    if (enemiesSpawned && Time.time > enemySpawnTime)
+                    {
+                        enemiesSpawned = false;
+                        spawnEnemies(3, 4);
+                        enemySpawnTime = Time.time + 15f;
+                    }
                 }
-                if(Input.GetKeyDown(KeyCode.O))
+
+                if (health <= 750 && bossStage == 1)
                 {
-                    rotateBurstRoutineMult(10, 720, 5, 8, 45);
+                    updateBossStage(2);
                 }
-                if (Input.GetKeyDown(KeyCode.P))
+                if(health <= 500 && bossStage == 2)
                 {
-                    pushAttack(50f, 1f);
+                    updateBossStage(3);
                 }
-                if (Input.GetKeyDown(KeyCode.L))
-                {
-                    MeleeAttack(10, 360, 10, 4, 0, 90);
-                }
+
+
+
+
+                //if (Input.GetKeyDown(KeyCode.U))
+                //{
+                //    updateTargets();
+                //    rotateBurst(10, 360, 10);
+                //}
+                //if (Input.GetKeyDown(KeyCode.I))
+                //{
+                //    updateTargets();
+                //    fireAtTargets(5f, 25, false, false, 5f);
+                //}
+                //if (Input.GetKeyDown(KeyCode.Y))
+                //{
+                //    updateTargets();
+                //    fireAtTargets(2f, 25, true, true, 0f);
+                //}
+                //if (Input.GetKeyDown(KeyCode.J))
+                //{
+                //    spawnEnemies(Random.Range(0, 3), Random.Range(1, 6));
+                //}
+                //if(Input.GetKeyDown(KeyCode.O))
+                //{
+                //    rotateBurstRoutineMult(10, 720, 5, 8, 45);
+                //}
+                //if (Input.GetKeyDown(KeyCode.P))
+                //{
+                //    pushAttack(50f, 1f);
+                //}
+                //if (Input.GetKeyDown(KeyCode.L))
+                //{
+                //    MeleeAttack(10, 360, 10, 4, 0, 90);
+                //}
+                //if (Input.GetKeyDown(KeyCode.L))
+                //{
+                //    MeleeAttack(1, 360, 50, 1, 0, 0, 1f);
+                //}
             }
         }
     }
 
 
 
-    IEnumerator MeleeAttackRotator(float time, float rotation, int dmg, GameObject rotator)
+    IEnumerator MeleeAttackRotator(float time, float rotation, int dmg, GameObject rotator, float warningTime)
     {
+        transform.GetComponent<SpriteRenderer>().color = Color.yellow;
+        yield return new WaitForSeconds(warningTime);
         float rotDelta = 0;
         float elapsedTime = 0;
         Quaternion startRot = new Quaternion();
@@ -322,6 +606,8 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             yield return null;
         }
         Destroy(rotator);
+        transform.GetComponent<SpriteRenderer>().color = Color.white;
+        meleeAttackFin = true;
     }
 
     [PunRPC]
@@ -335,7 +621,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     /// <param name="startRotZ">Where the first hands is spawned</param>
     /// <param name="angle">angle between hands</param>
     /// <param name="meleeRotator">The prefab</param>
-    void MeleeAttackSpawner(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle)
+    void MeleeAttackSpawner(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime)
     {
         Quaternion startRot = new Quaternion();
         startRot.eulerAngles = new Vector3(0, 0, startRotZ);
@@ -344,7 +630,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         {
             GameObject rotator = Instantiate(MeleeRotator, transform.position, startRot, transform);
             startRot.eulerAngles += new Vector3(0, 0, angle);
-            StartCoroutine(MeleeAttackRotator(time, rotationAmount, dmg, rotator));
+            StartCoroutine(MeleeAttackRotator(time, rotationAmount, dmg, rotator, warningTime));
         }
     }
 
@@ -357,28 +643,31 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     /// <param name="spawnAmount">How many melee hands are spawned</param>
     /// <param name="startRotZ">Where the first hands is spawned</param>
     /// <param name="angle">angle between hands</param>
-    void MeleeAttack(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle)
+    void MeleeAttack(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime)
     {
-        photonView.RPC("MeleeAttackSpawner", PhotonTargets.AllViaServer, time, rotationAmount, dmg, spawnAmount, startRotZ, angle);
+        photonView.RPC("MeleeAttackSpawner", PhotonTargets.AllViaServer, time, rotationAmount, dmg, spawnAmount, startRotZ, angle, warningTime);
     }
 
     [PunRPC]
     public void TakeDamage(int damage, Vector3 v)
     {
-        if (PhotonNetwork.isMasterClient)
+        if(!immune)
         {
-            health -= damage;
-            //healthText.text = "" + health;
-            if (health <= 0)
-                if (gameObject != null)
-                {
-                    PhotonNetwork.Destroy(gameObject);
-                }
-        }
-        else
-        {
-            photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
+            if (PhotonNetwork.isMasterClient)
+            {
+                health -= damage;
+                //healthText.text = "" + health;
+                if (health <= 0)
+                    if (gameObject != null)
+                    {
+                        PhotonNetwork.Destroy(gameObject);
+                    }
+            }
+            else
+            {
+                photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
+            }
         }
     }
 

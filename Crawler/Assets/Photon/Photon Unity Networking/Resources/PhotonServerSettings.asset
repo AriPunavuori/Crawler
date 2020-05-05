@@ -64,4 +64,7 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - RPC_startFight
+  - RPC_fireAtTargets
+  - RPC_updateBossStage
   DisableAutoOpenWizard: 1

@@ -11,7 +11,9 @@ public class MeleeHand : MonoBehaviour
         IDamageable<int> iDamageable = collider.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
         if (iDamageable != null)
         {
-            iDamageable.TakeDamage(damage, Vector3.zero);
+            // Not accurate, but something
+            Vector3 recoilVector = new Vector3(collider.gameObject.transform.position.x - transform.position.x, collider.gameObject.transform.position.y - transform.position.y, 0f).normalized;
+            iDamageable.TakeDamage(damage, recoilVector);
             return;
         }
     }
