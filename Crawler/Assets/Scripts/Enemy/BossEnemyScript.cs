@@ -503,11 +503,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     // First enemy spawn of the stage happens after 5 seconds
                     enemySpawnTime = Time.time + 5f;
 
-                    // Now you can only be in melee range for 2 continous seconds before melee attack is initiated
+                    // Now you can only be in melee range for 1.5 continous seconds before melee attack is initiated
                     maxMeleeRangeTime = 1.5f;
 
                     // Melee hand attack is now enabled
-                    updateMeleeRange(80f, 2f, true, 50);
+                    updateMeleeRange(80f, 1.5f, true, 50);
 
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
@@ -554,8 +554,8 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 //    }
                 //}
                 
-
-                if (health <= (baseHealth * ((float)2 /3)) && bossStage == 1)
+                // Stage 2 now beings at half health
+                if (health <= (baseHealth * ((float)1 /2)) && bossStage == 1)
                 {
                     updateBossStage(2);
                 }
