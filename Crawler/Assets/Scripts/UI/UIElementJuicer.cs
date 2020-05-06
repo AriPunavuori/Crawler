@@ -70,7 +70,7 @@ public class UIElementJuicer : MonoBehaviour {
         if(shadow != null) {
             shadow.effectDistance = shadowDistance * onHoverSizeMultiplier * 1.5f;
         }
-        AudioFW.Play("ButtonSwitch");
+        //AudioFW.Play("ButtonSwitch");
     }
 
     public void OnButtonHoverExit() {
@@ -78,7 +78,7 @@ public class UIElementJuicer : MonoBehaviour {
         if(shadow != null) {
             shadow.effectDistance = shadowDistance;
         }
-        AudioFW.Play("ButtonSwitch");
+        //AudioFW.Play("ButtonSwitch");
     }
 
     public void OnButtonClick() {
