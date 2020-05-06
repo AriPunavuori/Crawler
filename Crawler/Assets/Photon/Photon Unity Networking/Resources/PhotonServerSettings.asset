@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 4028f0c0-bb08-4325-8d74-b472a7e1bb45
+  AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 1
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
@@ -27,46 +27,5 @@ MonoBehaviour:
   PunLogging: 0
   NetworkLogging: 1
   RunInBackground: 1
-  RpcList:
-  - Chat
-  - DestroyRpc
-  - Die
-  - flipSprite
-  - InstantiateRpc
-  - Melee
-  - MeleeAttackSpawner
-  - OpenDoorAll
-  - PickupItemInit
-  - PunPickup
-  - PunPickupSimple
-  - PunRespawn
-  - RequestForPickupItems
-  - RequestForPickupTimes
-  - respawn
-  - RPC_AreaDamage
-  - RPC_AreaHeal
-  - RPC_BossDefeated
-  - RPC_CreatePlayer
-  - RPC_CreateUIBoxes
-  - RPC_DisableButton
-  - RPC_fireAtTargets
-  - RPC_GameLost
-  - RPC_GameWon
-  - RPC_LoadCharacterSelection
-  - RPC_LoadCreditsOthers
-  - RPC_LoadedGameScene
-  - RPC_LoadGameOthers
-  - RPC_NewHealth
-  - RPC_PickedCharacter
-  - RPC_Push
-  - RPC_PushAttack
-  - RPC_rotateBurstRoutineMult
-  - RPC_startFight
-  - RPC_updateBossStage
-  - RPC_UpdateBoxColors
-  - RPC_UpdateUIBoxContent
-  - RPC_UsePotion
-  - Shoot
-  - TakeDamage
-  - UpdateKeys
-  DisableAutoOpenWizard: 1
+  RpcList: []
+  DisableAutoOpenWizard: 0
