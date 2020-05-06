@@ -587,6 +587,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
                     }
                 }
             } else { // About to change scene
+                rb2D.velocity = Vector2.zero;
                 sceneTimer -= Time.deltaTime;
                 if(!gameWon)
                     uim.SetInfoText("You All Died!\n" + "Restarting level in: " + sceneTimer.ToString("f0"), 1);
