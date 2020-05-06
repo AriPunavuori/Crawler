@@ -50,7 +50,9 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     }
 
     void SpawnNow() {
-        var enemy = PhotonNetwork.Instantiate(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0);
+
+        var enemy = PhotonNetwork.InstantiateSceneObject(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0, null);
+        //var enemy = PhotonNetwork.Instantiate(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0);
     }
 
     [PunRPC]
