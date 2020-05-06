@@ -59,8 +59,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
     // Specials
 
-    float specialEffectArea = 7.5f;
-    int specialAmount = 10;
+    float specialEffectArea = 10f;
+    int specialAmount = 20;
     float pushForce = 30f;
 
     // Multiplier for base player speed when dashing
