@@ -61,16 +61,16 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         if(PhotonNetwork.isMasterClient) {
             health -= damage;
             healthText.text = "" + health;
-            if(health <= 0)
-
-                PhotonNetwork.Destroy(gameObject);
+            if (health <= 0)
+                if (gameObject != null)
+                {
+                    PhotonNetwork.Destroy(gameObject);
+                }
         } else {
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
         }
-
     }
-
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
