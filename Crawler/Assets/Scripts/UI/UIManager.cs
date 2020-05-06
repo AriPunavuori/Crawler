@@ -6,16 +6,20 @@ using TMPro;
 
 public class UIManager : MonoBehaviour {
 	public static UIManager Instance;
-	Canvas canvas;
+	GameObject players;
 	public bool useUIBoxes = true;
-	public GameObject[] UIBoxes;
+	public GameObject[] otherPlayerBoxes;
 	public TextMeshProUGUI[] names;
 	public TextMeshProUGUI[] healths;
 	public Image[] healthBars;
 	public Sprite[] boxBackgrounds = new Sprite[4];
-	public GameObject UIBox;
+	public Sprite[] origBoxBGs = new Sprite[4];
+	public GameObject otherPlayerBox;
 	public GameObject SpecialCoolDownUI;
 	public Image SpecialBar;
+	GameObject playerBoxPlace;
+	GameObject healthAmountUI;
+	GameObject playerName;
 
 	GameObject keysUI;
 	GameObject potion;
@@ -48,10 +52,13 @@ public class UIManager : MonoBehaviour {
 
 	void Start() {
 		Instance = this;
-		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+		players = GameObject.Find("Players");
 		keysUI = GameObject.Find("Keys");
 		potion = GameObject.Find("PotionUI");
 		potion.SetActive(false);
+		playerBoxPlace = GameObject.Find("PlayerBoxPlace");
+		healthAmountUI = GameObject.Find("HealthAmountUI");
+		playerName = GameObject.Find("PlayerName");
 		speedBoostTimerStarted = false;
 		speedBoostLevel = 0;
 		powerUpTimerStarted = false;
@@ -63,6 +70,7 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
+		print(otherPlayerBoxes[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>());
 		Invoke("UpdateBoxColors", 1f);
 	}
 
@@ -239,6 +247,22 @@ public class UIManager : MonoBehaviour {
 		names[selected].text = name;
 		StartCoroutine(updateHealthBar(health, 0.1f, selected, baseHealth));
 		healths[selected].text = "" + health;
+		for (int i = 0; i < names.Length; i++) {
+			if (names[i].text == PhotonNetwork.player.NickName) {
+				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text;
+				healthAmountUI.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = healths[i].text;
+
+				GameObject playerBox = otherPlayerBoxes[i];
+				playerBox.transform.SetParent(playerBoxPlace.transform);
+				playerBox.transform.localPosition = Vector3.zero;
+				playerBox.transform.localScale = new Vector3(1, 1, 1);
+				playerBox.GetComponent<Image>().sprite = origBoxBGs[i];
+				playerBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+				playerBox.transform.GetChild(1).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+				playerBox.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
+			}
+		}
 	}
 
 	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected, int baseHealth) {
@@ -266,7 +290,7 @@ public class UIManager : MonoBehaviour {
 			yield return null;
 		}
 
-		// Lazy fallback fix if bar doesnt get fileld in time
+		// Lazy fallback fix if bar doesnt get filled in time
 		if (System.Math.Round(healthBars[selected].fillAmount, 2) != System.Math.Round((float)newHealth / baseHealth, 2)) {
 			healthBars[selected].fillAmount = (float)newHealth / baseHealth;
 		}
@@ -289,9 +313,9 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	void RPC_UpdateBoxColors() {
-		for (int i = 0; i < UIBoxes.Length; i++) {
+		for (int i = 0; i < otherPlayerBoxes.Length; i++) {
 			if (names[i].text != "No Player") {
-				UIBoxes[i].GetComponent<Image>().color = Color.white;
+				otherPlayerBoxes[i].GetComponent<Image>().color = Color.white;
 			}
 		}
 	}
@@ -302,22 +326,22 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	public void RPC_CreateUIBoxes() {
-		if (UIBoxes != null)
-			foreach (var box in UIBoxes) {
+		if (otherPlayerBoxes != null)
+			foreach (var box in otherPlayerBoxes) {
 				Destroy(box);
 			}
-		UIBoxes = new GameObject[4]; // Taulukon koko on aina 4
+		otherPlayerBoxes = new GameObject[4]; // Taulukon koko on aina 4
 		names = new TextMeshProUGUI[4];
 		healths = new TextMeshProUGUI[4];
 		healthBars = new Image[4];
-		for (int i = 0; i < UIBoxes.Length; i++) {
-			GameObject newUIBox = Instantiate(UIBox.gameObject); // Tee uusi UIBox
-			newUIBox.GetComponent<Image>().sprite = boxBackgrounds[i];
-			UIBoxes[i] = newUIBox;    // Aseta uusi boxi taulukkoon
-			names[i] = newUIBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-			healths[i] = newUIBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-			healthBars[i] = newUIBox.transform.GetChild(1).GetChild(0).GetComponent<Image>();
-			UIBoxes[i].transform.SetParent(canvas.transform.GetChild(0), false); // laita boxi canvasin "players" -elementin lapseksi
+		for (int i = 0; i < otherPlayerBoxes.Length; i++) {
+			GameObject NewOtherPBox = Instantiate(otherPlayerBox.gameObject); // Tee uusi UIBox
+			NewOtherPBox.GetComponent<Image>().sprite = boxBackgrounds[i];
+			otherPlayerBoxes[i] = NewOtherPBox;    // Aseta uusi boxi taulukkoon
+			names[i] = NewOtherPBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+			healths[i] = NewOtherPBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+			healthBars[i] = NewOtherPBox.transform.GetChild(1).GetChild(0).GetComponent<Image>();
+			otherPlayerBoxes[i].transform.SetParent(players.transform, false); // laita boxi canvasin "players" -elementin lapseksi
 		}
 	}
 }

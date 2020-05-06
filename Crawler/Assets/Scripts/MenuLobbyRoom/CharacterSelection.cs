@@ -7,7 +7,9 @@ public class CharacterSelection : MonoBehaviour {
 
     public Button[] buttons;
     public GameObject chooseText;
-
+    public RectTransform controlInfo;
+    public RectTransform girl;
+    public RectTransform title;
     private void Start() {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopAllSounds();
@@ -28,12 +30,15 @@ public class CharacterSelection : MonoBehaviour {
         LeanTween.scale(chooseText, Vector3.one, 0f);
         chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
         LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
-        Invoke("PlayAudioDelayed", .25f);
+        Invoke("AfterSelection", .25f);
         PlayerNetwork.Instance.selectedCharacter = c;
         PlayerNetwork.Instance.PickedCharacter(c);
+        LeanTween.move(girl, Vector2.right * 2250, .25f).setEaseInBack();
+        LeanTween.move(title, Vector2.left * 2250, .25f).setEaseInBack();
     }
 
-    void PlayAudioDelayed() {
+    void AfterSelection() {
+        LeanTween.move(controlInfo, Vector2.zero, .25f).setEaseOutBack();
         AudioFW.Play("CharacterSelected");
     }
 }
