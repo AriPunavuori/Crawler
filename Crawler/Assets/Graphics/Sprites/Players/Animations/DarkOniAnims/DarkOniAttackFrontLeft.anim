@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LightOniAttackFrontLeft
+  m_Name: DarkOniAttackFrontLeft
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,16 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -6373464450106752494, guid: f296d9a83267bae4ab6389d7a339d76a,
+      value: {fileID: 7410994842883960728, guid: db3cb40690c462c47834a8c8ab418060,
         type: 3}
-    - time: 0.1
-      value: {fileID: -1262885559959157527, guid: f296d9a83267bae4ab6389d7a339d76a,
+    - time: 0.11666667
+      value: {fileID: -315477219258173544, guid: db3cb40690c462c47834a8c8ab418060,
         type: 3}
-    - time: 0.23333333
-      value: {fileID: 6271683929863509754, guid: f296d9a83267bae4ab6389d7a339d76a,
+    - time: 0.21666667
+      value: {fileID: 6593641703576066846, guid: db3cb40690c462c47834a8c8ab418060,
         type: 3}
     - time: 0.33333334
-      value: {fileID: -2965980883918652965, guid: f296d9a83267bae4ab6389d7a339d76a,
+      value: {fileID: -2595460963177927674, guid: db3cb40690c462c47834a8c8ab418060,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -50,10 +50,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -6373464450106752494, guid: f296d9a83267bae4ab6389d7a339d76a, type: 3}
-    - {fileID: -1262885559959157527, guid: f296d9a83267bae4ab6389d7a339d76a, type: 3}
-    - {fileID: 6271683929863509754, guid: f296d9a83267bae4ab6389d7a339d76a, type: 3}
-    - {fileID: -2965980883918652965, guid: f296d9a83267bae4ab6389d7a339d76a, type: 3}
+    - {fileID: 7410994842883960728, guid: db3cb40690c462c47834a8c8ab418060, type: 3}
+    - {fileID: -315477219258173544, guid: db3cb40690c462c47834a8c8ab418060, type: 3}
+    - {fileID: 6593641703576066846, guid: db3cb40690c462c47834a8c8ab418060, type: 3}
+    - {fileID: -2595460963177927674, guid: db3cb40690c462c47834a8c8ab418060, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

@@ -41,12 +41,6 @@ AnimatorStateMachine:
     m_State: {fileID: -983148339898391160}
     m_Position: {x: 610, y: 140, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 7068115516757033208}
-    m_Position: {x: 680, y: 270, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3536180063933099080}
-    m_Position: {x: 715, y: 335, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 4871504669618534941}
     m_Position: {x: 460, y: -30, z: 0}
   m_ChildStateMachines: []
@@ -264,25 +258,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Vertical
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Magnitude
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: DarkOniAttack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -320,17 +314,17 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e164e992e2b7a824580e76b7e151ee3e, type: 2}
+    m_Motion: {fileID: 7400000, guid: 673d1a5cd2a30ac4e963e0ac185e468f, type: 2}
     m_Threshold: 0
-    m_Position: {x: 0.71, y: -0.71}
+    m_Position: {x: 0.92, y: 0.38}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 673d1a5cd2a30ac4e963e0ac185e468f, type: 2}
+    m_Motion: {fileID: 7400000, guid: 473d2a88c485cd542a60dbbf880f68bf, type: 2}
     m_Threshold: 0.14285715
-    m_Position: {x: 0.71, y: 0.71}
+    m_Position: {x: 0.38, y: 0.92}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
@@ -338,31 +332,47 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 44c6c52367016f44ba3ad01f2543cd3a, type: 2}
     m_Threshold: 0.2857143
-    m_Position: {x: 0, y: 1}
+    m_Position: {x: -0.38, y: 0.92}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Horizontal
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: ac8d685bf57799e4499a3203df0e8bc2, type: 2}
+    m_Threshold: 0.42857143
+    m_Position: {x: -0.92, y: 0.38}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Horizontal
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 786e7475606a41243a8f405032284185, type: 2}
+    m_Threshold: 0.5714286
+    m_Position: {x: -0.92, y: -0.38}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 684b101da0798ed48bd4cd655fff645b, type: 2}
-    m_Threshold: 0.42857146
-    m_Position: {x: 0, y: -1}
+    m_Threshold: 0.71428573
+    m_Position: {x: -0.38, y: -0.92}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Horizontal
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: d34c6a71bc0b9be4f87c67b43aaec3d0, type: 2}
+    m_Threshold: 0.85714287
+    m_Position: {x: 0.38, y: -0.92}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: e164e992e2b7a824580e76b7e151ee3e, type: 2}
-    m_Threshold: 0.5714286
-    m_Position: {x: -0.71, y: -0.71}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: Horizontal
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 673d1a5cd2a30ac4e963e0ac185e468f, type: 2}
-    m_Threshold: 0.71428573
-    m_Position: {x: -0.71, y: 0.71}
+    m_Threshold: 1
+    m_Position: {x: 0.92, y: -0.38}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
@@ -370,7 +380,7 @@ BlendTree:
   m_BlendParameter: Horizontal
   m_BlendParameterY: Vertical
   m_MinThreshold: 0
-  m_MaxThreshold: 0.71428573
+  m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
@@ -399,32 +409,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &3536180063933099080
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: DarkOniAttackBackRight
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 673d1a5cd2a30ac4e963e0ac185e468f, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!206 &3654868132709070658
 BlendTree:
   m_ObjectHideFlags: 1
@@ -515,32 +499,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
---- !u!1102 &7068115516757033208
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: DarkOniAttackFrontRight
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e164e992e2b7a824580e76b7e151ee3e, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!206 &8202624065379242107
 BlendTree:
   m_ObjectHideFlags: 1
