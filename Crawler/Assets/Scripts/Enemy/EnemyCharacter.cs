@@ -119,22 +119,54 @@ public class EnemyCharacter : Character, IDamageable<int> {
 		// Added spriteFlipCooldown for a temporary "fix"
 		movement.x = rigidBody.velocity.normalized.x;
 
-		if (movement.x > 0 && spriteFlipCoolDown == 0) {
-			if (!flipped) {
-				// Change this value to delay sprite flips
-				spriteFlipCoolDown = 0.4f;
+		// For the crow since its sprite is flipped by default
+		if(characterType == EntityType.Enemy0)
+		{
+			if (movement.x > 0 && spriteFlipCoolDown == 0)
+			{
+				if (!flipped)
+				{
+					// Change this value to delay sprite flips
+					spriteFlipCoolDown = 0.1f;
+				}
+				flipped = false;
 			}
-			flipped = true;
-		} else if (movement.x < 0 && spriteFlipCoolDown == 0) {
-			if (flipped) {
-				// Change this value to delay sprite flips
-				spriteFlipCoolDown = 0.4f;
+			else if (movement.x < 0 && spriteFlipCoolDown == 0)
+			{
+				if (flipped)
+				{
+					// Change this value to delay sprite flips
+					spriteFlipCoolDown = 0.1f;
+				}
+				flipped = true;
 			}
-			flipped = false;
+		}
+		else
+		{
+			if (movement.x > 0 && spriteFlipCoolDown == 0)
+			{
+				if (!flipped)
+				{
+					// Change this value to delay sprite flips
+					spriteFlipCoolDown = 0.1f;
+				}
+				flipped = true;
+			}
+			else if (movement.x < 0 && spriteFlipCoolDown == 0)
+			{
+				if (flipped)
+				{
+					// Change this value to delay sprite flips
+					spriteFlipCoolDown = 0.1f;
+				}
+				flipped = false;
+			}
 		}
 
-		if (animator.enabled) {
+		if (animator.enabled)
+		{
 			animator.SetFloat("Horizontal", movement.x);
+			animator.SetFloat("Magnitude", rigidBody.velocity.magnitude);
 		}
 
 
@@ -159,6 +191,13 @@ public class EnemyCharacter : Character, IDamageable<int> {
 			float MoveDirY = target.y - transform.position.y;
 			if (PhotonNetwork.isMasterClient) {
 				rigidBody.velocity = new Vector2(MoveDirX, MoveDirY).normalized * s;
+				//Debug.Log(rigidBody.velocity.magnitude);
+				//animator.SetFloat("Magnitude", rigidBody.velocity.magnitude);
+				//if (animator.enabled)
+				//{
+				//	animator.SetFloat("Horizontal", MoveDirX);
+				//	//animator.SetFloat("Magnitude", rigidBody.velocity.magnitude); // Set in update
+				//}
 			}
 		} else {
 			if (!PlayerSeen())

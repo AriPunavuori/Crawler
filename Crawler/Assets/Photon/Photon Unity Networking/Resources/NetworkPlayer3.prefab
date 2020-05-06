@@ -489,10 +489,7 @@ MonoBehaviour:
     Name: Magnitude
   - Type: 9
     SynchronizeType: 2
-    Name: DarkOniAttackFront
-  - Type: 9
-    SynchronizeType: 2
-    Name: DarkOniAttackBack
+    Name: DarkOniAttack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

@@ -428,19 +428,24 @@ public class PlayerCharacter : Character, IDamageable<int> {
                     if(spriteRenderer.flipX == true) {
                         // Oni
                         if(characterType == EntityType.Hero1) {
-                            // If neither of Onis attack animations are playing
-                            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttackBack")) {
+                            // If LightOniAttack is no longer playing
+                            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttack"))
+                            {
                                 // Flip sprites back to normal
                                 spriteRenderer.flipX = false;
+                                // Handle with invoke preemptively instead?
                                 photonView.RPC("flipSprite", PhotonTargets.Others, false);
                             }
+
                         }
                         // Dark Oni
                         if(characterType == EntityType.Hero3) {
-                            // If neither of Dark Onis attack animations are playing
-                            if(!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttackBack")) {
+                            // If DarkOniAttack is no longer playing
+                            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttack")) 
+                            {
                                 // Flip sprites back to normal
                                 spriteRenderer.flipX = false;
+                                // Handle with invoke preemptively instead?
                                 photonView.RPC("flipSprite", PhotonTargets.Others, false);
                             }
                         }
@@ -904,29 +909,14 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 spriteRenderer.flipX = true;
                 photonView.RPC("flipSprite", PhotonTargets.Others, true);
             }
-            // Play Oni attack animation
-            if(characterType == EntityType.Hero1) {
-                //Debug.LogError(mouseVector);
 
-                // When facing downwards
-                if(mouseVector.y <= 0) {
-                    animator.SetTrigger("LightOniAttackFront");
-                }
-                // When facing upwards
-                else {
-                    animator.SetTrigger("LightOniAttackBack");
-                }
+            if(characterType == EntityType.Hero1)
+            {
+                animator.SetTrigger("LightOniAttack");
             }
-            // Play Dark Oni animation
-            else if(characterType == EntityType.Hero3) {
-                // When facing downwards
-                if(mouseVector.y <= 0) {
-                    animator.SetTrigger("DarkOniAttackFront");
-                }
-                // When facing upwards
-                else {
-                    animator.SetTrigger("DarkOniAttackBack");
-                }
+            else if (characterType == EntityType.Hero3)
+            {
+                animator.SetTrigger("DarkOniAttack");
             }
         }
     }

@@ -206,34 +206,6 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         // Maybe better to use this if projectile gets destroyed mid charge
         Invoke("finishFAT", chargeTime);
 
-        //foreach(GameObject target in playerTargets)
-        //{
-        //    if(onlyRangeds)
-        //    {
-        //        if(target.GetComponent<Character>().ranged)
-        //        {
-        //            Vector2 dir = (target.transform.position - transform.position).normalized;
-        //            GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
-        //            //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //            Projectile projectile = projectileClone.GetComponent<Projectile>();
-        //            projectile.target = target;
-        //            projectile.homing = homing;
-        //            StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
-        //            //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Vector2 dir = (target.transform.position - transform.position).normalized;
-        //        GameObject projectileClone = Instantiate(bossProjectile, new Vector3(transform.position.x + dir.x * 1.6f, transform.position.y + dir.y * 1.6f, transform.position.z), Quaternion.identity);
-        //        //projectileClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        //        Projectile projectile = projectileClone.GetComponent<Projectile>();
-        //        projectile.target = target;
-        //        projectile.homing = homing;
-        //        StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
-        //        //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
-        //    }
-        //}
     }
 
     IEnumerator chargeProjectile(float speed, int dmg, float chargeTime, Vector2 dir, GameObject proj)
@@ -564,11 +536,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 //    updateBossStage(3);
                 //}
 
-
-                if(Input.GetKeyDown(KeyCode.U))
-                {
-                    updateBossStage(2);
-                }
+                #region CheatCodes
+                //if(Input.GetKeyDown(KeyCode.U))
+                //{
+                //    updateBossStage(2);
+                //}
 
                 //if (Input.GetKeyDown(KeyCode.U))
                 //{
@@ -605,6 +577,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 //{
                 //    MeleeAttack(1, 360, 50, 1, 0, 0, 1f);
                 //}
+                #endregion
             }
         }
     }
