@@ -11,9 +11,9 @@ public class CharacterSelection : MonoBehaviour {
     public RectTransform girl;
     public RectTransform title;
     private void Start() {
-        //PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
-        //AudioFW.StopAllSounds();
-        //AudioFW.PlayLoop("CharaterSelectionLoop");
+        PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
+        AudioFW.StopAllSounds();
+        AudioFW.PlayLoop("CharaterSelectionLoop");
         Invoke("PumpText", 2.25f);
     }
 
@@ -25,7 +25,7 @@ public class CharacterSelection : MonoBehaviour {
     }
 
     public void OnClickPickCharacter(int c) {
-        //AudioFW.StopLoop("CharaterSelectionLoop");
+        AudioFW.StopLoop("CharaterSelectionLoop");
         LeanTween.cancel(chooseText);
         LeanTween.scale(chooseText, Vector3.one, 0f);
         chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
@@ -39,6 +39,6 @@ public class CharacterSelection : MonoBehaviour {
 
     void AfterSelection() {
         LeanTween.move(controlInfo, Vector2.zero, .25f).setEaseOutBack();
-        //AudioFW.Play("CharacterSelected");
+        AudioFW.Play("CharacterSelected");
     }
 }
