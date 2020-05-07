@@ -13,7 +13,7 @@ public class CharacterSelection : MonoBehaviour {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopAllSounds();
         AudioFW.PlayLoop("CharaterSelectionLoop");
-        Invoke("PumpText", 2.25f);
+        Invoke("PumpText", 1.5f);
     }
 
     void PumpText() {
