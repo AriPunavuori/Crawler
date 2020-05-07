@@ -70,7 +70,6 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
-		print(otherPlayerBoxes[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>());
 		Invoke("UpdateBoxColors", 1f);
 	}
 
