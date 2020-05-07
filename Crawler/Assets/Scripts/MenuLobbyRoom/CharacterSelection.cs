@@ -8,8 +8,7 @@ public class CharacterSelection : MonoBehaviour {
     public Button[] buttons;
     public GameObject chooseText;
     public RectTransform controlInfo;
-    public RectTransform girl;
-    public RectTransform title;
+
     private void Start() {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopAllSounds();
@@ -33,8 +32,6 @@ public class CharacterSelection : MonoBehaviour {
         Invoke("AfterSelection", .25f);
         PlayerNetwork.Instance.selectedCharacter = c;
         PlayerNetwork.Instance.PickedCharacter(c);
-        LeanTween.move(girl, Vector2.right * 2250, .25f).setEaseInBack();
-        LeanTween.move(title, Vector2.left * 2250, .25f).setEaseInBack();
     }
 
     void AfterSelection() {

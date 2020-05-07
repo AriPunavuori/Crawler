@@ -18,6 +18,9 @@ public class GameManager : Photon.MonoBehaviour {
 	public bool gameWon;
 	GameObject[] players;
 
+	private void Awake() {
+		Destroy(GameObject.Find("DynamicBG"));
+	}
 
 	private void Start() {
 		Instance = this;

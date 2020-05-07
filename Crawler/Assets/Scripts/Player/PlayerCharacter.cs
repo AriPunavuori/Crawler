@@ -110,12 +110,14 @@ public class PlayerCharacter : Character, IDamageable<int> {
         print("RPC_GameWon");
         switchingScene = true;
         gameWon = true;
+        rb2D.velocity = Vector2.zero;
     }
 
     [PunRPC]
     void RPC_GameLost() {
         print("RPC_GameLost");
         switchingScene = true;
+        rb2D.velocity = Vector2.zero;
     }
 
     void Start() {
@@ -587,12 +589,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
                     }
                 }
             } else { // About to change scene
-                rb2D.velocity = Vector2.zero;
                 sceneTimer -= Time.deltaTime;
                 if(!gameWon)
-                    uim.SetInfoText("You All Died!\n" + "Restarting level in: " + sceneTimer.ToString("f0"), 1);
+                    uim.SetInfoText("You All Died\n" + "Restarting level " + sceneTimer.ToString("f0"), 1);
                 else
-                    uim.SetInfoText("Congrats, You Won!\nSee the awesome people\nBehind this project in: " + sceneTimer.ToString("f0"), 1);
+                    uim.SetInfoText("Congrats You Won\nSee the awesome people\nBehind this project in " + sceneTimer.ToString("f0"), 1);
                 if(sceneTimer < 0) {
                     if(!gameWon) {
                         // Should load game scene
