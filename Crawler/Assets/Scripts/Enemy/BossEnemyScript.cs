@@ -447,7 +447,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             meleeRangeTimer = 0;
         }
 
-        if(meleeRangeTimer > maxMeleeRangeTime && pushAttackFin && meleeAttackFin)
+        if(meleeRangeTimer > maxMeleeRangeTime && pushAttackFin && meleeAttackFin && rotateBurstFin)
         {
             // If melee attack is enabled there is 50% chance it will happen instead of push
             if(meleeAttack)
@@ -464,7 +464,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if(Random.Range(1, 4) == 1)
                     {
                         meleeAttackFin = false;
-                        MeleeAttack(6f, 270, dmg, 4, Random.Range(0, 360), 90, warningTime, true);
+                        MeleeAttack(6f, 170, dmg, 4, Random.Range(0, 360), 90, warningTime, true);
                         meleeRangeTimer = 0;
                     }
                     // Fast swipe attack, 2 in 3 chance
@@ -552,7 +552,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                         fireAtTargetsFin = false;
                         fireAtTargets(3.5f, 20, true, true, 0.5f);
                     }
-                    if (Time.time > rotateBurstTime && rotateBurstFin)
+                    if (Time.time > rotateBurstTime && rotateBurstFin && meleeAttackFin)
                     {
                         rotateBurstFin = false;
                         rotateBurstRoutineMult(8f, 360, 3, 6, 60);
