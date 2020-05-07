@@ -303,6 +303,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     [PunRPC]
     void RPC_rotateBurstRoutineMult(float time, float rotation, int shotsPerSec, int spawnAmount, float distance)
     {
+        Debug.Log("Attack start");
         rotateBurstFin = false;
         Quaternion startRot = new Quaternion();
         startRot.eulerAngles = new Vector3(0, 0, 0);
@@ -348,6 +349,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
     IEnumerator rotateProjSpawn(float time, float rotation, int shotsPerSec, GameObject rotator)
     {
+        yield return new WaitForSeconds(3.5f);
         float rotDelta = 0;
         float elapsedTime = 0;
         float shotInterval = 1f / shotsPerSec;
@@ -474,8 +476,6 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                         MeleeAttack(1f, 360, dmg, 1, Random.Range(0, 360), 0, warningTime, false);
                         meleeRangeTimer = 0;
                     }
-
-                    
                 }
             }
             else
@@ -550,7 +550,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
                         fireAtTargetsFin = false;
-                        fireAtTargets(3.5f, 20, true, true, 0.5f);
+                        fireAtTargets(3.5f, 20, true, true, 0.8f);
                     }
                     if (Time.time > rotateBurstTime && rotateBurstFin && meleeAttackFin)
                     {
