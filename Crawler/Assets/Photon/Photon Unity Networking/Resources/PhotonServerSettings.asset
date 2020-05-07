@@ -31,7 +31,6 @@ MonoBehaviour:
   - Chat
   - DestroyRpc
   - Die
-  - flipSprite
   - InstantiateRpc
   - Melee
   - MeleeAttackSpawner
@@ -61,6 +60,8 @@ MonoBehaviour:
   - RPC_Push
   - RPC_PushAttack
   - RPC_rotateBurstRoutineMult
+  - RPC_spawnPotion
+  - RPC_spawnWeaponUpgrade
   - RPC_startFight
   - RPC_updateBossStage
   - RPC_UpdateBoxColors
@@ -69,8 +70,4 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
-  - spawnPotion
-  - RPC_spawnPotion
-  - RPC_weaponUpgrade
-  - RPC_spawnWeaponUpgrade
   DisableAutoOpenWizard: 1
