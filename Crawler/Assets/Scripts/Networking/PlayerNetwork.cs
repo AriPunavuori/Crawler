@@ -136,10 +136,13 @@ public class PlayerNetwork : MonoBehaviour {
     [PunRPC]
     void RPC_DisableButton(int selected) {
         var cs = FindObjectOfType<CharacterSelection>();
+        var im = FindObjectOfType<InfoManager>();
         if(selected >= 4) {
             for(int i = 0; i < 4; i++) {
                 cs.buttons[i].interactable = false;
             }
+            cs.AfterSelection();
+            im.SelectedCharacter();
         } else {
             cs.buttons[selected].interactable = false;
         }
