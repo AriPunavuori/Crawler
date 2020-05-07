@@ -183,9 +183,8 @@ public class UIManager : MonoBehaviour {
 
 	[PunRPC]
 	public void UpdateKeys(int keyNmbr, string playerName) {
-		print(playerName + "updatekeys");
 		GameObject keyUI = keysUI.transform.GetChild(keyNmbr).gameObject; //KeyUI canvasissa
-		string key = "Key" + keyUI.name.Trim('K', 'e', 'y', 'U', 'I'); //poimittava Key -gameobjekti
+		string key = keyUI.name.Trim('K', 'e', 'y', 'U', 'I') + "Key"; //poimittava Key -gameobjekti
 		if (PhotonNetwork.room.CustomProperties[key] != null) {
 			SetInfoText(names[GetRealName(playerName)].text + " Picked up " + key, 2);
 			keyUI.GetComponent<Image>().color = Color.white;
@@ -257,7 +256,7 @@ public class UIManager : MonoBehaviour {
 				playerBox.transform.localPosition = Vector3.zero;
 				playerBox.transform.localScale = new Vector3(1, 1, 1);
 				playerBox.GetComponent<Image>().sprite = origBoxBGs[i];
-				playerBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "";
+				playerBox.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(1).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);

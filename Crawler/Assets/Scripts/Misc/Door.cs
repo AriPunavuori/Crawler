@@ -18,7 +18,7 @@ public class Door : MonoBehaviour {
 		photonView = GetComponent<PhotonView>();
 	}
 	void OnCollisionEnter2D(Collision2D collision) {
-		string keyName = "Key" + gameObject.name.Trim('D', 'o', 'o', 'r');
+		string keyName = gameObject.name.Trim('D', 'o', 'o', 'r') + "Key";
 
 		if (collision.gameObject.CompareTag("Player") && !opened) {
 			Debug.Log("This door requires " + keyName + " to open");
