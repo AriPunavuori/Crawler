@@ -311,7 +311,6 @@ public class EnemyCharacter : Character, IDamageable<int>
             healthText.text = "" + health;
             if (health <= 0)
             {
-                Debug.Log("takingDamage");
                 if (gameObject != null)
                 {
                     AudioFW.Play("EnemyDeath");

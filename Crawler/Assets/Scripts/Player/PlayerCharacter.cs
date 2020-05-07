@@ -862,6 +862,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
+		if (!photonView.isMine) {
+			damage = 0;
+		}
+
 		for (int i = 0; i < amount; i++) {
 			GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
 			projectileClone.transform.parent = projectileSpawn.transform;

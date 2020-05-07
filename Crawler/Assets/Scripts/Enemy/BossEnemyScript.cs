@@ -26,6 +26,10 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     Collider2D[] foundPlayers;
     bool fightStarted = false;
     bool immune = true;
+    SpriteRenderer sr;
+    private Material matWhite;
+    private Material SpriteLightingMaterial;
+    private UnityEngine.Object explosion;
     List<Collider2D> playerColliders = new List<Collider2D>();
     List<GameObject> playerTargets = new List<GameObject>();
     List<Collider2D> enemyColliders = new List<Collider2D>();
@@ -61,9 +65,28 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         updateTargets();
         rotateBurstTime = Time.time + rotateBurstCooldown;
         enemySpawnTime = Time.time + enemySpawnCooldown;
+        sr = GetComponent<SpriteRenderer>();
+        matWhite = Resources.Load("White", typeof(Material)) as Material;
+        explosion = Resources.Load("Explosion");
+        SpriteLightingMaterial = sr.material;
     }
 
-    
+    [PunRPC]
+    private void explosionRPC()
+    {
+        GameObject explode = (GameObject)Instantiate(explosion);
+        explode.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
+
+    private void ResetMaterial()
+    {
+        sr.material = SpriteLightingMaterial;
+    }
+
     [PunRPC]
     void RPC_BossDefeated()
     {
@@ -466,7 +489,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if(Random.Range(1, 4) == 1)
                     {
                         meleeAttackFin = false;
-                        MeleeAttack(6f, 170, dmg, 4, Random.Range(0, 360), 90, warningTime, true);
+                        MeleeAttack(6f, 220, dmg, 4, Random.Range(0, 360), 90, warningTime, true);
                         meleeRangeTimer = 0;
                     }
                     // Fast swipe attack, 2 in 3 chance
@@ -770,19 +793,31 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     {
         if(!immune)
         {
+            sr.material = matWhite;
             if (PhotonNetwork.isMasterClient)
             {
                 health -= damage;
                 //healthText.text = "" + health;
                 if (health <= 0)
+                {
                     if (gameObject != null)
                     {
                         photonView.RPC("RPC_BossDefeated", PhotonTargets.MasterClient);
                         PhotonNetwork.Destroy(gameObject);
                     }
+                }
+                else
+                {
+                    Invoke("ResetMaterial", 0.1f);
+                }
+                    
             }
             else
             {
+                if (health > 0)
+                {
+                    Invoke("ResetMaterial", 0.1f);
+                }
                 photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
             }
