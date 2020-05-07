@@ -38,9 +38,8 @@ public class Door : MonoBehaviour {
 	}
 	IEnumerator OpenMe(Vector3 byAngles, float inTime) {
 		var fromPosition = transform.position;
-		var toPosition = transform.position + Vector3.up * 3;
+		var toPosition = transform.position + transform.right * 2.75f;
 		for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
-
 			transform.position = Vector3.Lerp(fromPosition, toPosition, t);
 			yield return null;
 		}
