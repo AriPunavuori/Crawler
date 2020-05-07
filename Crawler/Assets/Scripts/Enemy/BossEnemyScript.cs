@@ -7,12 +7,13 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 {
     int baseHealth;
     public int health;
+    int stage2Health;
     int bossStage;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
     public Collider2D[] meleerangeColliders;
     float meleeRangeTimer;
-    float maxMeleeRangeTime = 2.5f;
+    float maxMeleeRangeTime = 2f;
     float enemySpawnTime;
     float enemySpawnCooldown = 5f;
     bool enemiesSpawned = true;
@@ -31,6 +32,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     List<GameObject> enemies = new List<GameObject>();
     public GameObject ProjectileRotator;
     public GameObject MeleeRotator;
+    public GameObject MeleeRotatorLong;
+    public GameObject potion;
+    public GameObject weaponUpgrade;
+    int potionCount;
+    int weaponUpgradeCount;
     //public GameObject ProjectileSpawn;
     public GameObject EnemySpawnRotator;
     public GameObject EnemySpawn;
@@ -38,11 +44,16 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     Quaternion projSpawnRot;
     Quaternion enemySpawnRot;
     public GameObject bossProjectile;
+    int playerCount;
     // Start is called before the first frame update
     void Start()
     {
-        baseHealth = 5000 * PlayerNetwork.Instance.numberOfPlayers;
+        potionCount = 0;
+        weaponUpgradeCount = 0;
+        playerCount = PlayerNetwork.Instance.numberOfPlayers;
+        baseHealth = 5000 * playerCount;
         health = baseHealth;
+        stage2Health = baseHealth / 2;
         bossStage = 1;
         //projSpawnRot = ProjectileRotator.transform.rotation;
         layerMaskPlayer = LayerMask.GetMask("Player");
@@ -72,6 +83,57 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         photonView.RPC("RPC_startFight", PhotonTargets.AllViaServer);
     }
 
+
+    void spawnPotion()
+    {
+        Debug.Log("Potion spawned");
+        potionCount++;
+        int x = Random.Range(3, 7);
+        int y = Random.Range(3, 7);
+        if(Random.Range(0,2) == 1)
+        {
+            x *= -1;
+        }
+
+        if (Random.Range(0, 2) == 1)
+        {
+            y *= -1;
+        }
+
+        photonView.RPC("RPC_spawnPotion", PhotonTargets.AllViaServer, x, y);
+    }
+
+    [PunRPC]
+    void RPC_spawnPotion(int x, int y)
+    {
+        Instantiate(potion, transform.position + new Vector3(x, y, 0), Quaternion.identity);
+    }
+
+    [PunRPC]
+    void RPC_spawnWeaponUpgrade(int x, int y)
+    {
+        Instantiate(weaponUpgrade, transform.position + new Vector3(x, y, 0), Quaternion.identity);
+    }
+    void spawnWeaponUpgrade()
+    {
+        Debug.Log("weapon upgrade spawned");
+        weaponUpgradeCount++;
+        int x = Random.Range(3, 7);
+        int y = Random.Range(3, 7);
+        if (Random.Range(0, 2) == 1)
+        {
+            x *= -1;
+        }
+
+        if (Random.Range(0, 2) == 1)
+        {
+            y *= -1;
+        }
+
+        photonView.RPC("RPC_spawnWeaponUpgrade", PhotonTargets.AllViaServer, x, y);
+    }
+
+
     [PunRPC]
     public void RPC_updateBossStage(int stage)
     {
@@ -97,15 +159,15 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
         if(playerTargets.Count > 0)
         {
-            Debug.Log("Target count: " + playerTargets.Count);
+            //Debug.Log("Target count: " + playerTargets.Count);
             foreach (GameObject p in playerTargets)
             {
-                Debug.Log(p.name);
+                //Debug.Log(p.name);
             }
         }
         else
         {
-            Debug.Log("No targets found");
+            //Debug.Log("No targets found");
         }
     }
 
@@ -376,7 +438,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         if(meleerangeColliders.Length > 0 && pushAttackFin)
         {
             meleeRangeTimer += Time.deltaTime;
-            Debug.Log("meleeRangeTimer: " + meleeRangeTimer);
+            //Debug.Log("meleeRangeTimer: " + meleeRangeTimer);
         }
 
         if(meleerangeColliders.Length < 1)
@@ -398,16 +460,18 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 }
                 else
                 {
-                    if(Random.Range(1, 3) == 1)
+                    // Long rotating attack, 1 in 3 chance
+                    if(Random.Range(1, 4) == 1)
                     {
                         meleeAttackFin = false;
-                        MeleeAttack(1f, 360, dmg, 1, Random.Range(0,360), 0, warningTime);
+                        MeleeAttack(6f, 270, dmg, 4, Random.Range(0, 360), 90, warningTime, true);
                         meleeRangeTimer = 0;
                     }
+                    // Fast swipe attack, 2 in 3 chance
                     else
                     {
                         meleeAttackFin = false;
-                        MeleeAttack(2.5f, 360, dmg, 4, Random.Range(0, 360), 90, warningTime);
+                        MeleeAttack(1f, 360, dmg, 1, Random.Range(0, 360), 0, warningTime, false);
                         meleeRangeTimer = 0;
                     }
 
@@ -444,37 +508,39 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     }
                 }
 
-                //Debug.Log("FireAttargetsfin: " + fireAtTargetsFin);
-                //Debug.Log("rotateBurstFin: " + rotateBurstFin);
                 if (fightStarted && bossStage == 1)
                 {
-                    updateMeleeRange(50f, 2f, false, 0);
+                    updateMeleeRange(50f, 1.5f, false, 0);
 
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
-                        Debug.Log("ds");
                         fireAtTargetsFin = false;
-                        fireAtTargets(3.5f, 10, false, true, 1f);
+                        fireAtTargets(4.5f, 10, false, true, 0.5f);
                     }
-                    if(Time.time > rotateBurstTime && rotateBurstFin)
+                    if (Time.time > rotateBurstTime && rotateBurstFin)
                     {
                         rotateBurstFin = false;
-                        rotateBurstRoutineMult(5f, 360, 2, 4, 90);
+                        rotateBurstRoutineMult(8f, 360, 2, 4, 90);
                     }
-                    if(enemiesSpawned && Time.time > enemySpawnTime)
+                    if (enemiesSpawned && Time.time > enemySpawnTime)
                     {
                         enemiesSpawned = false;
-                        spawnEnemies(2, 4);
-                        enemySpawnTime = Time.time + 15f;
+                        if (Random.Range(1, 3) == 1)
+                        {
+                            spawnEnemies(2, (int)(16 * ((float)playerCount / 4)));
+                        }
+                        else
+                        {
+                            spawnEnemies(0, (int)(8 * ((float)playerCount / 4)));
+                        }
+
+                        enemySpawnTime = Time.time + 12f;
                     }
                 }
 
 
                 if (fightStarted && bossStage == 2)
                 {
-                    // First enemy spawn of the stage happens after 5 seconds
-                    enemySpawnTime = Time.time + 5f;
-
                     // Now you can only be in melee range for 1.5 continous seconds before melee attack is initiated
                     maxMeleeRangeTime = 1.5f;
 
@@ -483,9 +549,8 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
-                        Debug.Log("ds");
                         fireAtTargetsFin = false;
-                        fireAtTargets(3f, 20, true, true, 0.5f);
+                        fireAtTargets(3.5f, 20, true, true, 0.5f);
                     }
                     if (Time.time > rotateBurstTime && rotateBurstFin)
                     {
@@ -495,11 +560,49 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if (enemiesSpawned && Time.time > enemySpawnTime)
                     {
                         enemiesSpawned = false;
-                        spawnEnemies(0, 4);
-                        enemySpawnTime = Time.time + 15f;
+
+                        if (Random.Range(1, 3) == 1)
+                        {
+                            spawnEnemies(2, (int)(16 * ((float)playerCount / 4)));
+                        }
+                        else
+                        {
+                            spawnEnemies(0, (int)(4 * ((float)playerCount / 4)));
+                        }
+
+                        enemySpawnTime = Time.time + 12f;
                     }
                 }
 
+                // Potion spawning
+                if (potionCount == 0 && health < (baseHealth * 0.75))
+                {
+                    spawnPotion();
+                }
+                else if (potionCount == 1 && health < (baseHealth * 0.50))
+                {
+                    spawnPotion();
+                }
+                else if (potionCount == 2 && health < (baseHealth * 0.25))
+                {
+                    spawnPotion();
+                }
+
+                // Weaponupgrade spawning
+                if (weaponUpgradeCount == 0 && health < (baseHealth * 0.85))
+                {
+                    spawnWeaponUpgrade();
+                }
+                else if (weaponUpgradeCount == 1 && health < (baseHealth * 0.35))
+                {
+                    spawnWeaponUpgrade();
+                }
+                
+
+
+
+                //Debug.Log(enemiesSpawned);
+                //Debug.Log(enemySpawnTime);
                 //if (fightStarted && bossStage == 3)
                 //{
                 //    // First enemy spawn of the stage happens after 5 seconds
@@ -525,11 +628,14 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                 //        enemySpawnTime = Time.time + 15f;
                 //    }
                 //}
-                
+
                 // Stage 2 now beings at half health
-                if (health <= (baseHealth * ((float)1 /2)) && bossStage == 1)
+                if (health <= stage2Health && bossStage == 1)
                 {
                     updateBossStage(2);
+
+                    // First enemy spawn of the stage happens after 5 seconds
+                    enemySpawnTime = Time.time + 5f;
                 }
                 //if(health <= (baseHealth * ((float)1 /3)) && bossStage == 2)
                 //{
@@ -621,14 +727,24 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     /// <param name="startRotZ">Where the first hands is spawned</param>
     /// <param name="angle">angle between hands</param>
     /// <param name="meleeRotator">The prefab</param>
-    void MeleeAttackSpawner(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime)
+    void MeleeAttackSpawner(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime, bool extended)
     {
         Quaternion startRot = new Quaternion();
         startRot.eulerAngles = new Vector3(0, 0, startRotZ);
 
         for (int i = 0; i < spawnAmount; i++)
         {
-            GameObject rotator = Instantiate(MeleeRotator, transform.position, startRot, transform);
+            GameObject rotator;
+            // Long melee hand
+            if (extended)
+            {
+                rotator = Instantiate(MeleeRotatorLong, transform.position, startRot, transform);
+            }
+            else
+            {
+                rotator = Instantiate(MeleeRotator, transform.position, startRot, transform);
+            }
+            
             //rotator.GetComponent<Collider2D>().enabled = false; // Done in prefab
             startRot.eulerAngles += new Vector3(0, 0, angle);
             StartCoroutine(MeleeAttackRotator(time, rotationAmount, dmg, rotator, warningTime));
@@ -644,9 +760,9 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     /// <param name="spawnAmount">How many melee hands are spawned</param>
     /// <param name="startRotZ">Where the first hands is spawned</param>
     /// <param name="angle">angle between hands</param>
-    void MeleeAttack(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime)
+    void MeleeAttack(float time, float rotationAmount, int dmg, int spawnAmount, float startRotZ, float angle, float warningTime, bool extended)
     {
-        photonView.RPC("MeleeAttackSpawner", PhotonTargets.AllViaServer, time, rotationAmount, dmg, spawnAmount, startRotZ, angle, warningTime);
+        photonView.RPC("MeleeAttackSpawner", PhotonTargets.AllViaServer, time, rotationAmount, dmg, spawnAmount, startRotZ, angle, warningTime, extended);
     }
 
     [PunRPC]

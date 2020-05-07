@@ -69,4 +69,8 @@ MonoBehaviour:
   - Shoot
   - TakeDamage
   - UpdateKeys
+  - spawnPotion
+  - RPC_spawnPotion
+  - RPC_weaponUpgrade
+  - RPC_spawnWeaponUpgrade
   DisableAutoOpenWizard: 1

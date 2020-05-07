@@ -62,7 +62,7 @@ public class Projectile : MonoBehaviour {
             AudioFW.Play("PlayerShoot" + random);
         }
         launched = true;
-        Debug.Log("launched");
+        //Debug.Log("launched");
     }
 
     void FixedUpdate() {
