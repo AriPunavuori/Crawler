@@ -139,10 +139,10 @@ public class PlayerNetwork : MonoBehaviour {
         var im = FindObjectOfType<InfoManager>();
         if(selected >= 4) {
             for(int i = 0; i < 4; i++) {
-                cs.buttons[i].interactable = false;
+                cs.buttons[i].gameObject.SetActive(false);
             }
             cs.AfterSelection();
-            im.SelectedCharacter();
+            //im.SelectedCharacter();
         } else {
             cs.buttons[selected].interactable = false;
         }
