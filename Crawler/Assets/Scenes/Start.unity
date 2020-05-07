@@ -6046,7 +6046,7 @@ GameObject:
   - component: {fileID: 1305183277}
   - component: {fileID: 1305183276}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [8-bit In Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [pixel-mini SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6094,7 +6094,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 2.346875
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1305183277}
   m_TextComponent: {fileID: 1864091388}
   m_materialReferenceIndex: 1

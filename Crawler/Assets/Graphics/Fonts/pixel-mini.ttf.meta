@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 18a06fc2cca75df499df8bea43e8a919
+guid: 8d10e4e88867442a099a256e521bff2f
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -13,10 +13,10 @@ TrueTypeFontImporter:
   - pixel mini
   fallbackFontReferences: []
   customCharacters: 
-  fontRenderingMode: 2
+  fontRenderingMode: 0
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 0
+  shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
