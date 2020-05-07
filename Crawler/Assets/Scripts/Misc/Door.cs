@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -36,11 +36,12 @@ public class Door : MonoBehaviour {
 
 		}
 	}
-	IEnumerator RotateMe(Vector3 byAngles, float inTime) {
-		var fromAngle = transform.rotation;
-		var toAngle = Quaternion.Euler(transform.eulerAngles + byAngles);
-		for (var t = 0f; t < 1; t += Time.deltaTime / inTime) {
-			transform.rotation = Quaternion.Lerp(fromAngle, toAngle, t);
+	IEnumerator OpenMe(Vector3 byAngles, float inTime) {
+		var fromPosition = transform.position;
+		var toPosition = transform.position + Vector3.up * 3;
+		for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+
+			transform.position = Vector3.Lerp(fromPosition, toPosition, t);
 			yield return null;
 		}
 	}
@@ -52,6 +53,6 @@ public class Door : MonoBehaviour {
 		//bc.enabled = false;
 		opened = true;
 		uim.SetInfoText(openerName + " opened " + gameObject.name, 2);
-		StartCoroutine(RotateMe(Vector3.forward * 90, 2));
+		StartCoroutine(OpenMe(Vector3.forward * 90, 2));
 	}
 }
