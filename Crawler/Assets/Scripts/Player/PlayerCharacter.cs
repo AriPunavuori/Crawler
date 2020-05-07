@@ -74,7 +74,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	Vector3 camPos;
 
-	float sceneTimer = 15f;
+	float sceneTimer = 10f;
 	Vector3 charPos;
 
 	int projectilesPerAttack = 1;
@@ -117,6 +117,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		gameWon = true;
 		rb2D.velocity = Vector2.zero;
 		charPos = transform.position;
+		AudioFW.StopAllSounds();
+		AudioFW.Play("Win");
 	}
 
 	[PunRPC]
@@ -124,6 +126,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		print("RPC_GameLost " + name);
 		switchingScene = true;
 		rb2D.velocity = Vector2.zero;
+		AudioFW.StopAllSounds();
+		AudioFW.Play("AllDead");
 	}
 
 	void Start() {
@@ -166,6 +170,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
         */
 		if (photonView != null) {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
+			UIManager.Instance.UpdatePlayerUI();
 		}
 		if (photonView.isMine)
 			GameManager.Instance.pc = this;
@@ -857,12 +862,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
-        if (!photonView.isMine)
-        {
-            damage = 0;
-        }
-
-        for (int i = 0; i < amount; i++) {
+		for (int i = 0; i < amount; i++) {
 			GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
 			projectileClone.transform.parent = projectileSpawn.transform;
 			projectileClone.transform.localPosition = new Vector3(-(offset - i * (gap / 2)), offset - i * gap, 0f);

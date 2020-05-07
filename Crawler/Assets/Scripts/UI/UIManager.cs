@@ -15,11 +15,13 @@ public class UIManager : MonoBehaviour {
 	public Sprite[] boxBackgrounds = new Sprite[4];
 	public Sprite[] origBoxBGs = new Sprite[4];
 	public GameObject otherPlayerBox;
-	public GameObject SpecialCoolDownUI;
-	public Image SpecialBar;
+	public GameObject specialCoolDownUI;
+	public Image specialBar;
 	GameObject playerBoxPlace;
 	GameObject healthAmountUI;
 	GameObject playerName;
+	Image mainHealthBar;
+
 
 	GameObject keysUI;
 	GameObject potion;
@@ -65,8 +67,9 @@ public class UIManager : MonoBehaviour {
 		powerupLevel = 0;
 		infoText = GameObject.Find("InfoText").GetComponent<TextMeshProUGUI>();
 		infoText.text = "";
-		SpecialCoolDownUI = GameObject.Find("SpecialCooldownUI");
-		SpecialBar = SpecialCoolDownUI.transform.GetChild(1).GetComponent<Image>();
+		specialCoolDownUI = GameObject.Find("SpecialCooldownUI");
+		specialBar = specialCoolDownUI.transform.GetChild(1).GetComponent<Image>();
+		mainHealthBar = healthAmountUI.transform.GetChild(1).GetComponent<Image>();
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
@@ -79,7 +82,7 @@ public class UIManager : MonoBehaviour {
 		}
 
 		if (Time.time < cooldownFinishTime && specialBarReduced) {
-			SpecialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
+			specialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
 		}
 
 		#region speedboost UI handling
@@ -242,13 +245,26 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void RPC_UpdateUIBoxContent(string name, int health, int selected, int baseHealth) {
 		names[selected].text = name;
+		print(health + " " + selected + " " + baseHealth);
 		StartCoroutine(updateHealthBar(health, 0.1f, selected, baseHealth));
 		healths[selected].text = "" + health;
 		for (int i = 0; i < names.Length; i++) {
 			if (names[i].text == PhotonNetwork.player.NickName) {
+				healthAmountUI.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = healths[i].text;
+			}
+		}
+	}
+
+	public void UpdatePlayerUI() {
+		photonView.RPC("RPC_UpdatePlayerUI", PhotonTargets.All);
+	}
+
+	[PunRPC]
+	public void RPC_UpdatePlayerUI() {
+		for (int i = 0; i < names.Length; i++) {
+			if (names[i].text == PhotonNetwork.player.NickName) {
 				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text;
 				healthAmountUI.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = healths[i].text;
-
 				GameObject playerBox = otherPlayerBoxes[i];
 				playerBox.transform.SetParent(playerBoxPlace.transform);
 				playerBox.transform.localPosition = Vector3.zero;
@@ -258,6 +274,8 @@ public class UIManager : MonoBehaviour {
 				playerBox.transform.GetChild(1).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
+				StartCoroutine(updateHealthBar(int.Parse(playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text), 0.1f, i, 150));
+				healthBars[i] = mainHealthBar;
 			}
 		}
 		UpdateBoxColors();
@@ -300,7 +318,7 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 
 		while (elapsedTime < updateTime) {
-			SpecialBar.fillAmount = Mathf.Lerp(startAmount, endAmount, (elapsedTime / updateTime));
+			specialBar.fillAmount = Mathf.Lerp(startAmount, endAmount, (elapsedTime / updateTime));
 
 			elapsedTime += Time.deltaTime;
 
