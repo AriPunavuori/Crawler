@@ -133,11 +133,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2df49c5897d86e43980c0e05d7e8ea0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 900030000
+  health: 5000
   meleerangeColliders: []
   ProjectileRotator: {fileID: 8302525885081540478, guid: ddb37b5019b4233499cc044b4af1a28d,
     type: 3}
   MeleeRotator: {fileID: 3880772805277231542, guid: 8ccb55831a193854fa49b7f6f193b0af,
+    type: 3}
+  MeleeRotatorLong: {fileID: 2015628992913450091, guid: a94993e9d841678468babc6433874872,
+    type: 3}
+  potion: {fileID: 452689849195340384, guid: d22998a6a7b95034487a38848077c280, type: 3}
+  weaponUpgrade: {fileID: 1721393517472464180, guid: f1c7f7fef1bfb674b9c8fdcb005462a2,
     type: 3}
   EnemySpawnRotator: {fileID: 1887486049677158288}
   EnemySpawn: {fileID: 5792667112304448842}

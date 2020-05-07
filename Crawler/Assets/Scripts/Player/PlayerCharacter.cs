@@ -426,35 +426,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
                 // When the player is alive
                 if(alive) {
 
-                    // If sprites are flipped
-                    if(spriteRenderer.flipX == true) {
-                        // Oni
-                        if(characterType == EntityType.Hero1) {
-                            // If LightOniAttack is no longer playing
-                            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("LightOniAttack"))
-                            {
-                                // Flip sprites back to normal
-                                spriteRenderer.flipX = false;
-                                // Handle with invoke preemptively instead?
-                                photonView.RPC("flipSprite", PhotonTargets.Others, false);
-                            }
-
-                        }
-                        // Dark Oni
-                        if(characterType == EntityType.Hero3) {
-                            // If DarkOniAttack is no longer playing
-                            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("DarkOniAttack")) 
-                            {
-                                // Flip sprites back to normal
-                                spriteRenderer.flipX = false;
-                                // Handle with invoke preemptively instead?
-                                photonView.RPC("flipSprite", PhotonTargets.Others, false);
-                            }
-                        }
-
-                    }
-
-
                     // Health potion input
                     if(Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f) {
                         UsePotion();
@@ -887,10 +858,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
             projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
         }
     }
-    [PunRPC]
-    public void flipSprite(bool flipped) {
-        spriteRenderer.flipX = flipped;
-    }
+
     [PunRPC]
     public void Melee() {
         int random = Random.Range(0, 4);
@@ -906,11 +874,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
         }
         if(photonView.isMine) {
             Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPos.x, Input.mousePosition.y - camPos.y).normalized;
-            // Flip sprites when facing left, flip is reset at update when animation is no longer playing
-            if(mouseVector.x < 0) {
-                spriteRenderer.flipX = true;
-                photonView.RPC("flipSprite", PhotonTargets.Others, true);
-            }
 
             if(characterType == EntityType.Hero1)
             {
@@ -920,6 +883,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
             {
                 animator.SetTrigger("DarkOniAttack");
             }
+            animator.SetFloat("Horizontal", mouseVector.x);
+            animator.SetFloat("Vertical", mouseVector.y);
         }
     }
 }
