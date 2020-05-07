@@ -71,4 +71,5 @@ MonoBehaviour:
   - TakeDamage
   - UpdateKeys
   - explosionRPC
+  - RPC_UpdatePlayerUI
   DisableAutoOpenWizard: 1
