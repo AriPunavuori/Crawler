@@ -97,7 +97,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void GameWon() {
 		for (int i = 0; i < players.Length; i++) {
-			players[i].GetComponent<PlayerCharacter>().photonView.RPC("RPC_GameLost", PhotonTargets.AllViaServer);
+			players[i].GetComponent<PlayerCharacter>().photonView.RPC("RPC_GameWon", PhotonTargets.AllViaServer);
 		}
 		print("Calling RPC_GameWon");
 	}
