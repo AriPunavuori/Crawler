@@ -75,6 +75,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector3 camPos;
 
 	float sceneTimer = 15f;
+	Vector3 charPos;
 
 	int projectilesPerAttack = 1;
 
@@ -115,6 +116,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		switchingScene = true;
 		gameWon = true;
 		rb2D.velocity = Vector2.zero;
+		charPos = transform.position;
 	}
 
 	[PunRPC]
@@ -569,6 +571,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					UIManager.Instance.SetInfoText("You All Died\n" + "Restarting level " + sceneTimer.ToString("f0"), 1);
 				else
 					UIManager.Instance.SetInfoText("Congrats You Won\nSee the awesome people\nBehind this project in " + sceneTimer.ToString("f0"), 1);
+				transform.position = charPos;
+				charPos = transform.position;
 				if (sceneTimer < 0) {
 					if (!gameWon) {
 						// Should load game scene

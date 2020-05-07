@@ -70,7 +70,6 @@ public class UIManager : MonoBehaviour {
 		specialBarReduced = false;
 		photonView = GetComponent<PhotonView>();
 		CreateUIBoxes();
-		Invoke("UpdateBoxColors", 1f);
 	}
 
 	private void Update() {
@@ -261,6 +260,7 @@ public class UIManager : MonoBehaviour {
 				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
 			}
 		}
+		UpdateBoxColors();
 	}
 
 	IEnumerator updateHealthBar(int newHealth, float updateTime, int selected, int baseHealth) {
