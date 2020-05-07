@@ -18,12 +18,14 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     public static PlayerNetwork Instance;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
+    LayerMask layerMaskObstacles;
     LayerMask layerMaskAll;
     float detectionDistance = 15;
     public int health = 200;
     private void Start() {
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskEnemy = LayerMask.GetMask("Enemy");
+        layerMaskObstacles = LayerMask.GetMask("Obstacles");
         layerMaskAll = LayerMask.GetMask("Player", "Enemy", "Obstacles");
         healthText.text = "" + health;
     }
@@ -57,7 +59,8 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         int i = 0;
         while(pointNotFound || i >=1000) {
             spawnPoint = transform.position + new Vector3(Random.Range(-maxSpawnDistance, maxSpawnDistance), Random.Range(-maxSpawnDistance, maxSpawnDistance), 0);
-            pointNotFound = Physics2D.OverlapCircle(spawnPoint, .5f, layerMaskAll);
+            pointNotFound = Physics2D.OverlapCircle(spawnPoint, .5f, layerMaskAll)&&
+                Physics2D.Raycast(transform.position,spawnPoint-transform.position, Vector3.Distance(transform.position, spawnPoint), layerMaskObstacles);
             i++;
         }
         var enemy = PhotonNetwork.InstantiateSceneObject(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0, null);
