@@ -9,19 +9,24 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     public TextMeshProUGUI healthText;
     public EntityType spawningType;
     Vector3 spawnPoint;
+    float maxSpawnDistance = 1.5f;
     string[] enemyType = new string[] { "NetworkEnemy0", "NetworkEnemy1", "NetworkEnemy2", "NetworkEnemy3" };
     public float spawnInterval = 3f;
     public int maxEnemiesInArea = 16;
+    bool pointNotFound = true;
     float timer;
     public static PlayerNetwork Instance;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskEnemy;
+    LayerMask layerMaskObstacles;
+    LayerMask layerMaskAll;
     float detectionDistance = 15;
     public int health = 200;
     private void Start() {
-        spawnPoint = gameObject.transform.Find("SpawnPoint").transform.position;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskEnemy = LayerMask.GetMask("Enemy");
+        layerMaskObstacles = LayerMask.GetMask("Obstacles");
+        layerMaskAll = LayerMask.GetMask("Player", "Enemy", "Obstacles");
         healthText.text = "" + health;
     }
     void Update() {
@@ -50,8 +55,16 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     }
 
     void SpawnNow() {
-
+        // Randomize spawnpoint
+        int i = 0;
+        while(pointNotFound || i >=1000) {
+            spawnPoint = transform.position + new Vector3(Random.Range(-maxSpawnDistance, maxSpawnDistance), Random.Range(-maxSpawnDistance, maxSpawnDistance), 0);
+            pointNotFound = Physics2D.OverlapCircle(spawnPoint, .5f, layerMaskAll)&&
+                Physics2D.Raycast(transform.position,spawnPoint-transform.position, Vector3.Distance(transform.position, spawnPoint), layerMaskObstacles);
+            i++;
+        }
         var enemy = PhotonNetwork.InstantiateSceneObject(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0, null);
+        pointNotFound = true;
         //var enemy = PhotonNetwork.Instantiate(enemyType[(int)spawningType - 4], spawnPoint, Quaternion.identity, 0);
     }
 

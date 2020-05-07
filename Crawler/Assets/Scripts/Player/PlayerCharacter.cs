@@ -75,6 +75,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	Vector3 camPos;
 
 	float sceneTimer = 15f;
+	Vector3 charPos;
 
 	int projectilesPerAttack = 1;
 
@@ -97,7 +98,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void GameWon() {
 		for (int i = 0; i < players.Length; i++) {
-			players[i].GetComponent<PlayerCharacter>().photonView.RPC("RPC_GameLost", PhotonTargets.AllViaServer);
+			players[i].GetComponent<PlayerCharacter>().photonView.RPC("RPC_GameWon", PhotonTargets.AllViaServer);
 		}
 		print("Calling RPC_GameWon");
 	}
@@ -115,6 +116,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		switchingScene = true;
 		gameWon = true;
 		rb2D.velocity = Vector2.zero;
+		charPos = transform.position;
 	}
 
 	[PunRPC]
@@ -569,6 +571,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					UIManager.Instance.SetInfoText("You All Died\n" + "Restarting level " + sceneTimer.ToString("f0"), 1);
 				else
 					UIManager.Instance.SetInfoText("Congrats You Won\nSee the awesome people\nBehind this project in " + sceneTimer.ToString("f0"), 1);
+				transform.position = charPos;
+				charPos = transform.position;
 				if (sceneTimer < 0) {
 					if (!gameWon) {
 						// Should load game scene
@@ -853,7 +857,12 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		float gap = .5f;
 		var offset = (amount - 1f) / 2 * gap;
 
-		for (int i = 0; i < amount; i++) {
+        if (!photonView.isMine)
+        {
+            damage = 0;
+        }
+
+        for (int i = 0; i < amount; i++) {
 			GameObject projectileClone = Instantiate(projectilePrefab, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
 			projectileClone.transform.parent = projectileSpawn.transform;
 			projectileClone.transform.localPosition = new Vector3(-(offset - i * (gap / 2)), offset - i * gap, 0f);

@@ -13,7 +13,7 @@ public class CharacterSelection : MonoBehaviour {
         PlayerNetwork.Instance.numberOfPlayers = PhotonNetwork.playerList.Length;
         AudioFW.StopAllSounds();
         AudioFW.PlayLoop("CharaterSelectionLoop");
-        Invoke("PumpText", 1.5f);
+        Invoke("PumpText", 1f);
     }
 
     void PumpText() {
@@ -24,18 +24,17 @@ public class CharacterSelection : MonoBehaviour {
     }
 
     public void OnClickPickCharacter(int c) {
-        AudioFW.StopLoop("CharaterSelectionLoop");
-        LeanTween.cancel(chooseText);
-        LeanTween.scale(chooseText, Vector3.one, 0f);
-        chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
-        LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
-        Invoke("AfterSelection", .25f);
         PlayerNetwork.Instance.selectedCharacter = c;
         PlayerNetwork.Instance.PickedCharacter(c);
     }
 
-    void AfterSelection() {
+    public void AfterSelection() {
         LeanTween.move(controlInfo, Vector2.zero, .25f).setEaseOutBack();
+        AudioFW.StopAllSounds();
         AudioFW.Play("CharacterSelected");
+        LeanTween.cancel(chooseText);
+        LeanTween.scale(chooseText, Vector3.one, 0f);
+        chooseText.GetComponent<TextMeshProUGUI>().text = "Get Ready!";
+        LeanTween.scale(chooseText, Vector3.one * 1.2f, .2f).setLoopPingPong().setEaseInExpo();
     }
 }
