@@ -245,7 +245,6 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void RPC_UpdateUIBoxContent(string name, int health, int selected, int baseHealth) {
 		names[selected].text = name;
-		print(health + " " + selected + " " + baseHealth);
 		StartCoroutine(updateHealthBar(health, 0.1f, selected, baseHealth));
 		healths[selected].text = "" + health;
 		for (int i = 0; i < names.Length; i++) {
@@ -263,7 +262,7 @@ public class UIManager : MonoBehaviour {
 	public void RPC_UpdatePlayerUI() {
 		for (int i = 0; i < names.Length; i++) {
 			if (names[i].text == PhotonNetwork.player.NickName) {
-				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text;
+				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text.ToUpper();
 				healthAmountUI.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = healths[i].text;
 				GameObject playerBox = otherPlayerBoxes[i];
 				playerBox.transform.SetParent(playerBoxPlace.transform);
