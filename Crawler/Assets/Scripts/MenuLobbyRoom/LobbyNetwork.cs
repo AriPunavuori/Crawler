@@ -30,19 +30,7 @@ public class LobbyNetwork : MonoBehaviour {
         }
         
         if(!PhotonNetwork.inRoom) {
-            Invoke("SwitchCanvas", .5f);
-            if(beenToLobby) {
-                var playerList = GameObject.Find("PlayerList").GetComponent<UIElementJuicer>();
-                playerList.MoveOut(false);
-                var roomList = GameObject.Find("RoomList").GetComponent<UIElementJuicer>();
-                roomList.MoveIn(true);
-            }
+            MenuCanvasManager.Instance.JoinedLobby();
         }
-        beenToLobby = true;
     }
-
-    void SwitchCanvas() {
-        MenuCanvasManager.Instance.lobbyCanvas.transform.SetAsLastSibling();
-    }
-
 }

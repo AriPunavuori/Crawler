@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +7,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
     public GameObject playerListingPrefab;
     public List<PlayerListing> playerListings = new List<PlayerListing>();
     public Button startGame;
-
     // Called by Photon when Master Client is switched
     void OnMasterClientSwitched() {
         print("Master switched");
@@ -24,17 +22,15 @@ public class PlayerLayoutGroup : MonoBehaviour {
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }
-        Invoke("SwitchCanvas", .5f);
+        MenuCanvasManager.Instance.JoinedRoom();
         PhotonPlayer[] photonPlayers = PhotonNetwork.playerList;
         for(int i = 0; i < photonPlayers.Length; i++) {
             PlayerJoinedRoom(photonPlayers[i]);
         }
     }
+   
 
-    void SwitchCanvas() {
-        MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
-    }
-    
+
     // Called by photon when a player joins the room
     void OnPhotonPlayerConnected(PhotonPlayer photonPlayer) {
         PlayerJoinedRoom(photonPlayer);
