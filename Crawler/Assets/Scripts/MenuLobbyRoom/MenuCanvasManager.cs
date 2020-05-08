@@ -45,7 +45,7 @@ public class MenuCanvasManager : MonoBehaviour {
             b.interactable = true;
         }
         MenuCanvasManager.Instance.lobbyCanvas.transform.SetAsLastSibling();
-        LeanTween.move(lobbyInteractables, Vector3.zero, .5f).setEaseOutBack();
+        LeanTween.move(lobbyInteractables, Vector3.zero, .5f).setEaseOutExpo();
         if(FindObjectOfType<RoomLayoutGroup>().roomListingButtons.Count<1)
         createRoom.Select();
     }
@@ -60,7 +60,7 @@ public class MenuCanvasManager : MonoBehaviour {
             b.interactable = false;
         }
         MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
-        LeanTween.move(roomInteractables, Vector3.zero, .5f).setEaseOutBack();
+        LeanTween.move(roomInteractables, Vector3.zero, .5f).setEaseOutExpo();
         if(PhotonNetwork.isMasterClient)
             startGame.Select();
         else

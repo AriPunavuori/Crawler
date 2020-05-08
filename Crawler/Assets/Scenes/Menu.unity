@@ -1076,6 +1076,7 @@ MonoBehaviour:
   roomListingPrefab: {fileID: 7707278892555353005, guid: 8b4c6456a1e50c249accb1adb74246cc,
     type: 3}
   roomListingButtons: []
+  roomText: {fileID: 732800745}
 --- !u!1 &995727523
 GameObject:
   m_ObjectHideFlags: 0

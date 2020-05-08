@@ -20,12 +20,10 @@ public class InfoManager : MonoBehaviour {
     private void Awake() {
         character = GameObject.Find("BaseHealth").GetComponent<Character>();
     }
-    private void Start() {
-
-    }
 
     public void Show(int hero) {
         if(!selected) {
+
             frameImage.color = heroColors[hero];
             heroImage = heroImages[hero];
             Image SetheroImageCard = heroImageCard.GetComponent(typeof(Image)) as Image;

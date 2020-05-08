@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class RoomLayoutGroup : MonoBehaviour {
 
     public GameObject roomListingPrefab;
-
     public List<RoomListing> roomListingButtons = new List<RoomListing>();
+    public TextMeshProUGUI roomText;
 
     void OnReceivedRoomListUpdate() {
         RoomInfo[] rooms = PhotonNetwork.GetRoomList();
@@ -14,6 +14,10 @@ public class RoomLayoutGroup : MonoBehaviour {
             RoomReceived(room);
         }
         RemoveOldRooms();
+        if(roomListingButtons.Count < 1)
+            roomText.text = "";
+        else
+            roomText.text = "Available Rooms:";
     }
 
     void RoomReceived(RoomInfo room) {
