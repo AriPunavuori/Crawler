@@ -28,24 +28,33 @@ public class ButtonPopper : MonoBehaviour {
     }
 
     public void OnHoverEnter0() {
-        LeanTween.cancel(cards[0]);
-        LeanTween.cancel(buttons[0]);
-        LeanTween.move(cards[0], new Vector3(0, -400, 0), .15f).setOnComplete(button0Up);
+        if(buttons[0].GetComponent<Button>().IsInteractable()) {
+            LeanTween.cancel(cards[0]);
+            LeanTween.cancel(buttons[0]);
+            LeanTween.move(cards[0], new Vector3(0, -400, 0), .15f).setOnComplete(button0Up);
+        }
     }
     public void OnHoverEnter1() {
-        LeanTween.cancel(cards[1]);
-        LeanTween.cancel(buttons[1]);
-        LeanTween.move(cards[1], new Vector3(0, -400, 0), .15f).setOnComplete(button1Up);
+
+        if(buttons[1].GetComponent<Button>().IsInteractable()) {
+            LeanTween.cancel(cards[1]);
+            LeanTween.cancel(buttons[1]);
+            LeanTween.move(cards[1], new Vector3(0, -400, 0), .15f).setOnComplete(button1Up);
+        }
     }
     public void OnHoverEnter2() {
-        LeanTween.cancel(cards[2]);
-        LeanTween.cancel(buttons[2]);
-        LeanTween.move(cards[2], new Vector3(0, -400, 0), .15f).setOnComplete(button2Up);
+        if(buttons[2].GetComponent<Button>().IsInteractable()) {
+            LeanTween.cancel(cards[2]);
+            LeanTween.cancel(buttons[2]);
+            LeanTween.move(cards[2], new Vector3(0, -400, 0), .15f).setOnComplete(button2Up);
+        }
     }
     public void OnHoverEnter3() {
-        LeanTween.cancel(cards[3]);
-        LeanTween.cancel(buttons[3]);
-        LeanTween.move(cards[3], new Vector3(0, -400, 0), .15f).setOnComplete(button3Up);
+        if(buttons[3].GetComponent<Button>().IsInteractable()) {
+            LeanTween.cancel(cards[3]);
+            LeanTween.cancel(buttons[3]);
+            LeanTween.move(cards[3], new Vector3(0, -400, 0), .15f).setOnComplete(button3Up);
+        }
     }
 
     void MoveButton0Up() {

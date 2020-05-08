@@ -21,6 +21,7 @@ public class CharacterSelection : MonoBehaviour {
             button.interactable = true;
         }
         LeanTween.scale(chooseText, Vector3.one * 1.2f, 2f).setLoopPingPong().setEaseInOutSine();
+        buttons[0].Select();
     }
 
     public void OnClickPickCharacter(int c) {

@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -9,6 +9,7 @@ public class Door : MonoBehaviour {
 	UIManager uim;
 	PhotonView photonView;
 	public bool opened;
+	public GameObject doorOpenParticles;
 
 	float openingSpeed;
 	void Start() {
@@ -30,7 +31,6 @@ public class Door : MonoBehaviour {
 
 			if (collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
 				Debug.Log(gameObject.name + " opened");
-				AudioFW.Play("DoorOpen");
 				photonView.RPC("OpenDoorAll", PhotonTargets.All, collision.gameObject.name);
 			}
 
@@ -39,7 +39,7 @@ public class Door : MonoBehaviour {
 	IEnumerator OpenMe(Vector3 byAngles, float inTime) {
 		var fromPosition = transform.position;
 		var toPosition = transform.position + transform.right * 2.75f;
-		for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+		for (var t = 0f; t < 1; t += Time.deltaTime / inTime) {
 			transform.position = Vector3.Lerp(fromPosition, toPosition, t);
 			yield return null;
 		}
@@ -50,8 +50,11 @@ public class Door : MonoBehaviour {
 	[PunRPC]
 	public void OpenDoorAll(string openerName) {
 		//bc.enabled = false;
+		AudioFW.Play("DoorOpen");
 		opened = true;
 		uim.SetInfoText(openerName + " opened " + gameObject.name, 2);
+		GameObject particles = Instantiate(doorOpenParticles, transform.GetChild(1).transform.position, transform.rotation, transform.GetChild(1));
+		Destroy(particles, 5);
 		StartCoroutine(OpenMe(Vector3.forward * 90, 2));
 	}
 }

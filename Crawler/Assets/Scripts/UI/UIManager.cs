@@ -245,7 +245,6 @@ public class UIManager : MonoBehaviour {
 	[PunRPC]
 	public void RPC_UpdateUIBoxContent(string name, int health, int selected, int baseHealth) {
 		names[selected].text = name;
-		print(health + " " + selected + " " + baseHealth);
 		StartCoroutine(updateHealthBar(health, 0.1f, selected, baseHealth));
 		healths[selected].text = "" + health;
 		for (int i = 0; i < names.Length; i++) {
@@ -256,14 +255,13 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void UpdatePlayerUI() {
-		photonView.RPC("RPC_UpdatePlayerUI", PhotonTargets.All);
+		photonView.RPC("RPC_UpdatePlayerUI", PhotonTargets.AllViaServer);
 	}
-
 	[PunRPC]
 	public void RPC_UpdatePlayerUI() {
 		for (int i = 0; i < names.Length; i++) {
 			if (names[i].text == PhotonNetwork.player.NickName) {
-				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text;
+				playerName.GetComponent<TextMeshProUGUI>().text = names[i].text.ToUpper();
 				healthAmountUI.transform.GetChild(1).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = healths[i].text;
 				GameObject playerBox = otherPlayerBoxes[i];
 				playerBox.transform.SetParent(playerBoxPlace.transform);
@@ -274,7 +272,6 @@ public class UIManager : MonoBehaviour {
 				playerBox.transform.GetChild(1).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
-				StartCoroutine(updateHealthBar(int.Parse(playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text), 0.1f, i, 150));
 				healthBars[i] = mainHealthBar;
 			}
 		}
