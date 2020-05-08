@@ -2,37 +2,62 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class InfoManager : MonoBehaviour {
-    public RectTransform[] characterRectTransforms;
-    public RectTransform[] infoCardRectTransforms;
-    public Vector2 imagePosition;
-    public Vector2 cardPosition;
-    public Vector2[] originalCardPositions;
-    public Vector2[] originalImagePositions;
+    public Color[] heroColors;
+    public Image frameImage;
+    public Image heroImage;
+    public Sprite[] heroImages = new Sprite[4];
+    public RectTransform title;
+    public RectTransform infoCardRectTransform;
+    public TextMeshProUGUI[] textFields;
+    Character character;
     bool selected;
 
-    public void Show(int i) {
-        if(!selected) {
-            LeanTween.cancel(characterRectTransforms[i]);
-            LeanTween.cancel(infoCardRectTransforms[i]);
-            LeanTween.move(characterRectTransforms[i], imagePosition, .5f).setEaseOutCirc();
-            LeanTween.move(infoCardRectTransforms[i], cardPosition, .5f).setEaseOutCirc();
-        }
+    private void Awake() {
+        character = GameObject.Find("BaseHealth").GetComponent<Character>();
     }
-    
+
+    public void Show(int hero) {
+        if(!selected) {
+            frameImage.color = heroColors[hero];
+            //heroImage.sprite = heroImages[hero];
+            for(int i = 0; i < textFields.Length; i++) {
+                textFields[i].text = character.GetCharacterData(i, hero);
+            }
+            ShowCard();
+        }
+        HideTitle();
+    }
+
     public void Hide(int i) {
-        LeanTween.cancel(characterRectTransforms[i]);
-        LeanTween.cancel(infoCardRectTransforms[i]);
-        LeanTween.move(characterRectTransforms[i], originalImagePositions[i], .15f);
-        LeanTween.move(infoCardRectTransforms[i], originalCardPositions[i], .15f);
+        ShowTitle();
+        HideCard();
+    }
+
+    public void ShowCard() {
+        LeanTween.cancel(infoCardRectTransform);
+        LeanTween.move(infoCardRectTransform, Vector3.zero, .5f).setEaseOutCirc();
+    }
+
+    public void HideCard() {
+        LeanTween.cancel(infoCardRectTransform);
+        LeanTween.move(infoCardRectTransform, Vector3.right * 2500, .5f).setEaseOutCirc();
+    }
+
+    public void ShowTitle() {
+        LeanTween.cancel(title);
+        LeanTween.move(title, Vector3.zero, .5f).setEaseOutCirc();
+    }
+
+    public void HideTitle() {
+        LeanTween.cancel(title);
+        LeanTween.move(title, Vector3.left * 2500, .5f).setEaseOutCirc();
     }
 
     public void SelectedCharacter() {
         selected = true;
-        for(int i = 0; i < characterRectTransforms.Length; i++) {
-            Hide(i);
-        }
     }
 }

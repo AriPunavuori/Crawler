@@ -155,7 +155,7 @@ public class PlayerNetwork : MonoBehaviour {
                 cs.buttons[i].gameObject.SetActive(false);
             }
             cs.AfterSelection();
-            //im.SelectedCharacter();
+            im.SelectedCharacter();
         } else {
             cs.buttons[selected].interactable = false;
             foreach(var b in cs.buttons) {
