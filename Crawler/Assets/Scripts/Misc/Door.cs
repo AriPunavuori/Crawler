@@ -31,7 +31,6 @@ public class Door : MonoBehaviour {
 
 			if (collision.gameObject.CompareTag("Player") && (bool)PhotonNetwork.room.CustomProperties[keyName] && !opened) {
 				Debug.Log(gameObject.name + " opened");
-				AudioFW.Play("DoorOpen");
 				photonView.RPC("OpenDoorAll", PhotonTargets.All, collision.gameObject.name);
 			}
 
@@ -51,6 +50,7 @@ public class Door : MonoBehaviour {
 	[PunRPC]
 	public void OpenDoorAll(string openerName) {
 		//bc.enabled = false;
+		AudioFW.Play("DoorOpen");
 		opened = true;
 		uim.SetInfoText(openerName + " opened " + gameObject.name, 2);
 		GameObject particles = Instantiate(doorOpenParticles, transform.GetChild(1).transform.position, transform.rotation, transform.GetChild(1));
