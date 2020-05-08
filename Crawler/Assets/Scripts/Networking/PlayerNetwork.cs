@@ -7,6 +7,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerNetwork : MonoBehaviour {
     public RectTransform nameInteractables;
     public Button skipIntro;
+    public Button nameEntryButton;
     public GameObject Intro;
     public GameObject nameEntry;
     public RectTransform introText;
@@ -39,8 +40,12 @@ public class PlayerNetwork : MonoBehaviour {
         loadMenu += LoadMenu;
         input.text = PlayerPrefs.GetString("Name");
         //PlayerPrefs.SetInt("IntroSeen", 0);
-        if(PlayerPrefs.GetInt("IntroSeen") == 1)
+        if(PlayerPrefs.GetInt("IntroSeen") == 1) {
             skipIntro.interactable = true;
+            skipIntro.Select();
+        }
+
+            
         LeanTween.move(introText, Vector2.up * 1900, 50f).setOnComplete(watchedIntro);
         AudioFW.PlayLoop("IntroLoop");
     }
@@ -48,11 +53,13 @@ public class PlayerNetwork : MonoBehaviour {
     void WatchIntro() {
         PlayerPrefs.SetInt("IntroSeen", 1);
         skipIntro.interactable = true;
+        skipIntro.Select();
     }
 
     public void NameEntry() {
         Intro.SetActive(false);
         nameEntry.SetActive(true);
+        nameEntryButton.Select();
         LeanTween.move(nameInteractables, Vector3.zero, .5f).setEaseOutBack();
         AudioFW.StopAllSounds();
         AudioFW.PlayLoop("MenuLoop");

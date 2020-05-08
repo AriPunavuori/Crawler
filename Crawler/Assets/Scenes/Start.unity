@@ -3942,6 +3942,36 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 700860985}
+          m_MethodName: OnButtonHoverEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 700860985}
+          m_MethodName: OnButtonHoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &725145222
 GameObject:
   m_ObjectHideFlags: 0
@@ -4433,7 +4463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -4501,7 +4531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -350, y: -950}
+  m_AnchoredPosition: {x: -350, y: -50}
   m_SizeDelta: {x: 450, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &891542625
@@ -4554,7 +4584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHoverSizeMultiplier: 1.05
   shadowDistance: {x: 10, y: -10}
-  entryMovement: 1
+  entryMovement: 0
   movementDelta: {x: 0, y: 900, z: 0}
   tweenLength: 0.35
   objectsToEnableAfterEntryTween: []
@@ -4809,7 +4839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -350, y: -1025}
+  m_AnchoredPosition: {x: -350, y: -125}
   m_SizeDelta: {x: 450, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &946369228
@@ -4825,7 +4855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -5000,7 +5030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHoverSizeMultiplier: 1.05
   shadowDistance: {x: 10, y: -10}
-  entryMovement: 1
+  entryMovement: 0
   movementDelta: {x: 0, y: 900, z: 0}
   tweenLength: 0.35
   objectsToEnableAfterEntryTween: []
@@ -7949,6 +7979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameInteractables: {fileID: 1850625595}
   skipIntro: {fileID: 700860982}
+  nameEntryButton: {fileID: 946369228}
   Intro: {fileID: 2134390131}
   nameEntry: {fileID: 1999975797}
   introText: {fileID: 1864091386}

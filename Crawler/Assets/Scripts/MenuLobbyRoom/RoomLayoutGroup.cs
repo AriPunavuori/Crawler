@@ -32,6 +32,7 @@ public class RoomLayoutGroup : MonoBehaviour {
             roomListing.SetRoomNameText(room.Name);
             roomListing.updated = true;
         }
+        roomListingButtons[0].GetComponent<Button>().Select();
     }
 
     void RemoveOldRooms() {
