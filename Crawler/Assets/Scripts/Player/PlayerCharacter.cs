@@ -880,7 +880,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void Melee() {
 		int random = Random.Range(0, 4);
 		AudioFW.Play("PlrMelee" + random);
-		if (PhotonNetwork.isMasterClient) {
+        if (!photonView.isMine)
+        {
+            damage = 0;
+        }
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
 			foreach (var hit in hits) {
 				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
@@ -888,7 +891,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					iDamageable.TakeDamage(damage, new Vector3(0, 0, 0));
 				}
 			}
-		}
 		if (photonView.isMine) {
 			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPos.x, Input.mousePosition.y - camPos.y).normalized;
 
