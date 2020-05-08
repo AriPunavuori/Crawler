@@ -255,9 +255,8 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void UpdatePlayerUI() {
-		photonView.RPC("RPC_UpdatePlayerUI", PhotonTargets.All);
+		photonView.RPC("RPC_UpdatePlayerUI", PhotonTargets.AllViaServer);
 	}
-
 	[PunRPC]
 	public void RPC_UpdatePlayerUI() {
 		for (int i = 0; i < names.Length; i++) {
@@ -273,7 +272,6 @@ public class UIManager : MonoBehaviour {
 				playerBox.transform.GetChild(1).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(1).transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().color = new Color(0, 0, 0, 0);
-				StartCoroutine(updateHealthBar(int.Parse(playerBox.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text), 0.1f, i, 150));
 				healthBars[i] = mainHealthBar;
 			}
 		}
