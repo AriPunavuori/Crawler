@@ -580,10 +580,17 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				charPos = transform.position;
 				if (sceneTimer < 0) {
 					if (!gameWon) {
+                        if (PhotonNetwork.isMasterClient)
+                        {
+
 						// Should load game scene
 						print("Should load game scene");
 						PhotonNetwork.LoadLevel(3);
-					} else {
+                        sceneTimer = 10;
+
+                        }
+
+                    } else {
 						// Should load credits scene
 						print("Should load credits scene");
 						PhotonNetwork.LoadLevel(4);
