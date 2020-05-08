@@ -158,6 +158,13 @@ public class PlayerNetwork : MonoBehaviour {
             //im.SelectedCharacter();
         } else {
             cs.buttons[selected].interactable = false;
+            foreach(var b in cs.buttons) {
+                if(b.interactable == true) {
+                    b.Select();
+                    return;
+                }
+
+            }
         }
     }
 
