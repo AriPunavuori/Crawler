@@ -8,22 +8,28 @@ using TMPro;
 public class InfoManager : MonoBehaviour {
     public Color[] heroColors;
     public Image frameImage;
-    public Image heroImage;
+    public Sprite heroImage;
     public Sprite[] heroImages = new Sprite[4];
     public RectTransform title;
     public RectTransform infoCardRectTransform;
     public TextMeshProUGUI[] textFields;
+    public GameObject heroImageCard;
     Character character;
     bool selected;
 
     private void Awake() {
         character = GameObject.Find("BaseHealth").GetComponent<Character>();
     }
+    private void Start() {
+
+    }
 
     public void Show(int hero) {
         if(!selected) {
             frameImage.color = heroColors[hero];
-            //heroImage.sprite = heroImages[hero];
+            heroImage = heroImages[hero];
+            Image SetheroImageCard = heroImageCard.GetComponent(typeof(Image)) as Image;
+            SetheroImageCard.sprite = heroImage;
             for(int i = 0; i < textFields.Length; i++) {
                 textFields[i].text = character.GetCharacterData(i, hero);
             }
