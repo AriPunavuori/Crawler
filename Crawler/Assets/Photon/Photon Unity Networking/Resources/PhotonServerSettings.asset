@@ -31,7 +31,9 @@ MonoBehaviour:
   - Chat
   - DestroyRpc
   - Die
+  - explosionRPC
   - InstantiateRpc
+  - LeanTweanStartRPC
   - Melee
   - MeleeAttackSpawner
   - OpenDoorAll
@@ -65,11 +67,11 @@ MonoBehaviour:
   - RPC_startFight
   - RPC_updateBossStage
   - RPC_UpdateBoxColors
+  - RPC_UpdatePlayerUI
   - RPC_UpdateUIBoxContent
   - RPC_UsePotion
   - Shoot
+  - SpitEffectsRPC
   - TakeDamage
   - UpdateKeys
-  - explosionRPC
-  - RPC_UpdatePlayerUI
   DisableAutoOpenWizard: 1

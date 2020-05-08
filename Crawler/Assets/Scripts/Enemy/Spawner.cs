@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 
 public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
+    private UnityEngine.Object explosion;
     public TextMeshProUGUI healthText;
     public EntityType spawningType;
     Vector3 spawnPoint;
@@ -22,7 +23,15 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     LayerMask layerMaskAll;
     float detectionDistance = 15;
     public int health = 200;
+    private Material matWhite;
+    private Material SpriteLightingMaterial;
+    SpriteRenderer sr;
+
     private void Start() {
+        sr = GetComponent<SpriteRenderer>();
+        matWhite = Resources.Load("White", typeof(Material)) as Material;
+        explosion = Resources.Load("Explosion");
+        SpriteLightingMaterial = sr.material;
         layerMaskPlayer = LayerMask.GetMask("Player");
         layerMaskEnemy = LayerMask.GetMask("Enemy");
         layerMaskObstacles = LayerMask.GetMask("Obstacles");
@@ -39,6 +48,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                         var player = Physics2D.OverlapCircle(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
                         if(player != null) { // Jos löytyi pelaaja/pelaajia
                             LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
+                            photonView.RPC("LeanTweanStartRPC", PhotonTargets.Others);
                             Invoke("Spit", spawnInterval * 0.5f);
                         }
                     }
@@ -51,7 +61,21 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
     void Spit() {
         LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
         AudioFW.Play("Spit");
+        photonView.RPC("SpitEffectsRPC", PhotonTargets.Others);
         SpawnNow();
+    }
+
+    [PunRPC]
+    void LeanTweanStartRPC()
+    {
+        LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
+    }
+
+    [PunRPC]
+    void SpitEffectsRPC()
+    {
+        LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
+        AudioFW.Play("Spit");
     }
 
     void SpawnNow() {
@@ -70,21 +94,50 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
 
     [PunRPC]
     public void TakeDamage(int damage, Vector3 v) {
+        sr.material = matWhite;
 
-        if(PhotonNetwork.isMasterClient) {
+        if (PhotonNetwork.isMasterClient) {
             health -= damage;
             healthText.text = "" + health;
             if (health <= 0)
+            {
+
                 if (gameObject != null)
                 {
+                    photonView.RPC("explosionRPC", PhotonTargets.All);
                     PhotonNetwork.Destroy(gameObject);
                 }
+            }
+            else
+            {
+                Invoke("ResetMaterial", .125f);
+            }
+
         } else {
+            if (health > 0)
+            {
+                Invoke("ResetMaterial", .125f);
+            }
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
 
         }
     }
 
+    private void ResetMaterial()
+    {
+        sr.material = SpriteLightingMaterial;
+    }
+
+    [PunRPC]
+    private void explosionRPC()
+    {
+        GameObject explode = (GameObject)Instantiate(explosion);
+        explode.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        if (PhotonNetwork.isMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
         if(stream.isWriting) {
