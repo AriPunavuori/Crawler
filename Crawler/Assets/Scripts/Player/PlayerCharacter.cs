@@ -668,7 +668,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void RPC_AreaDamage() {
 		AudioFW.Play("AreaDamage");
 		Instantiate(damageEffectParticles, transform.position, Quaternion.identity);
-		if (PhotonNetwork.isMasterClient) {
+        if (!photonView.isMine)
+        {
+            specialAmount = 0;
+        }
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskEnemy);
 			foreach (var hit in hits) {
 				print(hit);
@@ -677,8 +680,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					iDamageable.TakeDamage(specialAmount, new Vector3(0, 0, 0));
 				}
 			}
-		}
-	}
+	    }
 
 
 	void Push() {

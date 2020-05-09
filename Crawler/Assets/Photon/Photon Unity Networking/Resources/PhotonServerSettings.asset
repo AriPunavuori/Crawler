@@ -33,7 +33,6 @@ MonoBehaviour:
   - Die
   - explosionRPC
   - InstantiateRpc
-  - LeanTweanStartRPC
   - Melee
   - MeleeAttackSpawner
   - OpenDoorAll
