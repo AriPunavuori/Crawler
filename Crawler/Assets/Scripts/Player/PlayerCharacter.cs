@@ -28,7 +28,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	GameObject PlayerTarget3;
 	public GameObject healthChangeIndicator;
 	public GameObject healEffectParticles;
+	public GameObject dashEffectParticles;
 	public GameObject damageEffectParticles;
+	public GameObject pushEffectParticles;
 	LayerMask layerMaskEnemy;
 	LayerMask layerMaskPlayer;
 	LayerMask layerMaskIndicator;
@@ -552,6 +554,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 						if (specialTime + dashLength <= Time.time) {
 							dashing = false;
+							dashEffectParticles.GetComponent<ParticleSystem>().Stop();
 						}
 					}
 
@@ -659,6 +662,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Dash() {
 		AudioFW.Play("Dash");
 		dashing = true;
+		dashEffectParticles.GetComponent<ParticleSystem>().Play();
 		dashVector = lastDir;
 	}
 	void AreaDamage() {
@@ -690,6 +694,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	[PunRPC]
 	void RPC_Push() {
 		AudioFW.Play("Boom");
+		Instantiate(pushEffectParticles, transform.position, Quaternion.identity);
 		Debug.Log("Push");
 		if (PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
