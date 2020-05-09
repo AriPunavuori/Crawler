@@ -39,7 +39,9 @@ public class InfoManager : MonoBehaviour {
                 for(int i = 0; i < textFields.Length; i++) {
                     textFields[i].text = character.GetCharacterData(i, hero);
                 }
+                AudioFW.Play("Whip");
                 ShowCard();
+                queue = -1;
             }
         } else
             queue = hero;
@@ -49,6 +51,7 @@ public class InfoManager : MonoBehaviour {
     public void Hide(int i) {
         queue = -1;
         if(!movingOut) {
+            AudioFW.Play("Whip");
             movingOut = true;
             ShowTitle();
             HideCard();
@@ -57,22 +60,22 @@ public class InfoManager : MonoBehaviour {
 
     public void ShowCard() {
         LeanTween.cancel(infoCardRectTransform);
-        LeanTween.move(infoCardRectTransform, Vector3.zero, .5f).setEaseOutCubic();
+        LeanTween.move(infoCardRectTransform, Vector3.zero, .5f).setEaseOutQuart();
     }
 
     public void HideCard() {
         LeanTween.cancel(infoCardRectTransform);
-        LeanTween.move(infoCardRectTransform, Vector3.right * 2500, .5f).setEaseInCubic().setOnComplete(complete);
+        LeanTween.move(infoCardRectTransform, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(complete);
     }
 
     public void ShowTitle() {
         LeanTween.cancel(title);
-        LeanTween.move(title, Vector3.zero, .5f).setEaseInCubic();
+        LeanTween.move(title, Vector3.zero, .5f).setEaseOutQuart();
     }
 
     public void HideTitle() {
         LeanTween.cancel(title);
-        LeanTween.move(title, Vector3.left * 2500, .5f).setEaseOutCubic();
+        LeanTween.move(title, Vector3.left * 2500, .5f).setEaseOutQuart();
     }
 
     public void SelectedCharacter() {

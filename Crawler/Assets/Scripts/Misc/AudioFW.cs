@@ -34,10 +34,8 @@ public class AudioFW : MonoBehaviour {
             Debug.LogError("No sound with ID " + id);
             return;
         }
-        if(!sfx[id].isPlaying) {
-            sfx[id].PlayOneShot(sfx[id].clip);
-        }
-
+        sfx[id].PlayOneShot(sfx[id].clip);
+        //print("Playing:" + id);
     }
     void PlayLoopImpl(string id) {
         if(!loops.ContainsKey(id)) {

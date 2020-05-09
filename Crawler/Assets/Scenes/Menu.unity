@@ -691,8 +691,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1625812528}
-        m_MethodName: MoveOut
+      - m_Target: {fileID: 1281015294}
+        m_MethodName: HideRoom
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
