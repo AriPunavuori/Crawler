@@ -39,6 +39,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
         if(photonPlayer == null) {
             return;
         }
+        AudioFW.Play("Joined");
         GameObject playerListingsObj = Instantiate(playerListingPrefab);
         playerListingsObj.transform.SetParent(transform, false);
         PlayerListing playerListing = playerListingsObj.GetComponent<PlayerListing>();
@@ -47,6 +48,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void PlayerLeftRoom(PhotonPlayer photonPlayer) {
+        AudioFW.Play("Left");
         int index = playerListings.FindIndex(x => x.photonPlayer == photonPlayer);
         if(index != -1) {
             Destroy(playerListings[index].gameObject);
