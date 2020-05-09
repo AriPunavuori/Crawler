@@ -554,7 +554,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 						if (specialTime + dashLength <= Time.time) {
 							dashing = false;
-							dashEffectParticles.GetComponent<ParticleSystem>().Stop();
+							Invoke("StopDashEffect",.3f);
 						}
 					}
 
@@ -638,6 +638,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	#region Specials
+	void StopDashEffect() {
+		dashEffectParticles.GetComponent<ParticleSystem>().Stop();
+	}
 	void AreaHeal() {
 		photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
 	}
