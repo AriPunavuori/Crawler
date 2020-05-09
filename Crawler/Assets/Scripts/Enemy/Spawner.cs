@@ -101,7 +101,6 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                 if (gameObject != null)
                 {
                     photonView.RPC("explosionRPC", PhotonTargets.All);
-                    PhotonNetwork.Destroy(gameObject);
                 }
             }
             else
