@@ -39,7 +39,8 @@ public class PlayerLayoutGroup : MonoBehaviour {
         if(photonPlayer == null) {
             return;
         }
-        AudioFW.Play("Joined");
+        if(!photonPlayer.IsLocal)
+            AudioFW.Play("Joined");
         GameObject playerListingsObj = Instantiate(playerListingPrefab);
         playerListingsObj.transform.SetParent(transform, false);
         PlayerListing playerListing = playerListingsObj.GetComponent<PlayerListing>();
