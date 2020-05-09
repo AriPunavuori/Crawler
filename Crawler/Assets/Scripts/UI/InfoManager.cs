@@ -17,12 +17,13 @@ public class InfoManager : MonoBehaviour {
     bool selected;
     Action complete;
     bool movingOut;
-    int queue;
+    int queue = -1;
 
     private void Awake() {
         character = GameObject.Find("BaseHealth").GetComponent<Character>();
         complete = OnComplete;
     }
+
     private void Update() {
         if(queue > -1)
             Show(queue);

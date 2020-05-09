@@ -61,10 +61,13 @@ public class MenuCanvasManager : MonoBehaviour {
         }
         MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
         LeanTween.move(roomInteractables, Vector3.zero, .5f).setEaseOutExpo();
-        if(PhotonNetwork.isMasterClient)
+        if(PhotonNetwork.isMasterClient) {
+            startGame.interactable = true;
             startGame.Select();
-        else
+        } else {
+            startGame.interactable = false;
             leaveGame.Select();
+        }
     }
 
 

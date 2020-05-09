@@ -14,11 +14,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void OnJoinedRoom() {
-        if(PhotonNetwork.isMasterClient)
-            startGame.interactable = true;
-        else
-            startGame.interactable = false;
-
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }

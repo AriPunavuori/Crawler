@@ -21,7 +21,7 @@ public class CharacterSelection : MonoBehaviour {
             button.interactable = true;
         }
         LeanTween.scale(chooseText, Vector3.one * 1.2f, 2f).setLoopPingPong().setEaseInOutSine();
-        buttons[0].Select();
+        //buttons[0].Select();
     }
 
     public void OnClickPickCharacter(int c) {
@@ -30,7 +30,7 @@ public class CharacterSelection : MonoBehaviour {
     }
 
     public void AfterSelection() {
-        LeanTween.move(controlInfo, Vector2.zero, .25f).setEaseOutBack();
+        LeanTween.move(controlInfo, Vector2.zero, 1f).setEaseInQuart();
         AudioFW.StopAllSounds();
         AudioFW.Play("CharacterSelected");
         LeanTween.cancel(chooseText);
