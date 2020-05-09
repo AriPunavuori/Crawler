@@ -39,7 +39,6 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         healthText.text = "" + health;
     }
     void Update() {
-        if(PlayerNetwork.Instance.joinedGame() == true) {
             if(PhotonNetwork.isMasterClient) {
                 if(timer < 0) {
                     timer = spawnInterval;
@@ -55,8 +54,7 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                 }
                 timer -= Time.deltaTime;
             }
-        }
-    }
+     }
 
     void Spit() {
         LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();

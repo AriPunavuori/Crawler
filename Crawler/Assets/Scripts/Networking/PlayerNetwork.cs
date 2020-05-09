@@ -19,7 +19,6 @@ public class PlayerNetwork : MonoBehaviour {
     int playersSelectedCharacter = 0;
     public int numberOfPlayers;
     int PlayersInGame = 0;
-    public bool joined;
     PlayerCharacter pc;
     bool[] selectedCharacters = new bool[4];
     Action watchedIntro;
@@ -199,15 +198,8 @@ public class PlayerNetwork : MonoBehaviour {
         GameObject obj = PhotonNetwork.Instantiate(heroType[selectedCharacter], new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
         pc = obj.GetComponent<PlayerCharacter>();
-        joined = true;
     }
 
-    public bool joinedGame() {
-        if(joined == true) {
-            return true;
-        }
-        return false;
-    }
 
     public void OnClickStartButton() {
 
