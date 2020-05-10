@@ -28,7 +28,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	GameObject PlayerTarget3;
 	public GameObject healthChangeIndicator;
 	public GameObject healEffectParticles;
+	public GameObject dashEffectParticles;
 	public GameObject damageEffectParticles;
+	public GameObject pushEffectParticles;
 	LayerMask layerMaskEnemy;
 	LayerMask layerMaskPlayer;
 	LayerMask layerMaskIndicator;
@@ -552,6 +554,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 						if (specialTime + dashLength <= Time.time) {
 							dashing = false;
+							Invoke("StopDashEffect",.3f);
+							
 						}
 					}
 
@@ -635,6 +639,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	#region Specials
+
 	void AreaHeal() {
 		photonView.RPC("RPC_AreaHeal", PhotonTargets.AllViaServer);
 	}
@@ -659,11 +664,33 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Dash() {
 		AudioFW.Play("Dash");
 		dashing = true;
+		dashEffectParticles.GetComponent<ParticleSystem>().Play();
 		dashVector = lastDir;
+		photonView.RPC("RPC_Dash", PhotonTargets.Others);
 	}
+
+	[PunRPC]
+	void RPC_Dash() {
+		AudioFW.Play("Dash");
+		dashing = true;
+		print("dash particles on others!");
+		dashEffectParticles.GetComponent<ParticleSystem>().Play();
+	}
+
+	void StopDashEffect() {
+		dashEffectParticles.GetComponent<ParticleSystem>().Stop();
+		photonView.RPC("RPC_StopDashEffect", PhotonTargets.Others);
+	}
+
+	[PunRPC]
+	void RPC_StopDashEffect() {
+		dashEffectParticles.GetComponent<ParticleSystem>().Stop();
+	}
+
 	void AreaDamage() {
 		photonView.RPC("RPC_AreaDamage", PhotonTargets.AllViaServer);
 	}
+
 	[PunRPC]
 	void RPC_AreaDamage() {
 		AudioFW.Play("AreaDamage");
@@ -690,6 +717,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	[PunRPC]
 	void RPC_Push() {
 		AudioFW.Play("Boom");
+		Instantiate(pushEffectParticles, transform.position, Quaternion.identity);
 		Debug.Log("Push");
 		if (PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);

@@ -189,7 +189,10 @@ MonoBehaviour:
   healthChangeIndicator: {fileID: 1925722747347466912, guid: f095fca3660d1ce418729271f70c53e7,
     type: 3}
   healEffectParticles: {fileID: 0}
+  dashEffectParticles: {fileID: 0}
   damageEffectParticles: {fileID: 0}
+  pushEffectParticles: {fileID: 149171301070414032, guid: 15b835d050c2eb1489ca54c78cfa82bc,
+    type: 3}
   potion: 0
   alive: 0
   speedDowngradeTimer: 20
@@ -199,6 +202,8 @@ MonoBehaviour:
   animator: {fileID: 5100457000379333122}
   playerCam: {fileID: 8405175747139377651}
   uim: {fileID: 4704620280472466728, guid: 2811434311e4ccc45a461e6da1510602, type: 3}
+  gameWon: 0
+  switchingScene: 0
 --- !u!95 &5100457000379333122
 Animator:
   serializedVersion: 3
