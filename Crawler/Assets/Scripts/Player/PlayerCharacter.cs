@@ -31,6 +31,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public GameObject dashEffectParticles;
 	public GameObject damageEffectParticles;
 	public GameObject pushEffectParticles;
+	public GameObject myCharacterEffect;
 	LayerMask layerMaskEnemy;
 	LayerMask layerMaskPlayer;
 	LayerMask layerMaskIndicator;
@@ -174,8 +175,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 			UIManager.Instance.UpdatePlayerUI();
 		}
-		if (photonView.isMine)
+		if(photonView.isMine) {
 			GameManager.Instance.pc = this;
+			myCharacterEffect.SetActive(true);
+		}
+
 		players = GameObject.FindGameObjectsWithTag("Player");
 	}
 
