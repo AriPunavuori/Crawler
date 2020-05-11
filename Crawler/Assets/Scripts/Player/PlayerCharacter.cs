@@ -123,6 +123,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		rb2D.velocity = Vector2.zero;
 		charPos = transform.position;
 		AudioFW.StopAllSounds();
+		AudioFW.Play("BossDeath");
 		AudioFW.Play("Win");
 	}
 
@@ -177,7 +178,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			PlayerManager.Instance.ModifyHealth(photonView.owner, health);
 			UIManager.Instance.UpdatePlayerUI();
 		}
-		if(photonView.isMine) {
+		if (photonView.isMine) {
 			GameManager.Instance.pc = this;
 			myCharacterEffect.SetActive(true);
 			AudioFW.PlayLoop("GameLoopNormal");
@@ -599,17 +600,16 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				charPos = transform.position;
 				if (sceneTimer < 0) {
 					if (!gameWon) {
-                        if (PhotonNetwork.isMasterClient)
-                        {
+						if (PhotonNetwork.isMasterClient) {
 
-						// Should load game scene
-						print("Should load game scene");
-						PhotonNetwork.LoadLevel(3);
-                        sceneTimer = 10;
+							// Should load game scene
+							print("Should load game scene");
+							PhotonNetwork.LoadLevel(3);
+							sceneTimer = 10;
 
-                        }
+						}
 
-                    } else {
+					} else {
 						// Should load credits scene
 						print("Should load credits scene");
 						PhotonNetwork.LoadLevel(4);
@@ -729,19 +729,18 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void RPC_AreaDamage() {
 		AudioFW.Play("AreaDamage");
 		Instantiate(damageEffectParticles, transform.position, Quaternion.identity);
-        if (!photonView.isMine)
-        {
-            specialAmount = 0;
-        }
-			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskEnemy);
-			foreach (var hit in hits) {
-				print(hit);
-				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-				if (iDamageable != null) {
-					iDamageable.TakeDamage(specialAmount, new Vector3(0, 0, 0));
-				}
+		if (!photonView.isMine) {
+			specialAmount = 0;
+		}
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea, layerMaskEnemy);
+		foreach (var hit in hits) {
+			print(hit);
+			IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+			if (iDamageable != null) {
+				iDamageable.TakeDamage(specialAmount, new Vector3(0, 0, 0));
 			}
-	    }
+		}
+	}
 
 
 	void Push() {
@@ -951,17 +950,16 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void Melee() {
 		int random = Random.Range(0, 4);
 		AudioFW.Play("PlrMelee" + random);
-        if (!photonView.isMine)
-        {
-            damage = 0;
-        }
-			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
-			foreach (var hit in hits) {
-				IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
-				if (iDamageable != null) {
-					iDamageable.TakeDamage(damage, new Vector3(0, 0, 0));
-				}
+		if (!photonView.isMine) {
+			damage = 0;
+		}
+		Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange, layerMaskEnemy);
+		foreach (var hit in hits) {
+			IDamageable<int> iDamageable = hit.gameObject.GetComponent(typeof(IDamageable<int>)) as IDamageable<int>;
+			if (iDamageable != null) {
+				iDamageable.TakeDamage(damage, new Vector3(0, 0, 0));
 			}
+		}
 		if (photonView.isMine) {
 			Vector2 mouseVector = new Vector2(Input.mousePosition.x - camPos.x, Input.mousePosition.y - camPos.y).normalized;
 
