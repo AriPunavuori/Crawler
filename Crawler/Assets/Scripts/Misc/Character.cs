@@ -14,9 +14,9 @@ public class Character : Photon.MonoBehaviour {
 	bool[] rangeds = new bool[] {				true,	false,	true,	false,	true,	true,	false,	false }; // Ranger or melee
 	float[] projectileSpeeds = new float[] {	15f,	0f,		7.5f,	0f,		6.5f,	6.5f,	10f,	10f }; // Speed of projectile
 	float[] attackRanges = new float[] {		7.5f,	1.5f,	8.5f,	1.5f,	6.5f,	6.5f,	1.5f,	1.5f }; // Range of attack
-	int[] damages = new int[] {					10,		15,		15,		25,		5,		15,		5,		50 };  // Amount of damage
-	float[] attackIntervals = new float[] {		0.2f,	0.2f,	0.4f,	0.4f,	.5f,	.75f,	.5f,	1.5f }; // Attack interval
-	float[] speeds = new float[] {				4.5f,	4.5f,	4.5f,	4.5f,	3.5f,	0.5f,	5f,		4.5f }; // Movement speed
+	int[] damages = new int[] {					10,		5,		25,		25,		5,		15,		5,		50 };  // Amount of damage
+	float[] attackIntervals = new float[] {		0.2f,	1/9f,	0.5f,	1/3f,	.5f,	.75f,	.5f,	1.5f }; // Attack interval
+	float[] speeds = new float[] {				5.5f,	4.5f,	5.0f,	4.0f,	3.5f,	0.5f,	5f,		4.5f }; // Movement speed
 	int[] healths = new int[] {					150,	200,	150,	250,	20,		40,		10,		80 }; // Health
 	float[] specialCooldowns = new float[] {	3.0f,	10.0f,	5.0f,	10.0f,	0f,		0f,		0f,		0f }; // Special cooldowns
 
@@ -52,10 +52,12 @@ public class Character : Photon.MonoBehaviour {
 				return "Melee";
 		}
 		if(index == 2)
-			return "" + damages[hero];
+			return "" + damages[hero]/attackIntervals[hero];
 		if(index == 3)
 			return "" + healths[hero];
 		if(index == 4)
+			return "" + speeds[hero];
+		if(index == 5)
 			return abilities[hero];
 
 		return "";
