@@ -15,21 +15,60 @@ public class GameManager : Photon.MonoBehaviour {
 	bool gameOver;
 	bool gameReady = false;
 	bool bossSpawned = false;
+	public bool bossFightStarted = false;
+	bool doorClosed = false;
+	public bool bossDefeated = false;
 	public bool gameWon;
 	GameObject[] players;
+	GameObject BossDoor;
+	GameObject Portal;
+	bool portalSpawned = false;
 
 	private void Awake() {
 		Destroy(GameObject.Find("DynamicBG"));
 	}
 
 	private void Start() {
+		Portal = Resources.Load("Portal") as GameObject;
+		BossDoor = Resources.Load("BossArenaDoor") as GameObject;
 		Instance = this;
 		um = FindObjectOfType<UIManager>();
 		AudioFW.StopAllSounds();
 		AudioFW.PlayLoop("GameLoop");
 	}
 
+	[PunRPC]
+	public void RPC_instBossDoor()
+	{
+		BossDoor = Instantiate(BossDoor, new Vector3(71.8f, 136.5f, 0f), Quaternion.Euler(0, 0, 90));
+	}
+
+	
+	public void instBossDoor()
+	{
+		photonView.RPC("RPC_instBossDoor", PhotonTargets.AllViaServer);
+	}
+
+	[PunRPC]
+	public void RPC_instPortal()
+	{
+		BossDoor = Instantiate(Portal, new Vector3(68.5f, 147.5f, 0f), Quaternion.identity);
+		portalSpawned = true;
+	}
+
+
+	public void instPortal()
+	{
+		photonView.RPC("RPC_instPortal", PhotonTargets.AllViaServer);
+	}
+
+
 	private void Update() {
+		if(bossFightStarted && !doorClosed)
+		{
+			BossDoor.GetComponent<BossDoorScript>().SlideBossDoor();
+			doorClosed = true;
+		}
 		if (PhotonNetwork.isMasterClient) {
 			GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 			int alivePlayers = 0;
@@ -37,15 +76,22 @@ public class GameManager : Photon.MonoBehaviour {
 			foreach (GameObject i in players) {
 				if (i.GetComponent<PlayerCharacter>().alive) {
 					alivePlayers++;
-					if(gameReady && i.transform.position.y > 137 && !bossSpawned)
+					if(gameReady && i.transform.position.y > 124 && !bossSpawned)
 					{
 						PhotonNetwork.Instantiate("BossEnemy", new Vector3(68.5f, 147.5f, 0f), Quaternion.identity, 0);
+						instBossDoor();
 						bossSpawned = true;
 					}
 				}
 			}
 			if (alivePlayers == PhotonNetwork.playerList.Length) {
 				gameReady = true;
+			}
+			if(bossDefeated == true && !portalSpawned)
+			{
+				portalSpawned = true;
+				Invoke("instPortal", 3f);
+				//instPortal();
 			}
 			//Debug.Log("Players alive: " + alivePlayers);
 			//Debug.Log(gameReady);

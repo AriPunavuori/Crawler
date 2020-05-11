@@ -196,8 +196,11 @@ public class EnemyCharacter : Character, IDamageable<int>
 
         if (animator.enabled)
         {
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Magnitude", rigidBody.velocity.magnitude);
+            if(characterType == EntityType.Enemy3)
+            {
+                animator.SetFloat("Horizontal", movement.x);
+                animator.SetFloat("Magnitude", rigidBody.velocity.magnitude);
+            }
         }
 
 

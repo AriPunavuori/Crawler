@@ -26,6 +26,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     Collider2D[] foundPlayers;
     bool fightStarted = false;
     bool immune = true;
+    bool shaking = false;
     SpriteRenderer sr;
     private Material matWhite;
     private Material SpriteLightingMaterial;
@@ -39,6 +40,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     public GameObject MeleeRotatorLong;
     public GameObject potion;
     public GameObject weaponUpgrade;
+    ParticleSystem BossPushEffect;
     int potionCount;
     int weaponUpgradeCount;
     //public GameObject ProjectileSpawn;
@@ -66,6 +68,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         rotateBurstTime = Time.time + rotateBurstCooldown;
         enemySpawnTime = Time.time + enemySpawnCooldown;
         sr = GetComponent<SpriteRenderer>();
+        BossPushEffect = Resources.Load("BossPushEffect", typeof(ParticleSystem)) as ParticleSystem;
         matWhite = Resources.Load("White", typeof(Material)) as Material;
         explosion = Resources.Load("Explosion");
         SpriteLightingMaterial = sr.material;
@@ -90,14 +93,14 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     [PunRPC]
     void RPC_BossDefeated()
     {
-        GameManager.Instance.gameWon = true;
+        GameManager.Instance.bossDefeated = true;
     }
-
 
     [PunRPC]
     public void RPC_startFight()
     {
         transform.GetChild(1).gameObject.SetActive(false);
+        GameManager.Instance.bossFightStarted = true;
         immune = false;
         fightStarted = true;
     }
@@ -208,15 +211,15 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
         if (enemies.Count > 0)
         {
-            Debug.Log("Enemy count: " + enemies.Count);
+            //Debug.Log("Enemy count: " + enemies.Count);
             foreach (GameObject p in enemies)
             {
-                Debug.Log(p.name);
+                //Debug.Log(p.name);
             }
         }
         else
         {
-            Debug.Log("No enemies found");
+            //Debug.Log("No enemies found");
         }
     }
 
@@ -341,20 +344,39 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
     IEnumerator pushAttackRoutine(float force, float time)
     {
-        transform.GetComponent<SpriteRenderer>().color = Color.red;
+        shakeGameObject(this.gameObject, time, time - 0.1f, true);
+        //transform.GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(time);
 
         List<Collider2D> pushTargets = new List<Collider2D>(Physics2D.OverlapCircleAll(transform.position, 3f, layerMaskPlayer));
-        
+        List<Collider2D> EnemyPushTargets = new List<Collider2D>(Physics2D.OverlapCircleAll(transform.position, 3f, layerMaskEnemy));
+
+        Instantiate(BossPushEffect, transform.position + new Vector3(0.07f, -0.05f, 0), Quaternion.identity);
+        // For player pushing
         foreach(Collider2D c in pushTargets)
         {
-            Debug.Log(c.name);
-            Debug.Log(force);
+            //Debug.Log(c.name);
+            //Debug.Log(force);
             c.gameObject.GetComponent<PlayerCharacter>().Stun(0.7f);
+            
             Vector2 pushDir = (c.gameObject.transform.position - transform.position).normalized;
-            c.gameObject.GetComponent<Rigidbody2D>().AddForce(pushDir * force, ForceMode2D.Impulse);
+            //c.gameObject.GetComponent<Rigidbody2D>().AddForce(pushDir * force, ForceMode2D.Impulse);
         }
-        transform.GetComponent<SpriteRenderer>().color = Color.white;
+        // For enemy pushing
+        //foreach (Collider2D e in EnemyPushTargets)
+        //{
+        //    //Debug.Log(e.name);
+        //    //Debug.Log(force);
+        //    
+        //    if (e.gameObject.GetComponent<EnemyCharacter>())
+        //    {
+        //        e.gameObject.GetComponent<EnemyCharacter>().Fly(0.05f);
+        //    }
+        //    Vector2 pushDir = (e.gameObject.transform.position - transform.position).normalized;
+        //    //c.gameObject.GetComponent<Rigidbody2D>().AddForce(pushDir * force, ForceMode2D.Impulse);
+        //}
+
+        //transform.GetComponent<SpriteRenderer>().color = Color.white;
         pushAttackFin = true;
     }
 
@@ -715,7 +737,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
     IEnumerator MeleeAttackRotator(float time, float rotation, int dmg, GameObject rotator, float warningTime)
     {
-        transform.GetComponent<SpriteRenderer>().color = Color.yellow;
+        //transform.GetComponent<SpriteRenderer>().color = Color.yellow;
         yield return new WaitForSeconds(warningTime);
         rotator.gameObject.transform.GetChild(0).GetComponent<Collider2D>().enabled = true;
         float rotDelta = 0;
@@ -735,7 +757,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             yield return null;
         }
         Destroy(rotator);
-        transform.GetComponent<SpriteRenderer>().color = Color.white;
+        //transform.GetComponent<SpriteRenderer>().color = Color.white;
         meleeAttackFin = true;
     }
 
@@ -836,4 +858,107 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             //healthText.text = "" + health;
         }
     }
+
+    void shakeGameObject(GameObject objectToShake, float shakeDuration, float decreasePoint, bool objectIs2D = false)
+    {
+        if (shaking)
+        {
+            return;
+        }
+        shaking = true;
+        StartCoroutine(shakeGameObjectCOR(objectToShake, shakeDuration, decreasePoint, objectIs2D));
+    }
+
+    IEnumerator shakeGameObjectCOR(GameObject objectToShake, float totalShakeDuration, float decreasePoint, bool objectIs2D = false)
+    {
+        if (decreasePoint >= totalShakeDuration)
+        {
+            //Debug.LogError("decreasePoint must be less than totalShakeDuration...Exiting");
+            yield break; //Exit!
+        }
+
+        //Get Original Pos and rot
+        Transform objTransform = objectToShake.transform;
+        Vector3 defaultPos = objTransform.position;
+        Quaternion defaultRot = objTransform.rotation;
+
+        float counter = 0f;
+
+        //Shake Speed
+        const float speed = 0.05f;
+
+        //Angle Rotation(Optional)
+        const float angleRot = 4;
+
+        //Do the actual shaking
+        while (counter < totalShakeDuration)
+        {
+            counter += Time.deltaTime;
+            float decreaseSpeed = speed;
+            float decreaseAngle = angleRot;
+
+            //Shake GameObject
+            if (objectIs2D)
+            {
+                //Don't Translate the Z Axis if 2D Object
+                Vector3 tempPos = defaultPos + UnityEngine.Random.insideUnitSphere * decreaseSpeed;
+                tempPos.z = defaultPos.z;
+                objTransform.position = tempPos;
+
+                //Only Rotate the Z axis if 2D
+                objTransform.rotation = defaultRot * Quaternion.AngleAxis(UnityEngine.Random.Range(-angleRot, angleRot), new Vector3(0f, 0f, 1f));
+            }
+            else
+            {
+                objTransform.position = defaultPos + UnityEngine.Random.insideUnitSphere * decreaseSpeed;
+                objTransform.rotation = defaultRot * Quaternion.AngleAxis(UnityEngine.Random.Range(-angleRot, angleRot), new Vector3(1f, 1f, 1f));
+            }
+            yield return null;
+
+
+            //Check if we have reached the decreasePoint then start decreasing  decreaseSpeed value
+            if (counter >= decreasePoint)
+            {
+                //Debug.Log("Decreasing shake");
+
+                //Reset counter to 0 
+                counter = 0f;
+                while (counter <= decreasePoint)
+                {
+                    counter += Time.deltaTime;
+                    decreaseSpeed = Mathf.Lerp(speed, 0, counter / decreasePoint);
+                    decreaseAngle = Mathf.Lerp(angleRot, 0, counter / decreasePoint);
+
+                    //Debug.Log("Decrease Value: " + decreaseSpeed);
+
+                    //Shake GameObject
+                    if (objectIs2D)
+                    {
+                        //Don't Translate the Z Axis if 2D Object
+                        Vector3 tempPos = defaultPos + UnityEngine.Random.insideUnitSphere * decreaseSpeed;
+                        tempPos.z = defaultPos.z;
+                        objTransform.position = tempPos;
+
+                        //Only Rotate the Z axis if 2D
+                        objTransform.rotation = defaultRot * Quaternion.AngleAxis(UnityEngine.Random.Range(-decreaseAngle, decreaseAngle), new Vector3(0f, 0f, 1f));
+                    }
+                    else
+                    {
+                        objTransform.position = defaultPos + UnityEngine.Random.insideUnitSphere * decreaseSpeed;
+                        objTransform.rotation = defaultRot * Quaternion.AngleAxis(UnityEngine.Random.Range(-decreaseAngle, decreaseAngle), new Vector3(1f, 1f, 1f));
+                    }
+                    yield return null;
+                }
+
+                //Break from the outer loop
+                break;
+            }
+        }
+        objTransform.position = defaultPos; //Reset to original postion
+        objTransform.rotation = defaultRot;//Reset to original rotation
+
+        shaking = false; //So that we can call this function next time
+        //Debug.Log("Done!");
+    }
+
 }
