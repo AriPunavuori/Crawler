@@ -26,7 +26,7 @@ public class GameManager : Photon.MonoBehaviour {
 		Instance = this;
 		um = FindObjectOfType<UIManager>();
 		AudioFW.StopAllSounds();
-		AudioFW.PlayLoop("GameLoop");
+		//AudioFW.PlayLoop("GameLoop");
 	}
 
 	private void Update() {

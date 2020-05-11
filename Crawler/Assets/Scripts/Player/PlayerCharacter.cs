@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 public class PlayerCharacter : Character, IDamageable<int> {
-
 	Rigidbody2D rb2D;
 	CircleCollider2D col;
 	SpriteRenderer spriteRenderer;
@@ -80,8 +79,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float sceneTimer = 10f;
 	Vector3 charPos;
 
-	int projectilesPerAttack = 1;
+	bool intense;
+	float intenseTime;
+	float intenceCooldown = 5f;
 
+	int projectilesPerAttack = 1;
 	Stack<int> projectilesPerAttStack = new Stack<int>();
 	Stack<float> projectileSpeedsStack = new Stack<float>();
 	Stack<int> meleeDamagesStack = new Stack<int>();
@@ -178,6 +180,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if(photonView.isMine) {
 			GameManager.Instance.pc = this;
 			myCharacterEffect.SetActive(true);
+			AudioFW.PlayLoop("GameLoopNormal");
+			AudioFW.PlayLoop("GameLoopIntense");
 		}
 
 		players = GameObject.FindGameObjectsWithTag("Player");
@@ -436,7 +440,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					respawnTimer = respawnTime;
 					uim.SetInfoText("", 1);
 					respawn();
-					AudioFW.PlayLoop("GameLoop");
+					AudioFW.StopAllSounds();
+					AudioFW.PlayLoop("GameLoopNormal");
+					AudioFW.PlayLoop("GameLoopIntence");
+					AudioFW.AdjustLoopVolume("GameLoopNormal", .2f, 0);
+					AudioFW.AdjustLoopVolume("GameLoopIntence", 0, 0);
 					photonView.RPC("respawn", PhotonTargets.Others);
 				}
 
@@ -554,12 +562,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
 					}
 
-					if (dashing) {
+					if(intense && Time.time > intenseTime) {
+						LessIntense();
+					}
 
+
+					if (dashing) {
 						if (specialTime + dashLength <= Time.time) {
 							dashing = false;
 							Invoke("StopDashEffect",.3f);
-							
 						}
 					}
 
@@ -626,8 +637,27 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			var random = Random.Range(0, 4);
 			AudioFW.Play("PlayerTakesDamage" + random);
 			SetHealth(-damage, this);
+			if(!intense) {
+				Intense();
+			}
 		}
 	}
+
+	void Intense() {
+		intenseTime = Time.time + intenceCooldown;
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .0f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .45f, .5f);
+		intense = true;
+		print("Its getting intense!");
+	}
+
+	void LessIntense() {
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .45f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, .5f);
+		intense = false;
+		print("Not so intence anymore");
+	}
+
 	public void GetHealed(int heal) {
 		AudioFW.Play("Heal");
 		SetHealth(heal, this);

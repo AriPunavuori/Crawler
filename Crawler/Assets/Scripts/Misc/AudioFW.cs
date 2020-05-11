@@ -29,6 +29,9 @@ public class AudioFW : MonoBehaviour {
     public static void AdjustPitch(string id, float pitch) {
         instance.AdjustPitchImpl(id, pitch);
     }
+    public static void AdjustLoopVolume(string id, float volume, float time) {
+        instance.AdjustLoopVolumeImpl(id, volume, time);
+    }
     void PlayImpl(string id) {
         if(!sfx.ContainsKey(id)) {
             Debug.LogError("No sound with ID " + id);
@@ -68,6 +71,17 @@ public class AudioFW : MonoBehaviour {
         }
         loops[id].pitch = Mathf.Clamp(pitch, -3f, 3f);
         //print("Pitch adjusted");
+    }
+    void AdjustLoopVolumeImpl(string id, float volume, float time) {
+        StartCoroutine(VolumeFade( id, volume, time));
+    }
+    IEnumerator VolumeFade(string id, float newVolume, float inTime) {
+        var fromVolume = loops[id].volume;
+        var toVolume = newVolume;
+        for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+            loops[id].volume = Mathf.Lerp(fromVolume, toVolume, t);
+            yield return null;
+        }
     }
     static public AudioFW instance {
         get {

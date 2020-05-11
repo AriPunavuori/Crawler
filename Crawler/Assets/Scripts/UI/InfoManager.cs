@@ -5,6 +5,7 @@ using TMPro;
 
 
 public class InfoManager : MonoBehaviour {
+    public static InfoManager Instance;
     public Color[] heroColors;
     public Image frameImage;
     public Sprite heroImage;
@@ -20,6 +21,7 @@ public class InfoManager : MonoBehaviour {
     int queue = -1;
 
     private void Awake() {
+        Instance = this;
         character = GameObject.Find("BaseHealth").GetComponent<Character>();
         complete = OnComplete;
     }
