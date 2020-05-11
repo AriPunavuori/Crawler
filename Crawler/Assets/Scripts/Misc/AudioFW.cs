@@ -77,11 +77,11 @@ public class AudioFW : MonoBehaviour {
     }
     IEnumerator VolumeFade(string id, float newVolume, float inTime) {
         var fromVolume = loops[id].volume;
-        var toVolume = newVolume;
-        for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
-            loops[id].volume = Mathf.Lerp(fromVolume, toVolume, t);
-            yield return null;
-        }
+            for(var t = 0f; t < 1; t += Time.deltaTime / inTime) {
+                loops[id].volume = Mathf.Lerp(fromVolume, newVolume, t);
+                yield return null;
+            }
+        loops[id].volume = newVolume;
     }
     static public AudioFW instance {
         get {

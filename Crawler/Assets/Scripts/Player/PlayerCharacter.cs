@@ -184,8 +184,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if (photonView.isMine) {
 			GameManager.Instance.pc = this;
 			myCharacterEffect.SetActive(true);
+			AudioFW.StopAllSounds();
 			AudioFW.PlayLoop("GameLoopNormal");
 			AudioFW.PlayLoop("GameLoopIntense");
+			AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
+			AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
 		}
 
 		players = GameObject.FindGameObjectsWithTag("Player");
@@ -447,8 +450,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					AudioFW.StopAllSounds();
 					AudioFW.PlayLoop("GameLoopNormal");
 					AudioFW.PlayLoop("GameLoopIntense");
-					AudioFW.AdjustLoopVolume("GameLoopNormal", .2f, 0);
-					AudioFW.AdjustLoopVolume("GameLoopIntense", 0, 0);
+					AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
+					AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
 					photonView.RPC("respawn", PhotonTargets.Others);
 				}
 
@@ -637,11 +640,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				Stun(.25f);
 				//StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
-			var random = Random.Range(0, 4);
-			AudioFW.Play("PlayerTakesDamage" + random);
-			SetHealth(-damage, this);
-			if(!intense) {
-				Intense();
+			if(photonView.isMine) {
+				var random = Random.Range(0, 4);
+				AudioFW.Play("PlayerTakesDamage" + random);
+				SetHealth(-damage, this);
+				if(!intense) {
+					Intense();
+				}
 			}
 		}
 	}
@@ -649,13 +654,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Intense() {
 		intenseTime = Time.time + intenceCooldown;
 		AudioFW.AdjustLoopVolume("GameLoopNormal", .0f, .5f);
-		AudioFW.AdjustLoopVolume("GameLoopIntense", .25f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .4f, .5f);
 		intense = true;
 		print("Its getting intense!");
 	}
 
 	void LessIntense() {
-		AudioFW.AdjustLoopVolume("GameLoopNormal", .25f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, .5f);
 		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, .5f);
 		intense = false;
 		print("Not so intence anymore");

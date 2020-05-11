@@ -53,6 +53,8 @@ MonoBehaviour:
   - RPC_fireAtTargets
   - RPC_GameLost
   - RPC_GameWon
+  - RPC_instBossDoor
+  - RPC_instPortal
   - RPC_LoadCharacterSelection
   - RPC_LoadCreditsOthers
   - RPC_LoadedGameScene
@@ -75,12 +77,4 @@ MonoBehaviour:
   - SpitEffectsRPC
   - TakeDamage
   - UpdateKeys
-  - SlideBossDoor
-  - RPC_BossDoor
-  - closeBossDoor
-  - instBossDoor
-  - RPC_instBossDoor
-  - RPC_SlideBossDoor
-  - RPC_instPortal
-  - RPC_teleportPlayer
   DisableAutoOpenWizard: 1
