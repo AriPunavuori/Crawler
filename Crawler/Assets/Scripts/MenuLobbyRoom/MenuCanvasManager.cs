@@ -8,6 +8,8 @@ public class MenuCanvasManager : MonoBehaviour {
     Action goLobby;
     Action goRoom;
 
+    bool firstTimeInLobby = true;
+
     public Button createRoom;
     public Button startGame;
     public Button leaveGame;
@@ -28,11 +30,29 @@ public class MenuCanvasManager : MonoBehaviour {
     }
 
     public void JoinedRoom() {
-        LeanTween.move(lobbyInteractables, Vector3.right * 2500, .5f).setEaseInExpo().setOnComplete(goRoom);
+        HideLobby();
     }
 
     public void JoinedLobby() {
-        LeanTween.move(roomInteractables, Vector3.right * 2500, .5f).setEaseInExpo().setOnComplete(goLobby);
+        if(!firstTimeInLobby) {
+            HideRoom(true);
+        } else {
+            firstTimeInLobby = false;
+            InLobby();
+        }
+    }
+
+    public void HideLobby() {
+        AudioFW.Play("Whip");
+        LeanTween.move(lobbyInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(goRoom);
+    }
+
+    public void HideRoom(bool inLobby) {
+        AudioFW.Play("Whip");
+        if(inLobby)
+            LeanTween.move(roomInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(goLobby);
+        else
+            LeanTween.move(roomInteractables, Vector3.right * 2500, .5f).setEaseOutQuart();
     }
 
     void InLobby() {
@@ -45,9 +65,10 @@ public class MenuCanvasManager : MonoBehaviour {
             b.interactable = true;
         }
         MenuCanvasManager.Instance.lobbyCanvas.transform.SetAsLastSibling();
-        LeanTween.move(lobbyInteractables, Vector3.zero, .5f).setEaseOutExpo();
-        if(FindObjectOfType<RoomLayoutGroup>().roomListingButtons.Count<1)
-        createRoom.Select();
+        AudioFW.Play("Whip");
+        LeanTween.move(lobbyInteractables, Vector3.zero, .5f).setEaseOutQuart();
+        if(FindObjectOfType<RoomLayoutGroup>().roomListingButtons.Count < 1)
+            createRoom.Select();
     }
 
     void InRoom() {
@@ -60,11 +81,15 @@ public class MenuCanvasManager : MonoBehaviour {
             b.interactable = false;
         }
         MenuCanvasManager.Instance.currentRoomCanvas.transform.SetAsLastSibling();
-        LeanTween.move(roomInteractables, Vector3.zero, .5f).setEaseOutExpo();
-        if(PhotonNetwork.isMasterClient)
+        AudioFW.Play("Whip");
+        LeanTween.move(roomInteractables, Vector3.zero, .5f).setEaseOutQuart();
+        if(PhotonNetwork.isMasterClient) {
+            startGame.interactable = true;
             startGame.Select();
-        else
+        } else {
+            startGame.interactable = false;
             leaveGame.Select();
+        }
     }
 
 

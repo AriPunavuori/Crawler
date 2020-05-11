@@ -1,7 +1,31 @@
 fileFormatVersion: 2
 guid: 5c0105f860dad0a488e860916bc6ade5
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -8155056678276781154
+    second: InfoCardFrame_0
+  - first:
+      213: -1422721112162689982
+    second: InfoCardFrame_1
+  - first:
+      213: 169258247513507465
+    second: InfoCardFrame_2
+  - first:
+      213: 3993628203091733380
+    second: InfoCardFrame_3
+  - first:
+      213: -7379244796325164382
+    second: InfoCardFrame_4
+  - first:
+      213: 127240150701319058
+    second: InfoCardFrame_5
+  - first:
+      213: 6212709185544750165
+    second: InfoCardFrame_6
+  - first:
+      213: 58820040104499964
+    second: InfoCardFrame_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -31,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -42,11 +66,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 45, y: 45, z: 45, w: 45}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -70,9 +94,189 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: InfoCardFrame_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 366.6667
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ba220982b63de80800000000000000
+      internalID: -8155056678276781154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_1
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 366.6667
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24c1817bfaa714ce0800000000000000
+      internalID: -1422721112162689982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_2
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 366.6667
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9860956ba73595200800000000000000
+      internalID: 169258247513507465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 183.66667
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48ba34a01b73c6730800000000000000
+      internalID: 3993628203091733380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_4
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 183.66667
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2aa836464f7a79990800000000000000
+      internalID: -7379244796325164382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.66667175
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29328bf2e3c04c100800000000000000
+      internalID: 127240150701319058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_6
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 2
+        width: 367
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5548331861af73650800000000000000
+      internalID: 6212709185544750165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: InfoCardFrame_7
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 0.66667175
+        width: 366.66666
+        height: 183.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfa5a1cc388f0d000800000000000000
+      internalID: 58820040104499964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

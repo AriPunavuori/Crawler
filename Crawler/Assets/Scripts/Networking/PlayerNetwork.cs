@@ -19,11 +19,11 @@ public class PlayerNetwork : MonoBehaviour {
     int playersSelectedCharacter = 0;
     public int numberOfPlayers;
     int PlayersInGame = 0;
-    public bool joined;
     PlayerCharacter pc;
     bool[] selectedCharacters = new bool[4];
     Action watchedIntro;
     Action loadMenu;
+    Action menuMusic;
 
 
     void Awake() {
@@ -38,6 +38,7 @@ public class PlayerNetwork : MonoBehaviour {
         watchedIntro += WatchIntro;
         watchedIntro += NameEntry;
         loadMenu += LoadMenu;
+        menuMusic += PlayMenuMusic;
         input.text = PlayerPrefs.GetString("Name");
         //PlayerPrefs.SetInt("IntroSeen", 0);
         if(PlayerPrefs.GetInt("IntroSeen") == 1) {
@@ -55,14 +56,17 @@ public class PlayerNetwork : MonoBehaviour {
         skipIntro.interactable = true;
         skipIntro.Select();
     }
+    void PlayMenuMusic() {
+        AudioFW.PlayLoop("MenuLoop");
+    }
 
     public void NameEntry() {
         Intro.SetActive(false);
         nameEntry.SetActive(true);
         nameEntryButton.Select();
-        LeanTween.move(nameInteractables, Vector3.zero, .5f).setEaseOutBack();
+        LeanTween.move(nameInteractables, Vector3.zero, .5f).setEaseOutBack().setOnComplete(menuMusic);
         AudioFW.StopAllSounds();
-        AudioFW.PlayLoop("MenuLoop");
+        AudioFW.Play("Whip");
     }
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode) {
@@ -163,7 +167,6 @@ public class PlayerNetwork : MonoBehaviour {
                     b.Select();
                     return;
                 }
-
             }
         }
     }
@@ -183,7 +186,7 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
             print("Player picked a character");
             if(playersSelectedCharacter >= numberOfPlayers) {
-                Invoke("LoadLevel", 5f);
+                Invoke("LoadLevel", 6.5f);
             }
         }
     }
@@ -199,15 +202,8 @@ public class PlayerNetwork : MonoBehaviour {
         GameObject obj = PhotonNetwork.Instantiate(heroType[selectedCharacter], new Vector3(0 + id, 0.5f, 0), Quaternion.identity, 0);
         obj.name = playerName;
         pc = obj.GetComponent<PlayerCharacter>();
-        joined = true;
     }
 
-    public bool joinedGame() {
-        if(joined == true) {
-            return true;
-        }
-        return false;
-    }
 
     public void OnClickStartButton() {
 
@@ -216,7 +212,8 @@ public class PlayerNetwork : MonoBehaviour {
             playerName = input.text;
         } else
             playerName = "Player#" + UnityEngine.Random.Range(1000, 9999);
-        LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutCirc().setOnComplete(loadMenu);
+        AudioFW.Play("Whip");
+        LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }
 
     void LoadMenu() {

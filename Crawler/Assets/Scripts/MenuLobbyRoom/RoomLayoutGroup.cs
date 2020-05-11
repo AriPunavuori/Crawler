@@ -16,8 +16,11 @@ public class RoomLayoutGroup : MonoBehaviour {
         RemoveOldRooms();
         if(roomListingButtons.Count < 1)
             roomText.text = "";
-        else
-            roomText.text = "Available Rooms:";
+        else {
+            roomListingButtons[0].GetComponent<Button>().Select();
+            roomText.text = "AVAILABLE ROOMS:";
+        }
+
     }
 
     void RoomReceived(RoomInfo room) {
@@ -36,7 +39,6 @@ public class RoomLayoutGroup : MonoBehaviour {
             roomListing.SetRoomNameText(room.Name);
             roomListing.updated = true;
         }
-        roomListingButtons[0].GetComponent<Button>().Select();
     }
 
     void RemoveOldRooms() {

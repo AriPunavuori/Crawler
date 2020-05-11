@@ -14,11 +14,6 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void OnJoinedRoom() {
-        if(PhotonNetwork.isMasterClient)
-            startGame.interactable = true;
-        else
-            startGame.interactable = false;
-
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }
@@ -44,6 +39,8 @@ public class PlayerLayoutGroup : MonoBehaviour {
         if(photonPlayer == null) {
             return;
         }
+        if(!photonPlayer.IsLocal)
+            AudioFW.Play("Joined");
         GameObject playerListingsObj = Instantiate(playerListingPrefab);
         playerListingsObj.transform.SetParent(transform, false);
         PlayerListing playerListing = playerListingsObj.GetComponent<PlayerListing>();
@@ -52,6 +49,7 @@ public class PlayerLayoutGroup : MonoBehaviour {
     }
 
     void PlayerLeftRoom(PhotonPlayer photonPlayer) {
+        AudioFW.Play("Left");
         int index = playerListings.FindIndex(x => x.photonPlayer == photonPlayer);
         if(index != -1) {
             Destroy(playerListings[index].gameObject);

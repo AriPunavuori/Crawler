@@ -39,7 +39,6 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
         healthText.text = "" + health;
     }
     void Update() {
-        if(PlayerNetwork.Instance.joinedGame() == true) {
             if(PhotonNetwork.isMasterClient) {
                 if(timer < 0) {
                     timer = spawnInterval;
@@ -48,34 +47,29 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                         var player = Physics2D.OverlapCircle(transform.position, detectionDistance, layerMaskPlayer); //Etsi 2Dcollidereita detectionDistance-kokoiselta, ympyrän muotoiselta alueelta
                         if(player != null) { // Jos löytyi pelaaja/pelaajia
                             LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
-                            photonView.RPC("LeanTweanStartRPC", PhotonTargets.Others);
+                            photonView.RPC("SpitEffectsRPC", PhotonTargets.Others);
                             Invoke("Spit", spawnInterval * 0.5f);
                         }
                     }
                 }
                 timer -= Time.deltaTime;
             }
-        }
-    }
+     }
 
     void Spit() {
         LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
         AudioFW.Play("Spit");
-        photonView.RPC("SpitEffectsRPC", PhotonTargets.Others);
-        SpawnNow();
-    }
-
-    [PunRPC]
-    void LeanTweanStartRPC()
-    {
-        LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
+        if (PhotonNetwork.isMasterClient)
+        {
+            SpawnNow();
+        }
     }
 
     [PunRPC]
     void SpitEffectsRPC()
     {
-        LeanTween.scale(gameObject, Vector3.one, spawnInterval * 0.35f).setEaseOutElastic();
-        AudioFW.Play("Spit");
+        LeanTween.scale(gameObject, Vector3.one * 1.2f, spawnInterval * 0.5f).setEaseInQuart();
+        Invoke("Spit", spawnInterval * 0.5f);
     }
 
     void SpawnNow() {
@@ -105,7 +99,6 @@ public class Spawner : Photon.PunBehaviour, IDamageable<int>, IPunObservable {
                 if (gameObject != null)
                 {
                     photonView.RPC("explosionRPC", PhotonTargets.All);
-                    PhotonNetwork.Destroy(gameObject);
                 }
             }
             else
