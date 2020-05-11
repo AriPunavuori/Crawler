@@ -92,6 +92,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	GameObject rotator;
 	GameObject meleeIndicator;
 
+	ParticleSystem PushEffect;
+
 	public Animator animator;
 	public GameObject playerCam;
 	public UIManager uim;
@@ -137,6 +139,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Start() {
+		PushEffect = Resources.Load("PushEffect", typeof(ParticleSystem)) as ParticleSystem;
 		respawnTimer = respawnTime;
 		rotator = transform.Find("ProjectileHeading").gameObject;
 		pfa = rotator.GetComponent<PlayerFacingAt>();
@@ -750,7 +753,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	[PunRPC]
 	void RPC_Push() {
 		AudioFW.Play("Boom");
-		Instantiate(pushEffectParticles, transform.position, Quaternion.identity);
+		Instantiate(PushEffect, transform.position, Quaternion.identity);
 		Debug.Log("Push");
 		if (PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
@@ -761,7 +764,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						Vector3 enemyLoc = col.GetComponent<Transform>().position;
 						Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
 						col.GetComponent<EnemyCharacter>().Fly(0.5f);
-						enemyRB.AddForce(pushVector * pushForce, ForceMode2D.Impulse);
+						//enemyRB.AddForce(pushVector * pushForce, ForceMode2D.Impulse);
 					}
 				}
 			}

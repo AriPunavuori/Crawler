@@ -6,7 +6,7 @@ public class PortalScript : Photon.MonoBehaviour
 {
     public int playersInPortal = 0;
     List<int> playerIDs = new List<int>();
-    float timer = 0;
+    //float timer = 0;
     bool portalReady = false;
 
 
