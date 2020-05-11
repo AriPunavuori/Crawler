@@ -582,6 +582,7 @@ MonoBehaviour:
   health: 0
   specialCooldown: 0
   attackTime: 0
+  speedLevel: 0
   weaponLevel: 0
   projectileSpawn: {fileID: 7476082494721652205}
   projectilePrefab: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,
@@ -633,7 +634,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &665469395344556921
 MonoBehaviour:
