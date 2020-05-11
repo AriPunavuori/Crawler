@@ -446,9 +446,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					respawn();
 					AudioFW.StopAllSounds();
 					AudioFW.PlayLoop("GameLoopNormal");
-					AudioFW.PlayLoop("GameLoopIntence");
+					AudioFW.PlayLoop("GameLoopIntense");
 					AudioFW.AdjustLoopVolume("GameLoopNormal", .2f, 0);
-					AudioFW.AdjustLoopVolume("GameLoopIntence", 0, 0);
+					AudioFW.AdjustLoopVolume("GameLoopIntense", 0, 0);
 					photonView.RPC("respawn", PhotonTargets.Others);
 				}
 

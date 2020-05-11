@@ -27,7 +27,9 @@ public class GameManager : Photon.MonoBehaviour {
 	private void Awake() {
 		Destroy(GameObject.Find("DynamicBG"));
 	}
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 
+	}
 	private void Start() {
 		Portal = Resources.Load("Portal") as GameObject;
 		BossDoor = Resources.Load("BossArenaDoor") as GameObject;
