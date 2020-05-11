@@ -646,13 +646,13 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	void Intense() {
 		intenseTime = Time.time + intenceCooldown;
 		AudioFW.AdjustLoopVolume("GameLoopNormal", .0f, .5f);
-		AudioFW.AdjustLoopVolume("GameLoopIntense", .45f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .25f, .5f);
 		intense = true;
 		print("Its getting intense!");
 	}
 
 	void LessIntense() {
-		AudioFW.AdjustLoopVolume("GameLoopNormal", .45f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .25f, .5f);
 		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, .5f);
 		intense = false;
 		print("Not so intence anymore");
