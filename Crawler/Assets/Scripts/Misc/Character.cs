@@ -9,8 +9,8 @@ public class Character : Photon.MonoBehaviour {
 	public EntityType characterType;
 
 	// Four first of the values are for heroes the rest for enemies
-	string[] names = new string[] {				"Magical Girl", "Light Oni",	"Dark Magi",	"Dark Oni" }; // Names
-	string[] abilities  = new string[] {		"Dash", "Reign of Love","StunBun",	"Reign Of Terror" }; // Names
+	string[] names = new string[] {				"MAGICAL GIRL", "LIGHT ONI",	"DARK MAGI",	"DARK ONI" }; // Names
+	string[] abilities  = new string[] {		"DASH", "LOTSA LOVE","WHIRLWIND","DOOMSDAY" }; // Names
 	bool[] rangeds = new bool[] {				true,	false,	true,	false,	true,	true,	false,	false }; // Ranger or melee
 	float[] projectileSpeeds = new float[] {	15f,	0f,		7.5f,	0f,		6.5f,	6.5f,	10f,	10f }; // Speed of projectile
 	float[] attackRanges = new float[] {		7.5f,	1.5f,	8.5f,	1.5f,	6.5f,	6.5f,	1.5f,	1.5f }; // Range of attack
@@ -47,9 +47,9 @@ public class Character : Photon.MonoBehaviour {
 			return names[hero];
 		if(index == 1) {
 			if(rangeds[hero] == true)
-				return "Ranged";
+				return "RANGED";
 			else
-				return "Melee";
+				return "MELEE";
 		}
 		if(index == 2)
 			return "" + damages[hero]/attackIntervals[hero];
