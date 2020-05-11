@@ -291,7 +291,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 
 		if (photonView.isMine) {
-			AudioFW.StopLoop("GameLoop");
+			AudioFW.StopAllSounds();
 			AudioFW.Play("PlayerDead");
 			photonView.RPC("Die", PhotonTargets.Others);
 		}
