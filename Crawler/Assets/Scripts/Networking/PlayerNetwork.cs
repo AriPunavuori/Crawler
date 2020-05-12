@@ -186,7 +186,7 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
             print("Player picked a character");
             if(playersSelectedCharacter >= numberOfPlayers) {
-                Invoke("LoadLevel", 6.5f);
+                Invoke("LoadLevel", 5.5f);
             }
         }
     }

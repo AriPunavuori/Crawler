@@ -77,4 +77,5 @@ MonoBehaviour:
   - SpitEffectsRPC
   - TakeDamage
   - UpdateKeys
+  - disableBar
   DisableAutoOpenWizard: 1

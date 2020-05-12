@@ -45,14 +45,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useUIBoxes: 1
-  UIBoxes: []
+  otherPlayerBoxes: []
   names: []
   healths: []
-  UIBox: {fileID: 8257796290706323197, guid: 598a40e15ee13a545b99385516f6f0d5, type: 3}
+  healthBars: []
+  boxBackgrounds:
+  - {fileID: 21300000, guid: 7adb0ecad9469854ebb9e6de2a0d6931, type: 3}
+  - {fileID: 21300000, guid: 08c497edbfbd45a4ead69f0a0e054e6e, type: 3}
+  - {fileID: 21300000, guid: 2be630dfaca7ba0499400dec42e5a600, type: 3}
+  - {fileID: 21300000, guid: efa04b0a67ebae7429631b96b07d602d, type: 3}
+  origBoxBGs:
+  - {fileID: 21300000, guid: 98c90f4f059008b40be1ea17eda82c22, type: 3}
+  - {fileID: 21300000, guid: 12b2692d543c782478551926e53e4a2b, type: 3}
+  - {fileID: 21300000, guid: 36cf0847780f530438a7560441786bf9, type: 3}
+  - {fileID: 21300000, guid: bccc1f41a32c49b45b23c584a58d8b9c, type: 3}
+  otherPlayerBox: {fileID: 8257796290706323197, guid: 598a40e15ee13a545b99385516f6f0d5,
+    type: 3}
+  specialCoolDownUI: {fileID: 0}
+  specialBar: {fileID: 0}
   infoText: {fileID: 0}
   powerup: {fileID: 0}
   powerupBG: {fileID: 0}
   powerupLevelText: {fileID: 0}
+  speedBoost: {fileID: 0}
+  speedBoostBG: {fileID: 0}
+  speedBoostLevelText: {fileID: 0}
+  BossHealthCanvas: {fileID: 0}
+  BossHealthBar: {fileID: 0}
 --- !u!114 &3210866258048408353
 MonoBehaviour:
   m_ObjectHideFlags: 0

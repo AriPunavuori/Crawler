@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
@@ -51,6 +52,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     Quaternion enemySpawnRot;
     public GameObject bossProjectile;
     int playerCount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +76,9 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
         SpriteLightingMaterial = sr.material;
     }
 
+
+
+    
     [PunRPC]
     private void explosionRPC()
     {
@@ -91,14 +96,24 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     }
 
     [PunRPC]
-    void RPC_BossDefeated()
+    public void disableBar()
+    {
+        UIManager.Instance.BossHealthCanvas.SetActive(false);
+    }
+
+    [PunRPC]
+    public void RPC_BossDefeated()
     {
         GameManager.Instance.bossDefeated = true;
+        UIManager.Instance.BossHealthCanvas.SetActive(false);
+        photonView.RPC("disableBar", PhotonTargets.AllViaServer);
     }
 
     [PunRPC]
     public void RPC_startFight()
     {
+        Debug.Log("Fight started");
+        UIManager.Instance.BossHealthCanvas.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(false);
         GameManager.Instance.bossFightStarted = true;
         immune = false;
@@ -595,7 +610,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
                         fireAtTargetsFin = false;
-                        fireAtTargets(3.5f, 20, true, true, 0.8f);
+                        fireAtTargets(4.2f, 20, true, true, 0.8f);
                     }
                     if (Time.time > rotateBurstTime && rotateBurstFin && meleeAttackFin)
                     {
@@ -813,8 +828,14 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     [PunRPC]
     public void TakeDamage(int damage, Vector3 v)
     {
+
         if(!immune)
         {
+            if(health > 0)
+            {
+                UIManager.Instance.updateBossHealthBar(baseHealth, health, (health -= damage), 0.1f);
+            }
+            
             sr.material = matWhite;
             if (PhotonNetwork.isMasterClient)
             {
@@ -825,6 +846,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if (gameObject != null)
                     {
                         photonView.RPC("RPC_BossDefeated", PhotonTargets.MasterClient);
+                        
                         PhotonNetwork.Destroy(gameObject);
                     }
                 }
