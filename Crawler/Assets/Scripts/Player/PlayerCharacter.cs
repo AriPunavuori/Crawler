@@ -443,7 +443,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				camPos = MainCamera.GetComponent<Camera>().WorldToScreenPoint(transform.position);
 
 				// Respawn
-				if (respawnTimer <= 0 || Input.GetKeyDown(KeyCode.R)) {
+				if (respawnTimer <= 0) {
 					respawnTimer = respawnTime;
 					uim.SetInfoText("", 1);
 					respawn();
@@ -456,146 +456,209 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// When the player is alive
-				if (alive) {
+				if (alive)
+				{
+					if (!inPortal)
+					{
 
-					// Health potion input
-					if (Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f) {
-						UsePotion();
-					}
-					// Attack input
-					if (Input.GetAxis("Fire1") > 0.5f) {
-						if (Time.time > attackTime + attackInterval) {
-							attackTime = Time.time;
-							Attack();
+						// Health potion input
+						if (Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f)
+						{
+							UsePotion();
 						}
-						// Camera recoil when shooting. Kinda shit tbh
-						if (ranged) {
-							shooting = true;
+						// Attack input
+						if (Input.GetAxis("Fire1") > 0.5f)
+						{
+							if (Time.time > attackTime + attackInterval)
+							{
+								attackTime = Time.time;
+								Attack();
+							}
+							// Camera recoil when shooting. Kinda shit tbh
+							if (ranged)
+							{
+								shooting = true;
+							}
 						}
-					} else {
-						if (ranged) {
-							shooting = false;
+						else
+						{
+							if (ranged)
+							{
+								shooting = false;
+							}
 						}
-					}
-					// Movement input
-					movement.x = Input.GetAxisRaw("Horizontal");
-					movement.y = Input.GetAxisRaw("Vertical");
+						// Movement input
+						movement.x = Input.GetAxisRaw("Horizontal");
+						movement.y = Input.GetAxisRaw("Vertical");
 
-					// For testing weaponupgrades
-					if (Input.GetKeyDown(KeyCode.N)) {
-						SpeedDowngrade();
-					}
-
-					if (Input.GetKeyDown(KeyCode.M)) {
-						GetSpeedBoost();
-					}
-
-					// For debugging use only (might break something)
-					if (Input.GetKeyDown(KeyCode.B)) {
-						potion = true;
-						UsePotion();
-					}
-
-					// Teleport to boss
-					if (Input.GetKeyDown(KeyCode.T)) {
-						transform.position = new Vector3(68f, 137f, 0f);
-					}
-
-					if (speedLevel > 0) {
-						if ((speedDowngradeTimer - Time.deltaTime) > 0) {
-							speedDowngradeTimer -= Time.deltaTime;
-						} else {
-							speedDowngradeTimer = 0;
-						}
-						if (speedDowngradeTimer <= 0) {
+						// For testing weaponupgrades
+						if (Input.GetKeyDown(KeyCode.N))
+						{
 							SpeedDowngrade();
 						}
-					}
 
-					if (weaponLevel > 0) {
-						if ((weaponDowngradeTimer - Time.deltaTime) > 0) {
-							weaponDowngradeTimer -= Time.deltaTime;
-						} else {
-							weaponDowngradeTimer = 0;
+						if (Input.GetKeyDown(KeyCode.M))
+						{
+							GetSpeedBoost();
 						}
-						if (weaponDowngradeTimer <= 0) {
-							weaponDowngrade();
+
+						// For debugging use only (might break something)
+						if (Input.GetKeyDown(KeyCode.B))
+						{
+							potion = true;
+							UsePotion();
 						}
-					}
 
-					if (movement.x != 0 || movement.y != 0) {
-						lastDir = new Vector2(movement.x, movement.y);
-					}
-
-					// Camera movement
-					if (!stunned) {
-						Vector3 newCamPos;
-						if (pfa.usingController) {
-							newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
-													Input.GetAxis("Vertical2") * maxCamOffset,
-													playerCam.transform.position.z) + transform.position;
-							LeanTween.cancel(playerCam);
-							LeanTween.move(playerCam, newCamPos, .5f);
-						} else {
-							newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
-													Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
-													playerCam.transform.position.z) + transform.position;
-							LeanTween.cancel(playerCam);
-							LeanTween.move(playerCam, newCamPos, .25f);
+						// Teleport to boss
+						if (Input.GetKeyDown(KeyCode.T))
+						{
+							transform.position = new Vector3(68f, 137f, 0f);
 						}
-					}
 
-					animator.SetFloat("Horizontal", projHead.transform.right.x);
-					animator.SetFloat("Vertical", projHead.transform.right.y);
-					animator.SetFloat("Magnitude", movement.magnitude);
-
-
-					if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetAxis("Fire2") > 0.5f)) && specialTime + specialCooldown <= Time.time) {
-						specialTime = Time.time;
-						Debug.Log("Special");
-						if (characterType == EntityType.Hero0) {
-							// Light MaGi - Dash
-							Dash();
-						} else if (characterType == EntityType.Hero1) {
-							// Light Oni - Area Heal
-							AreaHeal();
-						} else if (characterType == EntityType.Hero2) {
-							// Dark MaGi - Push
-							Push();
-						} else if (characterType == EntityType.Hero3) {
-							// Dark Oni - Area Damage
-							AreaDamage();
+						if (speedLevel > 0)
+						{
+							if ((speedDowngradeTimer - Time.deltaTime) > 0)
+							{
+								speedDowngradeTimer -= Time.deltaTime;
+							}
+							else
+							{
+								speedDowngradeTimer = 0;
+							}
+							if (speedDowngradeTimer <= 0)
+							{
+								SpeedDowngrade();
+							}
 						}
-						uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
-					}
 
-					if(intense && Time.time > intenseTime) {
-						if(!Physics2D.OverlapCircle(transform.position, 15f, layerMaskEnemy))
-							LessIntense();
-						else
-							intenseTime = Time.time + intenseCooldown;
-					}
-
-
-					if (dashing) {
-						if (specialTime + dashLength <= Time.time) {
-							dashing = false;
-							Invoke("StopDashEffect",.3f);
+						if (weaponLevel > 0)
+						{
+							if ((weaponDowngradeTimer - Time.deltaTime) > 0)
+							{
+								weaponDowngradeTimer -= Time.deltaTime;
+							}
+							else
+							{
+								weaponDowngradeTimer = 0;
+							}
+							if (weaponDowngradeTimer <= 0)
+							{
+								weaponDowngrade();
+							}
 						}
+
+						if (movement.x != 0 || movement.y != 0)
+						{
+							lastDir = new Vector2(movement.x, movement.y);
+						}
+
+						// Camera movement
+						if (!stunned)
+						{
+							Vector3 newCamPos;
+							if (pfa.usingController)
+							{
+								newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
+														Input.GetAxis("Vertical2") * maxCamOffset,
+														playerCam.transform.position.z) + transform.position;
+								LeanTween.cancel(playerCam);
+								LeanTween.move(playerCam, newCamPos, .5f);
+							}
+							else
+							{
+								newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
+														Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
+														playerCam.transform.position.z) + transform.position;
+								LeanTween.cancel(playerCam);
+								LeanTween.move(playerCam, newCamPos, .25f);
+							}
+						}
+
+						animator.SetFloat("Horizontal", projHead.transform.right.x);
+						animator.SetFloat("Vertical", projHead.transform.right.y);
+						animator.SetFloat("Magnitude", movement.magnitude);
+
+
+						if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetAxis("Fire2") > 0.5f)) && specialTime + specialCooldown <= Time.time)
+						{
+							specialTime = Time.time;
+							Debug.Log("Special");
+							if (characterType == EntityType.Hero0)
+							{
+								// Light MaGi - Dash
+								Dash();
+							}
+							else if (characterType == EntityType.Hero1)
+							{
+								// Light Oni - Area Heal
+								AreaHeal();
+							}
+							else if (characterType == EntityType.Hero2)
+							{
+								// Dark MaGi - Push
+								Push();
+							}
+							else if (characterType == EntityType.Hero3)
+							{
+								// Dark Oni - Area Damage
+								AreaDamage();
+							}
+							uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
+						}
+
+						if (intense && Time.time > intenseTime)
+						{
+							if (!Physics2D.OverlapCircle(transform.position, 15f, layerMaskEnemy))
+								LessIntense();
+							else
+								intenseTime = Time.time + intenseCooldown;
+						}
+
+
+						if (dashing)
+						{
+							if (specialTime + dashLength <= Time.time)
+							{
+								dashing = false;
+								Invoke("StopDashEffect", .3f);
+							}
+						}
+
+					}
+				}
+				else
+				{ // Camera switching when the player is dead
+
+					// Respawn when boss is defeated
+					if(GameManager.Instance.bossDefeated)
+					{
+						respawnTimer = respawnTime;
+						uim.SetInfoText("", 1);
+						respawn();
+						AudioFW.StopAllSounds();
+						AudioFW.PlayLoop("GameLoopNormal");
+						AudioFW.PlayLoop("GameLoopIntense");
+						AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
+						AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
+						photonView.RPC("respawn", PhotonTargets.Others);
 					}
 
-				} else { // Camera switching when the player is dead
 					respawnTimer -= Time.deltaTime;
 					uim.SetInfoText("You Died\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
-					if (Input.GetMouseButtonDown(0)) {
-						if (players.Length > 1) {
+					if (Input.GetMouseButtonDown(0))
+					{
+						if (players.Length > 1)
+						{
 							findCamera();
-						} else {
+						}
+						else
+						{
 							Debug.Log("Cant search for a remote camera, only 1 player in the game");
 						}
 					}
 					// If remote camera is found follow a camera/player with current camNum.
-					if (camFound) {
+					if (camFound)
+					{
 						MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
 					}
 				}
@@ -605,8 +668,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					UIManager.Instance.SetInfoText("You All Died\n" + "Restarting level " + sceneTimer.ToString("f0"), 1);
 				else
 					UIManager.Instance.SetInfoText("Congrats You Won\nSee the awesome people\nBehind this project in " + sceneTimer.ToString("f0"), 1);
-				transform.position = charPos;
-				charPos = transform.position;
+				//transform.position = charPos;
+				//charPos = transform.position;
 				if (sceneTimer < 0) {
 					if (!gameWon) {
 						if (PhotonNetwork.isMasterClient) {

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PortalScript : Photon.MonoBehaviour
 {
+    public static PortalScript Instance;
     public int playersInPortal = 0;
     List<int> playerIDs = new List<int>();
     //float timer = 0;
     bool portalReady = false;
     public ParticleSystem PortalEffect;
     public bool teleportFinished = false;
-
+    public GameObject portalShield;
 
     // Start is called before the first frame update
     void Start()
@@ -51,7 +52,6 @@ public class PortalScript : Photon.MonoBehaviour
                 }
             }
         }
-
     }
 
 
@@ -67,6 +67,11 @@ public class PortalScript : Photon.MonoBehaviour
     //    StartCoroutine(teleportPlayer(9.9f, ))
     //}
 
+    void disablePortalShield()
+    {
+        portalShield.SetActive(false);
+    }
+
     IEnumerator scalePortal(float inTime)
     {
         float elapsedTime = 0;
@@ -76,10 +81,12 @@ public class PortalScript : Photon.MonoBehaviour
             elapsedTime += Time.deltaTime;
             scalingFactor = elapsedTime / inTime;
             transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor) * 0.4f;
+            portalShield.transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
             PortalEffect.transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
             yield return null;
         }
         GetComponent<Collider2D>().isTrigger = true;
+        disablePortalShield();
         portalReady = true;
     }
 
@@ -97,9 +104,9 @@ public class PortalScript : Photon.MonoBehaviour
         float cameraTime1 = 0.9f * inTime;
         float cameraTime2 = 0.1f * inTime;
         float camElapsedTime1 = 0;
-        float camElapsedTime2 = 0;
-        float cam2Size = 0;
-        bool cam2SizeSet = false;
+        //float camElapsedTime2 = 0;
+        //float cam2Size = 0;
+        //bool cam2SizeSet = false;
 
         while (elapsedTime < inTime)
         {
@@ -114,20 +121,30 @@ public class PortalScript : Photon.MonoBehaviour
                 characterEffect.transform.localScale = new Vector3(scalingFactor, scalingFactor, 1f);
             }
             playerTransform.localScale = new Vector3(scalingFactor, scalingFactor, 1f);
-            playerCam.orthographicSize = Mathf.Lerp(5f, 3f, camElapsedTime1 / cameraTime1);
-            if (elapsedTime >= (0.9f * inTime))
-            {
-                if(!cam2SizeSet)
-                {
-                    cam2Size = playerCam.orthographicSize;
-                    cam2SizeSet = true;
-                }
-                camElapsedTime2 += Time.deltaTime;
-                playerCam.orthographicSize = Mathf.Lerp(cam2Size, 0.3f, camElapsedTime2 / cameraTime2);
-            }
+            playerCam.orthographicSize = Mathf.Lerp(5f, 1f, camElapsedTime1 / cameraTime1);
+            //if (elapsedTime >= (0.9f * inTime))
+            //{
+            //    if (!cam2SizeSet)
+            //    {
+            //        cam2Size = playerCam.orthographicSize;
+            //        cam2SizeSet = true;
+            //    }
+            //    camElapsedTime2 += Time.deltaTime;
+            //    playerCam.orthographicSize = Mathf.Lerp(cam2Size, 0.5f, camElapsedTime2 / cameraTime2);
+            //}
             yield return null;
         }
-        teleportFinished = true;
+        while (true)
+        {
+            playerTransform.position = transform.position;
+            Quaternion rota = new Quaternion();
+            Vector3 current = playerTransform.rotation.eulerAngles;
+            rota.eulerAngles = (current + new Vector3(0, 0, Time.deltaTime * 36));
+            playerTransform.rotation = rota;
+            yield return null;
+        }
+
+        //teleportFinished = true;
         //playerTransform.position = transform.position;
     }
 }

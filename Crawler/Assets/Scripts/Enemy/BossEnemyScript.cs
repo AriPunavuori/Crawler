@@ -102,11 +102,18 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     }
 
     [PunRPC]
+    public void setBossDefeated()
+    {
+        GameManager.Instance.bossDefeated = true;
+    }
+
+    [PunRPC]
     public void RPC_BossDefeated()
     {
         GameManager.Instance.bossDefeated = true;
         UIManager.Instance.BossHealthCanvas.SetActive(false);
         photonView.RPC("disableBar", PhotonTargets.AllViaServer);
+        photonView.RPC("setBossDefeated", PhotonTargets.AllViaServer);
     }
 
     [PunRPC]

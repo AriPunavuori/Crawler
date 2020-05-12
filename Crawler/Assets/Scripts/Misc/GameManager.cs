@@ -18,11 +18,12 @@ public class GameManager : Photon.MonoBehaviour {
 	public bool bossFightStarted = false;
 	bool doorClosed = false;
 	public bool bossDefeated = false;
-	public bool gameWon;
+	public bool gameWon = false;
 	GameObject[] players;
 	GameObject BossDoor;
 	GameObject Portal;
 	bool portalSpawned = false;
+
 
 	private void Awake() {
 		Destroy(GameObject.Find("DynamicBG"));
@@ -30,7 +31,45 @@ public class GameManager : Photon.MonoBehaviour {
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 
 	}
+
+	void resetKeys()
+	{
+
+		// Imagine doing all this.. 
+
+		//if(PhotonNetwork.room.CustomProperties["keyCount"] != null)
+		//{
+		//	//Debug.Log("not null");
+		//	int count = (int)PhotonNetwork.room.CustomProperties["keyCount"];
+		//	//Debug.Log(count);
+		//	for (int i = 1; i <= count; i++)
+		//	{
+		//		string name = (string)PhotonNetwork.room.CustomProperties["keyTable" + i.ToString()];
+		//		//Debug.Log(name);
+		//		Hashtable h = new Hashtable();
+		//		h.Add(name, false);
+		//		PhotonNetwork.room.SetCustomProperties(h);
+		//	}
+		//} 
+		//(still works though..)
+
+		// When it was this simple ;(
+
+		Hashtable redKey = new Hashtable();
+		redKey.Add("Red Key", false);
+		PhotonNetwork.room.SetCustomProperties(redKey);
+
+		Hashtable blueKey = new Hashtable();
+		blueKey.Add("Blue Key", false);
+		PhotonNetwork.room.SetCustomProperties(blueKey);
+
+		Hashtable greenKey = new Hashtable();
+		greenKey.Add("Green Key", false);
+		PhotonNetwork.room.SetCustomProperties(greenKey);
+
+	}
 	private void Start() {
+		resetKeys();
 		Portal = Resources.Load("Portal") as GameObject;
 		BossDoor = Resources.Load("BossArenaDoor") as GameObject;
 		Instance = this;
@@ -118,7 +157,17 @@ public class GameManager : Photon.MonoBehaviour {
 		//Debug.Log(keys);
 		Hashtable hash = new Hashtable();
 		hash.Add(keyName, true);
+		//Hashtable keyTable = new Hashtable();
+		//Debug.Log("keyTable" + keys.ToString());
+		//Debug.Log("keyname:" + keyName);
+		//Debug.Log("count: " + keys);
+		//keyTable.Add("keyTable" + keys.ToString(), keyName);
+		//Hashtable keyCountTable = new Hashtable();
+		//keyCountTable.Add("keyCount", keys);
 		PhotonNetwork.room.SetCustomProperties(hash);
+		// For resetting keys(redundant now)
+		//PhotonNetwork.room.SetCustomProperties(keyTable);
+		//PhotonNetwork.room.SetCustomProperties(keyCountTable);
 		um.UpdateKeys(keys - 1, playerName);
 		//Debug.Log(PhotonNetwork.room.CustomProperties["Key"]);
 	}

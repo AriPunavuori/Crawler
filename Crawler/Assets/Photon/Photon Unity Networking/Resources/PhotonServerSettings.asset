@@ -78,4 +78,5 @@ MonoBehaviour:
   - TakeDamage
   - UpdateKeys
   - disableBar
+  - setBossDefeated
   DisableAutoOpenWizard: 1
