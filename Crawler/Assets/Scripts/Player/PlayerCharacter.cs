@@ -101,7 +101,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	// Scene switching
 	public bool gameWon;
 	public bool switchingScene;
-
+	public bool inPortal = false;
 
 	public void GameWon() {
 		for (int i = 0; i < players.Length; i++) {

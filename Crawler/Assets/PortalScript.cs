@@ -8,13 +8,15 @@ public class PortalScript : Photon.MonoBehaviour
     List<int> playerIDs = new List<int>();
     //float timer = 0;
     bool portalReady = false;
-
+    public ParticleSystem PortalEffect;
+    public bool teleportFinished = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        transform.localScale = new Vector3(0, 0, 0);
+        PortalEffect.transform.localScale = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -36,8 +38,8 @@ public class PortalScript : Photon.MonoBehaviour
                     Debug.Log("Player added");
                     playersInPortal++;
                     playerIDs.Add(collision.gameObject.GetComponent<PhotonView>().viewID);
-
-                    StartCoroutine(teleportPlayer(9.9f, collision.gameObject.transform));
+                    collision.gameObject.GetComponent<PlayerCharacter>().inPortal = true;
+                    StartCoroutine(teleportPlayer(10f, collision.gameObject.transform));
 
                     if (PhotonNetwork.isMasterClient)
                     {
@@ -73,7 +75,8 @@ public class PortalScript : Photon.MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             scalingFactor = elapsedTime / inTime;
-            transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+            transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor) * 0.4f;
+            PortalEffect.transform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
             yield return null;
         }
         GetComponent<Collider2D>().isTrigger = true;
@@ -90,8 +93,13 @@ public class PortalScript : Photon.MonoBehaviour
         Vector3 toRot = new Vector3(0, 0, 360f);
         Quaternion rot = new Quaternion();
         Camera playerCam = playerTransform.GetChild(0).GetComponent<Camera>();
-        float cameraTime = 0.1f * inTime;
-        float camElapsedTime = 0;
+        GameObject characterEffect = new List<GameObject>(GameObject.FindGameObjectsWithTag("CharacterEffect")).Find(g => g.transform.IsChildOf(playerTransform));
+        float cameraTime1 = 0.9f * inTime;
+        float cameraTime2 = 0.1f * inTime;
+        float camElapsedTime1 = 0;
+        float camElapsedTime2 = 0;
+        float cam2Size = 0;
+        bool cam2SizeSet = false;
 
         while (elapsedTime < inTime)
         {
@@ -99,15 +107,27 @@ public class PortalScript : Photon.MonoBehaviour
             rot.eulerAngles = Vector3.Lerp(fromRot, toRot, elapsedTime / inTime);
             playerTransform.rotation = rot;
             elapsedTime += Time.deltaTime;
+            camElapsedTime1 += Time.deltaTime;
             scalingFactor = 1f - (elapsedTime / inTime);
-            playerTransform.localScale = new Vector3(scalingFactor, scalingFactor, scalingFactor);
+            if(characterEffect)
+            {
+                characterEffect.transform.localScale = new Vector3(scalingFactor, scalingFactor, 1f);
+            }
+            playerTransform.localScale = new Vector3(scalingFactor, scalingFactor, 1f);
+            playerCam.orthographicSize = Mathf.Lerp(5f, 3f, camElapsedTime1 / cameraTime1);
             if (elapsedTime >= (0.9f * inTime))
             {
-                camElapsedTime += Time.deltaTime;
-                playerCam.orthographicSize = Mathf.Lerp(5f, 0.05f, camElapsedTime / cameraTime);
+                if(!cam2SizeSet)
+                {
+                    cam2Size = playerCam.orthographicSize;
+                    cam2SizeSet = true;
+                }
+                camElapsedTime2 += Time.deltaTime;
+                playerCam.orthographicSize = Mathf.Lerp(cam2Size, 0.3f, camElapsedTime2 / cameraTime2);
             }
-
             yield return null;
         }
+        teleportFinished = true;
+        //playerTransform.position = transform.position;
     }
 }

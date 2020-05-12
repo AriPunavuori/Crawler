@@ -92,7 +92,7 @@ public class GameManager : Photon.MonoBehaviour {
 			if(bossDefeated == true && !portalSpawned)
 			{
 				portalSpawned = true;
-				Invoke("instPortal", 3f);
+				Invoke("instPortal", 1.5f);
 				//instPortal();
 			}
 			//Debug.Log("Players alive: " + alivePlayers);

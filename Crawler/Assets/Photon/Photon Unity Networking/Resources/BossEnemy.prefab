@@ -478,8 +478,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8842949238828562738}
   - component: {fileID: 1677671709741862772}
-  - component: {fileID: 2167392872900294744}
   - component: {fileID: 8267634407079949037}
+  - component: {fileID: 197509923317293925}
   m_Layer: 9
   m_Name: BossShield
   m_TagString: Untagged
@@ -496,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 7548447539476463309}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 2385587693975264385}
   m_RootOrder: 1
@@ -551,7 +551,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &2167392872900294744
+--- !u!114 &8267634407079949037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548447539476463309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20489e6aa2d8cb14186b7401b4c0eae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &197509923317293925
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -566,16 +578,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.5625
---- !u!114 &8267634407079949037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7548447539476463309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20489e6aa2d8cb14186b7401b4c0eae0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Radius: 0.5
