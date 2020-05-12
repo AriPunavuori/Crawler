@@ -208,10 +208,10 @@ public class PlayerNetwork : MonoBehaviour {
     public void OnClickStartButton() {
 
         if(input.text != "") {
-            PlayerPrefs.SetString("Name", input.text);
-            playerName = input.text;
+            PlayerPrefs.SetString("Name", input.text.ToUpper());
+            playerName = input.text.ToUpper();
         } else
-            playerName = "Player#" + UnityEngine.Random.Range(1000, 9999);
+            playerName = ("Player#" + UnityEngine.Random.Range(1000, 9999)).ToUpper();
         AudioFW.Play("Whip");
         LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }

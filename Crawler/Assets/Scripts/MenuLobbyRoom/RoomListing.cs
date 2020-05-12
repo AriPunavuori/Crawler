@@ -26,6 +26,6 @@ public class RoomListing : MonoBehaviour {
 
     public void SetRoomNameText(string text) {
         roomName = text;
-        roomNameText.text = roomName;
+        roomNameText.text =  roomName.ToUpper();
     }
 }
