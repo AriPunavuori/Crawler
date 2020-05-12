@@ -50,6 +50,9 @@ public class UIManager : MonoBehaviour {
 	float cooldownTime;
 	bool specialBarReduced;
 
+	public GameObject BossHealthCanvas;
+	public GameObject BossHealthBar;
+
 	PhotonView photonView;
 
 	void Start() {
@@ -80,6 +83,7 @@ public class UIManager : MonoBehaviour {
 			infoText.text = "";
 			eraseTextTime = 0;
 		}
+
 
 		if (Time.time < cooldownFinishTime && specialBarReduced) {
 			specialBar.fillAmount = -((cooldownFinishTime - Time.time) - cooldownTime) / cooldownTime;
@@ -150,6 +154,33 @@ public class UIManager : MonoBehaviour {
 			powerup.fillAmount = 0;
 		}
 		#endregion
+	}
+
+	public void updateBossHealthBar(int bossBaseHealth, int bossCurrentHealth,  int bossNewHealth, float updateTime)
+	{
+		StartCoroutine(updateBossHealthBarRoutine(bossBaseHealth, bossCurrentHealth, bossNewHealth, updateTime));
+	}
+
+	IEnumerator updateBossHealthBarRoutine(int bossBaseHealth, int bossCurrentHealth, int bossNewHealth, float updateTime)
+	{
+		float elapsedTime = 0;
+
+		int currentHealth = bossCurrentHealth;
+
+		//bool filled = false;
+
+		while (elapsedTime < updateTime)
+		{
+			BossHealthBar.GetComponent<Image>().fillAmount = Mathf.Lerp(((float)currentHealth / bossBaseHealth), ((float)bossNewHealth / bossBaseHealth), (elapsedTime / updateTime));
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+
+		// Lazy fallback fix if bar doesnt get filled in time
+		if (System.Math.Round(BossHealthBar.GetComponent<Image>().fillAmount, 2) != System.Math.Round((float)bossNewHealth / bossBaseHealth, 2))
+		{
+			BossHealthBar.GetComponent<Image>().fillAmount = (float)bossNewHealth / bossBaseHealth;
+		}
 	}
 
 	public void setSpecialCooldownTimer(float finishTime, float specialCooldownTime) {
