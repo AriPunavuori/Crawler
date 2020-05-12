@@ -643,10 +643,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				Stun(.25f);
 				//StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
+			SetHealth(-damage, this);
 			if(photonView.isMine) {
 				var random = Random.Range(0, 4);
 				AudioFW.Play("PlayerTakesDamage" + random);
-				SetHealth(-damage, this);
 				if(!intense) {
 					Intense();
 				}
