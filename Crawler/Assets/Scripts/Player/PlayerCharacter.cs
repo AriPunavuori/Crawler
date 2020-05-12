@@ -81,7 +81,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	bool intense;
 	float intenseTime;
-	float intenceCooldown = 5f;
+	float intenseCooldown = 7.5f;
 
 	int projectilesPerAttack = 1;
 	Stack<int> projectilesPerAttStack = new Stack<int>();
@@ -570,7 +570,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					}
 
 					if(intense && Time.time > intenseTime) {
-						LessIntense();
+						if(!Physics2D.OverlapCircle(transform.position, 15f, layerMaskEnemy))
+							LessIntense();
+						else
+							intenseTime = Time.time + intenseCooldown;
 					}
 
 
@@ -652,7 +655,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Intense() {
-		intenseTime = Time.time + intenceCooldown;
+		intenseTime = Time.time + intenseCooldown;
 		AudioFW.AdjustLoopVolume("GameLoopNormal", .0f, .5f);
 		AudioFW.AdjustLoopVolume("GameLoopIntense", .4f, .5f);
 		intense = true;
@@ -660,8 +663,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void LessIntense() {
-		AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, .5f);
-		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 2.5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, 2.5f);
 		intense = false;
 		print("Not so intence anymore");
 	}
