@@ -10,14 +10,14 @@ public class CreateRoom : MonoBehaviour {
         RoomOptions roomOptions = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 4 };
         string roomName;
         if(roomNameInput.text != "") {
-            roomName = roomNameInput.text;
-            PlayerPrefs.SetString("RoomName", roomNameInput.text);
+            roomName = roomNameInput.text.ToUpper();
+            PlayerPrefs.SetString("RoomName", roomNameInput.text.ToUpper());
         } else {
-            roomName = "Room#" + Random.Range(1000, 9999);
+            roomName = ("Room#" + Random.Range(1000, 9999)).ToUpper();
         }
 
         if(PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default)) {
-            print("Create room named " + (string)roomNameInput.text + " sent");
+            print("Create room named " + roomNameInput.text.ToUpper() + " sent");
         } else {
             print("Create room failed to send");
         }

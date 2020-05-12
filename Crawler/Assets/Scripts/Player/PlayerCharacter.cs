@@ -4,7 +4,6 @@ using UnityEngine;
 
 
 public class PlayerCharacter : Character, IDamageable<int> {
-
 	Rigidbody2D rb2D;
 	CircleCollider2D col;
 	SpriteRenderer spriteRenderer;
@@ -80,8 +79,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	float sceneTimer = 10f;
 	Vector3 charPos;
 
-	int projectilesPerAttack = 1;
+	bool intense;
+	float intenseTime;
+	float intenseCooldown = 7.5f;
 
+	int projectilesPerAttack = 1;
 	Stack<int> projectilesPerAttStack = new Stack<int>();
 	Stack<float> projectileSpeedsStack = new Stack<float>();
 	Stack<int> meleeDamagesStack = new Stack<int>();
@@ -90,6 +92,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	GameObject rotator;
 	GameObject meleeIndicator;
 
+	ParticleSystem PushEffect;
+
 	public Animator animator;
 	public GameObject playerCam;
 	public UIManager uim;
@@ -97,7 +101,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	// Scene switching
 	public bool gameWon;
 	public bool switchingScene;
-
+	public bool inPortal = false;
 
 	public void GameWon() {
 		for (int i = 0; i < players.Length; i++) {
@@ -135,6 +139,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Start() {
+		PushEffect = Resources.Load("PushEffect", typeof(ParticleSystem)) as ParticleSystem;
 		respawnTimer = respawnTime;
 		rotator = transform.Find("ProjectileHeading").gameObject;
 		pfa = rotator.GetComponent<PlayerFacingAt>();
@@ -179,6 +184,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		if (photonView.isMine) {
 			GameManager.Instance.pc = this;
 			myCharacterEffect.SetActive(true);
+			AudioFW.StopAllSounds();
+			AudioFW.PlayLoop("GameLoopNormal");
+			AudioFW.PlayLoop("GameLoopIntense");
+			AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
+			AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
 		}
 
 		players = GameObject.FindGameObjectsWithTag("Player");
@@ -284,7 +294,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		}
 
 		if (photonView.isMine) {
-			AudioFW.StopLoop("GameLoop");
+			AudioFW.StopAllSounds();
 			AudioFW.Play("PlayerDead");
 			photonView.RPC("Die", PhotonTargets.Others);
 		}
@@ -437,7 +447,11 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					respawnTimer = respawnTime;
 					uim.SetInfoText("", 1);
 					respawn();
-					AudioFW.PlayLoop("GameLoop");
+					AudioFW.StopAllSounds();
+					AudioFW.PlayLoop("GameLoopNormal");
+					AudioFW.PlayLoop("GameLoopIntense");
+					AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
+					AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
 					photonView.RPC("respawn", PhotonTargets.Others);
 				}
 
@@ -555,12 +569,18 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
 					}
 
-					if (dashing) {
+					if(intense && Time.time > intenseTime) {
+						if(!Physics2D.OverlapCircle(transform.position, 15f, layerMaskEnemy))
+							LessIntense();
+						else
+							intenseTime = Time.time + intenseCooldown;
+					}
 
+
+					if (dashing) {
 						if (specialTime + dashLength <= Time.time) {
 							dashing = false;
-							Invoke("StopDashEffect", .3f);
-
+							Invoke("StopDashEffect",.3f);
 						}
 					}
 
@@ -623,11 +643,32 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				Stun(.25f);
 				//StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
-			var random = Random.Range(0, 4);
-			AudioFW.Play("PlayerTakesDamage" + random);
 			SetHealth(-damage, this);
+			if(photonView.isMine) {
+				var random = Random.Range(0, 4);
+				AudioFW.Play("PlayerTakesDamage" + random);
+				if(!intense) {
+					Intense();
+				}
+			}
 		}
 	}
+
+	void Intense() {
+		intenseTime = Time.time + intenseCooldown;
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .0f, .5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .4f, .5f);
+		intense = true;
+		print("Its getting intense!");
+	}
+
+	void LessIntense() {
+		AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 2.5f);
+		AudioFW.AdjustLoopVolume("GameLoopIntense", .0f, 2.5f);
+		intense = false;
+		print("Not so intence anymore");
+	}
+
 	public void GetHealed(int heal) {
 		AudioFW.Play("Heal");
 		SetHealth(heal, this);
@@ -720,7 +761,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	[PunRPC]
 	void RPC_Push() {
 		AudioFW.Play("Boom");
-		Instantiate(pushEffectParticles, transform.position, Quaternion.identity);
+		Instantiate(PushEffect, transform.position, Quaternion.identity);
 		Debug.Log("Push");
 		if (PhotonNetwork.isMasterClient) {
 			Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, specialEffectArea * 0.5f, layerMaskEnemy);
@@ -731,7 +772,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						Vector3 enemyLoc = col.GetComponent<Transform>().position;
 						Vector2 pushVector = new Vector2(enemyLoc.x - transform.position.x, enemyLoc.y - transform.position.y).normalized;
 						col.GetComponent<EnemyCharacter>().Fly(0.5f);
-						enemyRB.AddForce(pushVector * pushForce, ForceMode2D.Impulse);
+						//enemyRB.AddForce(pushVector * pushForce, ForceMode2D.Impulse);
 					}
 				}
 			}

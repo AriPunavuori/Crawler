@@ -167,7 +167,6 @@ public class PlayerNetwork : MonoBehaviour {
                     b.Select();
                     return;
                 }
-
             }
         }
     }
@@ -187,7 +186,7 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerNetwork.Instance.PhotonView.RPC("RPC_DisableButton", PhotonTargets.All, selected);
             print("Player picked a character");
             if(playersSelectedCharacter >= numberOfPlayers) {
-                Invoke("LoadLevel", 5f);
+                Invoke("LoadLevel", 6.5f);
             }
         }
     }
@@ -209,10 +208,10 @@ public class PlayerNetwork : MonoBehaviour {
     public void OnClickStartButton() {
 
         if(input.text != "") {
-            PlayerPrefs.SetString("Name", input.text);
-            playerName = input.text;
+            PlayerPrefs.SetString("Name", input.text.ToUpper());
+            playerName = input.text.ToUpper();
         } else
-            playerName = "Player#" + UnityEngine.Random.Range(1000, 9999);
+            playerName = ("Player#" + UnityEngine.Random.Range(1000, 9999)).ToUpper();
         AudioFW.Play("Whip");
         LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }

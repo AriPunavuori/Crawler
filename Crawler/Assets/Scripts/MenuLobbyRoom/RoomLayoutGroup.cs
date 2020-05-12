@@ -18,7 +18,7 @@ public class RoomLayoutGroup : MonoBehaviour {
             roomText.text = "";
         else {
             roomListingButtons[0].GetComponent<Button>().Select();
-            roomText.text = "Available Rooms:";
+            roomText.text = "AVAILABLE ROOMS:";
         }
 
     }
