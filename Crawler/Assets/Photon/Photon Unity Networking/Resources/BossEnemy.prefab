@@ -148,9 +148,6 @@ MonoBehaviour:
   EnemySpawn: {fileID: 5792667112304448842}
   bossProjectile: {fileID: 9011651623236927768, guid: 436481236bc816345a29a57b2fbd66f9,
     type: 3}
-  BossHealthCanvas: {fileID: 6326713280409752133, guid: 727ff139e3e884f4cb68acc7305fb87f,
-    type: 3}
-  BossHealthBar: {fileID: 0}
 --- !u!58 &2385587693975264415
 CircleCollider2D:
   m_ObjectHideFlags: 0

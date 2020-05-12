@@ -761,7 +761,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
     {
         //transform.GetComponent<SpriteRenderer>().color = Color.yellow;
         yield return new WaitForSeconds(warningTime);
-        rotator.gameObject.transform.GetChild(0).GetComponent<Collider2D>().enabled = true;
+        rotator.gameObject.transform.GetChild(0).GetComponent<PolygonCollider2D>().enabled = true;
         float rotDelta = 0;
         float elapsedTime = 0;
         Quaternion startRot = new Quaternion();
