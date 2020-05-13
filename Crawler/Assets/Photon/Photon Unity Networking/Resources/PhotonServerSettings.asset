@@ -79,4 +79,5 @@ MonoBehaviour:
   - SpitEffectsRPC
   - TakeDamage
   - UpdateKeys
+  - bossDeathEffect
   DisableAutoOpenWizard: 1
