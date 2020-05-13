@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedBoost : MonoBehaviour {
-	void OnTriggerEnter2D(Collider2D other) {
+	void OnTriggerStay2D(Collider2D other) {
 		if (other.gameObject.CompareTag("Player")) {
 			var pc = other.GetComponent<PlayerCharacter>();
-			pc.GetSpeedBoost();
-			Destroy(gameObject);
+			if(pc.speedLevel < 3) {
+				pc.GetSpeedBoost();
+				Destroy(gameObject);
+			}
 		}
 	}
 }
