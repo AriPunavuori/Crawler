@@ -14,6 +14,7 @@ public class EnemySpawnerActivator : MonoBehaviour
     void Start()
     {
         Invoke("ActivateSpawners", 2f);
+        print("Spawner Activation");
     }
 
     void ActivateSpawners()
