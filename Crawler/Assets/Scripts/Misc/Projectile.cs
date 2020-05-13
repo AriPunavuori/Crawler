@@ -29,6 +29,11 @@ public class Projectile : MonoBehaviour {
         rb2D = GetComponent<Rigidbody2D>();
     }
 
+    // Setter for projectile time to destroy
+    public void setProjectileTTD(float ttd)
+    {
+        timeToDestroy = ttd;
+    }
     /// <summary>
     /// 
     /// </summary>

@@ -296,6 +296,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     projectile.damage = dmg;
                     projectile.target = target;
                     projectile.homing = homing;
+                    projectile.setProjectileTTD(2.8f); // Set projectile time to destroy 2.8s
                     StartCoroutine(chargeProjectile(speed, dmg, chargeTime, dir, projectileClone));
                     //projectile.LaunchProjectile(dmg, 10f, speed, dir, true);
                 }
@@ -416,7 +417,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
     IEnumerator rotateProjSpawn(float time, float rotation, int shotsPerSec, GameObject rotator)
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(2.5f);
         float rotDelta = 0;
         float elapsedTime = 0;
         float shotInterval = 1f / shotsPerSec;
@@ -617,7 +618,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
                     if (fireAtTargetsFin && rotateBurstFin)
                     {
                         fireAtTargetsFin = false;
-                        fireAtTargets(4.2f, 20, true, true, 0.8f);
+                        fireAtTargets(4.3f, 20, true, true, 0.8f);
                     }
                     if (Time.time > rotateBurstTime && rotateBurstFin && meleeAttackFin)
                     {
@@ -759,6 +760,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
 
     IEnumerator MeleeAttackRotator(float time, float rotation, int dmg, GameObject rotator, float warningTime)
     {
+        rotator.LeanScale(new Vector3(1f, 1f, 1f), warningTime);
         //transform.GetComponent<SpriteRenderer>().color = Color.yellow;
         yield return new WaitForSeconds(warningTime);
         rotator.gameObject.transform.GetChild(0).GetComponent<PolygonCollider2D>().enabled = true;
@@ -811,7 +813,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int>
             {
                 rotator = Instantiate(MeleeRotator, transform.position, startRot, transform);
             }
-            
+            rotator.transform.localScale = Vector3.zero;
             //rotator.GetComponent<Collider2D>().enabled = false; // Done in prefab
             startRot.eulerAngles += new Vector3(0, 0, angle);
             StartCoroutine(MeleeAttackRotator(time, rotationAmount, dmg, rotator, warningTime));
