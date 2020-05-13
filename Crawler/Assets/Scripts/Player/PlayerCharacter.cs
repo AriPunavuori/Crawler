@@ -611,7 +611,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 						if (intense && Time.time > intenseTime)
 						{
-							if (!Physics2D.OverlapCircle(transform.position, 15f, layerMaskEnemy))
+							if (!Physics2D.OverlapCircle(transform.position, 10f, layerMaskEnemy))
 								LessIntense();
 							else
 								intenseTime = Time.time + intenseCooldown;
