@@ -449,6 +449,7 @@ MonoBehaviour:
   animator: {fileID: 7299574491484445715}
   playerCam: {fileID: 6508414762956245411}
   uim: {fileID: 4704620280472466728, guid: 2811434311e4ccc45a461e6da1510602, type: 3}
+  PowerupEffect: {fileID: 6834564195383410895}
   gameWon: 0
   switchingScene: 0
   inPortal: 0
@@ -1279,6 +1280,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PowerupEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 2841277203844779840, guid: f51456c221ba62a4088cee779b5ec498,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7769784692293872899, guid: f51456c221ba62a4088cee779b5ec498,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1336,6 +1342,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f51456c221ba62a4088cee779b5ec498, type: 3}
+--- !u!1 &6834564195383410895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2841277203844779840, guid: f51456c221ba62a4088cee779b5ec498,
+    type: 3}
+  m_PrefabInstance: {fileID: 8770480434098982799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1325416730260562572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7769784692293872899, guid: f51456c221ba62a4088cee779b5ec498,

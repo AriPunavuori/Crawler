@@ -98,6 +98,8 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public GameObject playerCam;
 	public UIManager uim;
 
+	public GameObject PowerupEffect;
+
 	// Scene switching
 	public bool gameWon;
 	public bool switchingScene;
@@ -139,6 +141,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	}
 
 	void Start() {
+		PowerupEffect.GetComponent<ParticleSystem>().Stop();
 		PushEffect = Resources.Load("PushEffect", typeof(ParticleSystem)) as ParticleSystem;
 		respawnTimer = respawnTime;
 		rotator = transform.Find("ProjectileHeading").gameObject;
@@ -934,6 +937,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	public void GetWeaponUpgrade() {
 		if (photonView.isMine) {
 			AudioFW.Play("WeaponUpgrade");
+			PowerupEffect.GetComponent<ParticleSystem>().Play();
 			uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel + 1);
 			uim.SetInfoText("Picked up a weapon upgrade", 2);
 		}
@@ -969,6 +973,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			if (weaponLevel > 1) {
 				uim.setPowerupUITimer(weaponDowngradeTime, weaponLevel - 1);
 			} else {
+				PowerupEffect.GetComponent<ParticleSystem>().Stop();
 				uim.setPowerupUITimer(0, 0);
 			}
 
