@@ -75,6 +75,7 @@ public class PlayerNetwork : MonoBehaviour {
                 PhotonView.RPC("RPC_LoadCharacterSelection", PhotonTargets.Others);
         }
         if(scene.name == "Level1") {
+            PlayersInGame = 0;
             if(PhotonNetwork.isMasterClient)
                 MasterLoadedGame();
             else
@@ -212,14 +213,14 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     public void LoadMenu() {
-        selectedCharacter = -1;
-        playersSelectedCharacter = 0;
-        numberOfPlayers = 0;
-        PlayersInGame = 0;
-        pc = null;
-        for(int i = 0; i < selectedCharacters.Length; i++) {
-            selectedCharacters[i] = false;
-        }
+        //selectedCharacter = -1;
+        //playersSelectedCharacter = 0;
+        //numberOfPlayers = 0;
+        //PlayersInGame = 0;
+        //pc = null;
+        //for(int i = 0; i < selectedCharacters.Length; i++) {
+        //    selectedCharacters[i] = false;
+        //}
         PhotonNetwork.LoadLevel(1);
     }
 }
