@@ -901,6 +901,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void GetSpeedBoost() {
 		if (photonView.isMine) {
+			if(speedLevel < 1) {
+				var main = myCharacterEffect.GetComponent<ParticleSystem>().main;
+				main.startLifetime = .5f;
+			}
 			AudioFW.Play("SpeedBoost");
 			uim.setSpeedBoostUITimer(speedDowngradeTime, speedLevel + 1);
 			uim.SetInfoText("Picked up a speed boost", 2);
@@ -920,6 +924,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			speed /= 1.25f;
 			speedDowngradeTimer = speedDowngradeTime;
 			speedLevel--;
+			if(speedLevel < 1) {
+				var main = myCharacterEffect.GetComponent<ParticleSystem>().main;
+				main.startLifetime = .1f;
+			}
 		}
 	}
 
