@@ -14,7 +14,7 @@ public class BackgroundMover : MonoBehaviour {
     }
 
     void MoveNow() {
-        target = new Vector3(UnityEngine.Random.Range(-1200, 1200), UnityEngine.Random.Range(-590, 590), 0);
+        target = new Vector3(UnityEngine.Random.Range(-1180, 1180), UnityEngine.Random.Range(-110, 110), 0);
         timeToMove = Vector3.Distance(GetComponent<RectTransform>().anchoredPosition, target)/100f;
         LeanTween.move(gameObject.GetComponent<RectTransform>(), target, 10f).setEaseInOutCubic().setOnComplete(DoMove);
     }
