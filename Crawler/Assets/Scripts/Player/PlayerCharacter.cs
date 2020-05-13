@@ -272,7 +272,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		projHead.SetActive(false);
 		alive = false;
 		uim.UpdateBoxColors();
-
+		myCharacterEffect.SetActive(false);
 		// Clear all weapon upgrade stacks (SetCharacterAttributes is run at respawn)
 		projectilesPerAttStack.Clear();
 		projectilesPerAttack = 1;
@@ -452,6 +452,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 					AudioFW.PlayLoop("GameLoopIntense");
 					AudioFW.AdjustLoopVolume("GameLoopNormal", .4f, 0);
 					AudioFW.AdjustLoopVolume("GameLoopIntense", 0f, 0);
+					myCharacterEffect.SetActive(true);
 					photonView.RPC("respawn", PhotonTargets.Others);
 				}
 

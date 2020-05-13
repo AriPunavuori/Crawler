@@ -209,7 +209,7 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerPrefs.SetString("Name", input.text.ToUpper());
             playerName = input.text.ToUpper();
         } else
-            playerName = ("Player#" + UnityEngine.Random.Range(1000, 9999)).ToUpper();
+            playerName = ("Player " + UnityEngine.Random.Range(1000, 9999)).ToUpper();
         AudioFW.Play("Whip");
         LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }
@@ -224,5 +224,9 @@ public class PlayerNetwork : MonoBehaviour {
             selectedCharacters[i] = false;
         }
         PhotonNetwork.LoadLevel(1);
+    }
+
+    public void OnValueChanged() {
+        input.text = input.text.ToUpper();
     }
 }
