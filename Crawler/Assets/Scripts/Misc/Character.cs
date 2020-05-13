@@ -31,7 +31,6 @@ public class Character : Photon.MonoBehaviour {
 
 	public float attackTime;
 	public int speedLevel;
-	public int weaponLevel;
 
 	public GameObject projectileSpawn;
 	public GameObject projectilePrefab;

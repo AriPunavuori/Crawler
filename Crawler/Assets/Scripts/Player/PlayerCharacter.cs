@@ -41,7 +41,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 	private bool allPlayersFound;
 	public bool alive;
 	float playerCamOffset = 0.00425f;
-
+	public int weaponLevel;
 	float maxCamOffset = 4f;
 	//float specialCooldown = 3.0f;
 	float dashLength = 0.15f;
