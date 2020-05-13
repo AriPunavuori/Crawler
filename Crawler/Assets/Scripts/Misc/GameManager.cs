@@ -82,7 +82,7 @@ public class GameManager : Photon.MonoBehaviour {
 	[PunRPC]
 	public void RPC_instBossDoor()
 	{
-		BossDoor = Instantiate(BossDoor, new Vector3(71.8f, 136.5f, 0f), Quaternion.Euler(0, 0, 90));
+		BossDoor = Instantiate(BossDoor, new Vector3(211.5f, 96.5f, 0f), Quaternion.Euler(0, 0, 90));
 	}
 
 	
@@ -94,7 +94,7 @@ public class GameManager : Photon.MonoBehaviour {
 	[PunRPC]
 	public void RPC_instPortal()
 	{
-		BossDoor = Instantiate(Portal, new Vector3(68.5f, 147.5f, 0f), Quaternion.identity);
+		BossDoor = Instantiate(Portal, new Vector3(208.5f, 107f, 0f), Quaternion.identity);
 		portalSpawned = true;
 	}
 
@@ -108,7 +108,7 @@ public class GameManager : Photon.MonoBehaviour {
 	private void Update() {
 		if(bossFightStarted && !doorClosed)
 		{
-			BossDoor.GetComponent<BossDoorScript>().SlideBossDoor();
+			//BossDoor.GetComponent<BossDoorScript>().SlideBossDoor();
 			doorClosed = true;
 		}
 		if (PhotonNetwork.isMasterClient) {
@@ -118,10 +118,10 @@ public class GameManager : Photon.MonoBehaviour {
 			foreach (GameObject i in players) {
 				if (i.GetComponent<PlayerCharacter>().alive) {
 					alivePlayers++;
-					if(gameReady && i.transform.position.y > 124 && !bossSpawned)
+					if(gameReady && i.transform.position.x > 196 && !bossSpawned)
 					{
-						PhotonNetwork.Instantiate("BossEnemy", new Vector3(68.5f, 147.5f, 0f), Quaternion.identity, 0);
-						instBossDoor();
+						PhotonNetwork.Instantiate("BossEnemy", new Vector3(208.5f, 107f, 0f), Quaternion.identity, 0);
+						//instBossDoor();
 						bossSpawned = true;
 					}
 				}
