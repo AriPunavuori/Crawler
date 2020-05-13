@@ -305,6 +305,9 @@ public class EnemyCharacter : Character, IDamageable<int>
     [PunRPC]
     public void TakeDamage(int damage, Vector3 v)
     {
+        if(gameObject != null)
+        {
+
         sr.material = matWhite;
         int random = Random.Range(0, 2);
         AudioFW.Play("EnemyTakesDamage" + random);
@@ -332,6 +335,7 @@ public class EnemyCharacter : Character, IDamageable<int>
                 Invoke("ResetMaterial", .125f);
             }
             photonView.RPC("TakeDamage", PhotonTargets.MasterClient, damage, v);
+            }
         }
     }
 
