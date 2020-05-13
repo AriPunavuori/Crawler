@@ -3535,9 +3535,9 @@ MonoBehaviour:
   heroImage: {fileID: 0}
   heroImages:
   - {fileID: 21300000, guid: e79b66be72988964ab8ad5fd533eea1f, type: 3}
-  - {fileID: 21300000, guid: c43a6c1b29d499746892df521490f3b8, type: 3}
-  - {fileID: 21300000, guid: 007762346a8930b42889026a60b3c1c4, type: 3}
-  - {fileID: 21300000, guid: 5dda5e8cb4d8b254ca177b59c323c14e, type: 3}
+  - {fileID: 21300000, guid: 36fb14121a9343f459fa61edccf1540a, type: 3}
+  - {fileID: 21300000, guid: 5b609a74f53e5f24582c6250bc87c719, type: 3}
+  - {fileID: 21300000, guid: fa737ced2f4b9a0469e6f68950a39ea4, type: 3}
   title: {fileID: 902692925}
   infoCardRectTransform: {fileID: 4006422696492731847}
   textFields:
