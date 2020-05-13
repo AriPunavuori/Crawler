@@ -63,7 +63,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	float specialEffectArea = 10f;
 	int specialAmount = 20;
-	float pushForce = 30f;
+	//float pushForce = 30f;
 
 	// Multiplier for base player speed when dashing
 	float dashFactor = 4.0f;
