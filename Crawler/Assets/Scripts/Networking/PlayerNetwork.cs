@@ -45,10 +45,9 @@ public class PlayerNetwork : MonoBehaviour {
             skipIntro.interactable = true;
             skipIntro.Select();
         }
-
-
         LeanTween.move(introText, Vector2.up * 1900, 50f).setOnComplete(watchedIntro);
         AudioFW.PlayLoop("IntroLoop");
+        AudioFW.AdjustLoopVolume("IntroLoop", .25f, 4f);
     }
 
     void WatchIntro() {
@@ -58,6 +57,7 @@ public class PlayerNetwork : MonoBehaviour {
     }
     void PlayMenuMusic() {
         AudioFW.PlayLoop("MenuLoop");
+        AudioFW.AdjustLoopVolume("MenuLoop", .25f, 5f);
     }
 
     public void NameEntry() {
@@ -65,7 +65,7 @@ public class PlayerNetwork : MonoBehaviour {
         nameEntry.SetActive(true);
         nameEntryButton.Select();
         LeanTween.move(nameInteractables, Vector3.zero, .5f).setEaseOutBack().setOnComplete(menuMusic);
-        AudioFW.StopAllSounds();
+        AudioFW.AdjustLoopVolume("IntroLoop", 0f, 1.5f);
         AudioFW.Play("Whip");
     }
 
@@ -213,14 +213,14 @@ public class PlayerNetwork : MonoBehaviour {
     }
 
     public void LoadMenu() {
-        //selectedCharacter = -1;
-        //playersSelectedCharacter = 0;
-        //numberOfPlayers = 0;
-        //PlayersInGame = 0;
-        //pc = null;
-        //for(int i = 0; i < selectedCharacters.Length; i++) {
-        //    selectedCharacters[i] = false;
-        //}
+        selectedCharacter = -1;
+        playersSelectedCharacter = 0;
+        numberOfPlayers = 0;
+        PlayersInGame = 0;
+        pc = null;
+        for(int i = 0; i < selectedCharacters.Length; i++) {
+            selectedCharacters[i] = false;
+        }
         PhotonNetwork.LoadLevel(1);
     }
 }
