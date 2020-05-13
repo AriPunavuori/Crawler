@@ -41,6 +41,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 	public GameObject potion;
 	public GameObject weaponUpgrade;
 	ParticleSystem BossPushEffect;
+	ParticleSystem BossDeathEffect;
 	int potionCount;
 	int weaponUpgradeCount;
 	//public GameObject ProjectileSpawn;
@@ -69,6 +70,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 		enemySpawnTime = Time.time + enemySpawnCooldown;
 		sr = GetComponent<SpriteRenderer>();
 		BossPushEffect = Resources.Load("BossPushEffect", typeof(ParticleSystem)) as ParticleSystem;
+		BossDeathEffect = Resources.Load("BossDeathEffect", typeof(ParticleSystem)) as ParticleSystem;
 		matWhite = Resources.Load("White", typeof(Material)) as Material;
 		explosion = Resources.Load("Explosion");
 		SpriteLightingMaterial = sr.material;
@@ -364,6 +366,11 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 		photonView.RPC("RPC_PushAttack", PhotonTargets.AllViaServer, force, warningTime);
 	}
 
+	[PunRPC]
+	public void bossDeathEffect()
+	{
+		Instantiate(BossDeathEffect, transform.position, Quaternion.identity);
+	}
 
 	[PunRPC]
 	void RPC_PushAttack(float force, float warningTime) {
@@ -759,6 +766,8 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 				//healthText.text = "" + health;
 				if (health <= 0) {
 					if (gameObject != null) {
+						Instantiate(BossDeathEffect, transform.position, Quaternion.identity);
+						photonView.RPC("bossDeathEffect", PhotonTargets.AllViaServer);
 						photonView.RPC("RPC_BossDefeated", PhotonTargets.MasterClient);
 
 						PhotonNetwork.Destroy(gameObject);
