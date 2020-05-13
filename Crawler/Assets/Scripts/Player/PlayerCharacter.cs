@@ -492,29 +492,31 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						movement.x = Input.GetAxisRaw("Horizontal");
 						movement.y = Input.GetAxisRaw("Vertical");
 
-						// For testing weaponupgrades
-						if (Input.GetKeyDown(KeyCode.N))
-						{
-							SpeedDowngrade();
-						}
+						// Cheats
 
-						if (Input.GetKeyDown(KeyCode.M))
-						{
-							GetSpeedBoost();
-						}
+						// For testing weaponupgrades
+						//if (Input.GetKeyDown(KeyCode.N))
+						//{
+						//	SpeedDowngrade();
+						//}
+
+						//if (Input.GetKeyDown(KeyCode.M))
+						//{
+						//	GetSpeedBoost();
+						//}
 
 						// For debugging use only (might break something)
-						if (Input.GetKeyDown(KeyCode.B))
-						{
-							potion = true;
-							UsePotion();
-						}
+						//if (Input.GetKeyDown(KeyCode.B))
+						//{
+						//	potion = true;
+						//	UsePotion();
+						//}
 
 						// Teleport to boss
-						if (Input.GetKeyDown(KeyCode.T))
-						{
-							transform.position = new Vector3(211f, 92f, 0f);
-						}
+						//if (Input.GetKeyDown(KeyCode.T))
+						//{
+						//	transform.position = new Vector3(211f, 92f, 0f);
+						//}
 
 						if (speedLevel > 0)
 						{
