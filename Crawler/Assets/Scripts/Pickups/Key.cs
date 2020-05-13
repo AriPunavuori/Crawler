@@ -9,7 +9,7 @@ public class Key : MonoBehaviour {
 	private void Start() {
 		gm = FindObjectOfType<GameManager>();
 	}
-	private void OnTriggerEnter2D(Collider2D other) {
+	private void OnTriggerStay2D(Collider2D other) {
 		if (other.gameObject.CompareTag("Player")) {
 			gm.FoundKey(gameObject.name, other.name);
 			Destroy(gameObject);
