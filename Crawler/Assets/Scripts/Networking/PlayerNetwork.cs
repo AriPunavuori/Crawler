@@ -47,7 +47,7 @@ public class PlayerNetwork : MonoBehaviour {
         }
         LeanTween.move(introText, Vector2.up * 1900, 50f).setOnComplete(watchedIntro);
         AudioFW.PlayLoop("IntroLoop");
-        AudioFW.AdjustLoopVolume("IntroLoop", .25f, 4f);
+        AudioFW.AdjustLoopVolume("IntroLoop", .25f, 1f);
     }
 
     void WatchIntro() {
@@ -57,7 +57,7 @@ public class PlayerNetwork : MonoBehaviour {
     }
     void PlayMenuMusic() {
         AudioFW.PlayLoop("MenuLoop");
-        AudioFW.AdjustLoopVolume("MenuLoop", .25f, 5f);
+        AudioFW.AdjustLoopVolume("MenuLoop", .25f, 2.5f);
     }
 
     public void NameEntry() {
@@ -65,7 +65,9 @@ public class PlayerNetwork : MonoBehaviour {
         nameEntry.SetActive(true);
         nameEntryButton.Select();
         LeanTween.move(nameInteractables, Vector3.zero, .5f).setEaseOutBack().setOnComplete(menuMusic);
-        AudioFW.AdjustLoopVolume("IntroLoop", 0f, 1.5f);
+        AudioFW.StopLoop("IntroLoop");
+        //AudioFW.AdjustLoopVolume("IntroLoop", 0f, .5f);
+        PlayMenuMusic();
         AudioFW.Play("Whip");
     }
 
@@ -207,7 +209,7 @@ public class PlayerNetwork : MonoBehaviour {
             PlayerPrefs.SetString("Name", input.text.ToUpper());
             playerName = input.text.ToUpper();
         } else
-            playerName = ("Player#" + UnityEngine.Random.Range(1000, 9999)).ToUpper();
+            playerName = ("Player " + UnityEngine.Random.Range(1000, 9999)).ToUpper();
         AudioFW.Play("Whip");
         LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }
@@ -222,5 +224,9 @@ public class PlayerNetwork : MonoBehaviour {
             selectedCharacters[i] = false;
         }
         PhotonNetwork.LoadLevel(1);
+    }
+
+    public void OnValueChanged() {
+        input.text = input.text.ToUpper();
     }
 }
