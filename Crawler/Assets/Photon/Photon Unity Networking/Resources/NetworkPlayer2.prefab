@@ -206,6 +206,7 @@ MonoBehaviour:
   uim: {fileID: 4704620280472466728, guid: 2811434311e4ccc45a461e6da1510602, type: 3}
   gameWon: 0
   switchingScene: 0
+  inPortal: 0
 --- !u!95 &5100457000379333122
 Animator:
   serializedVersion: 3
@@ -1195,7 +1196,7 @@ PrefabInstance:
     - target: {fileID: 3186629994130389901, guid: 1b3dae15bd0ea894b88646b709e00de3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3186629994130389901, guid: 1b3dae15bd0ea894b88646b709e00de3,
         type: 3}
