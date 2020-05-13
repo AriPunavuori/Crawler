@@ -33,4 +33,8 @@ public class LobbyNetwork : MonoBehaviour {
             MenuCanvasManager.Instance.JoinedLobby();
         }
     }
+
+    public void OnValueChanged() {
+        roomInput.text = roomInput.text.ToUpper();
+    }
 }
