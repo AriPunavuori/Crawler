@@ -325,7 +325,10 @@ public class EnemyCharacter : Character, IDamageable<int> {
 		projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
 		projectileClone.transform.parent = null;
 		Projectile projectile = projectileClone.GetComponent<Projectile>();
-		projectile.LaunchProjectile(damage, attackRange, projectileSpeed, dir, true);
+		if(photonView.isMine)
+			projectile.LaunchProjectile(damage, attackRange, projectileSpeed, dir, true, true);
+		else
+			projectile.LaunchProjectile(damage, attackRange, projectileSpeed, dir, true, false);
 	}
 	[PunRPC]
 	public void Melee() {

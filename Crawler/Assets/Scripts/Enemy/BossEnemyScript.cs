@@ -298,7 +298,10 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 			yield return null;
 		}
 		if (proj) {
-			proj.GetComponent<Projectile>().LaunchProjectile(dmg, 10f, speed, dir, true);
+			if(photonView.isMine)
+				proj.GetComponent<Projectile>().LaunchProjectile(dmg, 10f, speed, dir, true, true);
+			else
+				proj.GetComponent<Projectile>().LaunchProjectile(dmg, 10f, speed, dir, true, false);
 		}
 		// Last projectile is fired and the action has finished
 		//if(last)
@@ -404,7 +407,10 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 				projectileClone.transform.localPosition = new Vector3(0f, 0f, 0f);
 				projectileClone.transform.parent = null;
 				Projectile projectile = projectileClone.GetComponent<Projectile>();
-				projectile.LaunchProjectile(10, 10f, 5f, dir, true);
+				if(photonView.isMine)
+					projectile.LaunchProjectile(10, 10f, 5f, dir, true, true);
+				else
+					projectile.LaunchProjectile(10, 10f, 5f, dir, true, false);
 				shotTime = elapsedTime + shotInterval;
 			}
 			yield return null;
