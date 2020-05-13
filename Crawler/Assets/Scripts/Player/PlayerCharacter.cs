@@ -670,7 +670,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				if (!gameWon)
 					UIManager.Instance.SetInfoText("You All Died\n" + "Restarting level " + sceneTimer.ToString("f0"), 1);
 				else
-					UIManager.Instance.SetInfoText("Hope this is the way home!", 1);
+					UIManager.Instance.SetInfoText("Hope this is the way home", 1);
 				//transform.position = charPos;
 				//charPos = transform.position;
 				if (sceneTimer < 0) {
