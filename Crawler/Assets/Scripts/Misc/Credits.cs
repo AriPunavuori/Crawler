@@ -19,7 +19,7 @@ public class Credits : MonoBehaviour {
             ActivateButtons();
         }
 
-        LeanTween.move(outroText, Vector2.up * 1300, 40f).setOnComplete(watchedOutro).setEaseOutSine();
+        LeanTween.move(outroText, Vector2.up * 1300, 41.8f).setOnComplete(watchedOutro).setEaseOutSine();
         AudioFW.StopAllSounds();
         AudioFW.Play("Credits");
     }
@@ -33,7 +33,7 @@ public class Credits : MonoBehaviour {
     void WatchOutro() {
         ActivateButtons();
         PlayerPrefs.SetInt("OutroSeen", 1);
-        LeanTween.move(outroText, Vector3.up * 2300, 2f).setEaseInBack().setOnComplete(outroDone);
+        LeanTween.move(outroText, Vector3.up * 2300, .1f).setEaseInBack().setOnComplete(outroDone);
     }
 
     public void OnClickGoToLobby() {
