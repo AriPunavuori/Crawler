@@ -1019,10 +1019,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			projectileClone.transform.localPosition = new Vector3(-(offset - i * (gap / 2)), offset - i * gap, 0f);
 			projectileClone.transform.parent = null;
 			Projectile projectile = projectileClone.GetComponent<Projectile>();
-			if(photonView.isMine)
-				projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false, true);
-			else
-				projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false, false);
+			projectile.LaunchProjectile(damage, attackRange, projSpeed, (projectileSpawn.transform.position - transform.position).normalized, false);
 		}
 	}
 

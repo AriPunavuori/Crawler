@@ -7,7 +7,6 @@ public class Projectile : MonoBehaviour {
     public float speed;
     public float range;
     public bool npc;
-    public bool owner;
 
     Vector2 origPos;
     Vector2 direction;
@@ -17,6 +16,7 @@ public class Projectile : MonoBehaviour {
     public bool reflective;
     public bool homing;
     public GameObject target;
+
     Rigidbody2D rb2D;
     public GameObject particles;
     public GameObject graphics;
@@ -42,9 +42,7 @@ public class Projectile : MonoBehaviour {
     /// <param name="s">Speed</param>
     /// <param name="dir">Direction</param>
     /// <param name="shotByNPC">True if shot by npc</param>
-    public void LaunchProjectile(int d, float r, float s, Vector2 dir, bool shotByNPC, bool shotByOwner) {
-        // Set if shot by owner
-        owner = shotByOwner;
+    public void LaunchProjectile(int d, float r, float s, Vector2 dir, bool shotByNPC) {
         // Set original position
         origPos = transform.position;
         // Set damage of the projectile
@@ -61,10 +59,10 @@ public class Projectile : MonoBehaviour {
         launchTime = Time.time;
         if(impulse)
             rb2D.AddForce(dir * s, ForceMode2D.Impulse);
-        if(npc&&owner) {
+        if(npc) {
             var random = Random.Range(0, 4);
             AudioFW.Play("EnemyShoot" + random);
-        } else if(owner) {
+        } else {
             var random = Random.Range(0, 4);
             AudioFW.Play("PlayerShoot" + random);
         }
@@ -127,10 +125,8 @@ public class Projectile : MonoBehaviour {
 
     public void DestroyProjectile() {
         if(gameObject != null) {
-            if(owner) {
-                var random = Random.Range(0, 4);
-                AudioFW.Play("Hit" + random);
-            }
+            var random = Random.Range(0, 4);
+            AudioFW.Play("Hit" + random);
             if(particles != null) {
                 particles.SetActive(true);
                 particles.transform.parent = null;
