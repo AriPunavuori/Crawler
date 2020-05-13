@@ -46,7 +46,7 @@ public class PlayerNetwork : MonoBehaviour {
             skipIntro.Select();
         }
 
-            
+
         LeanTween.move(introText, Vector2.up * 1900, 50f).setOnComplete(watchedIntro);
         AudioFW.PlayLoop("IntroLoop");
     }
@@ -75,29 +75,24 @@ public class PlayerNetwork : MonoBehaviour {
                 PhotonView.RPC("RPC_LoadCharacterSelection", PhotonTargets.Others);
         }
         if(scene.name == "Level1") {
-            PlayersInGame = 0;
             if(PhotonNetwork.isMasterClient)
                 MasterLoadedGame();
             else
                 NonMasterLoadedGame();
         }
-        if(scene.name == "Credits")
-        {
-            if (PhotonNetwork.isMasterClient)
-            {
+        if(scene.name == "Credits") {
+            if(PhotonNetwork.isMasterClient) {
                 MasterLoadedCredits();
             }
         }
     }
 
-    void MasterLoadedCredits()
-    {
+    void MasterLoadedCredits() {
         PhotonView.RPC("RPC_LoadCreditsOthers", PhotonTargets.Others);
     }
 
     [PunRPC]
-    void RPC_LoadCreditsOthers()
-    {
+    void RPC_LoadCreditsOthers() {
         PhotonNetwork.LoadLevel(4);
     }
 
@@ -216,7 +211,15 @@ public class PlayerNetwork : MonoBehaviour {
         LeanTween.move(nameInteractables, Vector3.right * 2500, .5f).setEaseOutQuart().setOnComplete(loadMenu);
     }
 
-    void LoadMenu() {
+    public void LoadMenu() {
+        selectedCharacter = -1;
+        playersSelectedCharacter = 0;
+        numberOfPlayers = 0;
+        PlayersInGame = 0;
+        pc = null;
+        for(int i = 0; i < selectedCharacters.Length; i++) {
+            selectedCharacters[i] = false;
+        }
         PhotonNetwork.LoadLevel(1);
     }
 }

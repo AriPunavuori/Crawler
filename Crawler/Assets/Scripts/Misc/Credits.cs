@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Credits : MonoBehaviour {
     public Button skipOutro;
@@ -19,6 +20,16 @@ public class Credits : MonoBehaviour {
         PlayerPrefs.SetInt("OutroSeen", 1);
         skipOutro.interactable = true;
         skipOutro.Select();
+    }
+
+    public void OnClickGoToLobby() {
+
+        GameObject.Find("DynamicBG").GetComponent<Image>().enabled = true;
+        GameObject.Find("DynamicBG").GetComponent<BackgroundMover>().enabled = true;
+        AudioFW.StopAllSounds();
+        AudioFW.PlayLoop("MenuLoop");
+        PhotonNetwork.LeaveRoom();
+        PlayerNetwork.Instance.LoadMenu();
     }
 
     public void OnClickQuitGame() {

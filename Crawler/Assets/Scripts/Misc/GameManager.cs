@@ -26,7 +26,8 @@ public class GameManager : Photon.MonoBehaviour {
 
 
 	private void Awake() {
-		Destroy(GameObject.Find("DynamicBG"));
+		GameObject.Find("DynamicBG").GetComponent<Image>().enabled = false;
+		GameObject.Find("DynamicBG").GetComponent<BackgroundMover>().enabled = false;
 	}
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
 
