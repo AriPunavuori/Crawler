@@ -127,6 +127,7 @@ public class BossEnemyScript : Photon.MonoBehaviour, IDamageable<int> {
 		}
 	}
 	public void startFight() {
+		RPC_startFight();
 		photonView.RPC("RPC_startFight", PhotonTargets.AllViaServer);
 	}
 
