@@ -127,7 +127,6 @@ public class PlayerCharacter : Character, IDamageable<int> {
 		rb2D.velocity = Vector2.zero;
 		charPos = transform.position;
 		AudioFW.StopAllSounds();
-		AudioFW.Play("BossDeath");
 		AudioFW.Play("Win");
 	}
 
@@ -460,34 +459,25 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				}
 
 				// When the player is alive
-				if (alive)
-				{
-					if (!inPortal)
-					{
+				if (alive) {
+					if (!inPortal) {
 
 						// Health potion input
-						if (Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f)
-						{
+						if (Input.GetKeyDown(KeyCode.H) || Input.GetAxis("Fire3") > 0.5f) {
 							UsePotion();
 						}
 						// Attack input
-						if (Input.GetAxis("Fire1") > 0.5f)
-						{
-							if (Time.time > attackTime + attackInterval)
-							{
+						if (Input.GetAxis("Fire1") > 0.5f) {
+							if (Time.time > attackTime + attackInterval) {
 								attackTime = Time.time;
 								Attack();
 							}
 							// Camera recoil when shooting. Kinda shit tbh
-							if (ranged)
-							{
+							if (ranged) {
 								shooting = true;
 							}
-						}
-						else
-						{
-							if (ranged)
-							{
+						} else {
+							if (ranged) {
 								shooting = false;
 							}
 						}
@@ -521,57 +511,42 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						//	transform.position = new Vector3(211f, 92f, 0f);
 						//}
 
-						if (speedLevel > 0)
-						{
-							if ((speedDowngradeTimer - Time.deltaTime) > 0)
-							{
+						if (speedLevel > 0) {
+							if ((speedDowngradeTimer - Time.deltaTime) > 0) {
 								speedDowngradeTimer -= Time.deltaTime;
-							}
-							else
-							{
+							} else {
 								speedDowngradeTimer = 0;
 							}
-							if (speedDowngradeTimer <= 0)
-							{
+							if (speedDowngradeTimer <= 0) {
 								SpeedDowngrade();
 							}
 						}
 
-						if (weaponLevel > 0)
-						{
-							if ((weaponDowngradeTimer - Time.deltaTime) > 0)
-							{
+						if (weaponLevel > 0) {
+							if ((weaponDowngradeTimer - Time.deltaTime) > 0) {
 								weaponDowngradeTimer -= Time.deltaTime;
-							}
-							else
-							{
+							} else {
 								weaponDowngradeTimer = 0;
 							}
-							if (weaponDowngradeTimer <= 0)
-							{
+							if (weaponDowngradeTimer <= 0) {
 								weaponDowngrade();
 							}
 						}
 
-						if (movement.x != 0 || movement.y != 0)
-						{
+						if (movement.x != 0 || movement.y != 0) {
 							lastDir = new Vector2(movement.x, movement.y);
 						}
 
 						// Camera movement
-						if (!stunned)
-						{
+						if (!stunned) {
 							Vector3 newCamPos;
-							if (pfa.usingController)
-							{
+							if (pfa.usingController) {
 								newCamPos = new Vector3(Input.GetAxis("Horizontal2") * maxCamOffset,
 														Input.GetAxis("Vertical2") * maxCamOffset,
 														playerCam.transform.position.z) + transform.position;
 								LeanTween.cancel(playerCam);
 								LeanTween.move(playerCam, newCamPos, .5f);
-							}
-							else
-							{
+							} else {
 								newCamPos = new Vector3(Mathf.Clamp((Input.mousePosition.x - camPos.x) * playerCamOffset, -maxCamOffset, maxCamOffset),
 														Mathf.Clamp((Input.mousePosition.y - camPos.y) * playerCamOffset, -maxCamOffset, maxCamOffset),
 														playerCam.transform.position.z) + transform.position;
@@ -585,35 +560,26 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						animator.SetFloat("Magnitude", movement.magnitude);
 
 
-						if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetAxis("Fire2") > 0.5f)) && specialTime + specialCooldown <= Time.time)
-						{
+						if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetAxis("Fire2") > 0.5f)) && specialTime + specialCooldown <= Time.time) {
 							specialTime = Time.time;
 							Debug.Log("Special");
-							if (characterType == EntityType.Hero0)
-							{
+							if (characterType == EntityType.Hero0) {
 								// Light MaGi - Dash
 								Dash();
-							}
-							else if (characterType == EntityType.Hero1)
-							{
+							} else if (characterType == EntityType.Hero1) {
 								// Light Oni - Area Heal
 								AreaHeal();
-							}
-							else if (characterType == EntityType.Hero2)
-							{
+							} else if (characterType == EntityType.Hero2) {
 								// Dark MaGi - Push
 								Push();
-							}
-							else if (characterType == EntityType.Hero3)
-							{
+							} else if (characterType == EntityType.Hero3) {
 								// Dark Oni - Area Damage
 								AreaDamage();
 							}
 							uim.setSpecialCooldownTimer(specialTime + specialCooldown, specialCooldown);
 						}
 
-						if (intense && Time.time > intenseTime)
-						{
+						if (intense && Time.time > intenseTime) {
 							if (!Physics2D.OverlapCircle(transform.position, 10f, layerMaskEnemy))
 								LessIntense();
 							else
@@ -621,23 +587,18 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						}
 
 
-						if (dashing)
-						{
-							if (specialTime + dashLength <= Time.time)
-							{
+						if (dashing) {
+							if (specialTime + dashLength <= Time.time) {
 								dashing = false;
 								Invoke("StopDashEffect", .3f);
 							}
 						}
 
 					}
-				}
-				else
-				{ // Camera switching when the player is dead
+				} else { // Camera switching when the player is dead
 
 					// Respawn when boss is defeated
-					if(GameManager.Instance.bossDefeated)
-					{
+					if (GameManager.Instance.bossDefeated) {
 						respawnTimer = respawnTime;
 						uim.SetInfoText("", 1);
 						respawn();
@@ -651,20 +612,15 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 					respawnTimer -= Time.deltaTime;
 					uim.SetInfoText("You Died\n" + "Respawn in " + respawnTimer.ToString("f0"), 1);
-					if (Input.GetMouseButtonDown(0))
-					{
-						if (players.Length > 1)
-						{
+					if (Input.GetMouseButtonDown(0)) {
+						if (players.Length > 1) {
 							findCamera();
-						}
-						else
-						{
+						} else {
 							Debug.Log("Cant search for a remote camera, only 1 player in the game");
 						}
 					}
 					// If remote camera is found follow a camera/player with current camNum.
-					if (camFound)
-					{
+					if (camFound) {
 						MainCamera.transform.position = Vector3.Lerp(MainCamera.transform.position, players[camNum].transform.Find("Main Camera").transform.position, 0.1f);
 					}
 				}
@@ -713,10 +669,10 @@ public class PlayerCharacter : Character, IDamageable<int> {
 				//StartCoroutine(recoil(recoilOffset * recoilMultiplier, 0.05f));
 			}
 			SetHealth(-damage, this);
-			if(photonView.isMine) {
+			if (photonView.isMine) {
 				var random = Random.Range(0, 4);
 				AudioFW.Play("PlayerTakesDamage" + random);
-				if(!intense) {
+				if (!intense) {
 					Intense();
 				}
 			}
@@ -904,7 +860,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 
 	public void GetSpeedBoost() {
 		if (photonView.isMine) {
-			if(speedLevel < 1) {
+			if (speedLevel < 1) {
 				var main = myCharacterEffect.GetComponent<ParticleSystem>().main;
 				main.startLifetime = .5f;
 			}
@@ -927,7 +883,7 @@ public class PlayerCharacter : Character, IDamageable<int> {
 			speed /= 1.25f;
 			speedDowngradeTimer = speedDowngradeTime;
 			speedLevel--;
-			if(speedLevel < 1) {
+			if (speedLevel < 1) {
 				var main = myCharacterEffect.GetComponent<ParticleSystem>().main;
 				main.startLifetime = .1f;
 			}
