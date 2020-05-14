@@ -65,44 +65,45 @@ public class EnemyCharacter : Character, IDamageable<int> {
     //    healthText.text = "" + health;
     //}
     private void FixedUpdate() {
-        if(PhotonNetwork.isMasterClient) {
-            if(!flying) {
-                if(!stunned) {
+
+        if(!flying) {
+            if(!stunned) {
+                if(PhotonNetwork.isMasterClient)
                     rigidBody.velocity = Vector2.zero;
 
 
-                    if(player == null || !pc.alive) {
-                        SearchForPlayers(); // Search for next player
-                    } else {
-                        if(DistTo(player.transform.position) < detectionDistance) {
+                if(player == null || !pc.alive) {
+                    SearchForPlayers(); // Search for next player
+                } else {
+                    if(DistTo(player.transform.position) < detectionDistance) {
 
-                            if(Seen(player)) { // Function updates also target
+                        if(Seen(player)) { // Function updates also target
 
-                                if(DistTo(target) > attackRange)
-                                    Move(speed); // Moves full speed close enough to attact
+                            if(DistTo(target) > attackRange)
+                                Move(speed); // Moves full speed close enough to attact
 
-                                else { // Slow down and attack when in proximity
-                                    var speedFactor = ((DistTo(target) - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
-                                    Move(speed * speedFactor);
-                                    StartAttack();
-                                }
-                            } else { // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
-                                if(DistTo(target) > attackRange)
-                                    Move(speed); // Moves full speed close enough to attact
-                                else { // Slow down and search for new target
-                                    var speedFactor = ((DistTo(target) - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
-                                    Move(speed * speedFactor);
-                                    if(DistTo(target) < proximityDistance)
-                                        player = null;
-                                }
+                            else { // Slow down and attack when in proximity
+                                var speedFactor = ((DistTo(target) - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
+                                Move(speed * speedFactor);
+                                StartAttack();
                             }
-                        } else {
-                            player = null; // If player out of detectionRange
+                        } else { // If !TargetSeen(), target has been set to hit.point (Happens only once before seen again)
+                            if(DistTo(target) > attackRange)
+                                Move(speed); // Moves full speed close enough to attact
+                            else { // Slow down and search for new target
+                                var speedFactor = ((DistTo(target) - proximityDistance) / (attackRange - proximityDistance)) + minSpeed;
+                                Move(speed * speedFactor);
+                                if(DistTo(target) < proximityDistance)
+                                    player = null;
+                            }
                         }
+                    } else {
+                        player = null; // If player out of detectionRange
                     }
                 }
             }
         }
+
 
 
 
