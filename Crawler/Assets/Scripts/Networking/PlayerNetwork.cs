@@ -33,7 +33,11 @@ public class PlayerNetwork : MonoBehaviour {
         PhotonNetwork.sendRateOnSerialize = 30;
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
-
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+    }
     private void Start() {
         watchedIntro += WatchIntro;
         watchedIntro += NameEntry;
