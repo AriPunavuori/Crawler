@@ -506,9 +506,9 @@ public class PlayerCharacter : Character, IDamageable<int> {
 						//}
 
 						// Teleport to boss
-						if(Input.GetKeyDown(KeyCode.T)) {
-							transform.position = new Vector3(211f, 92f, 0f);
-						}
+						//if(Input.GetKeyDown(KeyCode.T)) {
+						//	transform.position = new Vector3(211f, 92f, 0f);
+						//}
 
 
 						if (speedLevel > 0) {
